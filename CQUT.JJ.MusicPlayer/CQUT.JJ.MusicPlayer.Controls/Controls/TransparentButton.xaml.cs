@@ -1,5 +1,4 @@
-﻿using CQUT.JJ.MusicPlayer.Controls.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CQUT.JJ.MusicPlayer.Client
+namespace CQUT.JJ.MusicPlayer.Controls.Controls
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// TransparentButton.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : JmWindow
+    public partial class TransparentButton : Button
     {
-        public MainWindow()
+        private static Type _ownerType = typeof(TransparentButton);
+       
+        static TransparentButton()
         {
-            InitializeComponent();
-   
+            DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
         }
     }
 }

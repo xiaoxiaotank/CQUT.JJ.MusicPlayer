@@ -1,12 +1,32 @@
-﻿<Window x:Class="CQUT.JJ.MusicPlayer.Client.MainWindow"
+﻿<jm:JmWindow x:Class="CQUT.JJ.MusicPlayer.Client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client"
+        xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+        xmlns:uc="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
         mc:Ignorable="d"
-        Title="JJ Music" Height="350" Width="525">
+        Title="JJ Music" MinWidth="1010" MinHeight="690" Height="350" Width="525" TopBarBackground="Red"
+        LeftBarWidth="200">
+   
     <Grid>
-        
+        <Button Content="11" />
     </Grid>
-</Window>
+    <jm:JmWindow.LeftBarContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <uc:UserHeader />
+            <uc:UserMusicNavigtion Grid.Row="1" />
+        </Grid>
+    </jm:JmWindow.LeftBarContent>
+    <jm:JmWindow.TopBarContent>
+        <Button Content="Top" />
+    </jm:JmWindow.TopBarContent>
+    <jm:JmWindow.BottomBarContent>
+        <Button Content="Bottom" />
+    </jm:JmWindow.BottomBarContent>
+</jm:JmWindow>

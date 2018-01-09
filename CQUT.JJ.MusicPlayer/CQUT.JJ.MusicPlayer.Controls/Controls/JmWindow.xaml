@@ -1,0 +1,63 @@
+﻿<ResourceDictionary x:Class="CQUT.JJ.MusicPlayer.Controls.JmWindow"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls">
+
+    <ControlTemplate x:Key="DefaultJmWindowTemplate" TargetType="local:JmWindow">
+        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+            <DockPanel LastChildFill="True">
+                <Grid DockPanel.Dock="Bottom" Height="{TemplateBinding BottomBarHeight}" Background="{TemplateBinding BottomBarBackground}">
+                    <ContentPresenter ContentSource="BottomBarContent" />
+                </Grid>
+                <Grid DockPanel.Dock="Left" Width="{TemplateBinding LeftBarWidth}" Background="{TemplateBinding LeftBarBackground}">
+                    <ContentPresenter ContentSource="LeftBarContent" />
+                </Grid>
+                <Grid DockPanel.Dock="Top" Height="{TemplateBinding TopBarHeight}" Background="{TemplateBinding TopBarBackground}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ContentPresenter Grid.Column="0" ContentSource="TopBarContent" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <StackPanel.Resources>
+                            <Style TargetType="local:TransparentButton">
+                                <Setter Property="Width" Value="20" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <local:TransparentButton Content="_" />
+                        <local:TransparentButton Content="口" />
+                        <local:TransparentButton Content="X" />
+                    </StackPanel>
+                </Grid>
+                <Grid>
+                    <AdornerDecorator>
+                        <ContentPresenter/>
+                    </AdornerDecorator>
+                    <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                </Grid>
+            </DockPanel>
+        </Border>
+        <ControlTemplate.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                    <Condition Property="WindowState" Value="Normal"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
+            </MultiTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="DefalutJmWindowStyle" TargetType="local:JmWindow">
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="Template" Value="{StaticResource DefaultJmWindowTemplate}" />
+    </Style>
+
+    <Style TargetType="local:JmWindow" BasedOn="{StaticResource DefalutJmWindowStyle}" />
+</ResourceDictionary>
