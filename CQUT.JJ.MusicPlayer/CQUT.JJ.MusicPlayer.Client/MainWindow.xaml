@@ -7,8 +7,9 @@
         xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
         xmlns:uc="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
         mc:Ignorable="d"
-        Title="JJ Music" MinWidth="1010" MinHeight="690" Height="350" Width="525" TopBarBackground="Red"
-        LeftBarWidth="200">
+        Title="JJ Music" MinWidth="1010" MinHeight="692" Width="1010" Height="690" 
+        TopBarBackground="#22272d" LeftBarBackground="#131312" BottomBarBackground="#2e2d2c"
+        LeftBarWidth="200" TopBarHeight="50" BottomBarHeight="70">
    
     <Grid>
         <Button Content="11" />
@@ -16,17 +17,17 @@
     <jm:JmWindow.LeftBarContent>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="8*"/>
+                <RowDefinition Height="157" />
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <uc:UserHeader />
             <uc:UserMusicNavigtion Grid.Row="1" />
         </Grid>
     </jm:JmWindow.LeftBarContent>
     <jm:JmWindow.TopBarContent>
-        <Button Content="Top" />
+        <uc:TopBarMenu />
     </jm:JmWindow.TopBarContent>
     <jm:JmWindow.BottomBarContent>
-        <Button Content="Bottom" />
+        <uc:MusicPlayerMenu />
     </jm:JmWindow.BottomBarContent>
 </jm:JmWindow>

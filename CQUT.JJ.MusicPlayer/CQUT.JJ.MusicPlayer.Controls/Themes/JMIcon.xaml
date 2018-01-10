@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="JMIcon" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="/CQUT.JJ.MusicPlayer.Controls;component/Asserts/Fonts/#JMC" />
+        <Setter Property="Foreground" Value="#a5a4a7" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Light" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+</ResourceDictionary>

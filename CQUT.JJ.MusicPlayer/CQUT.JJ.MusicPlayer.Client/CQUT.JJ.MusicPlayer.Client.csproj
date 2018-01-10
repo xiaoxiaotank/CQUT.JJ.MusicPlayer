@@ -54,6 +54,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
+      <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TopBarMenu.xaml.cs">
+      <DependentUpon>TopBarMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UserHeader.xaml.cs">
       <DependentUpon>UserHeader.xaml</DependentUpon>
     </Compile>
@@ -72,6 +78,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\MusicPlayerMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TopBarMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\UserHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -99,6 +113,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Asserts\Fonts\ExampleDemo\iconfont.ttf" />
+    <Resource Include="Asserts\Fonts\iconfont.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -118,9 +134,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Asserts\Fonts\" />
     <Folder Include="Pages\" />
     <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
+    <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

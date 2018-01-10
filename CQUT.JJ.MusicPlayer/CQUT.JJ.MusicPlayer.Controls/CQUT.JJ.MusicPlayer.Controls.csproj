@@ -76,13 +76,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Asserts\Fonts\ExampleDemo\iconfont.ttf" />
+    <Resource Include="Asserts\Fonts\iconfont.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Asserts\Fonts\" />
     <Folder Include="ControlHelpers\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
@@ -103,6 +104,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\JMIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
+    <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

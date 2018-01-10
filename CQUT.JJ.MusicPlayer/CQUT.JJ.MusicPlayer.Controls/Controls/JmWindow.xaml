@@ -2,7 +2,10 @@
                     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CQUT.JJ.MusicPlayer.Controls;component/Themes/JMIcon.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <ControlTemplate x:Key="DefaultJmWindowTemplate" TargetType="local:JmWindow">
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
             <DockPanel LastChildFill="True">
@@ -21,15 +24,25 @@
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <StackPanel.Resources>
                             <Style TargetType="local:TransparentButton">
-                                <Setter Property="Width" Value="20" />
+                                <Setter Property="Width" Value="28" />
                                 <Setter Property="Cursor" Value="Hand" />
                                 <Setter Property="VerticalContentAlignment" Value="Center" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                             </Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource JMIcon}" />
                         </StackPanel.Resources>
-                        <local:TransparentButton Content="_" />
-                        <local:TransparentButton Content="口" />
-                        <local:TransparentButton Content="X" />
+                        <!--Min-->
+                        <local:TransparentButton>
+                            <TextBlock Text="&#xe608;" />
+                        </local:TransparentButton>
+                        <!--Max-->
+                        <local:TransparentButton>
+                            <TextBlock Text="&#xe616;" />
+                        </local:TransparentButton>
+                        <!--CLose-->
+                        <local:TransparentButton Margin="0,0,12,0">
+                            <TextBlock Text="&#xe604;" />
+                        </local:TransparentButton>
                     </StackPanel>
                 </Grid>
                 <Grid>
