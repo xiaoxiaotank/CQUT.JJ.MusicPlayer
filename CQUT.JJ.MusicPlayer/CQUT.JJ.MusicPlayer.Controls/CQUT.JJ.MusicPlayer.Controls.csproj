@@ -53,6 +53,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlHelpers\JmWindowHelper.cs" />
     <Compile Include="Controls\JmWindow.xaml.cs">
       <DependentUpon>JmWindow.xaml</DependentUpon>
     </Compile>
@@ -84,7 +85,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ControlHelpers\" />
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>

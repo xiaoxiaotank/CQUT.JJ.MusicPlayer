@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -125,8 +127,26 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty BottomBarContentProperty =
-            DependencyProperty.Register("BottomBarContent", typeof(object), _ownerType, new PropertyMetadata(null)); 
+            DependencyProperty.Register("BottomBarContent", typeof(object), _ownerType, new PropertyMetadata(null));
         #endregion
+
+        #region ToolBarMenuItemSource 工具栏菜单源
+        public IEnumerable ToolBarMenuItemSource
+        {
+            get { return (IEnumerable)GetValue(ToolBarMenuItemSourceProperty); }
+            set { SetValue(ToolBarMenuItemSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty ToolBarMenuItemSourceProperty =
+            DependencyProperty.Register("ToolBarMenuItemSource", typeof(IEnumerable), _ownerType, new PropertyMetadata(null));
+        #endregion
+
+        private ObservableCollection<TransparentButton> _toolBarMenuItems = new ObservableCollection<TransparentButton>();
+
+        public ObservableCollection<TransparentButton> ToolBarMenuItems
+        {
+            get { return _toolBarMenuItems; }
+        }
 
 
         static JmWindow()

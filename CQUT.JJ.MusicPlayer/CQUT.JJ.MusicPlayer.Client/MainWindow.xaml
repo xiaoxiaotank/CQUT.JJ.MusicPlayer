@@ -9,11 +9,34 @@
         mc:Ignorable="d"
         Title="JJ Music" MinWidth="1010" MinHeight="692" Width="1010" Height="690" 
         TopBarBackground="#22272d" LeftBarBackground="#131312" BottomBarBackground="#2e2d2c"
-        LeftBarWidth="200" TopBarHeight="50" BottomBarHeight="70">
-   
-    <Grid>
-        <Button Content="11" />
-    </Grid>
+        LeftBarWidth="200" TopBarHeight="50" BottomBarHeight="70" WindowStartupLocation="CenterScreen"
+        Loaded="JmWindow_Loaded" AllowsTransparency="True" Background="Transparent">
+    <jm:JmWindow.Resources>
+        
+    </jm:JmWindow.Resources>
+    <jm:JmWindow.ToolBarMenuItems>
+        <jm:TransparentButton>
+            <TextBlock Text="&#xe668;" FontFamily="{StaticResource JM}" RenderTransformOrigin="0.5 0.5"
+                       ToolTip="精简模式">
+                <TextBlock.RenderTransform>
+                    <RotateTransform  Angle="-90" />
+                </TextBlock.RenderTransform>
+            </TextBlock>
+        </jm:TransparentButton>
+        <jm:TransparentButton>
+            <TextBlock Text="&#xe6a9;" FontFamily="{StaticResource JM}" FontSize="20" ToolTip="主菜单" />
+        </jm:TransparentButton>
+        <jm:TransparentButton>
+            <TextBlock Text="&#xe787;" FontFamily="{StaticResource JM}" FontSize="16" ToolTip="皮肤" />
+        </jm:TransparentButton>
+        <jm:TransparentButton>
+            <TextBlock Text="&#xe66e;" FontFamily="{StaticResource JM}" FontSize="26"
+                       FontWeight="Thin" ToolTip="我的VIP" Margin="0 0 0 -2" />
+        </jm:TransparentButton>
+        <jm:TransparentButton>
+            <TextBlock Text="反馈" FontSize="14" LineHeight="20" FontFamily="微软雅黑" ToolTip="反馈" />
+        </jm:TransparentButton>
+    </jm:JmWindow.ToolBarMenuItems>
     <jm:JmWindow.LeftBarContent>
         <Grid>
             <Grid.RowDefinitions>
@@ -30,4 +53,8 @@
     <jm:JmWindow.BottomBarContent>
         <uc:MusicPlayerMenu />
     </jm:JmWindow.BottomBarContent>
+    <Grid>
+        <Button Content="11" Width="20" Height="20" />
+    </Grid>
+    
 </jm:JmWindow>
