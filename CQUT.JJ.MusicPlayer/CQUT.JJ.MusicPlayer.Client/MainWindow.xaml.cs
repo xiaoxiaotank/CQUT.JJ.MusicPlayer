@@ -31,57 +31,101 @@ namespace CQUT.JJ.MusicPlayer.Client
 
         private void JmWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
+            Win10BlurHelper.EnableBlur(this);
+        }
+    }
+
+    static class Win7BlurHelper
+    {
+        [DllImport("dwmapi.dll")]
+        static extern void DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
+
+        struct DWM_BLURBEHIND
+        {
+            public uint dwFlags;
+            public bool fEnable;
+            public IntPtr hRgnBlur;
+            public bool fTransitionOnMaximized;
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
+        public static void EnableAeroGlass(Window _window)
         {
-            base.OnSourceInitialized(e);
-            GlassHelper.ExtendGlassFrame(this, new Thickness(-1));
+            var WindowPtr = new WindowInteropHelper(_window).Handle;
+
+            var Blur = new DWM_BLURBEHIND()
+            {
+                dwFlags = 0x00000001 | 0x00000002,
+                fEnable = true
+            };
+
+            DwmEnableBlurBehindWindow(WindowPtr, ref Blur);
+        }
+    }
+
+
+    static class Win10BlurHelper
+    {
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+        internal enum AccentState
+        {
+            ACCENT_DISABLED = 0,
+            ACCENT_ENABLE_GRADIENT = 1,
+            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_INVALID_STATE = 4
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct MARGINS
+        internal struct AccentPolicy
         {
-            public MARGINS(Thickness t)
-            {
-                Left = (int)t.Left;
-                Right = (int)t.Right;
-                Top = (int)t.Top;
-                Bottom = (int)t.Bottom;
-            }
-            public int Left;
-            public int Right;
-            public int Top;
-            public int Bottom;
+            public AccentState AccentState;
+            public int AccentFlags;
+            public int GradientColor;
+            public int AnimationId;
         }
 
-        public class GlassHelper
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WindowCompositionAttributeData
         {
-            [DllImport("dwmapi.dll", PreserveSig = false)]
-            static extern void DwmExtendFrameIntoClientArea(
-                IntPtr hWnd, ref MARGINS pMarInset);
-            [DllImport("dwmapi.dll", PreserveSig = false)]
-            static extern bool DwmIsCompositionEnabled();
+            public WindowCompositionAttribute Attribute;
+            public IntPtr Data;
+            public int SizeOfData;
+        }
 
-            public static bool ExtendGlassFrame(Window window, Thickness margin)
+        internal enum WindowCompositionAttribute
+        {
+            // ...
+            WCA_ACCENT_POLICY = 19
+            // ...
+        }
+
+        public static void EnableBlur(Window _window)
+        {
+            var WindowPtr = new WindowInteropHelper(_window).Handle;
+
+            var accent = new AccentPolicy()
             {
-                if (!DwmIsCompositionEnabled())
-                    return false;
+                AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND,
+                AccentFlags = 0x20 | 0x40 | 0x80 | 0x100,
+                //GradientColor = 0x000000FF,
+                //AnimationId = 
+            };
+            var accentStructSize = Marshal.SizeOf(accent);
 
-                IntPtr hwnd = new WindowInteropHelper(window).Handle;
-                if (hwnd == IntPtr.Zero)
-                    throw new InvalidOperationException(
-                    "The Window must be shown before extending glass.");
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
 
-                // Set the background to transparent from both the WPF and Win32 perspectives  
-                window.Background = Brushes.Transparent;
-                HwndSource.FromHwnd(hwnd).CompositionTarget.BackgroundColor = Colors.Transparent;
+            var data = new WindowCompositionAttributeData()
+            {
+                Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                SizeOfData = accentStructSize,
+                Data = accentPtr
+            };
+            SetWindowCompositionAttribute(WindowPtr, ref data);
 
-                MARGINS margins = new MARGINS(margin);
-                DwmExtendFrameIntoClientArea(hwnd, ref margins);
-                return true;
-            }
+            Marshal.FreeHGlobal(accentPtr);
         }
     }
 }
