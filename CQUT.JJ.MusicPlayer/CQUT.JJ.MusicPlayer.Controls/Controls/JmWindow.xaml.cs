@@ -144,9 +144,9 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         #endregion
 
         #region ToolBarMenuItems 暴露给用户的菜单集合
-        private ObservableCollection<TransparentButton> _toolBarMenuItems = new ObservableCollection<TransparentButton>();
+        private ObservableCollection<JmTransparentButton> _toolBarMenuItems = new ObservableCollection<JmTransparentButton>();
 
-        public ObservableCollection<TransparentButton> ToolBarMenuItems
+        public ObservableCollection<JmTransparentButton> ToolBarMenuItems
         {
             get { return _toolBarMenuItems; }
         }
@@ -164,9 +164,38 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         private static void IsOpenAreoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != e.NewValue && (bool)e.NewValue == true)
-                (d as Window).OpenAero();
-        } 
+            {
+                var window = d as Window;
+                window.OpenAero();
+                window.Background = new SolidColorBrush(Colors.Transparent);
+            }
+                
+        }
         #endregion
+
+        #region BackgroundOpacity 背景透明度
+        public double BackgroundOpacity
+        {
+            get { return (double)GetValue(BackgroundOpacityProperty); }
+            set { SetValue(BackgroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty BackgroundOpacityProperty =
+            DependencyProperty.Register("BackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
+        #region ContentBackground 内容背景
+        public Brush ContentBackground
+        {
+            get { return (Brush)GetValue(ContentBackgroundProperty); }
+            set { SetValue(ContentBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty ContentBackgroundProperty =
+            DependencyProperty.Register("ContentBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
+
+        #endregion
+
 
         static JmWindow()
         {

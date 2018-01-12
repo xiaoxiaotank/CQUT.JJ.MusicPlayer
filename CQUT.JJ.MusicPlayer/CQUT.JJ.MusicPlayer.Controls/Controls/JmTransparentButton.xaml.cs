@@ -18,11 +18,11 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     /// <summary>
     /// TransparentButton.xaml 的交互逻辑
     /// </summary>
-    public partial class TransparentButton : Button
+    public partial class JmTransparentButton : Button
     {
-        private static Type _ownerType = typeof(TransparentButton);
+        private static Type _ownerType = typeof(JmTransparentButton);
        
-        static TransparentButton()
+        static JmTransparentButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
         }

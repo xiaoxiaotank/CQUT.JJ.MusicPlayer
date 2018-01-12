@@ -23,6 +23,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         public TopBarMenu()
         {
             InitializeComponent();
-        }
+        }    
     }
 }

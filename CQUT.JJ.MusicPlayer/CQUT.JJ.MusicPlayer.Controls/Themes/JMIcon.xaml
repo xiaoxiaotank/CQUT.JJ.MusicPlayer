@@ -2,11 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="JMIcon" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="/CQUT.JJ.MusicPlayer.Controls;component/Asserts/Fonts/#JMC" />
-        <Setter Property="Foreground" Value="#a4a3a6" />
+        <Setter Property="Foreground" Value="#9F9FA3" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="ExtraLight" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="TextAlignment" Value="Center" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="SkyBlue" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

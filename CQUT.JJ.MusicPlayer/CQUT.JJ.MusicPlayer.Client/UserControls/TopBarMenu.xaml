@@ -4,9 +4,48 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
+             xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">
-    <Grid>
-            
-    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="jm:JmTransparentButton">
+            <Setter Property="Width" Value="25" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="DefaultIconStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource JM}" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="#9F9FA3" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="SkyBlue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SearchBoxStyle" TargetType="jm:JmSearchBox">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="IsTextSearchEnabled" Value="True" />
+            <Setter Property="BorderCornerRadius" Value="10" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BackgroundOpacity" Value="0.1" />
+            <Setter Property="TextForeground" Value="White" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <jm:JmTransparentButton Margin="14 0 0 0">
+            <TextBlock Text="&#xe600;" Style="{StaticResource DefaultIconStyle}"/>
+        </jm:JmTransparentButton>
+        <jm:JmTransparentButton>
+            <TextBlock Text="&#xe601;" Style="{StaticResource DefaultIconStyle}" />
+        </jm:JmTransparentButton>
+        <jm:JmTransparentButton Width="50">
+            <TextBlock Text="&#xe643;" Style="{StaticResource DefaultIconStyle}" 
+                       FontSize="18" Margin="0 0 0 4" />
+        </jm:JmTransparentButton>
+        <jm:JmSearchBox x:Name="CmbSearch" Style="{StaticResource SearchBoxStyle}"></jm:JmSearchBox>
+        <jm:JmTransparentButton Width="45">
+            <TextBlock Text="&#xe665;" Style="{StaticResource DefaultIconStyle}" FontSize="19" />
+        </jm:JmTransparentButton>
+    </StackPanel>
 </UserControl>

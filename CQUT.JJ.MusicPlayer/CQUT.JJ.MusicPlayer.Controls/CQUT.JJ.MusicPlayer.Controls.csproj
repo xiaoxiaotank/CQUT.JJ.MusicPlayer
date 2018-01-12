@@ -37,6 +37,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -53,12 +54,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlAttachProperties\InputControlAttachProperty.cs" />
+    <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />
+    <Compile Include="Controls\JmSearchBox.xaml.cs">
+      <DependentUpon>JmSearchBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmWindow.xaml.cs">
       <DependentUpon>JmWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TransparentButton.xaml.cs">
-      <DependentUpon>TransparentButton.xaml</DependentUpon>
+    <Compile Include="Controls\JmTransparentButton.xaml.cs">
+      <DependentUpon>JmTransparentButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -87,11 +93,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Controls\JmSearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\JmWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TransparentButton.xaml">
+    <Page Include="Controls\JmTransparentButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
