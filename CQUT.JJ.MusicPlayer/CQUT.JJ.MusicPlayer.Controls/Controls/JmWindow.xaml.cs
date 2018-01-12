@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Controls.Helpers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -23,7 +26,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     public partial class JmWindow : Window
     {
         private static Type _ownerType = typeof(JmWindow);
-
 
         #region TopBarHeight 顶栏高度
 
@@ -141,13 +143,30 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("ToolBarMenuItemSource", typeof(IEnumerable), _ownerType, new PropertyMetadata(null));
         #endregion
 
+        #region ToolBarMenuItems 暴露给用户的菜单集合
         private ObservableCollection<TransparentButton> _toolBarMenuItems = new ObservableCollection<TransparentButton>();
 
         public ObservableCollection<TransparentButton> ToolBarMenuItems
         {
             get { return _toolBarMenuItems; }
         }
+        #endregion
 
+        #region IsOpenAreo 是否开启Areo效果
+        public bool IsOpenAreo
+        {
+            get { return (bool)GetValue(IsOpenAreoProperty); }
+            set { SetValue(IsOpenAreoProperty, value); }
+        }
+        public static readonly DependencyProperty IsOpenAreoProperty =
+            DependencyProperty.Register("IsOpenAreo", typeof(bool), _ownerType, new PropertyMetadata(false, IsOpenAreoPropertyChanged));
+
+        private static void IsOpenAreoPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue != e.NewValue && (bool)e.NewValue == true)
+                (d as Window).OpenAero();
+        } 
+        #endregion
 
         static JmWindow()
         {
@@ -158,5 +177,12 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         {
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
-    }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            if(IsOpenAreo)
+                this.OpenAero();
+        }
+    }  
 }

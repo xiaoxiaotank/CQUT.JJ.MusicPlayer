@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Controls.Controls;
+using CQUT.JJ.MusicPlayer.Controls.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

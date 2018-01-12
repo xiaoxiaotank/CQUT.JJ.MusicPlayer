@@ -60,6 +60,7 @@
     <Compile Include="Controls\TransparentButton.xaml.cs">
       <DependentUpon>TransparentButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,9 +85,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Controls\JmWindow.xaml">
       <SubType>Designer</SubType>
