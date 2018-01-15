@@ -8,6 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="MinWidth" Value="0"/>
         <Setter Property="MinHeight" Value="0"/>
@@ -17,7 +18,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -28,25 +29,34 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
-                <Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=Placement}">
-                    <Border x:Name="DropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
-                        <ScrollViewer x:Name="DropDownScrollViewer">
-                            <Grid RenderOptions.ClearTypeHint="Enabled">
-                                <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
-                                    <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
-                                </Canvas>
-                                <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+            <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom"
+                   MinWidth="{TemplateBinding ActualWidth}">
+                <Border x:Name="DropDownBorder" BorderThickness="0" Background="{TemplateBinding ItemBackground}">
+                    <ScrollViewer x:Name="DropDownScrollViewer">
+                        <Grid RenderOptions.ClearTypeHint="Enabled">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}"/>
+                            </Canvas>
+                            <Grid Margin="20 10">
+                                <TextBlock Text="{TemplateBinding ItemTitle}" HorizontalAlignment="Left" FontSize="14" Foreground="{TemplateBinding ItemTitleForeground}" Opacity="{TemplateBinding ItemTitleOpacity}" />
+                                <local:JmTransparentButton FontSize="12" Click="BtnClearItems_Click" HorizontalAlignment="Right">清空</local:JmTransparentButton>
                             </Grid>
-                        </ScrollViewer>
-                    </Border>
-                </Themes:SystemDropShadowChrome>
+                            <GridSplitter Grid.Row="1" Height="1" HorizontalAlignment="Stretch" />
+                            <ItemsPresenter Grid.Row="2" x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Cursor="Hand" />
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
             </Popup>
             <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" CornerRadius="{TemplateBinding BorderCornerRadius}" Opacity="{TemplateBinding BackgroundOpacity}" />
             <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" CaretBrush="{TemplateBinding TextForeground}"  
                      Foreground="{TemplateBinding TextForeground}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" 
                      Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
-                     Loaded="TextBox_Loaded" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+                     Loaded="TextBox_Loaded" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" PreviewMouseLeftButtonDown="TextBox_PreviewMouseLeftButtonDown" />
             <StackPanel x:Name="SpPlaceholder" Orientation="Horizontal" HorizontalAlignment="{TemplateBinding PlaceholderHorizontalAlignment}" Panel.ZIndex="-1"
                         Opacity="{TemplateBinding PlaceholderOpacity}">
                 <TextBlock Text="{TemplateBinding PlaceholderIcon}" LineHeight="{Binding ElementName=PART_EditableTextBox,Path=Height}" 
@@ -76,15 +86,10 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
             </MultiTrigger>
-            <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
-                <Setter Property="Margin" TargetName="Shdw" Value="0,0,5,5"/>
-                <Setter Property="Color" TargetName="Shdw" Value="#71000000"/>
-            </Trigger>
             <Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
                 <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
                 <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
             </Trigger>
-          
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

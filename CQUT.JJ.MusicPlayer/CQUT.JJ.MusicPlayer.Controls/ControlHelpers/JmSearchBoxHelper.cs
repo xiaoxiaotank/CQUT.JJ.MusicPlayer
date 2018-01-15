@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
 {
@@ -24,8 +25,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
         {
             (_templateParent.Template.FindName("BtnSearch", _templateParent) as FrameworkElement).Visibility = Visibility.Visible;
             (_templateParent.Template.FindName("SpPlaceholder", _templateParent) as FrameworkElement).Visibility = Visibility.Hidden;
-            (_templateParent.Template.FindName("PART_Popup", _templateParent) as Popup).IsOpen = true;
-            
+            _templateParent.IsDropDownOpen = true;
         }
 
         private void TextBox_LostFocus(object sender,RoutedEventArgs e)
@@ -37,6 +37,11 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
             }
         }
 
+        private void TextBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => _templateParent.IsDropDownOpen = true;
 
+        private void BtnClearItems_Click(object sender,RoutedEventArgs e)
+        {
+            _templateParent.Items.Clear();
+        }
     }
 }

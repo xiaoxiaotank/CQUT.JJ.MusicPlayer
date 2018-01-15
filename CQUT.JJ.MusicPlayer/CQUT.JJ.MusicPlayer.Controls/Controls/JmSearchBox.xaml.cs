@@ -13,11 +13,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     {
         private static readonly Type _ownerType = typeof(JmSearchBox);
 
-        private new bool IsEditable
-        {
-            get { return (bool)GetValue(IsEditableProperty); }
-        }
-
         #region BorderCornerRadius 边框圆角
         public CornerRadius BorderCornerRadius
         {
@@ -74,8 +69,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("SearchButtonIconCode", typeof(string), _ownerType, new PropertyMetadata("\ue611"));
         #endregion
 
-
-
         #region PlaceholderIcon 提示符图标
         public string PlaceholderIcon
         {
@@ -128,7 +121,52 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty PlaceholderOpacityProperty =
-            DependencyProperty.Register("PlaceholderOpacity", typeof(double), _ownerType, new PropertyMetadata(0.9)); 
+            DependencyProperty.Register("PlaceholderOpacity", typeof(double), _ownerType, new PropertyMetadata(0.9));
+        #endregion
+
+        #region ItemTitle 条目标题
+        public string ItemTitle
+        {
+            get { return (string)GetValue(ItemTitleProperty); }
+            set { SetValue(ItemTitleProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemTitleProperty =
+            DependencyProperty.Register("ItemTitle", typeof(string), _ownerType, new PropertyMetadata(string.Empty));
+        #endregion
+
+        #region ItemBackground 条目背景色
+        public Brush ItemBackground
+        {
+            get { return (Brush)GetValue(ItemBackgroundProperty); }
+            set { SetValue(ItemBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemBackgroundProperty =
+            DependencyProperty.Register("ItemBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
+        #endregion
+
+        #region ItemTitleForeground 条目标题前景色
+        public Brush ItemTitleForeground
+        {
+            get { return (Brush)GetValue(ItemTitleForegroundProperty); }
+            set { SetValue(ItemTitleForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemTitleForegroundProperty =
+            DependencyProperty.Register("ItemTitleForeground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Black)));
+
+        #endregion
+
+        #region ItemTitleOpacity 条目标题透明度
+        public double ItemTitleOpacity
+        {
+            get { return (double)GetValue(ItemTitleOpacityProperty); }
+            set { SetValue(ItemTitleOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemTitleOpacityProperty =
+            DependencyProperty.Register("ItemTitleOpacity", typeof(double), _ownerType, new PropertyMetadata(1d)); 
         #endregion
 
 
@@ -137,6 +175,9 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         public JmSearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
+
+            //不要隐藏IsEditable属性，会导致Popup的值无法选中
+            IsEditable = true;
         }
     }
 }

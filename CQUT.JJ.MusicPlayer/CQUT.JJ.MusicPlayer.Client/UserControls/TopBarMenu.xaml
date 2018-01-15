@@ -37,6 +37,30 @@
             <Setter Property="PlaceholderHorizontalAlignment" Value="Center" />
             <Setter Property="PlaceholderOpacity" Value="0.6" />
             <Setter Property="FontSize" Value="13" />
+            <Setter Property="IsTextSearchEnabled" Value="True" />
+            <Setter Property="ItemTitle" Value="搜索历史" />
+            <Setter Property="ItemBackground" Value="White" />
+            <Setter Property="ItemTitleForeground" Value="Black" />
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border x:Name="Bd" Padding="5" Background="{TemplateBinding Background}">
+                                        <ContentPresenter Margin="15 0 0 0" HorizontalAlignment="Left" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Bd" Property="Background" Value="#EEEEEE" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -50,7 +74,18 @@
             <TextBlock Text="&#xe643;" Style="{StaticResource DefaultIconStyle}" 
                        FontSize="18" Margin="0 0 0 4" />
         </jm:JmTransparentButton>
-        <jm:JmSearchBox x:Name="CmbSearch" Style="{StaticResource SearchBoxStyle}"></jm:JmSearchBox>
+        <jm:JmSearchBox x:Name="CmbSearch" Style="{StaticResource SearchBoxStyle}">
+            <jm:JmSearchBox.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Foreground" Value="#000000" />
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="Opacity" Value="0.8" />
+                </Style>
+            </jm:JmSearchBox.Resources>
+            <TextBlock>不见不散</TextBlock>
+            <TextBlock>未完成的歌</TextBlock>
+            <TextBlock>美丽的误会</TextBlock>
+        </jm:JmSearchBox>
         <jm:JmTransparentButton Width="45">
             <TextBlock Text="&#xe665;" Style="{StaticResource DefaultIconStyle}" FontSize="19" />
         </jm:JmTransparentButton>
