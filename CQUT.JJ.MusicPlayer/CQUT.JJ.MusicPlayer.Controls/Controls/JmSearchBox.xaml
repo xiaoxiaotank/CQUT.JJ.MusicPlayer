@@ -8,7 +8,6 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="MinWidth" Value="0"/>
         <Setter Property="MinHeight" Value="0"/>
@@ -18,7 +17,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-                    <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -46,11 +45,18 @@
             <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" CornerRadius="{TemplateBinding BorderCornerRadius}" Opacity="{TemplateBinding BackgroundOpacity}" />
             <TextBox x:Name="PART_EditableTextBox" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" CaretBrush="{TemplateBinding TextForeground}"  
                      Foreground="{TemplateBinding TextForeground}" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" 
-                     Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                     Style="{StaticResource ComboBoxEditableTextBox}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
+                     Loaded="TextBox_Loaded" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" />
+            <StackPanel x:Name="SpPlaceholder" Orientation="Horizontal" HorizontalAlignment="{TemplateBinding PlaceholderHorizontalAlignment}" Panel.ZIndex="-1"
+                        Opacity="{TemplateBinding PlaceholderOpacity}">
+                <TextBlock Text="{TemplateBinding PlaceholderIcon}" LineHeight="{Binding ElementName=PART_EditableTextBox,Path=Height}" 
+                       FontFamily="{TemplateBinding PlaceholderIconFontFamily}" Foreground="Silver" VerticalAlignment="Center" />
+                <TextBlock Text="{TemplateBinding Placeholder}" LineHeight="{Binding ElementName=PART_EditableTextBox,Path=Height}" 
+                           Foreground="Silver" VerticalAlignment="Center" Margin="0 0 0 1" />
+            </StackPanel>
             <local:JmTransparentButton x:Name="BtnSearch" Grid.Column="1" HorizontalAlignment="Left" Width="{TemplateBinding SearchButtonWidth}" Visibility="Collapsed">
                 <TextBlock Text="{TemplateBinding SearchButtonIconCode}" Style="{StaticResource JMIcon}" FontSize="12" />
             </local:JmTransparentButton>
-            
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsKeyboardFocusWithin" Value="true">

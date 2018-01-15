@@ -71,8 +71,67 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
         // Using a DependencyProperty as the backing store for SearchButtonIconCode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SearchButtonIconCodeProperty =
-            DependencyProperty.Register("SearchButtonIconCode", typeof(string), _ownerType, new PropertyMetadata("\ue611")); 
+            DependencyProperty.Register("SearchButtonIconCode", typeof(string), _ownerType, new PropertyMetadata("\ue611"));
         #endregion
+
+
+
+        #region PlaceholderIcon 提示符图标
+        public string PlaceholderIcon
+        {
+            get { return (string)GetValue(PlaceholderIconProperty); }
+            set { SetValue(PlaceholderIconProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaceholderIconProperty =
+            DependencyProperty.Register("PlaceholderIcon", typeof(string), _ownerType, new PropertyMetadata(string.Empty)); 
+        #endregion
+
+        #region Placeholder 提示符
+        public string Placeholder
+        {
+            get { return (string)GetValue(PlaceholderProperty); }
+            set { SetValue(PlaceholderProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), _ownerType, new PropertyMetadata(string.Empty));
+        #endregion
+
+        #region PlaceholderIconFontFamily 提示符字体
+        public FontFamily PlaceholderIconFontFamily
+        {
+            get { return (FontFamily)GetValue(PlaceholderIconFontFamilyProperty); }
+            set { SetValue(PlaceholderIconFontFamilyProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaceholderIconFontFamilyProperty =
+            DependencyProperty.Register("PlaceholderIconFontFamily", typeof(FontFamily), _ownerType, new PropertyMetadata(new FontFamily("微软雅黑")));
+        #endregion
+
+        #region PlaceholderHorizontalAlignment 提示符水平基准
+        public HorizontalAlignment PlaceholderHorizontalAlignment
+        {
+            get { return (HorizontalAlignment)GetValue(PlaceholderHorizontalAlignmentProperty); }
+            set { SetValue(PlaceholderHorizontalAlignmentProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaceholderHorizontalAlignmentProperty =
+            DependencyProperty.Register("PlaceholderHorizontalAlignment", typeof(HorizontalAlignment), _ownerType, new PropertyMetadata(HorizontalAlignment.Left));
+        #endregion
+
+        #region PlaceholderOpacity 提示符透明度
+        public double PlaceholderOpacity
+        {
+            get { return (double)GetValue(PlaceholderOpacityProperty); }
+            set { SetValue(PlaceholderOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaceholderOpacityProperty =
+            DependencyProperty.Register("PlaceholderOpacity", typeof(double), _ownerType, new PropertyMetadata(0.9)); 
+        #endregion
+
+
 
 
         public JmSearchBox()

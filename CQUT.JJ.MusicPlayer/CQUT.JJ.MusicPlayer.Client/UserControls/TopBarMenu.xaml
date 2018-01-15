@@ -30,6 +30,13 @@
             <Setter Property="Background" Value="White" />
             <Setter Property="BackgroundOpacity" Value="0.1" />
             <Setter Property="TextForeground" Value="White" />
+            <Setter Property="ToolTip" Value="请输入关键字搜索歌曲" />
+            <Setter Property="PlaceholderIcon" Value="&#xe611;" />
+            <Setter Property="Placeholder" Value=" 搜索" />
+            <Setter Property="PlaceholderIconFontFamily" Value="{StaticResource JM}" />
+            <Setter Property="PlaceholderHorizontalAlignment" Value="Center" />
+            <Setter Property="PlaceholderOpacity" Value="0.6" />
+            <Setter Property="FontSize" Value="13" />
         </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
