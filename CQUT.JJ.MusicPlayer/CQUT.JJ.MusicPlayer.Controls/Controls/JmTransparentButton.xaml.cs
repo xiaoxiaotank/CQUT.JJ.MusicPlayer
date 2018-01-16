@@ -30,8 +30,20 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius(0))); 
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius(0)));
         #endregion
+
+        #region IsOddClickNumber 是否为奇数次点击
+        public bool IsOddClickNumber
+        {
+            get { return (bool)GetValue(IsOddClickNumberProperty); }
+            set { SetValue(IsOddClickNumberProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsOddClickNumberProperty =
+            DependencyProperty.Register("IsOddClickNumber", typeof(bool), _ownerType, new PropertyMetadata(false)); 
+        #endregion
+
 
 
 

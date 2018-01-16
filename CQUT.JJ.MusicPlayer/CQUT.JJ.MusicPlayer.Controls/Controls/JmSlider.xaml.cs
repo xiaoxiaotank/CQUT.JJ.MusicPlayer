@@ -101,8 +101,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("ThumbBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Red)));
         #endregion
 
-
-
         #region SelectionBrush 选择区域画刷
         public Brush SelectionBrush
         {

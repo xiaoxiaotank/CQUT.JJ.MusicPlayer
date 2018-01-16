@@ -145,6 +145,7 @@
                              SelectionBrush="{Binding RelativeSource={RelativeSource Self},Path=ThumbBackground}"/>
             </Grid>
         </Grid>
+        <!--下载歌曲-->
         <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" Width="84" Margin="23 0">
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel.Resources>
@@ -170,6 +171,7 @@
                 </jm:JmTransparentButton>
             </StackPanel>
         </StackPanel>
+        <!--播放模式-->
         <StackPanel Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" Width="80">
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel.Resources>
@@ -184,17 +186,45 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <jm:JmTransparentButton>
-                    <TextBlock Text="&#xe671;" />
+                <jm:JmTransparentButton ToolTip="歌词">
+                    <TextBlock Text="&#xe671;"  />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton Margin="12 0">
+                <jm:JmTransparentButton x:Name="BtnMusicPlayMode" Margin="12 0" ToolTip="随机播放">
                     <TextBlock Text="&#xe60d;" />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton>
-                    <TextBlock Text="&#xe60b;" FontSize="17" />
+                <jm:JmTransparentButton x:Name="BtnVolume" ToolTip="音量:" Click="BtnVolume_Click">
+                    <TextBlock x:Name="TbVolume" Text="&#xe60b;" FontSize="17" />
                 </jm:JmTransparentButton>
+                <Popup x:Name="PopVolume" StaysOpen="False" IsOpen="False" PlacementTarget="{Binding ElementName=BtnMusicPlayMode}" Placement="Top" Width="70" Height="256"
+                       AllowsTransparency="True">
+                    <Border Background="Transparent">
+                        <StackPanel Orientation="Vertical">
+                            <Grid Background="White">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Vertical" Margin="0 15">
+                                    <jm:JmSlider Orientation="Vertical" Width="22" Height="130" />
+                                    <TextBlock Text="100%" Margin="0 8 0 0" HorizontalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                                <Rectangle Grid.Row="1" Fill="Silver" Height="1" />
+                                <Grid Grid.Row="2" Height="48">
+                                    <jm:JmTransparentButton x:Name="BtnPopVolume" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                            Click="BtnPopVolume_Click">
+                                        <TextBlock Text="{Binding ElementName=TbVolume,Path=Text,Mode=TwoWay}" FontSize="19" Foreground="Black" Opacity="0.5"
+                                           Style="{Binding ElementName=TbVolume,Path=Style}"/>
+                                    </jm:JmTransparentButton>
+                                </Grid>
+                            </Grid>
+                            <Path Data="M280,340 L230.83333,279.5 327.16635,279.5 z" Fill="White" HorizontalAlignment="Center" Stretch="Fill" Stroke="White" Width="16" Height="12"/>
+                        </StackPanel>
+                    </Border>
+                </Popup>
             </StackPanel>
         </StackPanel>
+        <!--播放队列-->
         <StackPanel Grid.Column="4" Orientation="Vertical" VerticalAlignment="Center" Margin="27 0">
             <jm:JmTransparentButton Foreground="Silver" FontSize="16">
                 <jm:JmTransparentButton.Style>
