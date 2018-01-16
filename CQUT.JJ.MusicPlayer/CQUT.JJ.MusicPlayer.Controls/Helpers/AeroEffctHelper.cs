@@ -17,21 +17,21 @@ namespace CQUT.JJ.MusicPlayer.Controls.Helpers
         [DllImport("user32.dll")]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
-        private readonly static int _osVersionNumber = Environment.OSVersion.Version.Major;
+        private readonly static int _osVersionMajor = Environment.OSVersion.Version.Major;
+
+        private readonly static int _osVersionMinor = Environment.OSVersion.Version.Minor;
 
         public static void OpenAero(this Window window)
         {
             if(window != null)
             {
-                switch(_osVersionNumber)
+                if(_osVersionMajor == 6)
                 {
-                    case 6:
+                    if(_osVersionMinor == 1)
                         window.OpenAeroFromWin7();
-                        break;
-                    case 10:
+                    else if(_osVersionMinor > 1)
                         window.OpenAeroFromWin10();
-                        break;
-                }
+                }              
             }
         }
 
