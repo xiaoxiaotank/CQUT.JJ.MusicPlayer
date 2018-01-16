@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
     </Compile>

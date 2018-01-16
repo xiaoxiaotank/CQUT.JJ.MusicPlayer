@@ -5,9 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
              xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+             xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="1000">
+             d:DesignHeight="300" d:DesignWidth="2000">
     <UserControl.Resources>
+        <converter:SecondToMinuteConverter x:Key="SecondToMinuteConverter" />
+
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal" />
         </Style>
@@ -44,11 +47,16 @@
                 </jm:JmRoundButton>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
             <!--歌曲头像-->
             <Image Source="/Asserts/Images/DefaultMusicHeader.png" Stretch="UniformToFill" />
             <!--音质音效选择按钮-->
-            <Grid Margin="15 0 0 0">
+            <Grid Grid.Column="1" Margin="15 0">
                 <Grid.Resources>
                     <Style TargetType="jm:JmTransparentButton">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -60,6 +68,11 @@
                         <Setter Property="Foreground" Value="Silver" />
                         <Setter Property="FontSize" Value="10" />
                         <Setter Property="CornerRadius" Value="1" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="SkyBlue" />
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
@@ -90,45 +103,48 @@
                 </jm:JmTransparentButton>
             </Grid>
             <!--歌曲播放信息-->
-            <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel},Path=ActualWidth}" Background="Red">
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid>
+                <Grid Margin="0 0 0 -10">
                     <Grid.Resources>
                         <Style TargetType="TextBlock">
                             <Setter Property="Foreground" Value="Silver" />
                         </Style>
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <StackPanel>
+                    <StackPanel VerticalAlignment="Center">
                         <jm:JmTransparentButton>
                             <TextBlock x:Name="MusicName" Text="我知道你不爱我" Foreground="White" />
                         </jm:JmTransparentButton>
-                        <TextBlock> -</TextBlock>
+                        <TextBlock xml:space="preserve"> - </TextBlock>
                         <jm:JmTransparentButton>
-                            <TextBlock x:Name="Musicians" Text="威仔 / 格子兮" />
+                            <TextBlock x:Name="Musicians" xml:space="preserve" Text="威仔 / 格子兮" />
                         </jm:JmTransparentButton>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Opacity" Value="0.4" />
-                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Opacity" Value="1" />
+                                <Setter Property="Foreground" Value="#706F74" />
                             </Style>
                         </StackPanel.Resources>
-                        <TextBlock>00:00</TextBlock>
-                        <TextBlock> / </TextBlock>
-                        <TextBlock>00:00</TextBlock>
+                        <TextBlock Text="{Binding ElementName=MusicSlider, Path=Value, Converter={StaticResource SecondToMinuteConverter}}"></TextBlock>
+                        <TextBlock xml:space="preserve"> / </TextBlock>
+                        <TextBlock Text="{Binding ElementName=MusicSlider, Path=Maximum,Converter={StaticResource SecondToMinuteConverter}}" />
                     </StackPanel>
                 </Grid>
-                <ProgressBar Grid.Row="1" Height="2" />
+                <jm:JmSlider x:Name="MusicSlider" Grid.Row="1" Ticks="1" Maximum="452" IsMoveToPointEnabled="True" Height="10"
+                             Margin="0 -10 0 0" TrackBorderThickness="0" TrackBackground="#626266" TrackHeight="2" TrackMargin="0" ThumbRadius="5" 
+                             ThumbBackground="#8FABC1" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="{Binding RelativeSource={RelativeSource Self},Path=Value}"
+                             SelectionBrush="{Binding RelativeSource={RelativeSource Self},Path=ThumbBackground}"/>
             </Grid>
-        </StackPanel>
+        </Grid>
         <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" Width="84" Margin="23 0">
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel.Resources>
@@ -138,7 +154,7 @@
                         <Setter Property="FontFamily" Value="{StaticResource JM}" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
+                                <Setter Property="Foreground" Value="SkyBlue" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -163,7 +179,7 @@
                         <Setter Property="FontFamily" Value="{StaticResource JM}" />
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
+                                <Setter Property="Foreground" Value="SkyBlue" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -185,7 +201,7 @@
                     <Style TargetType="jm:JmTransparentButton">
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
+                                <Setter Property="Foreground" Value="SkyBlue" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>

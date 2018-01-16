@@ -8,16 +8,16 @@ using System.Windows.Data;
 
 namespace CQUT.JJ.MusicPlayer.Controls.Converters
 {
-    public class RadiusToDiameterConverters : IValueConverter
+    public class DiameterToRadiusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value * 2;
+            return (double)value / 2;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value / 2;
+            return (double)value * 2;
         }
     }
 }

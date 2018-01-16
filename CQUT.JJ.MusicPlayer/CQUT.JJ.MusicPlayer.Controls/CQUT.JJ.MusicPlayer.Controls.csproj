@@ -63,12 +63,16 @@
     <Compile Include="Controls\JmSearchBox.xaml.cs">
       <DependentUpon>JmSearchBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmSlider.xaml.cs">
+      <DependentUpon>JmSlider.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmWindow.xaml.cs">
       <DependentUpon>JmWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\JmTransparentButton.xaml.cs">
       <DependentUpon>JmTransparentButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\DiameterToRadiusConverter.cs" />
     <Compile Include="Converters\RoundRadiusConverters.cs" />
     <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -102,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\JmSearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

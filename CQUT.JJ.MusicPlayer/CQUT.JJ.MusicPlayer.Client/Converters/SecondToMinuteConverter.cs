@@ -6,18 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace CQUT.JJ.MusicPlayer.Controls.Converters
+namespace CQUT.JJ.MusicPlayer.Client.Converters
 {
-    public class RadiusToDiameterConverters : IValueConverter
+    public class SecondToMinuteConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value * 2;
+            var time = TimeSpan.FromSeconds((double)value);
+            return $"{time.Hours * 60 + time.Minutes:00}:{time.Seconds:00}"; 
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value / 2;
+            throw new NotImplementedException();
         }
     }
 }

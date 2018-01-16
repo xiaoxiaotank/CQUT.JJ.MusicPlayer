@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls"
                     xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Converters">
-    <converter:RoundRadiusConverters x:Key="RoundRadiusConverter" />
+    <converter:RadiusToDiameterConverters x:Key="RoundRadiusConverter" />
 
     <ControlTemplate x:Key="DefaultRoundButtonTemplate" TargetType="local:JmRoundButton">
         <Ellipse Height="{TemplateBinding Radius,Converter={StaticResource RoundRadiusConverter}}" Width="{TemplateBinding Radius,Converter={StaticResource RoundRadiusConverter}}">
