@@ -16,26 +16,24 @@ using System.Windows.Shapes;
 namespace CQUT.JJ.MusicPlayer.Controls.Controls
 {
     /// <summary>
-    /// TransparentButton.xaml 的交互逻辑
+    /// JmRoundButton.xaml 的交互逻辑
     /// </summary>
-    public partial class JmTransparentButton : Button
+    public partial class JmRoundButton : Button
     {
-        private static Type _ownerType = typeof(JmTransparentButton);
+        private static readonly Type _ownerType = typeof(JmRoundButton);
 
-        #region CornerRadius 圆角半径
-        public CornerRadius CornerRadius
+        #region Radius 半径
+        public double Radius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get { return (double)GetValue(RadiusProperty); }
+            set { SetValue(RadiusProperty, value); }
         }
 
-        public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius(0))); 
+        public static readonly DependencyProperty RadiusProperty =
+            DependencyProperty.Register("Radius", typeof(double), _ownerType, new PropertyMetadata(50d)); 
         #endregion
 
-
-
-        static JmTransparentButton()
+        static JmRoundButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
         }

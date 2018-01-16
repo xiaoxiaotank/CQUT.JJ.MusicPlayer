@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls"
+                    xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Converters">
+    <converter:RoundRadiusConverters x:Key="RoundRadiusConverter" />
+
+    <ControlTemplate x:Key="DefaultRoundButtonTemplate" TargetType="local:JmRoundButton">
+        <Ellipse Height="{TemplateBinding Radius,Converter={StaticResource RoundRadiusConverter}}" Width="{TemplateBinding Radius,Converter={StaticResource RoundRadiusConverter}}">
+            <Ellipse.Fill>
+                <VisualBrush Stretch="Uniform">
+                    <VisualBrush.Visual>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Foreground" Value="#ADADAD"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="DefaultRoundButtonStyle" TargetType="local:JmRoundButton">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource DefaultRoundButtonTemplate}" />
+    </Style>
+
+    <Style TargetType="local:JmRoundButton" BasedOn="{StaticResource DefaultRoundButtonStyle}" />
+</ResourceDictionary>

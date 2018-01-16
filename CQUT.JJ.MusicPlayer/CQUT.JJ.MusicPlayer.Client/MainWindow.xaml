@@ -8,7 +8,7 @@
         xmlns:uc="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
         mc:Ignorable="d"
         Title="JJ Music" MinWidth="1010" MinHeight="692" Width="1010" Height="690" 
-        TopBarBackground="#0F0E18" LeftBarBackground="Transparent" BottomBarBackground="#2e2d2c"
+        TopBarBackground="#0F0E18" LeftBarBackground="#131312" BottomBarBackground="#2e2d2c"
         LeftBarWidth="200" TopBarHeight="50" BottomBarHeight="70" WindowStartupLocation="CenterScreen"
         Loaded="JmWindow_Loaded" AllowsTransparency="True" IsOpenAreo="True" BackgroundOpacity="0.9"
         ResizeMode="CanResizeWithGrip">
@@ -41,7 +41,7 @@
     <jm:JmWindow.LeftBarContent>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="157" />
+                <RowDefinition Height="165" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <uc:UserHeader />

@@ -4,9 +4,197 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
+             xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmWindow},Path=LeftBarWidth}">
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="jm:JmRoundButton">
+                        <Setter Property="Radius" Value="21" />
+                        <Setter Property="Foreground" Value="#8FABC1" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                <jm:JmRoundButton>
+                    <TextBlock Text="&#xe60c;" FontFamily="{StaticResource JM}" />
+                </jm:JmRoundButton>
+                <jm:JmRoundButton Radius="26">
+                    <TextBlock Text="&#xe60f;" FontFamily="{StaticResource JM}" />
+                </jm:JmRoundButton>
+                <jm:JmRoundButton>
+                    <TextBlock Text="&#xe610;" FontFamily="{StaticResource JM}" />
+                </jm:JmRoundButton>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <!--歌曲头像-->
+            <Image Source="/Asserts/Images/DefaultMusicHeader.png" Stretch="UniformToFill" />
+            <!--音质音效选择按钮-->
+            <Grid Margin="15 0 0 0">
+                <Grid.Resources>
+                    <Style TargetType="jm:JmTransparentButton">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Width" Value="44" />
+                        <Setter Property="Height" Value="16" />
+                        <Setter Property="BorderBrush" Value="Silver" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Setter Property="Foreground" Value="Silver" />
+                        <Setter Property="FontSize" Value="10" />
+                        <Setter Property="CornerRadius" Value="1" />
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <jm:JmTransparentButton Margin="0,0,0,-10">
+                    <StackPanel>
+                        <TextBlock>HQ</TextBlock>
+                        <TextBlock FontFamily="宋体" Text=">" RenderTransformOrigin="0.5,0.5" Margin="8,0,0,0">
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="-90">
+                                </RotateTransform>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </StackPanel>
+                </jm:JmTransparentButton>
+                <jm:JmTransparentButton Grid.Row="1" Margin="0,-10,0,0">
+                    <StackPanel>
+                        <TextBlock>音效</TextBlock>
+                        <TextBlock FontFamily="宋体" Text=">" RenderTransformOrigin="0.5,0.5" Margin="8,0,0,0">
+                            <TextBlock.RenderTransform>
+                                <RotateTransform Angle="-90">
+                                </RotateTransform>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </StackPanel>
+                </jm:JmTransparentButton>
+            </Grid>
+            <!--歌曲播放信息-->
+            <Grid Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel},Path=ActualWidth}" Background="Red">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Silver" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <jm:JmTransparentButton>
+                            <TextBlock x:Name="MusicName" Text="我知道你不爱我" Foreground="White" />
+                        </jm:JmTransparentButton>
+                        <TextBlock> -</TextBlock>
+                        <jm:JmTransparentButton>
+                            <TextBlock x:Name="Musicians" Text="威仔 / 格子兮" />
+                        </jm:JmTransparentButton>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Opacity" Value="0.4" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Style>
+                        </StackPanel.Resources>
+                        <TextBlock>00:00</TextBlock>
+                        <TextBlock> / </TextBlock>
+                        <TextBlock>00:00</TextBlock>
+                    </StackPanel>
+                </Grid>
+                <ProgressBar Grid.Row="1" Height="2" />
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" Width="84" Margin="23 0">
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="jm:JmTransparentButton">
+                        <Setter Property="Foreground" Value="Silver" />
+                        <Setter Property="FontSize" Value="16" />
+                        <Setter Property="FontFamily" Value="{StaticResource JM}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                <jm:JmTransparentButton Padding="0 2 0 0">
+                    <TextBlock Text="&#xe60e;" />
+                </jm:JmTransparentButton>
+                <jm:JmTransparentButton Margin="12 0" FontSize="19">
+                    <TextBlock Text="&#xe612;" />
+                </jm:JmTransparentButton>
+                <jm:JmTransparentButton FontSize="20">
+                    <TextBlock Text="&#xe62f;" />
+                </jm:JmTransparentButton>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="3" Orientation="Vertical" VerticalAlignment="Center" Width="80">
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="jm:JmTransparentButton">
+                        <Setter Property="Foreground" Value="Silver" />
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontFamily" Value="{StaticResource JM}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+                <jm:JmTransparentButton>
+                    <TextBlock Text="&#xe671;" />
+                </jm:JmTransparentButton>
+                <jm:JmTransparentButton Margin="12 0">
+                    <TextBlock Text="&#xe60d;" />
+                </jm:JmTransparentButton>
+                <jm:JmTransparentButton>
+                    <TextBlock Text="&#xe60b;" FontSize="17" />
+                </jm:JmTransparentButton>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="4" Orientation="Vertical" VerticalAlignment="Center" Margin="27 0">
+            <jm:JmTransparentButton Foreground="Silver" FontSize="16">
+                <jm:JmTransparentButton.Style>
+                    <Style TargetType="jm:JmTransparentButton">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </jm:JmTransparentButton.Style>
+                <StackPanel>
+                    <TextBlock Text="&#xe640;" FontFamily="{StaticResource JM}" />
+                    <TextBlock Text="50" FontSize="12" VerticalAlignment="Bottom" />
+                </StackPanel>
+            </jm:JmTransparentButton>
+        </StackPanel>
     </Grid>
 </UserControl>

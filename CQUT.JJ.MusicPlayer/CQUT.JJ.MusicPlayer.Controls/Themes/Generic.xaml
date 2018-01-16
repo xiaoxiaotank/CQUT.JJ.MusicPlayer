@@ -6,6 +6,7 @@
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmTransparentButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmSearchBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmRoundButton.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 

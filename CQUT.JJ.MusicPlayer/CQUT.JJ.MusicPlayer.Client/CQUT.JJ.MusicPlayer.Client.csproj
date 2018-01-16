@@ -140,6 +140,8 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
+    <Resource Include="Asserts\Images\DefaultMusicHeader.png" />
+    <Resource Include="Asserts\Images\DefaultUserHeader.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

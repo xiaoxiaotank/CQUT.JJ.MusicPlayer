@@ -57,6 +57,9 @@
     <Compile Include="ControlAttachProperties\InputControlAttachProperty.cs" />
     <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />
+    <Compile Include="Controls\JmRoundButton.xaml.cs">
+      <DependentUpon>JmRoundButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmSearchBox.xaml.cs">
       <DependentUpon>JmSearchBox.xaml</DependentUpon>
     </Compile>
@@ -66,6 +69,7 @@
     <Compile Include="Controls\JmTransparentButton.xaml.cs">
       <DependentUpon>JmTransparentButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\RoundRadiusConverters.cs" />
     <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -93,6 +97,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Controls\JmRoundButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\JmSearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

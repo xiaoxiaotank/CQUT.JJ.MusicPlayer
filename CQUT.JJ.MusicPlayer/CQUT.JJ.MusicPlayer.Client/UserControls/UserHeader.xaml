@@ -4,10 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
+             xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="#2f4152" Opacity="0.9"
-             >
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="300" d:DesignWidth="300"
+             VerticalContentAlignment="Center">
+    <UserControl.Resources>
+        <Style TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="jm:JmRoundButton">
+            <Setter Property="Radius" Value="27" />
+        </Style>
+        <Style TargetType="jm:JmTransparentButton">
+            <Setter Property="Foreground" Value="Silver" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <jm:JmRoundButton>
+            <Image Source="/Asserts/Images/DefaultUserHeader.png" />
+        </jm:JmRoundButton>
+        <jm:JmTransparentButton x:Name="BtnTransact" Margin="0 10">
+            <TextBlock>开通</TextBlock>
+        </jm:JmTransparentButton>
+        <jm:JmTransparentButton>
+            <TextBlock>JM等级加速中</TextBlock>
+        </jm:JmTransparentButton>
+    </StackPanel>
 </UserControl>

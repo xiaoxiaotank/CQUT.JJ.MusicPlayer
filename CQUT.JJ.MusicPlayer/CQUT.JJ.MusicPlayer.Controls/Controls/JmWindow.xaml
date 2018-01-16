@@ -12,7 +12,7 @@
                 <Grid DockPanel.Dock="Bottom" Height="{TemplateBinding BottomBarHeight}">
                     <Rectangle Fill="{TemplateBinding BottomBarBackground}" Opacity="{TemplateBinding BackgroundOpacity}" />
                     <ContentPresenter ContentSource="BottomBarContent" />
-                    <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                    <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom" />
                 </Grid>
                 <Grid DockPanel.Dock="Left" Width="{TemplateBinding LeftBarWidth}" MouseLeftButtonDown="JmWindow_Move">
                     <Rectangle Fill="{TemplateBinding LeftBarBackground}" Opacity="{TemplateBinding BackgroundOpacity}" />

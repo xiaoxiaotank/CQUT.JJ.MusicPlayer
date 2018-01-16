@@ -172,10 +172,13 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
 
 
-        public JmSearchBox()
+        static JmSearchBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
+        }
 
+        public JmSearchBox()
+        {
             //不要隐藏IsEditable属性，会导致Popup的值无法选中
             IsEditable = true;
         }
