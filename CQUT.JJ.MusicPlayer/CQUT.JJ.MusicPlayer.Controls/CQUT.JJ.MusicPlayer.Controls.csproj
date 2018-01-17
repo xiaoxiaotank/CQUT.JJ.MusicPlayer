@@ -61,6 +61,9 @@
     <Compile Include="Controls\JmRoundButton.xaml.cs">
       <DependentUpon>JmRoundButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmScrollViewer.xaml.cs">
+      <DependentUpon>JmScrollViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmSearchBox.xaml.cs">
       <DependentUpon>JmSearchBox.xaml</DependentUpon>
     </Compile>
@@ -107,6 +110,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Controls\JmRoundButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

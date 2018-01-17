@@ -50,7 +50,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void ChangePage()
         {
             if(_selectedTabItem != null)
-                MusicPageChangedUtil.PageChanged($@"{_selectedTabItem.PageOfColumnName}/{ _selectedTabItem.PageName}");
+                MusicPageChangedUtil.Invoke($@"{_selectedTabItem.PageOfColumnName}/{ _selectedTabItem.PageName}");
         }
     }
 }

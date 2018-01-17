@@ -14,7 +14,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
 
         public static event EventHandler<PageChangedEventArgs> PageChangedEvent;
 
-        public static void PageChanged(string pageName)
+        public static void Invoke(string pageName)
         {
             if (pageName.Contains(_pageExtension))
             {
