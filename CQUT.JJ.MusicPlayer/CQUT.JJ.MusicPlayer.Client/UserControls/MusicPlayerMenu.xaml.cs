@@ -72,7 +72,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void BtnILove_Click(object sender, RoutedEventArgs e)
         {
-            TbILove.Foreground = new SolidColorBrush(Colors.Red);
+            ChangeToILove();
         }
         #endregion
 
@@ -107,6 +107,22 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             TbVolume.Text = "\ue60b";
             _isMute = false;
+        }
+
+        private void ChangeToILove()
+        {
+            TbILove.Text = "\ue603";
+            BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
+            BtnILove.FontSize += 2;
+            BtnILove.ToolTip = "取消喜欢";
+        }
+
+        private void ChangeToCancelILove()
+        {
+            TbILove.Text = "\ue60e";
+            BtnILove.Foreground = new SolidColorBrush(Colors.SkyBlue);
+            BtnILove.FontSize -= 2;
+            BtnILove.ToolTip = "我喜欢";
         }
         #endregion
 

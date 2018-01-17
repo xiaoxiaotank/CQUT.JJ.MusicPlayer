@@ -4,9 +4,87 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
+             xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" x:Name="UserMusicNavaigation">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="Silver" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="7 0" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource JM}" />
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style TargetType="jm:JmTabItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="2" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="2,5" />
+            <Setter Property="IconMargin" Value="10 0" />
+            <Setter Property="Margin" Value="0 2" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#20FFFFFF"/>
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#30FFFFFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="23 0">
+        <Label>在线音乐</Label>
+        <jm:JmTabItem x:Name="TiMusicHall" Header="音乐馆" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe700;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="MV" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe605;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="个性电台" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe621;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="歌手2018" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe6d6;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="梦想的声音" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe6d6;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <Label>我的音乐</Label>
+        <jm:JmTabItem Header="我喜欢" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe60e;" FontSize="15" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="本地和下载" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe622;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="播放历史" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe64f;" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+        <jm:JmTabItem Header="试听列表" MouseUp="TabItem_SelectionChanged">
+            <jm:JmTabItem.Icon>
+                <TextBlock Text="&#xe640;" FontSize="15" />
+            </jm:JmTabItem.Icon>
+        </jm:JmTabItem>
+    </StackPanel>
 </UserControl>

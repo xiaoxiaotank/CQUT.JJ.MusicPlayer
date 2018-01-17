@@ -57,6 +57,9 @@
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
     <Compile Include="Converters\VolumeToPercentConverter.cs" />
+    <Compile Include="Pages\MusicHallPage.xaml.cs">
+      <DependentUpon>MusicHallPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
     </Compile>
@@ -81,6 +84,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\MusicHallPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\MusicPlayerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,7 +144,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

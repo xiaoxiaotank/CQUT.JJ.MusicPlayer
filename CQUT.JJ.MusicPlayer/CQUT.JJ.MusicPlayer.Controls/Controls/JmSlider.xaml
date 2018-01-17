@@ -132,8 +132,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <SolidColorBrush x:Key="HorizontalSliderTrackNormalBackground" Color="#FFE7EAEA"/>
-    
+
     <Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="IsTabStop" Value="false"/>
@@ -146,10 +145,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Geometry x:Key="SliderThumbOuterBorderGeometry">M -5,-9.5 A 1 1 0 0 1 -4,-10.5 L 4,-10.5 A 1 1 0 0 1 5,-9.5 L 5,9.5 A 1 1 0 0 1 4,10.5 L -4,10.5 A 1 1 0 0 1 -5,9.5 Z</Geometry>
-    <Geometry x:Key="SliderThumbMiddleBorderGeometry">M -4,-9.5 L 4,-9.5 L 4,9.5 L -4,9.5 Z</Geometry>
-   
+
     <LinearGradientBrush x:Key="VerticalSliderThumbHoverBackground" EndPoint="1,0" StartPoint="0,0">
         <GradientStop Color="white" Offset="0"/>
         <GradientStop Color="#B8E2F9" Offset="0.5"/>
@@ -276,12 +272,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <LinearGradientBrush x:Key="VerticalSliderTrackNormalBorder" EndPoint="1,0" StartPoint="0,0">
-        <GradientStop Color="#FFAEB1AF" Offset="0.1"/>
-        <GradientStop Color="White" Offset=".9"/>
-    </LinearGradientBrush>
-    
-    
+
     <Style x:Key="VerticalSliderThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Focusable" Value="false"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
