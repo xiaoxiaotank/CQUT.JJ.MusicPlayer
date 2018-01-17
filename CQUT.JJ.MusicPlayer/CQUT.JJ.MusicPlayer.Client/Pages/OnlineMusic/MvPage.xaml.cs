@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CQUT.JJ.MusicPlayer.Client.Pages
+namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 {
     /// <summary>
-    /// MusicHallPage.xaml 的交互逻辑
+    /// MvPage.xaml 的交互逻辑
     /// </summary>
-    public partial class MusicHallPage : Page
+    public partial class MvPage : Page
     {
-        public MusicHallPage()
+        public MvPage()
         {
             InitializeComponent();
         }

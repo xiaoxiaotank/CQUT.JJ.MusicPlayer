@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Controls.Controls;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             TiMusicHall.IsSelected = true;
             _selectedTabItem = TiMusicHall;
+            ChangePage();
         }
 
 
@@ -40,8 +42,15 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             if (sender is JmTabItem originalSource && !originalSource.Equals(_selectedTabItem))
             {
                 _selectedTabItem.IsSelected = false;
-                _selectedTabItem = originalSource;               
+                _selectedTabItem = originalSource;
+                ChangePage();
             }
+        }
+
+        private void ChangePage()
+        {
+            if(_selectedTabItem != null)
+                MusicPageChangedUtil.PageChanged($@"{_selectedTabItem.PageOfColumnName}/{ _selectedTabItem.PageName}");
         }
     }
 }

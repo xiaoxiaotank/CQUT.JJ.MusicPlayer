@@ -45,8 +45,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("IconMargin", typeof(Thickness), _ownerType, new PropertyMetadata(new Thickness(5, 0, 5, 0))); 
         #endregion
 
-
-
         #region CornerRadius 弧角半径
         public CornerRadius CornerRadius
         {
@@ -55,8 +53,32 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty CornerRadiusProperty =
-            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius())); 
+            DependencyProperty.Register("CornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius()));
         #endregion
+
+        #region PageName 页面名字，含后缀
+        public string PageName
+        {
+            get { return (string)GetValue(PageNameProperty); }
+            set { SetValue(PageNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty PageNameProperty =
+            DependencyProperty.Register("PageName", typeof(string), _ownerType, new PropertyMetadata(string.Empty));
+        #endregion
+
+        #region PageOfColumnName 页面所属栏目名
+        public string PageOfColumnName
+        {
+            get { return (string)GetValue(PageOfColumnNameProperty); }
+            set { SetValue(PageOfColumnNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty PageOfColumnNameProperty =
+            DependencyProperty.Register("PageOfColumnName", typeof(string), _ownerType, new PropertyMetadata(string.Empty)); 
+        #endregion
+
+
 
         static JmTabItem()
         {

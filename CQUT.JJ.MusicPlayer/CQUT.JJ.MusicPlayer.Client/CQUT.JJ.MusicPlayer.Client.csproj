@@ -57,8 +57,32 @@
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
     <Compile Include="Converters\VolumeToPercentConverter.cs" />
-    <Compile Include="Pages\MusicHallPage.xaml.cs">
+    <Compile Include="Pages\MyMusic\ILovePage.xaml.cs">
+      <DependentUpon>ILovePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyMusic\ListeningTestListPage.xaml.cs">
+      <DependentUpon>ListeningTestListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyMusic\LocalAndDownloadPage.xaml.cs">
+      <DependentUpon>LocalAndDownloadPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyMusic\PlayHistoryPage.xaml.cs">
+      <DependentUpon>PlayHistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\AdreamSoundPage.xaml.cs">
+      <DependentUpon>AdreamSoundPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\MusicHallPage.xaml.cs">
       <DependentUpon>MusicHallPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\MvPage.xaml.cs">
+      <DependentUpon>MvPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\RadioPage.xaml.cs">
+      <DependentUpon>RadioPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\Singer2018Page.xaml.cs">
+      <DependentUpon>Singer2018Page.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
@@ -72,6 +96,7 @@
     <Compile Include="UserControls\UserMusicNavigtion.xaml.cs">
       <DependentUpon>UserMusicNavigtion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\MusicPageChangedUtil.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,7 +109,39 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\MusicHallPage.xaml">
+    <Page Include="Pages\MyMusic\ILovePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MyMusic\ListeningTestListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MyMusic\LocalAndDownloadPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MyMusic\PlayHistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\AdreamSoundPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\MusicHallPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\MvPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\RadioPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\Singer2018Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

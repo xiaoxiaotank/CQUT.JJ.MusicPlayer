@@ -40,48 +40,57 @@
     </UserControl.Resources>
     <StackPanel Margin="23 0">
         <Label>在线音乐</Label>
-        <jm:JmTabItem x:Name="TiMusicHall" Header="音乐馆" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem x:Name="TiMusicHall" Header="音乐馆" MouseUp="TabItem_SelectionChanged"
+                      PageName="MusicHallPage.xaml" PageOfColumnName="OnlineMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe700;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="MV" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="MV" MouseUp="TabItem_SelectionChanged"
+                      PageName="MvPage.xaml" PageOfColumnName="OnlineMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe605;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="个性电台" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="个性电台" MouseUp="TabItem_SelectionChanged"
+                      PageName="RadioPage.xaml" PageOfColumnName="OnlineMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe621;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="歌手2018" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="歌手2018" MouseUp="TabItem_SelectionChanged"
+                      PageName="Singer2018Page.xaml" PageOfColumnName="OnlineMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe6d6;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="梦想的声音" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="梦想的声音" MouseUp="TabItem_SelectionChanged"
+                      PageName="AdreamSoundPage.xaml" PageOfColumnName="OnlineMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe6d6;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
         <Label>我的音乐</Label>
-        <jm:JmTabItem Header="我喜欢" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="我喜欢" MouseUp="TabItem_SelectionChanged"
+                      PageName="ILovePage.xaml" PageOfColumnName="MyMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe60e;" FontSize="15" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="本地和下载" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="本地和下载" MouseUp="TabItem_SelectionChanged"
+                      PageName="LocalAndDownloadPage.xaml" PageOfColumnName="MyMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe622;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="播放历史" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="播放历史" MouseUp="TabItem_SelectionChanged"
+                      PageName="PlayHistoryPage.xaml" PageOfColumnName="MyMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe64f;" />
             </jm:JmTabItem.Icon>
         </jm:JmTabItem>
-        <jm:JmTabItem Header="试听列表" MouseUp="TabItem_SelectionChanged">
+        <jm:JmTabItem Header="试听列表" MouseUp="TabItem_SelectionChanged"
+                      PageName="ListeningTestListPage.xaml" PageOfColumnName="MyMusic">
             <jm:JmTabItem.Icon>
                 <TextBlock Text="&#xe640;" FontSize="15" />
             </jm:JmTabItem.Icon>

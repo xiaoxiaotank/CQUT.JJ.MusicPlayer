@@ -79,7 +79,7 @@
         <uc:MusicPlayerMenu />
     </jm:JmWindow.BottomBarContent>
     <Grid>
-        <Frame NavigationUIVisibility="Hidden" Source="/Pages/MusicHallPage.xaml" />
+        <Frame x:Name="FMusicPage" NavigationUIVisibility="Hidden"/>
     </Grid>
     
 </jm:JmWindow>

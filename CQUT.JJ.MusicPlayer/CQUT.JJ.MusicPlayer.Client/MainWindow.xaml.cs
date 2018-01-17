@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Controls.Controls;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,12 @@ namespace CQUT.JJ.MusicPlayer.Client
         {
             InitializeComponent();
 
+            MusicPageChangedUtil.PageChangedEvent += MusicPageChanged;
+        }
+
+        private void MusicPageChanged(object sender, PageChangedEventArgs e)
+        {
+            FMusicPage.Source = e.PageSource;
         }
 
         private void JmWindow_Loaded(object sender, RoutedEventArgs e)
