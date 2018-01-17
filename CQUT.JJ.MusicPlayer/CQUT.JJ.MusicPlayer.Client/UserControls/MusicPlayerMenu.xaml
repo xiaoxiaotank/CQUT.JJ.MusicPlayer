@@ -7,9 +7,11 @@
              xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
              xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="2000">
+             d:DesignHeight="300" d:DesignWidth="2000" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <converter:SecondToMinuteConverter x:Key="SecondToMinuteConverter" />
+        <converter:VolumeToPercentConverter x:Key="VolumeToPercentConverter" />
+        <converter:VolumePercentToToolTip x:Key="VolumePercentToToolTip" />
 
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal" />
@@ -134,12 +136,12 @@
                                 <Setter Property="Foreground" Value="#706F74" />
                             </Style>
                         </StackPanel.Resources>
-                        <TextBlock Text="{Binding ElementName=MusicSlider, Path=Value, Converter={StaticResource SecondToMinuteConverter}}"></TextBlock>
+                        <TextBlock Text="{Binding ElementName=MusicProgressSlider, Path=Value, Converter={StaticResource SecondToMinuteConverter}}"></TextBlock>
                         <TextBlock xml:space="preserve"> / </TextBlock>
-                        <TextBlock Text="{Binding ElementName=MusicSlider, Path=Maximum,Converter={StaticResource SecondToMinuteConverter}}" />
+                        <TextBlock Text="{Binding ElementName=MusicProgressSlider, Path=Maximum,Converter={StaticResource SecondToMinuteConverter}}" />
                     </StackPanel>
                 </Grid>
-                <jm:JmSlider x:Name="MusicSlider" Grid.Row="1" Ticks="1" Maximum="452" IsMoveToPointEnabled="True" Height="10"
+                <jm:JmSlider x:Name="MusicProgressSlider" Grid.Row="1" Ticks="1" Maximum="452" IsMoveToPointEnabled="True" Height="10"
                              Margin="0 -10 0 0" TrackBorderThickness="0" TrackBackground="#626266" TrackHeight="2" TrackMargin="0" ThumbRadius="5" 
                              ThumbBackground="#8FABC1" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="{Binding RelativeSource={RelativeSource Self},Path=Value}"
                              SelectionBrush="{Binding RelativeSource={RelativeSource Self},Path=ThumbBackground}"/>
@@ -160,13 +162,13 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <jm:JmTransparentButton Padding="0 2 0 0">
-                    <TextBlock Text="&#xe60e;" />
+                <jm:JmTransparentButton x:Name="BtnILove" ToolTip="我喜欢" Padding="0 2 0 0" Click="BtnILove_Click">
+                    <TextBlock x:Name="TbILove" Text="&#xe60e;" />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton Margin="12 0" FontSize="19">
+                <jm:JmTransparentButton x:Name="BtnDownloadMusic" ToolTip="下载该歌曲" Margin="12 0" FontSize="19">
                     <TextBlock Text="&#xe612;" />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton FontSize="20">
+                <jm:JmTransparentButton x:Name="BtnMore" ToolTip="更多" FontSize="20">
                     <TextBlock Text="&#xe62f;" />
                 </jm:JmTransparentButton>
             </StackPanel>
@@ -192,11 +194,12 @@
                 <jm:JmTransparentButton x:Name="BtnMusicPlayMode" Margin="12 0" ToolTip="随机播放">
                     <TextBlock Text="&#xe60d;" />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton x:Name="BtnVolume" ToolTip="音量:" Click="BtnVolume_Click">
+                <jm:JmTransparentButton x:Name="BtnVolume" ToolTip="{Binding ElementName=TbVolumePercent, Path=Text,Converter={StaticResource VolumePercentToToolTip}}" 
+                                        Click="BtnVolume_Click">
                     <TextBlock x:Name="TbVolume" Text="&#xe60b;" FontSize="17" />
                 </jm:JmTransparentButton>
-                <Popup x:Name="PopVolume" StaysOpen="False" IsOpen="False" PlacementTarget="{Binding ElementName=BtnMusicPlayMode}" Placement="Top" Width="70" Height="256"
-                       AllowsTransparency="True">
+                <Popup x:Name="PopVolume" StaysOpen="False" IsOpen="False" PlacementTarget="{Binding ElementName=BtnVolume}" Placement="Top" Width="70" Height="256"
+                       AllowsTransparency="True" HorizontalOffset="-28">
                     <Border Background="Transparent">
                         <StackPanel Orientation="Vertical">
                             <Grid Background="White">
@@ -206,10 +209,25 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Vertical" Margin="0 15">
-                                    <jm:JmSlider Orientation="Vertical" Width="22" Height="130" />
-                                    <TextBlock Text="100%" Margin="0 8 0 0" HorizontalAlignment="Center"></TextBlock>
+                                    <jm:JmSlider x:Name="SliderVolume" Maximum="100"
+                                        Value="{Binding RelativeSource={RelativeSource Self},Path=Maximum,Mode=OneWay}"
+                                        Orientation="Vertical" Width="22" Height="130" TrackBackground="#ECECEC" TrackWidth="3"
+                                        ThumbBackground="#31C27C" ThumbRadius="5" IsSelectionRangeEnabled="True" SelectionStart="0" 
+                                        SelectionEnd="{Binding RelativeSource={RelativeSource Self},Path=Value}"
+                                        SelectionBrush="{Binding RelativeSource={RelativeSource Self},Path=ThumbBackground}"
+                                        TrackBorderThickness="0" Margin="8 0 0 0" ValueChanged="SliderVolume_ValueChanged"
+                                        IsMoveToPointEnabled="True"/>
+                                    <TextBlock x:Name="TbVolumePercent" Margin="0 8 0 0" HorizontalAlignment="Center" Foreground="#666666"
+                                               FontSize="14" >
+                                        <TextBlock.Text>
+                                            <MultiBinding Converter="{StaticResource VolumeToPercentConverter}" Mode="OneWay">
+                                                <Binding ElementName="SliderVolume" Path="Value" />
+                                                <Binding ElementName="SliderVolume" Path="Maximum" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </StackPanel>
-                                <Rectangle Grid.Row="1" Fill="Silver" Height="1" />
+                                <Rectangle Grid.Row="1" Fill="Silver" Height="0.3" />
                                 <Grid Grid.Row="2" Height="48">
                                     <jm:JmTransparentButton x:Name="BtnPopVolume" VerticalAlignment="Center" HorizontalAlignment="Center" 
                                                             Click="BtnPopVolume_Click">

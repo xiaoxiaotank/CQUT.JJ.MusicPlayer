@@ -20,9 +20,26 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
     /// </summary>
     public partial class MusicPlayerMenu : UserControl
     {
+        /// <summary>
+        /// 是否静音
+        /// </summary>
+        private static bool _isMute = false;
+
+        /// <summary>
+        /// 非静音时音量
+        /// </summary>
+        private static double _notMuteVolume = 0;
+
         public MusicPlayerMenu()
         {
             InitializeComponent();
+        }
+
+        #region Events
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitVolumeState();
         }
 
         private void BtnVolume_Click(object sender, RoutedEventArgs e)
@@ -32,17 +49,66 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void BtnPopVolume_Click(object sender, RoutedEventArgs e)
         {
-            BtnPopVolume.IsOddClickNumber = !BtnPopVolume.IsOddClickNumber;
-            if (BtnPopVolume.IsOddClickNumber)
-            {
-                TbVolume.Text = "\ue609";
-                BtnPopVolume.ToolTip = "音量:静音";
-            }
+            if (!_isMute)
+                ChangeVolumeToMute();
             else
             {
-                TbVolume.Text = "\ue60b";
-                BtnPopVolume.ToolTip = "音量:";
+                ChangeVolumeToNotMute();
+                SliderVolume.Value = _notMuteVolume;
             }
         }
+
+        private void SliderVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (SliderVolume.Value == 0)
+            {
+                ChangeVolumeToMute();
+                return;
+            }
+            else if (_isMute)
+                ChangeVolumeToNotMute();
+            _notMuteVolume = SliderVolume.Value;
+        }
+
+        private void BtnILove_Click(object sender, RoutedEventArgs e)
+        {
+            TbILove.Foreground = new SolidColorBrush(Colors.Red);
+        }
+        #endregion
+
+        #region 辅助方法
+        /// <summary>
+        /// 初始化音量状态
+        /// </summary>
+        private void InitVolumeState()
+        {
+            _isMute = SliderVolume.Value == 0d;
+            if (!_isMute)
+                _notMuteVolume = SliderVolume.Value;
+            else
+                _notMuteVolume = SliderVolume.Maximum;
+        }
+
+
+        /// <summary>
+        /// 将音量改为静音
+        /// </summary>
+        private void ChangeVolumeToMute()
+        {
+            TbVolume.Text = "\ue609";
+            SliderVolume.Value = 0;
+            _isMute = true;
+        }
+
+        /// <summary>
+        /// 将音量改为非静音
+        /// </summary>
+        private void ChangeVolumeToNotMute()
+        {
+            TbVolume.Text = "\ue60b";
+            _isMute = false;
+        }
+        #endregion
+
     }
 }

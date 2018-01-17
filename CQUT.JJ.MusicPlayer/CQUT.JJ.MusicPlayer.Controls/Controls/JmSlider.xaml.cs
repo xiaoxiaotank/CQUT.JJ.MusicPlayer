@@ -56,7 +56,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("TrackBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Gray)));
         #endregion
 
-        #region TrackHeight Track高度
+        #region TrackHeight Track高度,方向水平时有效
 
         public double TrackHeight
         {
@@ -68,6 +68,17 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("TrackHeight", typeof(double), _ownerType, new PropertyMetadata(4d));
         #endregion
 
+        #region TrackWidth Track宽度，方向垂直时有效
+        public double TrackWidth
+        {
+            get { return (double)GetValue(TrackWidthProperty); }
+            set { SetValue(TrackWidthProperty, value); }
+        }
+
+        public static readonly DependencyProperty TrackWidthProperty =
+            DependencyProperty.Register("TrackWidth", typeof(double), _ownerType, new PropertyMetadata(4d)); 
+        #endregion
+
         #region TrackMargin Track外边距
         public Thickness TrackMargin
         {
@@ -76,7 +87,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty TrackMarginProperty =
-            DependencyProperty.Register("TrackMargin", typeof(Thickness), _ownerType, new PropertyMetadata(new Thickness(5,0,5,0)));
+            DependencyProperty.Register("TrackMargin", typeof(Thickness), _ownerType, new PropertyMetadata(new Thickness(0)));
         #endregion
 
         #region ThumbRadius Thumb半径

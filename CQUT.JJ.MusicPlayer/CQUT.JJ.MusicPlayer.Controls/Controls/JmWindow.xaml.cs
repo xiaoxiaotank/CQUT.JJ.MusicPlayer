@@ -184,6 +184,50 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("BackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
         #endregion
 
+        #region TopBarBackgroundOpacity TopBar背景透明度
+        public double TopBarBackgroundOpacity
+        {
+            get { return (double)GetValue(TopBarBackgroundOpacityProperty); }
+            set { SetValue(TopBarBackgroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty TopBarBackgroundOpacityProperty =
+            DependencyProperty.Register("TopBarBackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
+        #region LeftBarBackgroundOpacity LeftBar背景透明度
+        public double LeftBarBackgroundOpacity
+        {
+            get { return (double)GetValue(LeftBarBackgroundOpacityProperty); }
+            set { SetValue(LeftBarBackgroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty LeftBarBackgroundOpacityProperty =
+            DependencyProperty.Register("LeftBarBackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
+        #region BottomBarBackgroundOpacity BottomBar背景透明度
+        public double BottomBarBackgroundOpacity
+        {
+            get { return (double)GetValue(BottomBarBackgroundOpacityProperty); }
+            set { SetValue(BottomBarBackgroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty BottomBarBackgroundOpacityProperty =
+            DependencyProperty.Register("BottomBarBackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
+        #region ContentBackgroundOpacity Content背景透明度
+        public double ContentBackgroundOpacity
+        {
+            get { return (double)GetValue(ContentBackgroundOpacityProperty); }
+            set { SetValue(ContentBackgroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty ContentBackgroundOpacityProperty =
+            DependencyProperty.Register("ContentBackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
         #region ContentBackground 内容背景
         public Brush ContentBackground
         {
@@ -195,6 +239,8 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("ContentBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
 
         #endregion
+
+
 
 
         static JmWindow()

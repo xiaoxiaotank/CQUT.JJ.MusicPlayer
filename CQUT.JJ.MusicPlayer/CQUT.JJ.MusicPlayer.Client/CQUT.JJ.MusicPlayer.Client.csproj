@@ -55,6 +55,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
+    <Compile Include="Converters\VolumePercentToToolTip.cs" />
+    <Compile Include="Converters\VolumeToPercentConverter.cs" />
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
     </Compile>
@@ -141,6 +143,7 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
+    <Resource Include="Asserts\Images\DefaultWindowBackground.jpg" />
     <Resource Include="Asserts\Images\DefaultMusicHeader.png" />
     <Resource Include="Asserts\Images\DefaultUserHeader.png" />
   </ItemGroup>

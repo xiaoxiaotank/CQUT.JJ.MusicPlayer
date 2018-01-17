@@ -74,6 +74,7 @@
       <DependentUpon>JmTransparentButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DiameterToRadiusConverter.cs" />
+    <Compile Include="Converters\RadiusToMarginConverters.cs" />
     <Compile Include="Converters\RoundRadiusConverters.cs" />
     <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

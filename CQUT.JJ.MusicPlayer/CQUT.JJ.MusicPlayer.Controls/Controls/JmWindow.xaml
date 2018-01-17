@@ -7,62 +7,66 @@
     </ResourceDictionary.MergedDictionaries>
     
     <ControlTemplate x:Key="DefaultJmWindowTemplate" TargetType="local:JmWindow">
-        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-            <DockPanel LastChildFill="True">
-                <Grid DockPanel.Dock="Bottom" Height="{TemplateBinding BottomBarHeight}">
-                    <Rectangle Fill="{TemplateBinding BottomBarBackground}" Opacity="{TemplateBinding BackgroundOpacity}" />
-                    <ContentPresenter ContentSource="BottomBarContent" />
-                    <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom" />
-                </Grid>
-                <Grid DockPanel.Dock="Left" Width="{TemplateBinding LeftBarWidth}" MouseLeftButtonDown="JmWindow_Move">
-                    <Rectangle Fill="{TemplateBinding LeftBarBackground}" Opacity="{TemplateBinding BackgroundOpacity}" />
-                    <ContentPresenter ContentSource="LeftBarContent" />
-                </Grid>
-                <Grid DockPanel.Dock="Top" Height="{TemplateBinding TopBarHeight}" MouseLeftButtonDown="JmWindow_Move">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Rectangle Grid.ColumnSpan="2" Fill="{TemplateBinding TopBarBackground}" Opacity="{TemplateBinding BackgroundOpacity}" />
-                    <ContentPresenter Grid.Column="0" ContentSource="TopBarContent">
-                        <ContentPresenter.Resources>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource JMIcon}" />
-                        </ContentPresenter.Resources>
-                    </ContentPresenter>
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" FlowDirection="RightToLeft" Loaded="Window_AddToolBarMenuItems">
-                        <StackPanel.Resources>
-                            <Style TargetType="local:JmTransparentButton">
-                                <Setter Property="Width" Value="34" />
-                                <Setter Property="VerticalContentAlignment" Value="Center" />
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                            <Style x:Key="DefalultToolBarMenuItemStyle" TargetType="TextBlock" BasedOn="{StaticResource JMIcon}" />
-                        </StackPanel.Resources>
-                        <!--Close-->
-                        <local:JmTransparentButton Margin="12,0,0,0" Click="JmWindow_Close" ToolTip="关闭">
-                            <TextBlock Text="&#xe604;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
-                        </local:JmTransparentButton>
-                        <!--Normal-->
-                        <local:JmTransparentButton x:Name="BtnNormal" Click="JmWindow_Normal" Visibility="Collapsed" ToolTip="还原">
-                            <TextBlock Text="&#xe602;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
-                        </local:JmTransparentButton>
-                        <!--Maximized-->
-                        <local:JmTransparentButton x:Name="BtnMaximize" Click="JmWindow_Maximized" Visibility="Collapsed" ToolTip="最大化">
-                            <TextBlock Text="&#xe616;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
-                        </local:JmTransparentButton>
-                        <!--Minimized-->
-                        <local:JmTransparentButton Click="JmWindow_Minimized" ToolTip="最小化">
-                            <TextBlock Text="&#xe608;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
-                        </local:JmTransparentButton>
-                    </StackPanel>
-                </Grid>
-                <Grid>
-                    <Rectangle Fill="{TemplateBinding ContentBackground}" Opacity="{TemplateBinding BackgroundOpacity}" />
-                    <AdornerDecorator>
-                        <ContentPresenter/>
-                    </AdornerDecorator>
-                </Grid>
-            </DockPanel>
+        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid>
+                <Rectangle Fill="{TemplateBinding Background}" Opacity="{TemplateBinding BackgroundOpacity}"></Rectangle>
+                <DockPanel LastChildFill="True">
+                    <Grid DockPanel.Dock="Bottom" Height="{TemplateBinding BottomBarHeight}">
+                        <Rectangle Fill="{TemplateBinding BottomBarBackground}" Opacity="{TemplateBinding BottomBarBackgroundOpacity}" />
+                        <ContentPresenter ContentSource="BottomBarContent" />
+                        <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom" />
+                    </Grid>
+                    <Grid DockPanel.Dock="Left" Width="{TemplateBinding LeftBarWidth}" MouseLeftButtonDown="JmWindow_Move">
+                        <Rectangle Fill="{TemplateBinding LeftBarBackground}" Opacity="{TemplateBinding LeftBarBackgroundOpacity}" />
+                        <ContentPresenter ContentSource="LeftBarContent" />
+                    </Grid>
+                    <Grid DockPanel.Dock="Top" Height="{TemplateBinding TopBarHeight}" MouseLeftButtonDown="JmWindow_Move">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Grid.ColumnSpan="2" Fill="{TemplateBinding TopBarBackground}" Opacity="{TemplateBinding TopBarBackgroundOpacity}" />
+                        <ContentPresenter Grid.Column="0" ContentSource="TopBarContent">
+                            <ContentPresenter.Resources>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource JMIcon}" />
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" FlowDirection="RightToLeft" Loaded="Window_AddToolBarMenuItems">
+                            <StackPanel.Resources>
+                                <Style TargetType="local:JmTransparentButton">
+                                    <Setter Property="Width" Value="34" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                                <Style x:Key="DefalultToolBarMenuItemStyle" TargetType="TextBlock" BasedOn="{StaticResource JMIcon}" />
+                            </StackPanel.Resources>
+                            <!--Close-->
+                            <local:JmTransparentButton Margin="12,0,0,0" Click="JmWindow_Close" ToolTip="关闭">
+                                <TextBlock Text="&#xe604;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
+                            </local:JmTransparentButton>
+                            <!--Normal-->
+                            <local:JmTransparentButton x:Name="BtnNormal" Click="JmWindow_Normal" Visibility="Collapsed" ToolTip="还原">
+                                <TextBlock Text="&#xe602;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
+                            </local:JmTransparentButton>
+                            <!--Maximized-->
+                            <local:JmTransparentButton x:Name="BtnMaximize" Click="JmWindow_Maximized" Visibility="Collapsed" ToolTip="最大化">
+                                <TextBlock Text="&#xe616;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
+                            </local:JmTransparentButton>
+                            <!--Minimized-->
+                            <local:JmTransparentButton Click="JmWindow_Minimized" ToolTip="最小化">
+                                <TextBlock Text="&#xe608;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
+                            </local:JmTransparentButton>
+                        </StackPanel>
+                    </Grid>
+                    <Grid>
+                        <Rectangle Fill="{TemplateBinding ContentBackground}" Opacity="{TemplateBinding ContentBackgroundOpacity}" />
+                        <AdornerDecorator>
+                            <ContentPresenter/>
+                        </AdornerDecorator>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+           
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="WindowState" Value="Normal">

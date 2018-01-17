@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls"
                     xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Converters">
     <converter:RadiusToDiameterConverters x:Key="RadiusToDiameterConverters" />
+    <converter:RadiusToMarginConverters x:Key="RadiusToMarginConverters" />
 
     <LinearGradientBrush x:Key="HorizontalSliderThumbHoverBackgroundInverted" EndPoint="0,0" StartPoint="0,1">
         <GradientStop Color="white" Offset="0"/>
@@ -279,57 +280,29 @@
         <GradientStop Color="#FFAEB1AF" Offset="0.1"/>
         <GradientStop Color="White" Offset=".9"/>
     </LinearGradientBrush>
+    
+    
     <Style x:Key="VerticalSliderThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Focusable" Value="false"/>
         <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="Height" Value="11"/>
-        <Setter Property="Width" Value="22"/>
         <Setter Property="Foreground" Value="Gray"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Canvas SnapsToDevicePixels="true">
-                        <Canvas.RenderTransform>
-                            <TransformGroup>
-                                <TransformGroup.Children>
-                                    <TransformCollection>
-                                        <RotateTransform Angle="90"/>
-                                        <TranslateTransform X="11" Y="5.5"/>
-                                    </TransformCollection>
-                                </TransformGroup.Children>
-                            </TransformGroup>
-                        </Canvas.RenderTransform>
-                        <Path x:Name="Background" Data="{StaticResource SliderThumbOuterBorderGeometry}" Fill="{StaticResource VerticalSliderThumbNormalBackground}"/>
-                        <Path x:Name="InnerBorder" Data="{StaticResource SliderThumbMiddleBorderGeometry}" Stroke="White" StrokeThickness="1"/>
-                        <Path x:Name="OuterBorder" Data="{StaticResource SliderThumbOuterBorderGeometry}" Stroke="#FF929292" StrokeThickness="1"/>
+                        <Ellipse Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="{TemplateBinding Background}" />
                     </Canvas>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Fill" TargetName="Background" Value="{StaticResource VerticalSliderThumbHoverBackground}"/>
-                            <Setter Property="Stroke" TargetName="OuterBorder" Value="{StaticResource HorizontalSliderThumbHoverBorder}"/>
-                        </Trigger>
-                        <Trigger Property="Foreground" Value="Blue">
-                            <Setter Property="Fill" TargetName="Background" Value="{StaticResource VerticalSliderThumbHoverBackground}"/>
-                            <Setter Property="Stroke" TargetName="OuterBorder" Value="{StaticResource HorizontalSliderThumbHoverBorder}"/>
-                        </Trigger>
-                        <Trigger Property="IsDragging" Value="true">
-                            <Setter Property="Fill" TargetName="Background" Value="{StaticResource VerticalSliderThumbPressedBackground}"/>
-                            <Setter Property="Stroke" TargetName="OuterBorder" Value="{StaticResource HorizontalSliderThumbPressedBorder}"/>
-                        </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Fill" TargetName="Background" Value="#FFF4F4F4"/>
-                            <Setter Property="Stroke" TargetName="InnerBorder" Value="{x:Null}"/>
-                            <Setter Property="Data" TargetName="OuterBorder" Value="{StaticResource SliderThumbDisabledGeometry}"/>
-                            <Setter Property="Stroke" TargetName="OuterBorder" Value="#FFAEB1AF"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
-
-    <ControlTemplate x:Key="VerticalJmSliderTemplate" TargetType="{x:Type Slider}">
+    
+    <!--默认垂直模版-->
+    <ControlTemplate x:Key="VerticalJmSliderTemplate" TargetType="local:JmSlider">
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -339,9 +312,10 @@
                 </Grid.ColumnDefinitions>
                 <TickBar x:Name="TopTick" Grid.Column="0" Fill="{TemplateBinding Foreground}" Placement="Left" Visibility="Collapsed" Width="4"/>
                 <TickBar x:Name="BottomTick" Grid.Column="2" Fill="{TemplateBinding Foreground}" Placement="Right" Visibility="Collapsed" Width="4"/>
-                <Border x:Name="TrackBackground" BorderBrush="{StaticResource VerticalSliderTrackNormalBorder}" BorderThickness="1" Background="{StaticResource HorizontalSliderTrackNormalBackground}" Grid.Column="1" CornerRadius="1" HorizontalAlignment="center" Margin="0,5" Width="4.0">
-                    <Canvas Margin="-1,-6">
-                        <Rectangle x:Name="PART_SelectionRange" Fill="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Stroke="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" StrokeThickness="1.0" Visibility="Hidden" Width="4.0"/>
+                <Border x:Name="TrackBackground" BorderBrush="{TemplateBinding TrackBorderBrush}" BorderThickness="{TemplateBinding TrackBorderThickness}" 
+                        Background="{TemplateBinding TrackBackground}" Grid.Column="1" CornerRadius="1" HorizontalAlignment="Center" Margin="{TemplateBinding TrackMargin}" Width="{TemplateBinding TrackWidth}">
+                    <Canvas Margin="{TemplateBinding ThumbRadius, Converter={StaticResource RadiusToMarginConverters}, ConverterParameter=V}">
+                        <Rectangle x:Name="PART_SelectionRange" Fill="{TemplateBinding SelectionBrush}" Stroke="Transparent" StrokeThickness="0" Visibility="Hidden" Width="{TemplateBinding TrackWidth}"/>
                     </Canvas>
                 </Border>
                 <Track x:Name="PART_Track" Grid.Column="1">
@@ -352,7 +326,10 @@
                         <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{StaticResource SliderRepeatButtonStyle}"/>
                     </Track.IncreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb x:Name="Thumb" Style="{StaticResource VerticalSliderThumbStyle}"/>
+                        <Thumb x:Name="Thumb" Style="{StaticResource VerticalSliderThumbStyle}"
+                               Height="{TemplateBinding ThumbRadius, Converter={StaticResource RadiusToDiameterConverters}}" 
+                               Width="{TemplateBinding ThumbRadius, Converter={StaticResource RadiusToDiameterConverters}}"
+                               Background="{TemplateBinding ThumbBackground}"/>
                     </Track.Thumb>
                 </Track>
             </Grid>
@@ -418,7 +395,7 @@
                 <TickBar x:Name="BottomTick" Fill="{TemplateBinding Foreground}" Height="4" Placement="Bottom" Grid.Row="2" Visibility="Collapsed"/>
                 <Border x:Name="TrackBackground" BorderBrush="{TemplateBinding TrackBorderBrush}" BorderThickness="{TemplateBinding TrackBorderThickness}" 
                         Background="{TemplateBinding TrackBackground}" CornerRadius="1" Height="{TemplateBinding TrackHeight}" Margin="{TemplateBinding TrackMargin}" Grid.Row="1" VerticalAlignment="center">
-                    <Canvas Margin="-6,0">
+                    <Canvas Margin="{TemplateBinding ThumbRadius, Converter={StaticResource RadiusToMarginConverters},ConverterParameter=H}">
                         <Rectangle x:Name="PART_SelectionRange" Fill="{TemplateBinding SelectionBrush}" Height="{TemplateBinding TrackHeight}" Stroke="Transparent" StrokeThickness="0" Visibility="Hidden"/>
                     </Canvas>
                 </Border>
