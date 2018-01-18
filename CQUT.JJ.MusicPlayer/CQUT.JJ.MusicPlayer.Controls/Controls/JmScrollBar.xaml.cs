@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -16,11 +17,11 @@ using System.Windows.Shapes;
 namespace CQUT.JJ.MusicPlayer.Controls.Controls
 {
     /// <summary>
-    /// JmScrollViewer.xaml 的交互逻辑
+    /// JmScrollBar.xaml 的交互逻辑
     /// </summary>
-    public partial class JmScrollViewer : ScrollViewer
+    public partial class JmScrollBar : ScrollBar
     {
-        private static readonly Type _ownerType = typeof(JmScrollViewer);
+        private static readonly Type _ownerType = typeof(JmScrollBar);
 
         #region UpArrowVisibility 向上的箭头可见性
         public Visibility UpArrowVisibility
@@ -42,28 +43,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
         public static readonly DependencyProperty DownArrowVisibilityProperty =
             DependencyProperty.Register("DownArrowVisibility", typeof(Visibility), _ownerType, new PropertyMetadata(Visibility.Visible));
-        #endregion
-
-        #region ScrollBarBackground ScrollBar背景色
-        public Brush ScrollBarBackground
-        {
-            get { return (Brush)GetValue(ScrollBarBackgroundProperty); }
-            set { SetValue(ScrollBarBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty ScrollBarBackgroundProperty =
-            DependencyProperty.Register("ScrollBarBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
-        #endregion
-
-        #region ThumbCornerRadius Thumb圆角半径
-        public CornerRadius ThumbCornerRadius
-        {
-            get { return (CornerRadius)GetValue(ThumbCornerRadiusProperty); }
-            set { SetValue(ThumbCornerRadiusProperty, value); }
-        }
-
-        public static readonly DependencyProperty ThumbCornerRadiusProperty =
-            DependencyProperty.Register("ThumbCornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius()));
         #endregion
 
         #region ThumbWidth Thumb宽度
@@ -88,6 +67,17 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("ThumbHeight", typeof(double), _ownerType, new PropertyMetadata(10d));
         #endregion
 
+        #region ThumbCornerRadius Thumb圆角半径
+        public CornerRadius ThumbCornerRadius
+        {
+            get { return (CornerRadius)GetValue(ThumbCornerRadiusProperty); }
+            set { SetValue(ThumbCornerRadiusProperty, value); }
+        }
+
+        public static readonly DependencyProperty ThumbCornerRadiusProperty =
+            DependencyProperty.Register("ThumbCornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius()));
+        #endregion
+
         #region ThumbBackground Thumb背景色
         public Brush ThumbBackground
         {
@@ -96,7 +86,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty ThumbBackgroundProperty =
-            DependencyProperty.Register("ThumbBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Red)));
+            DependencyProperty.Register("ThumbBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
         #endregion
 
         #region ThumbVisibility Thumb可见性
@@ -118,20 +108,19 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty ThumbMouseOverBackgroundProperty =
-            DependencyProperty.Register("ThumbMouseOverBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Wheat))); 
+            DependencyProperty.Register("ThumbMouseOverBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Wheat)));
         #endregion
 
 
-
-
-        static JmScrollViewer()
+        static JmScrollBar()
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
         }
 
-        public JmScrollViewer()
+        public JmScrollBar()
         {
-
+            if (ThumbWidth > Width)
+                ThumbWidth = Width;
         }
     }
 }

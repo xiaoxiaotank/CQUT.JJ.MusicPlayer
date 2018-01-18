@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DoubleParametersSubtractionConverter.cs" />
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
     <Compile Include="Converters\VolumeToPercentConverter.cs" />
@@ -84,6 +85,12 @@
     <Compile Include="Pages\OnlineMusic\Singer2018Page.xaml.cs">
       <DependentUpon>Singer2018Page.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Skin\TabletopLyricsBubblePage.xaml.cs">
+      <DependentUpon>TabletopLyricsBubblePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Skin\ThemeSkinPage.xaml.cs">
+      <DependentUpon>ThemeSkinPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
     </Compile>
@@ -97,6 +104,9 @@
       <DependentUpon>UserMusicNavigtion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MusicPageChangedUtil.cs" />
+    <Compile Include="Windows\SkinManagerWindow.xaml.cs">
+      <DependentUpon>SkinManagerWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -145,6 +155,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Skin\TabletopLyricsBubblePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Skin\ThemeSkinPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\MusicPlayerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +176,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\UserMusicNavigtion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SkinManagerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

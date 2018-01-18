@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls">
+
+    <Style x:Key="DefaultJmThumbStyle" TargetType="local:JmThumb">
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:JmThumb">
+                    <Border x:Name="Bg" Width="{TemplateBinding Width}" Background="{TemplateBinding Background}" 
+                            CornerRadius="{TemplateBinding CornerRadius}" SnapsToDevicePixels="true" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Bg" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=MouseOverBackground}" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="Width" TargetName="Bg" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Width}" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter Property="Height" TargetName="Bg" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:JmThumb" BasedOn="{StaticResource DefaultJmThumbStyle}" />
+</ResourceDictionary>

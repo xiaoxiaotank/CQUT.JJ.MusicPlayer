@@ -10,7 +10,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
     {
         private static readonly string _pageExtension = ".xaml";
 
-        public static readonly string PageSourceUrl = "pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/Pages/";
+        public static readonly string PageBaseUrl = "pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/Pages";
 
         public static event EventHandler<PageChangedEventArgs> PageChangedEvent;
 
@@ -18,7 +18,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         {
             if (pageName.Contains(_pageExtension))
             {
-                var pageUri = new Uri(PageSourceUrl + pageName, UriKind.Absolute);
+                var pageUri = new Uri($"{PageBaseUrl}/{pageName}", UriKind.Absolute);
                 var e = new PageChangedEventArgs(pageUri);
                 PageChangedEvent(null, e);
             }

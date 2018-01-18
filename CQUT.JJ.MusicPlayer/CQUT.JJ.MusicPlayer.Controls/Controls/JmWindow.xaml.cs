@@ -25,7 +25,18 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     /// </summary>
     public partial class JmWindow : Window
     {
-        private static Type _ownerType = typeof(JmWindow);
+        private static Type _ownerType = typeof(JmWindow);  
+
+        #region TopBarHeadHeight 顶栏头部高度
+        public double TopBarHeadHeight
+        {
+            get { return (double)GetValue(TopBarHeadHeightProperty); }
+            set { SetValue(TopBarHeadHeightProperty, value); }
+        }
+
+        public static readonly DependencyProperty TopBarHeadHeightProperty =
+            DependencyProperty.Register("TopBarHeadHeight", typeof(double), _ownerType, new PropertyMetadata(0d)); 
+        #endregion
 
         #region TopBarHeight 顶栏高度
 
@@ -37,19 +48,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
         public static readonly DependencyProperty TopBarHeightProperty =
             DependencyProperty.Register(nameof(TopBarHeight), typeof(double), _ownerType, new PropertyMetadata(50d));
-        #endregion
-
-        #region TopBarBackground 顶栏背景
-        public Brush TopBarBackground
-        {
-            get { return (Brush)GetValue(TopBarBackgroundProperty); }
-            set { SetValue(TopBarBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty TopBarBackgroundProperty = 
-            DependencyProperty.Register(nameof(TopBarBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        #endregion
+        #endregion      
 
         #region TopBarContent 顶栏内容
         public object TopBarContent
@@ -72,19 +71,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
         public static readonly DependencyProperty LeftBarWidthProperty =
             DependencyProperty.Register(nameof(LeftBarWidth), typeof(double), _ownerType, new PropertyMetadata(double.NaN));
-        #endregion
-
-        #region LeftBarBackground 左侧栏背景
-        public Brush LeftBarBackground
-        {
-            get { return (Brush)GetValue(LeftBarBackgroundProperty); }
-            set { SetValue(LeftBarBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty LeftBarBackgroundProperty =
-            DependencyProperty.Register(nameof(LeftBarBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        #endregion
+        #endregion     
 
         #region LeftBarContent 左侧栏内容
         public object LeftBarContent
@@ -107,19 +94,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
         public static readonly DependencyProperty BottomBarHeightProperty =
             DependencyProperty.Register(nameof(BottomBarHeight), typeof(double), _ownerType, new PropertyMetadata(double.NaN));
-        #endregion
-
-        #region BottomBarBackground 底侧栏背景
-        public Brush BottomBarBackground
-        {
-            get { return (Brush)GetValue(BottomBarBackgroundProperty); }
-            set { SetValue(BottomBarBackgroundProperty, value); }
-        }
-
-        public static readonly DependencyProperty BottomBarBackgroundProperty =
-            DependencyProperty.Register(nameof(BottomBarBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
-
-        #endregion
+        #endregion  
 
         #region BottomBarContent 底侧栏内容
         public object BottomBarContent
@@ -184,6 +159,17 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("BackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
         #endregion
 
+        #region TopBarHeadBackgroundOpacity 顶栏头部透明度
+        public double TopBarHeadBackgroundOpacity
+        {
+            get { return (double)GetValue(TopBarHeadBackgroundOpacityProperty); }
+            set { SetValue(TopBarHeadBackgroundOpacityProperty, value); }
+        }
+
+        public static readonly DependencyProperty TopBarHeadBackgroundOpacityProperty =
+            DependencyProperty.Register("TopBarHeadBackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
         #region TopBarBackgroundOpacity TopBar背景透明度
         public double TopBarBackgroundOpacity
         {
@@ -228,6 +214,53 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("ContentBackgroundOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
         #endregion
 
+        #region TopBarHeadBackground 顶栏头部背景色
+        public Brush TopBarHeadBackground
+        {
+            get { return (Brush)GetValue(TopBarHeadBackgroundProperty); }
+            set { SetValue(TopBarHeadBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty TopBarHeadBackgroundProperty =
+            DependencyProperty.Register("TopBarHeadBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+        #endregion
+
+        #region TopBarBackground 顶栏背景
+        public Brush TopBarBackground
+        {
+            get { return (Brush)GetValue(TopBarBackgroundProperty); }
+            set { SetValue(TopBarBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty TopBarBackgroundProperty =
+            DependencyProperty.Register(nameof(TopBarBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+
+        #endregion
+
+        #region LeftBarBackground 左侧栏背景
+        public Brush LeftBarBackground
+        {
+            get { return (Brush)GetValue(LeftBarBackgroundProperty); }
+            set { SetValue(LeftBarBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty LeftBarBackgroundProperty =
+            DependencyProperty.Register(nameof(LeftBarBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+
+        #endregion
+
+        #region BottomBarBackground 底侧栏背景
+        public Brush BottomBarBackground
+        {
+            get { return (Brush)GetValue(BottomBarBackgroundProperty); }
+            set { SetValue(BottomBarBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty BottomBarBackgroundProperty =
+            DependencyProperty.Register(nameof(BottomBarBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
+
+        #endregion
+
         #region ContentBackground 内容背景
         public Brush ContentBackground
         {
@@ -236,10 +269,31 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty ContentBackgroundProperty =
-            DependencyProperty.Register("ContentBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.White)));
+            DependencyProperty.Register("ContentBackground", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Transparent)));
 
         #endregion
 
+        #region MinimizedVisibility 最小化按钮可见性
+        public Visibility MinimizedVisibility
+        {
+            get { return (Visibility)GetValue(MinimizedVisibilityProperty); }
+            set { SetValue(MinimizedVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty MinimizedVisibilityProperty =
+            DependencyProperty.Register("MinimizedVisibility", typeof(Visibility), _ownerType, new PropertyMetadata(Visibility.Visible));
+        #endregion
+
+        #region MaximizedOrNormalVisibility 最大化或还原按钮可见性
+        public Visibility MaximizedOrNormalVisibility
+        {
+            get { return (Visibility)GetValue(MaximizedOrNormalVisibilityProperty); }
+            set { SetValue(MaximizedOrNormalVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty MaximizedOrNormalVisibilityProperty =
+            DependencyProperty.Register("MaximizedOrNormalVisibility", typeof(Visibility), _ownerType, new PropertyMetadata(Visibility.Visible)); 
+        #endregion
 
 
 

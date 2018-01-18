@@ -9,7 +9,10 @@
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmRoundButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmSlider.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmTabItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmWidgetTabItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmScrollBar.xaml" /> 
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmThumb.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 

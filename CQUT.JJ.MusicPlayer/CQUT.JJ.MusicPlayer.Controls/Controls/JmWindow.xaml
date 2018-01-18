@@ -8,8 +8,8 @@
     
     <ControlTemplate x:Key="DefaultJmWindowTemplate" TargetType="local:JmWindow">
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-            <Grid>
-                <Rectangle Fill="{TemplateBinding Background}" Opacity="{TemplateBinding BackgroundOpacity}"></Rectangle>
+            <Grid >
+                <Rectangle x:Name="Bg" Fill="{TemplateBinding Background}" Opacity="{TemplateBinding BackgroundOpacity}" />
                 <DockPanel LastChildFill="True">
                     <Grid DockPanel.Dock="Bottom" Height="{TemplateBinding BottomBarHeight}">
                         <Rectangle Fill="{TemplateBinding BottomBarBackground}" Opacity="{TemplateBinding BottomBarBackgroundOpacity}" />
@@ -21,17 +21,22 @@
                         <ContentPresenter ContentSource="LeftBarContent" />
                     </Grid>
                     <Grid DockPanel.Dock="Top" Height="{TemplateBinding TopBarHeight}" MouseLeftButtonDown="JmWindow_Move">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Rectangle Grid.ColumnSpan="2" Fill="{TemplateBinding TopBarBackground}" Opacity="{TemplateBinding TopBarBackgroundOpacity}" />
-                        <ContentPresenter Grid.Column="0" ContentSource="TopBarContent">
+                        <Rectangle Height="{TemplateBinding TopBarHeadHeight}" Grid.ColumnSpan="2" Fill="{TemplateBinding TopBarHeadBackground}" Opacity="{TemplateBinding TopBarBackgroundOpacity}" />
+                        <Rectangle Grid.Row="1" Grid.ColumnSpan="2" Fill="{TemplateBinding TopBarBackground}" Opacity="{TemplateBinding TopBarBackgroundOpacity}" />
+                        <ContentPresenter Grid.Row="1" Grid.Column="0" ContentSource="TopBarContent">
                             <ContentPresenter.Resources>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource JMIcon}" />
                             </ContentPresenter.Resources>
                         </ContentPresenter>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" FlowDirection="RightToLeft" Loaded="Window_AddToolBarMenuItems">
+                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" FlowDirection="RightToLeft" Loaded="Window_AddToolBarMenuItems">
                             <StackPanel.Resources>
                                 <Style TargetType="local:JmTransparentButton">
                                     <Setter Property="Width" Value="34" />
@@ -53,7 +58,7 @@
                                 <TextBlock Text="&#xe616;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
                             </local:JmTransparentButton>
                             <!--Minimized-->
-                            <local:JmTransparentButton Click="JmWindow_Minimized" ToolTip="最小化">
+                            <local:JmTransparentButton Click="JmWindow_Minimized" ToolTip="最小化" Visibility="{TemplateBinding MinimizedVisibility}">
                                 <TextBlock Text="&#xe608;" Style="{StaticResource DefalultToolBarMenuItemStyle}" />
                             </local:JmTransparentButton>
                         </StackPanel>
@@ -66,17 +71,24 @@
                     </Grid>
                 </DockPanel>
             </Grid>
-           
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="WindowState" Value="Normal">
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="WindowState" Value="Normal" />
+                    <Condition Property="MaximizedOrNormalVisibility" Value="Visible" />
+                </MultiTrigger.Conditions>
                 <Setter Property="Visibility" Value="Visible" TargetName="BtnMaximize" />
                 <Setter Property="Visibility" Value="Collapsed" TargetName="BtnNormal" />
-            </Trigger>
-            <Trigger Property="WindowState" Value="Maximized">
+            </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="WindowState" Value="Maximized" />
+                    <Condition Property="MaximizedOrNormalVisibility" Value="Visible" />
+                </MultiTrigger.Conditions>
                 <Setter Property="Visibility" Value="Collapsed" TargetName="BtnMaximize" />
                 <Setter Property="Visibility" Value="Visible" TargetName="BtnNormal" />
-            </Trigger>
+            </MultiTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>

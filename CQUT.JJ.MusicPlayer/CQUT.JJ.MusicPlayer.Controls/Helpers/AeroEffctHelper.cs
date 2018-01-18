@@ -27,9 +27,9 @@ namespace CQUT.JJ.MusicPlayer.Controls.Helpers
             {
                 if(_osVersionMajor == 6)
                 {
-                    if(_osVersionMinor == 1)
+                    if (_osVersionMinor == 1)
                         window.OpenAeroFromWin7();
-                    else if(_osVersionMinor > 1)
+                    else if (_osVersionMinor > 1)
                         window.OpenAeroFromWin10();
                 }              
             }

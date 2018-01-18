@@ -36,9 +36,6 @@
         <ImageBrush ImageSource="/CQUT.JJ.MusicPlayer.Client;component/Asserts/Images/DefaultWindowBackground.jpg" Stretch="UniformToFill" TileMode="Tile" />
     </jm:JmWindow.Background>
     
-    <jm:JmWindow.Resources>
-        
-    </jm:JmWindow.Resources>
     <jm:JmWindow.ToolBarMenuItems>
         <jm:JmTransparentButton>
             <TextBlock Text="&#xe668;" FontFamily="{StaticResource JM}" RenderTransformOrigin="0.5 0.5"
@@ -51,7 +48,7 @@
         <jm:JmTransparentButton>
             <TextBlock Text="&#xe6a9;" FontFamily="{StaticResource JM}" FontSize="20" ToolTip="主菜单" />
         </jm:JmTransparentButton>
-        <jm:JmTransparentButton>
+        <jm:JmTransparentButton x:Name="BtnSkin" Click="BtnSkin_Click">
             <TextBlock Text="&#xe787;" FontFamily="{StaticResource JM}" FontSize="16" ToolTip="皮肤" />
         </jm:JmTransparentButton>
         <jm:JmTransparentButton>

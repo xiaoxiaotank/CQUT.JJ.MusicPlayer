@@ -1,8 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+# Blend for Visual Studio 15
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientSide", "ClientSide", "{13A9EC88-57B9-4250-8D7D-F700F3380608}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerSide", "ServerSide", "{2F8BAA27-0C53-480B-ABB2-DD98D65ECB8E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQUT.JJ.MusicPlayer.Client", "CQUT.JJ.MusicPlayer.Client\CQUT.JJ.MusicPlayer.Client.csproj", "{8F677396-A400-45E6-B4B7-95F43DD7BF8E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQUT.JJ.MusicPlayer.MS", "CQUT.JJ.MusicPlayer.MS\CQUT.JJ.MusicPlayer.MS.csproj", "{17AB67C1-B4DB-490E-BC21-1CDE956914F6}"
@@ -16,10 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQUT.JJ.MusicPlayer.Core", "CQUT.JJ.MusicPlayer.Core\CQUT.JJ.MusicPlayer.Core.csproj", "{1097DB92-9650-4D49-B4AF-B1D2AA66099F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQUT.JJ.MusicPlayer.EntityFramework", "CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj", "{8DE199C6-B19F-4EBB-99BE-84B30DB8D1E7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClientSide", "ClientSide", "{13A9EC88-57B9-4250-8D7D-F700F3380608}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerSide", "ServerSide", "{2F8BAA27-0C53-480B-ABB2-DD98D65ECB8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

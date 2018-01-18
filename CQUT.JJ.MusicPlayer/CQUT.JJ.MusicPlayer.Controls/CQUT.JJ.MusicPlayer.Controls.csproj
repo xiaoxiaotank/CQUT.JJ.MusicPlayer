@@ -61,6 +61,9 @@
     <Compile Include="Controls\JmRoundButton.xaml.cs">
       <DependentUpon>JmRoundButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmScrollBar.xaml.cs">
+      <DependentUpon>JmScrollBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmScrollViewer.xaml.cs">
       <DependentUpon>JmScrollViewer.xaml</DependentUpon>
     </Compile>
@@ -70,8 +73,14 @@
     <Compile Include="Controls\JmSlider.xaml.cs">
       <DependentUpon>JmSlider.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmWidgetTabItem.xaml.cs">
+      <DependentUpon>JmWidgetTabItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmTabItem.xaml.cs">
       <DependentUpon>JmTabItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\JmThumb.xaml.cs">
+      <DependentUpon>JmThumb.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\JmWindow.xaml.cs">
       <DependentUpon>JmWindow.xaml</DependentUpon>
@@ -113,6 +122,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\JmScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\JmScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -125,7 +138,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\JmWidgetTabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\JmTabItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmThumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

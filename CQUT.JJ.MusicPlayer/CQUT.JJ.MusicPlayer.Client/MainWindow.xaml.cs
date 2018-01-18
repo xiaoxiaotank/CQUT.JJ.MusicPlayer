@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Windows;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,14 @@ namespace CQUT.JJ.MusicPlayer.Client
 
         }
 
+        private void BtnSkin_Click(object sender,RoutedEventArgs e)
+        {
+            var skinWinWidth = Width * 0.7;
+            var skinWinHeight = Height * 0.7;
+            var skinWin = new SkinManagerWindow(skinWinWidth, skinWinHeight);
+            skinWin.Owner = this;
+            skinWin.ShowDialog();
+        }
 
     }
     

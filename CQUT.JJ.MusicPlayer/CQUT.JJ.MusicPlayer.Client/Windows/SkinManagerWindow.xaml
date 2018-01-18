@@ -1,0 +1,61 @@
+﻿<jm:JmWindow x:Class="CQUT.JJ.MusicPlayer.Client.Windows.SkinManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Windows"
+        xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+        xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
+        mc:Ignorable="d"
+        Title="SkinManagerWindow" WindowStartupLocation="CenterOwner" Loaded="JmWindow_Loaded">
+    <jm:JmWindow.Style>
+        <Style TargetType="jm:JmWindow">
+            <Setter Property="MaximizedOrNormalVisibility" Value="Collapsed" />
+            <Setter Property="MinimizedVisibility" Value="Collapsed" />
+            <Setter Property="TopBarHeadBackground" Value="#8FABC1" />
+            <Setter Property="TopBarHeadHeight" Value="5" />
+        </Style>
+    </jm:JmWindow.Style>
+    <jm:JmWindow.Resources>
+        <converter:DoubleParametersSubtractionConverter x:Key="DoubleParametersSubtractionConverter" />
+        <Style TargetType="jm:JmWidgetTabItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Padding" Value="15 0" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="#666666" />
+            <Setter Property="Height">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=jm:JmWindow}" Path="TopBarHeight" />
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=jm:JmWindow}" Path="TopBarHeadHeight" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#31C27C" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </jm:JmWindow.Resources>
+    <jm:JmWindow.TopBarContent>
+        <WrapPanel>
+            <jm:JmWidgetTabItem x:Name="TiThemeSkin" Header="主题皮肤" MouseUp="TabItem_SelectionChanged"
+                                PageName="ThemeSkinPage.xaml"/>
+            <jm:JmWidgetTabItem Header="桌面歌词气泡" MouseUp="TabItem_SelectionChanged"
+                                PageName="TabletopLyricsBubblePage.xaml"/>
+        </WrapPanel>
+    </jm:JmWindow.TopBarContent>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Rectangle Fill="Silver" Height="1" Opacity="0.3" />
+        <Frame Grid.Row="1" x:Name="FSkinPage" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</jm:JmWindow>
