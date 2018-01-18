@@ -4,11 +4,66 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.Skin"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+      xmlns:ap="clr-namespace:CQUT.JJ.MusicPlayer.Client.ControlAttachProperties"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ThemeSkinPage">
+    <Page.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Opacity" Value="0.9" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid SnapsToDevicePixels="true">
+                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" Padding="0 7" Margin="15 11" Background="Transparent">
+                                <ContentPresenter x:Name="Content" ContentSource="Header" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground"  Value="#81DAAF"/>
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Foreground"  Value="#81DAAF"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <Style TargetType="{x:Type TabControl}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Frame">
+            <Setter Property="NavigationUIVisibility" Value="Hidden" />
+        </Style>
+    </Page.Resources>
     <Grid>
-        
+        <jm:JmScrollViewer VerticalScrollBarVisibility="Auto">
+            <TabControl x:Name="TcSkin" SelectionChanged="TcSkin_SelectionChanged">
+                <TabItem Header="推荐" ap:TabItemControlAttachProperty.PageNameWithoutExtension="PrimaryPage"
+                         ap:TabItemControlAttachProperty.DataType="推荐">
+                    <Frame />
+                </TabItem>
+                <TabItem Header="自定义" ap:TabItemControlAttachProperty.PageNameWithoutExtension="PrimaryPage"
+                         ap:TabItemControlAttachProperty.DataType="自定义">
+                    <Frame />
+                </TabItem>
+                <TabItem Header="纯色" ap:TabItemControlAttachProperty.PageNameWithoutExtension="PurityPage">
+                    <Frame />
+                </TabItem>
+            </TabControl>
+        </jm:JmScrollViewer>
     </Grid>
 </Page>

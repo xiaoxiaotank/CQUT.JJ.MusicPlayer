@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ControlAttachProperties\TabItemControlAttachProperty.cs" />
     <Compile Include="Converters\DoubleParametersSubtractionConverter.cs" />
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
@@ -90,6 +91,12 @@
     </Compile>
     <Compile Include="Pages\Skin\ThemeSkinPage.xaml.cs">
       <DependentUpon>ThemeSkinPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Skin\ThemeSkin\PrimaryPage.xaml.cs">
+      <DependentUpon>PrimaryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Skin\ThemeSkin\PurityPage.xaml.cs">
+      <DependentUpon>PurityPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
@@ -163,6 +170,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Skin\ThemeSkin\PrimaryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Skin\ThemeSkin\PurityPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\MusicPlayerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -223,6 +238,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

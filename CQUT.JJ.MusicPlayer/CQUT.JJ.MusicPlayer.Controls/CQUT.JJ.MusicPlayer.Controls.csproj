@@ -55,7 +55,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlAttachProperties\InputControlAttachProperty.cs" />
     <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />
     <Compile Include="Controls\JmRoundButton.xaml.cs">

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.ControlAttachProperties;
+using CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,30 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
     /// </summary>
     public partial class ThemeSkinPage : Page
     {
+        private static readonly string _pageOfColumn = "ThemeSkin";
         public ThemeSkinPage()
         {
             InitializeComponent();
+        }
+
+        private void TcSkin_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedPage = TcSkin.SelectedItem as TabItem;
+            var frame = selectedPage.Content as Frame;
+            var pageName = TabItemControlAttachProperty.GetPageNameWithoutExtension(selectedPage);
+            var dataType = TabItemControlAttachProperty.GetDataType(selectedPage);
+            if (!string.IsNullOrWhiteSpace(dataType))
+            {
+                switch(pageName)
+                {
+                    case "PrimaryPage":
+                        frame.Navigate(new PrimaryPage(dataType));
+                        break;
+
+                }
+            }
+            else
+                frame.Source = new Uri($@"{_pageOfColumn}/{pageName}.xaml",UriKind.Relative);
         }
     }
 }
