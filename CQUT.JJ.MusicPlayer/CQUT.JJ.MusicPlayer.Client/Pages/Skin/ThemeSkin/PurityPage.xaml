@@ -6,9 +6,9 @@
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="PurityPage">
+      Title="PurityPage" Loaded="Page_Loaded">
 
-    <Grid>
-        <TextBlock>纯色</TextBlock>
-    </Grid>
+    <WrapPanel x:Name="WPanel">
+        
+    </WrapPanel>
 </Page>

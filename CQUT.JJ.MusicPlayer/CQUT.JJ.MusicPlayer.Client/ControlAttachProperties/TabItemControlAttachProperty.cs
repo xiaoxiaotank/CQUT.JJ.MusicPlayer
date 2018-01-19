@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,18 +32,18 @@ namespace CQUT.JJ.MusicPlayer.Client.ControlAttachProperties
 
 
         #region GetDataType 数据类型
-        public static string GetDataType(DependencyObject obj)
+        public static ThemeSkinType GetDataType(DependencyObject obj)
         {
-            return (string)obj.GetValue(DataTypeProperty);
+            return (ThemeSkinType)obj.GetValue(DataTypeProperty);
         }
 
-        public static void SetDataType(DependencyObject obj, string value)
+        public static void SetDataType(DependencyObject obj, ThemeSkinType value)
         {
             obj.SetValue(DataTypeProperty, value);
         }
 
         public static readonly DependencyProperty DataTypeProperty =
-            DependencyProperty.RegisterAttached("DataType", typeof(string), _ownerType, new PropertyMetadata(string.Empty)); 
+            DependencyProperty.RegisterAttached("DataType", typeof(ThemeSkinType), _ownerType, new PropertyMetadata(ThemeSkinType.Purity)); 
         #endregion
 
 

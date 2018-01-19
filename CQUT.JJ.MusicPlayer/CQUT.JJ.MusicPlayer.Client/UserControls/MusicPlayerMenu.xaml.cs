@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             InitializeComponent();
         }
+
 
         #region Events
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
     /// </summary>
     public partial class PrimaryPage : Page
     {
-        public PrimaryPage(string dataType)
+        private static readonly string _pageOfColumn = "ThemeSkin";
+
+
+        public PrimaryPage(ThemeSkinType dataType)
         {
             InitializeComponent();
         }

@@ -15,26 +15,23 @@
             <Setter Property="MinHeight" Value="692" />
             <Setter Property="Width" Value="1010" />
             <Setter Property="Height" Value="690" />
-            <Setter Property="TopBarBackground" Value="#0F0E18" />
-            <Setter Property="LeftBarBackground" Value="#131312" />
-            <Setter Property="BottomBarBackground" Value="#2e2d2c" />
-            <Setter Property="ContentBackground" Value="Black" />
+            <Setter Property="TopBarBackground" Value="{Binding Background}" />
+            <Setter Property="LeftBarBackground" Value="{Binding Background}" />
+            <Setter Property="BottomBarBackground" Value="{Binding Background}" />
+            <Setter Property="ContentBackground" Value="{Binding Background}" />
             <Setter Property="AllowsTransparency" Value="True" />
-            <Setter Property="LeftBarBackgroundOpacity" Value="0.4" />
-            <Setter Property="BottomBarBackgroundOpacity" Value="0.9" />
-            <Setter Property="ContentBackgroundOpacity" Value="0.5" />
-            <Setter Property="TopBarBackgroundOpacity" Value="0.9" />
+            <Setter Property="LeftBarBackgroundOpacity" Value="{Binding LeftBarBackgroundOpacity}" />
+            <Setter Property="BottomBarBackgroundOpacity" Value="{Binding BottomBarBackgroundOpacity}" />
+            <Setter Property="ContentBackgroundOpacity" Value="{Binding ContentBackgroundOpacity}" />
+            <Setter Property="TopBarBackgroundOpacity" Value="{Binding TopBarBackgroundOpacity}" />
+            <Setter Property="BackgroundOpacity" Value="{Binding BackgroundOpacity}" />
             <Setter Property="LeftBarWidth" Value="200" />
             <Setter Property="TopBarHeight" Value="50" />
             <Setter Property="BottomBarHeight" Value="70" />
             <Setter Property="IsOpenAreo" Value="True" />
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
-            <Setter Property="BackgroundOpacity" Value="0.9" />
         </Style>
     </jm:JmWindow.Style>
-    <jm:JmWindow.Background>
-        <ImageBrush ImageSource="/CQUT.JJ.MusicPlayer.Client;component/Asserts/Images/DefaultWindowBackground.jpg" Stretch="UniformToFill" TileMode="Tile" />
-    </jm:JmWindow.Background>
     
     <jm:JmWindow.ToolBarMenuItems>
         <jm:JmTransparentButton>

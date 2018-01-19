@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.ControlAttachProperties;
 using CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin;
+using CQUT.JJ.MusicPlayer.Client.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
     public partial class ThemeSkinPage : Page
     {
         private static readonly string _pageOfColumn = "ThemeSkin";
+
         public ThemeSkinPage()
         {
             InitializeComponent();
@@ -31,21 +33,30 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
         private void TcSkin_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedPage = TcSkin.SelectedItem as TabItem;
-            var frame = selectedPage.Content as Frame;
             var pageName = TabItemControlAttachProperty.GetPageNameWithoutExtension(selectedPage);
             var dataType = TabItemControlAttachProperty.GetDataType(selectedPage);
-            if (!string.IsNullOrWhiteSpace(dataType))
-            {
-                switch(pageName)
-                {
-                    case "PrimaryPage":
-                        frame.Navigate(new PrimaryPage(dataType));
-                        break;
 
-                }
+            HandoffPage(selectedPage,pageName, dataType);
+           
+        }
+
+        private void HandoffPage(TabItem selectedPage, string pageName, ThemeSkinType dataType)
+        {
+            var frame = selectedPage.Content as Frame;
+            switch (pageName)
+            {
+                case "PrimaryPage":
+                    frame.Navigate(new PrimaryPage(dataType));
+                    break;
+                case "PurityPage":
+                    frame.Source = new Uri($@"{_pageOfColumn}/{pageName}.xaml", UriKind.Relative);
+                    break;
             }
-            else
-                frame.Source = new Uri($@"{_pageOfColumn}/{pageName}.xaml",UriKind.Relative);
+        }
+
+        private void BtnDefaultSkin_Click(object sender, RoutedEventArgs e)
+        {
+            JmSkinChangedUtil.Invoke(JmSkinChangedUtil.DefaultImageSkinArgs.Background, JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
         }
     }
 }

@@ -6,10 +6,20 @@
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.Skin"
       xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       xmlns:ap="clr-namespace:CQUT.JJ.MusicPlayer.Client.ControlAttachProperties"
+      xmlns:st="clr-namespace:CQUT.JJ.MusicPlayer.Client.Utils"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ThemeSkinPage">
     <Page.Resources>
+        <Style TargetType="jm:JmScrollViewer">
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+            <Setter Property="UpArrowVisibility" Value="Collapsed" />
+            <Setter Property="DownArrowVisibility" Value="Collapsed" />
+            <Setter Property="ThumbBackground" Value="#DCDCDC" />
+            <Setter Property="ThumbWidth" Value="11" />
+            <Setter Property="ThumbCornerRadius" Value="5.5" />
+            <Setter Property="ThumbMouseOverBackground" Value="#CCCCCC" />
+        </Style>
         <Style TargetType="{x:Type TabItem}">
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Opacity" Value="0.9" />
@@ -48,16 +58,37 @@
         <Style TargetType="Frame">
             <Setter Property="NavigationUIVisibility" Value="Hidden" />
         </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Height="25" Background="White" BorderThickness="1" BorderBrush="Silver" Padding="10 0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid>
-        <jm:JmScrollViewer VerticalScrollBarVisibility="Auto">
-            <TabControl x:Name="TcSkin" SelectionChanged="TcSkin_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <jm:JmScrollViewer x:Name="SvSkin">
+            <TabControl x:Name="TcSkin" SelectionChanged="TcSkin_SelectionChanged" Padding="18 0">
                 <TabItem Header="推荐" ap:TabItemControlAttachProperty.PageNameWithoutExtension="PrimaryPage"
-                         ap:TabItemControlAttachProperty.DataType="推荐">
+                         ap:TabItemControlAttachProperty.DataType="{x:Static st:ThemeSkinType.Recommend}">
                     <Frame />
                 </TabItem>
                 <TabItem Header="自定义" ap:TabItemControlAttachProperty.PageNameWithoutExtension="PrimaryPage"
-                         ap:TabItemControlAttachProperty.DataType="自定义">
+                         ap:TabItemControlAttachProperty.DataType="{x:Static st:ThemeSkinType.Custom}">
                     <Frame />
                 </TabItem>
                 <TabItem Header="纯色" ap:TabItemControlAttachProperty.PageNameWithoutExtension="PurityPage">
@@ -65,5 +96,8 @@
                 </TabItem>
             </TabControl>
         </jm:JmScrollViewer>
+        <StackPanel Grid.Row="1" Height="55" Orientation="Horizontal" Margin="18 0">
+            <Button x:Name="BtnDefaultSkin" Click="BtnDefaultSkin_Click">恢复默认皮肤</Button>
+        </StackPanel>
     </Grid>
 </Page>
