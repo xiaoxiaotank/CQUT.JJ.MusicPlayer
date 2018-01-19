@@ -38,7 +38,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Themes:ScrollChrome x:Name="Chrome" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" SnapsToDevicePixels="true" Themes:ScrollChrome.ScrollGlyph="{TemplateBinding Themes:ScrollChrome.ScrollGlyph}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -64,7 +63,7 @@
                 <ColumnDefinition Width="0.00001*"/>
                 <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
             </Grid.ColumnDefinitions>
-            <RepeatButton Command="{x:Static ScrollBar.LineLeftCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Themes:ScrollChrome.ScrollGlyph="LeftArrow"/>
+            <RepeatButton Command="{x:Static ScrollBar.LineLeftCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}"/>
             <Track x:Name="PART_Track" Grid.Column="1" IsEnabled="{TemplateBinding IsMouseOver}">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource HorizontalScrollBarPageButton}"/>
@@ -78,7 +77,7 @@
                                    MouseOverBackground="{TemplateBinding ThumbMouseOverBackground}"/>
                 </Track.Thumb>
             </Track>
-            <RepeatButton Grid.Column="2" Command="{x:Static ScrollBar.LineRightCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Themes:ScrollChrome.ScrollGlyph="RightArrow"/>
+            <RepeatButton Grid.Column="2" Command="{x:Static ScrollBar.LineRightCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}"/>
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
@@ -110,7 +109,7 @@
                                    MouseOverBackground="{TemplateBinding ThumbMouseOverBackground}"/>
                 </Track.Thumb>
             </Track>
-            <RepeatButton Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}"  Height="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"  
+            <RepeatButton Grid.Row="2" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}"  Height="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"  
                           Style="{StaticResource ScrollBarButton}" Visibility="{TemplateBinding DownArrowVisibility}" />
         </Grid>
         <ControlTemplate.Triggers>

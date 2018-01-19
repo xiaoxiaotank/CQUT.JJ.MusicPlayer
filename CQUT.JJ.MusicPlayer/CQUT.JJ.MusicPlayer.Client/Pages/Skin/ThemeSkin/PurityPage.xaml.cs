@@ -30,6 +30,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            WPanel.Children.Clear();
             Color color;
             var blockMargin = new Thickness(0, 0, 7, 7);
             var blockWidth = (WPanel.ActualWidth - blockMargin.Right * ColorBlockCountPerLine) / ColorBlockCountPerLine;

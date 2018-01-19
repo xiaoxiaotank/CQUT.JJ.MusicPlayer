@@ -6,8 +6,8 @@
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="PrimaryPage" Background="Red">
-    <Grid>
+      Title="PrimaryPage" Loaded="Page_Loaded">
+    <WrapPanel x:Name="WPanel">
         
-    </Grid>
+    </WrapPanel>
 </Page>

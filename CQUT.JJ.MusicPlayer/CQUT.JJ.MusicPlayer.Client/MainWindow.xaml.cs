@@ -85,6 +85,11 @@ namespace CQUT.JJ.MusicPlayer.Client
                     = BottomBarBackground
                     = ContentBackground
                     = e.Background;
+                TopBarBackgroundOpacity
+                    = LeftBarBackgroundOpacity
+                    = BottomBarBackgroundOpacity
+                    = ContentBackgroundOpacity
+                    = 0.9;
                 Background = new SolidColorBrush(Colors.Transparent);
             }
         }

@@ -13,7 +13,7 @@
     <Page.Resources>
         <Style TargetType="jm:JmScrollViewer">
             <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
-            <Setter Property="UpArrowVisibility" Value="Collapsed" />
+            <Setter Property="UpArrowVisibility" Value="Visible" />
             <Setter Property="DownArrowVisibility" Value="Collapsed" />
             <Setter Property="ThumbBackground" Value="#DCDCDC" />
             <Setter Property="ThumbWidth" Value="11" />

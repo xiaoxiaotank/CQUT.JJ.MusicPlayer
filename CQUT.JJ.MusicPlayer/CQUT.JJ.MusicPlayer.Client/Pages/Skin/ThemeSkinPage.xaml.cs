@@ -49,7 +49,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
                     frame.Navigate(new PrimaryPage(dataType));
                     break;
                 case "PurityPage":
-                    frame.Source = new Uri($@"{_pageOfColumn}/{pageName}.xaml", UriKind.Relative);
+                    frame.Navigate(new PurityPage());
                     break;
             }
         }
