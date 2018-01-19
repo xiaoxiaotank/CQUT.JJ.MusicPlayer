@@ -1,6 +1,7 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.ControlAttachProperties;
 using CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin;
 using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +24,6 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
     /// </summary>
     public partial class ThemeSkinPage : Page
     {
-        private static readonly string _pageOfColumn = "ThemeSkin";
-
         public ThemeSkinPage()
         {
             InitializeComponent();
@@ -56,7 +55,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
 
         private void BtnDefaultSkin_Click(object sender, RoutedEventArgs e)
         {
-            JmSkinChangedUtil.Invoke(JmSkinChangedUtil.DefaultImageSkinArgs.Background, JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
+            JmSkinChangedUtil.Invoke(new SkinModel(
+                JmSkinChangedUtil.DefaultImageSkinArgs.Background
+                , JmSkinChangedUtil.DefaultImageSkinPath
+                , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush)
+            );
         }
     }
 }

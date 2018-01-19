@@ -2,8 +2,10 @@
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Client.Windows;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
+using CQUT.JJ.MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -33,27 +35,49 @@ namespace CQUT.JJ.MusicPlayer.Client
             BottomBarBackgroundOpacity = 0.6,
             ContentBackgroundOpacity = 0.5,
             BackgroundOpacity = 0.9,
-            Background = new SolidColorBrush(Colors.Black)
+            TopFloorBackground = new SolidColorBrush(Colors.Black)
         };
 
         public MainWindow()
         {
-            InitializeComponent();
-
             //页面切换
             MusicPageChangedUtil.PageChangedEvent += MusicPageChanged;
             //皮肤切换
             JmSkinChangedUtil.SkinChangedEvent += JmSkinChanged;
+
+            InitializeComponent();
+            InitializeSkin();
         }
-       
+
+        private void InitializeSkin()
+        {
+            if(!File.Exists(JmSkinChangedUtil.SkinConfigFilePath))
+            {
+                File.Create(JmSkinChangedUtil.SkinConfigFilePath).Close();
+                var skinModel = new SkinModel(
+                    JmSkinChangedUtil.DefaultImageSkinArgs.Background
+                    , JmSkinChangedUtil.DefaultImageSkinPath
+                    , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
+                JmSkinChangedUtil.Invoke(skinModel);
+            }
+            else
+            {
+                var skinInfo = File.ReadAllLines(JmSkinChangedUtil.SkinConfigFilePath);
+                var isImageBrush =Convert.ToBoolean(skinInfo[0]);
+                Brush background = null;
+                if (isImageBrush)
+                    background = new Uri(skinInfo[1], UriKind.Absolute).ToImageBrush();
+                else
+                    background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(skinInfo[1]));
+                JmSkinChangedUtil.Invoke(new SkinModel(background,skinInfo[1],isImageBrush));
+            }
+        }
 
         private void JmWindow_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = _mainWinViewModel;
 
-            JmSkinChangedUtil.Invoke(
-                JmSkinChangedUtil.DefaultImageSkinArgs.Background
-                , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
+           
         }
 
         private void BtnSkin_Click(object sender,RoutedEventArgs e)
@@ -76,7 +100,11 @@ namespace CQUT.JJ.MusicPlayer.Client
                     = LeftBarBackground
                     = BottomBarBackground
                     = ContentBackground
-                    = _mainWinViewModel.Background;               
+                    = _mainWinViewModel.TopFloorBackground;
+                TopBarBackgroundOpacity = _mainWinViewModel.TopBarBackgroundOpacity;
+                LeftBarBackgroundOpacity = _mainWinViewModel.LeftBarBackgroundOpacity;
+                BottomBarBackgroundOpacity = _mainWinViewModel.BottomBarBackgroundOpacity;
+                ContentBackgroundOpacity = _mainWinViewModel.ContentBackgroundOpacity;
             }
             else
             {

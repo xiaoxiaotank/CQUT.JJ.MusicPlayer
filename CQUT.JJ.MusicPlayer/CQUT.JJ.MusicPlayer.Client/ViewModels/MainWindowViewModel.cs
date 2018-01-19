@@ -10,7 +10,7 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
 {
     public class MainWindowViewModel
     {
-        public Brush Background { get; set; } = new SolidColorBrush(Colors.White);
+        public Brush TopFloorBackground { get; set; } = new SolidColorBrush(Colors.White);
 
         public double TopBarBackgroundOpacity { get; set; } = 1;
         public double LeftBarBackgroundOpacity { get; set; } = 1;

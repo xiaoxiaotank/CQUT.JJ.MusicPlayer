@@ -7,7 +7,37 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="PrimaryPage" Loaded="Page_Loaded">
-    <WrapPanel x:Name="WPanel">
-        
-    </WrapPanel>
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}" />
+        <Style x:Key="CoverStyle" TargetType="Rectangle">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.4" Duration="00:00:0.2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="00:00:0.2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <WrapPanel x:Name="WPanel">
+
+        </WrapPanel>
+        <StackPanel Grid.Row="1" x:Name="SpCustom" Visibility="Collapsed" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button x:Name="BtnSelectLocalImgBg" Click="BtnSelectLocalImgBg_Click">选择本地背景</Button>
+        </StackPanel>
+    </Grid>
 </Page>

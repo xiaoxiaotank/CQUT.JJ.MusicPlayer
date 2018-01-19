@@ -15,10 +15,10 @@
             <Setter Property="MinHeight" Value="692" />
             <Setter Property="Width" Value="1010" />
             <Setter Property="Height" Value="690" />
-            <Setter Property="TopBarBackground" Value="{Binding Background}" />
-            <Setter Property="LeftBarBackground" Value="{Binding Background}" />
-            <Setter Property="BottomBarBackground" Value="{Binding Background}" />
-            <Setter Property="ContentBackground" Value="{Binding Background}" />
+            <Setter Property="TopBarBackground" Value="{Binding TopFloorBackground}" />
+            <Setter Property="LeftBarBackground" Value="{Binding TopFloorBackground}" />
+            <Setter Property="BottomBarBackground" Value="{Binding TopFloorBackground}" />
+            <Setter Property="ContentBackground" Value="{Binding TopFloorBackground}" />
             <Setter Property="AllowsTransparency" Value="True" />
             <Setter Property="LeftBarBackgroundOpacity" Value="{Binding LeftBarBackgroundOpacity}" />
             <Setter Property="BottomBarBackgroundOpacity" Value="{Binding BottomBarBackgroundOpacity}" />

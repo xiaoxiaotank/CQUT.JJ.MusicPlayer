@@ -1,8 +1,11 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,7 +25,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
     /// </summary>
     public partial class PrimaryPage : Page
     {
-        private static readonly string _themeSkinBaseUrl = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Asserts");
+        private static readonly string _themeSkinBaseUrl = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Asserts/Skins");
 
         private readonly ThemeSkinType _themeSkinType;
 
@@ -34,11 +37,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
 
         private static readonly Thickness _skinMargin = new Thickness(0, 0, 10, 10);
 
+        private string _skinPath = string.Empty;
+
         public PrimaryPage(ThemeSkinType themeSkinType)
         {
             InitializeComponent();
 
             _themeSkinType = themeSkinType;
+            SpCustom.Visibility = Visibility.Collapsed;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -51,38 +57,113 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
                     LoadRecommendThemeSkins();
                     break;
                 case ThemeSkinType.Custom:
+                    LoadCustomThemeSkins();
                     break;
             }
         }
 
-        private void LoadRecommendThemeSkins()
-        {
-            string skinsPath = $"{_themeSkinBaseUrl}/ThemeSkins";
-            var fileFilters = @"*.jpg";
-            foreach (var imagePath in Directory.GetFiles(skinsPath,fileFilters,SearchOption.AllDirectories))
-            {
-                var imageUri = new Uri(imagePath, UriKind.Absolute);
-                ShowImageSkin(imageUri);
-            }
-        }
 
-        private void ShowImageSkin(Uri imageUri)
+        private void Cover_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var imageBlock = new Rectangle()
-            {
-                Width = _skinWidth,
-                Height = _skinHeight,
-                Fill = imageUri.ImageUriToImageBrush(),
-                SnapsToDevicePixels = true
-            };
-            imageBlock.MouseLeftButtonUp += SkinChanged;
-            WPanel.Children.Add(imageBlock);
+            var cover = sender as Rectangle;
+            SkinChanged(cover.Tag, e);
         }
 
         private void SkinChanged(object sender, MouseButtonEventArgs e)
         {
             var block = sender as Rectangle;
-            JmSkinChangedUtil.Invoke(block.Fill, true);
+            JmSkinChangedUtil.Invoke(new SkinModel(block.Fill, block.Tag.ToString(), true));
         }
+
+        private void BtnSelectLocalImgBg_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "图像文件(*jpg)|*jpg",
+                Multiselect = false
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                var imagePath = dialog.FileName;
+                var imageName = dialog.SafeFileName;
+
+                var savedPath = FileUtil.SaveFileToLocal(imagePath,_skinPath, imageName);
+                if (string.IsNullOrWhiteSpace(savedPath))
+                    MessageBox.Show("上传失败!");
+                else
+                {
+                    var control = ShowImageSkin(new Uri(savedPath, UriKind.Absolute));
+                    SkinChanged(control, null);
+                }
+            }
+        }
+
+
+        #region Helpers
+        private void LoadRecommendThemeSkins()
+        {
+            _skinPath = $"{_themeSkinBaseUrl}/ThemeSkins";
+            LoadThemeSkins(_skinPath);
+        }
+
+        private void LoadCustomThemeSkins()
+        {
+            SpCustom.Visibility = Visibility.Visible;
+            _skinPath = $"{_themeSkinBaseUrl}/CustomSkins";
+            LoadThemeSkins(_skinPath);
+        }
+
+        private void LoadThemeSkins(string skinPath)
+        {
+            var fileFilters = @"*.jpg";
+            if (Directory.Exists(skinPath))
+            {
+                foreach (var imagePath in Directory.GetFiles(skinPath, fileFilters, SearchOption.AllDirectories))
+                {
+                    var imageUri = new Uri(imagePath, UriKind.Absolute);
+                    ShowImageSkin(imageUri);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 把背景添加到窗口中进行展示
+        /// </summary>
+        /// <param name="imageUri"></param>
+        /// <returns>添加的背景样图</returns>
+        private object ShowImageSkin(Uri imageUri)
+        {
+            var imageBlock = new Rectangle()
+            {
+                Fill = imageUri.ToImageBrush(),
+                Tag = imageUri.AbsolutePath,
+                SnapsToDevicePixels = true
+            };
+            var cover = new Rectangle()
+            {
+                Fill = new SolidColorBrush(Colors.Black),
+                Opacity = 0,
+                Tag = imageBlock,
+                Style = FindResource("CoverStyle") as Style
+            };
+            var grid = new Grid()
+            {
+                Width = _skinWidth,
+                Height = _skinHeight,
+                Margin = _skinMargin,
+                SnapsToDevicePixels = true
+            };
+
+            grid.Children.Add(imageBlock);
+            grid.Children.Add(cover);
+
+            imageBlock.MouseLeftButtonUp += SkinChanged;
+            cover.MouseLeftButtonUp += Cover_MouseLeftButtonUp;
+
+            WPanel.Children.Add(grid);
+            return imageBlock;
+        }
+
+        #endregion
     }
 }

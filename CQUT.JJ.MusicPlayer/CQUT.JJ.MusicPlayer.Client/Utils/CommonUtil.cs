@@ -10,7 +10,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
 {
     public static class CommonUtil
     {
-        public static ImageBrush ImageUriToImageBrush(this Uri imageUri)
+        /// <summary>
+        /// 将ImageUri转为ImageBrush
+        /// </summary>
+        /// <param name="imageUri"></param>
+        /// <returns></returns>
+        public static ImageBrush ToImageBrush(this Uri imageUri)
         {
             return new ImageBrush()
             {

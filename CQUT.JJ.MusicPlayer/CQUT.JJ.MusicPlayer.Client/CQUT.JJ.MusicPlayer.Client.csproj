@@ -111,9 +111,10 @@
       <DependentUpon>UserMusicNavigtion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommonUtil.cs" />
-    <Compile Include="Utils\JmSkinChangedUtil.cs" />
-    <Compile Include="Utils\MusicPageChangedUtil.cs" />
-    <Compile Include="Utils\ThemeSkinType.cs" />
+    <Compile Include="Utils\EventUtils\JmSkinChangedUtil.cs" />
+    <Compile Include="Utils\EventUtils\MusicPageChangedUtil.cs" />
+    <Compile Include="Utils\Enums\ThemeSkinType.cs" />
+    <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Windows\SkinManagerWindow.xaml.cs">
       <DependentUpon>SkinManagerWindow.xaml</DependentUpon>
@@ -242,12 +243,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <Folder Include="Asserts\Skins\CustomSkins\" />
+    <Folder Include="Configs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
-    <Resource Include="Asserts\ThemeSkins\DefaultWindowBackground.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\1.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\10.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\11.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\12.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\13.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\14.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\2.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\3.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\4.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\5.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\6.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\7.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\8.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\9.jpg" />
+    <Resource Include="Asserts\Skins\ThemeSkins\DefaultWindowBackground.jpg" />
     <Resource Include="Asserts\Images\DefaultMusicHeader.png" />
     <Resource Include="Asserts\Images\DefaultUserHeader.png" />
   </ItemGroup>

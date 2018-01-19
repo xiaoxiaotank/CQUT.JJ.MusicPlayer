@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,6 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             WPanel.Children.Clear();
-            Color color;
             var blockMargin = new Thickness(0, 0, 7, 7);
             var blockWidth = (WPanel.ActualWidth - blockMargin.Right * ColorBlockCountPerLine) / ColorBlockCountPerLine;
             var blockHeight = 35d;
@@ -39,14 +39,15 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
             {
                 if (colorProperty.PropertyType.Equals(typeof(Color)))
                 {
-                    color = (Color)colorProperty.GetValue(null);
-                    var background = new SolidColorBrush(color);
+                    var colorValue = colorProperty.GetValue(null);
+                    var background = new SolidColorBrush((Color)colorValue);
                     var colorBlock = new Rectangle()
                     {
                         Width = blockWidth,
                         Height = blockHeight,
                         Margin = blockMargin,
                         Fill = background,
+                        Tag = colorValue,
                         SnapsToDevicePixels = true
                     };
                     colorBlock.MouseLeftButtonUp += SetMusicPlayerSkin;
@@ -58,7 +59,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin
         private void SetMusicPlayerSkin(object sender, MouseButtonEventArgs e)
         {
             if (sender is Rectangle o)
-                JmSkinChangedUtil.Invoke(o.Fill);
+                JmSkinChangedUtil.Invoke(new SkinModel(o.Fill, o.Tag.ToString()));
         }
     }
 }
