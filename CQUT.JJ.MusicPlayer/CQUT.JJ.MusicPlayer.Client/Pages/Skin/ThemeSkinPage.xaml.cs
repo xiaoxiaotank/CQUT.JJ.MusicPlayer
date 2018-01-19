@@ -1,6 +1,7 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.ControlAttachProperties;
 using CQUT.JJ.MusicPlayer.Client.Pages.Skin.ThemeSkin;
 using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
             var dataType = TabItemControlAttachProperty.GetDataType(selectedPage);
 
             HandoffPage(selectedPage,pageName, dataType);
-           
+            SliderSkinOpacity.Value = 0;
         }
 
         private void HandoffPage(TabItem selectedPage, string pageName, ThemeSkinType dataType)
@@ -60,6 +61,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
                 , JmSkinChangedUtil.DefaultImageSkinPath
                 , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush)
             );
+        }
+
+        private void SliderSkinOpacity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            JmSkinOpacityChangedUtil.Invoke(SliderSkinOpacity.Value);
         }
     }
 }

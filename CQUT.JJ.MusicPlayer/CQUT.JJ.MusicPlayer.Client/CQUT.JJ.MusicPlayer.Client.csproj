@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="Utils\CommonUtil.cs" />
     <Compile Include="Utils\EventUtils\JmSkinChangedUtil.cs" />
+    <Compile Include="Utils\EventUtils\JmSkinOpacityChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPageChangedUtil.cs" />
     <Compile Include="Utils\Enums\ThemeSkinType.cs" />
     <Compile Include="Utils\FileUtil.cs" />

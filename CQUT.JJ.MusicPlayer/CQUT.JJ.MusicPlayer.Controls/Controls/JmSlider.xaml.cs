@@ -120,13 +120,41 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty SelectionBrushProperty =
-            DependencyProperty.Register("SelectionBrush", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Yellow))); 
+            DependencyProperty.Register("SelectionBrush", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Yellow)));
         #endregion
 
+        #region IsOpenThumbMouseOverVisible 是否当鼠标悬浮时才展示Thumb
+        public bool IsOpenThumbMouseOverVisible
+        {
+            get { return (bool)GetValue(IsOpenThumbMouseOverVisibleProperty); }
+            set { SetValue(IsOpenThumbMouseOverVisibleProperty, value); }
+        }
 
+        public static readonly DependencyProperty IsOpenThumbMouseOverVisibleProperty =
+            DependencyProperty.Register("IsOpenThumbMouseOverVisible", typeof(bool), _ownerType, new PropertyMetadata(true));
+        #endregion
 
+        #region ThumbBorderBrush Thumb边框颜色
+        public Brush ThumbBorderBrush
+        {
+            get { return (Brush)GetValue(ThumbBorderBrushProperty); }
+            set { SetValue(ThumbBorderBrushProperty, value); }
+        }
 
+        public static readonly DependencyProperty ThumbBorderBrushProperty =
+            DependencyProperty.Register("ThumbBorderBrush", typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.Wheat)));
+        #endregion
 
+        #region ThumbBorderThickness Thumb边框粗细
+        public Thickness ThumbBorderThickness
+        {
+            get { return (Thickness)GetValue(ThumbBorderThicknessProperty); }
+            set { SetValue(ThumbBorderThicknessProperty, value); }
+        }
+
+        public static readonly DependencyProperty ThumbBorderThicknessProperty =
+            DependencyProperty.Register("ThumbBorderThickness", typeof(Thickness), _ownerType, new PropertyMetadata(new Thickness(0))); 
+        #endregion
 
 
         static JmSlider()

@@ -90,6 +90,7 @@
     <Compile Include="Converters\DiameterToRadiusConverter.cs" />
     <Compile Include="Converters\RadiusToMarginConverters.cs" />
     <Compile Include="Converters\RoundRadiusConverters.cs" />
+    <Compile Include="Converters\ThicknessToDoubleConverter.cs" />
     <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
