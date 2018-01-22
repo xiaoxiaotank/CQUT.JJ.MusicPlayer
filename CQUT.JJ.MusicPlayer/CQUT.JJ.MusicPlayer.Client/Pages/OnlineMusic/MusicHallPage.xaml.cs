@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.ViewModels;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +27,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             InitializeComponent();
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+              
+        }
+
     }
 }

@@ -72,6 +72,9 @@
     <Compile Include="Controls\JmSlider.xaml.cs">
       <DependentUpon>JmSlider.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmTabControl.xaml.cs">
+      <DependentUpon>JmTabControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmWidgetTabItem.xaml.cs">
       <DependentUpon>JmWidgetTabItem.xaml</DependentUpon>
     </Compile>
@@ -135,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\JmSlider.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

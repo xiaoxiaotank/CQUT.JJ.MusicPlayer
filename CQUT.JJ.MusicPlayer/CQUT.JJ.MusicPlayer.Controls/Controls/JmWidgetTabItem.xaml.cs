@@ -17,6 +17,8 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 {
     /// <summary>
     /// JmTabItem.xaml 的交互逻辑
+    /// 
+    /// 使其居中设置其高度即可
     /// </summary>
     public partial class JmWidgetTabItem : TabItem
     {
@@ -67,7 +69,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("IsShowWidget", typeof(bool), _ownerType, new PropertyMetadata(true));
         #endregion
 
-        #region WidgetHeight 视频高度
+        #region WidgetHeight 饰品高度
         public double WidgetHeight
         {
             get { return (double)GetValue(WidgetHeightProperty); }

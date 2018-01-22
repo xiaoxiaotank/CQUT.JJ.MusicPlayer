@@ -53,8 +53,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
             var menuItems = (panel.TemplatedParent as JmWindow).ToolBarMenuItems;
             foreach (var menuItem in menuItems)
             {
-                var icon = menuItem.Content as TextBlock;
-                if (icon != null)
+                if (menuItem.Content is TextBlock icon)
                     icon.Style = panel.FindResource("DefalultToolBarMenuItemStyle") as Style;
                 panel.Children.Add(menuItem);
             }

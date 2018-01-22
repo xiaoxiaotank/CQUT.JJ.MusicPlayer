@@ -29,13 +29,20 @@ namespace CQUT.JJ.MusicPlayer.Client
     /// </summary>
     public partial class MainWindow : JmWindow
     {
+        private const double DefaultTopBarBackgroundOpacity = 0.7;
+        private const double DefaultLeftBarBackgroundOpacity = 0.4;
+        private const double DefaultBottomBarBackgroundOpacity = 0.6;
+        private const double DefaultContentBackgroundOpacity = 0.5;
+        private const double DefaultBackgroundOpacity = 0.9;
+
+
         private static MainWindowViewModel _mainWinViewModel = new MainWindowViewModel()
         {
-            TopBarBackgroundOpacity = 0.7,
-            LeftBarBackgroundOpacity = 0.4,
-            BottomBarBackgroundOpacity = 0.6,
-            ContentBackgroundOpacity = 0.5,
-            BackgroundOpacity = 0.9,
+            TopBarBackgroundOpacity = DefaultTopBarBackgroundOpacity,
+            LeftBarBackgroundOpacity = DefaultLeftBarBackgroundOpacity,
+            BottomBarBackgroundOpacity = DefaultBottomBarBackgroundOpacity,
+            ContentBackgroundOpacity = DefaultContentBackgroundOpacity,
+            BackgroundOpacity = DefaultBackgroundOpacity,
             TopFloorBackground = new SolidColorBrush(Colors.Black)
         };
 
@@ -44,7 +51,7 @@ namespace CQUT.JJ.MusicPlayer.Client
         /// </summary>
         private bool _isBackgroundOfImage = false;
 
-        private const double PurityOpacity = 0.9;
+        public const double PurityOpacity = 0.9;
 
         public MainWindow()
         {
@@ -109,53 +116,54 @@ namespace CQUT.JJ.MusicPlayer.Client
             if(e.IsImageBrush)
             {
                 Background = e.Background;
-                TopBarBackground
-                    = LeftBarBackground
-                    = BottomBarBackground
-                    = ContentBackground
-                    = _mainWinViewModel.TopFloorBackground;
-                TopBarBackgroundOpacity = _mainWinViewModel.TopBarBackgroundOpacity;
-                LeftBarBackgroundOpacity = _mainWinViewModel.LeftBarBackgroundOpacity;
-                BottomBarBackgroundOpacity = _mainWinViewModel.BottomBarBackgroundOpacity;
-                ContentBackgroundOpacity = _mainWinViewModel.ContentBackgroundOpacity;
+                _mainWinViewModel.BackgroundOpacity = DefaultBackgroundOpacity;
+                _mainWinViewModel.TopFloorBackground = new SolidColorBrush(Colors.Black);
+                _mainWinViewModel.TopBarBackgroundOpacity = DefaultTopBarBackgroundOpacity;
+                _mainWinViewModel.LeftBarBackgroundOpacity = DefaultLeftBarBackgroundOpacity;
+                _mainWinViewModel.BottomBarBackgroundOpacity = DefaultBottomBarBackgroundOpacity;
+                _mainWinViewModel.ContentBackgroundOpacity = DefaultContentBackgroundOpacity;
                 _isBackgroundOfImage = true;
             }
             else
             {
-                TopBarBackground
-                    = LeftBarBackground
-                    = BottomBarBackground
-                    = ContentBackground
-                    = e.Background;
-                TopBarBackgroundOpacity
-                    = LeftBarBackgroundOpacity
-                    = BottomBarBackgroundOpacity
-                    = ContentBackgroundOpacity
-                    = PurityOpacity;
-                Background = new SolidColorBrush(Colors.Transparent);
-                _isBackgroundOfImage = false;
+                _mainWinViewModel.TopFloorBackground = e.Background;
+                if (_isBackgroundOfImage)
+                {
+                    _mainWinViewModel.TopBarBackgroundOpacity
+                   = _mainWinViewModel.LeftBarBackgroundOpacity
+                   = _mainWinViewModel.BottomBarBackgroundOpacity
+                   = _mainWinViewModel.ContentBackgroundOpacity
+                   = PurityOpacity;
+                   Background = new SolidColorBrush(Colors.Transparent);
+                   _isBackgroundOfImage = false;
+                }                
             }
         }
 
-        private void MusicPageChanged(object sender, PageChangedEventArgs e) => FMusicPage.Source = e.PageSource;
+        private void MusicPageChanged(object sender, PageChangedEventArgs e)
+        {
+            FMusicPage.Source = e.PageSource;
+            
+        }
 
         private void JmSkinOpacityChanged(object sender, SkinOpacityChangedArgs e)
         {
             if (_isBackgroundOfImage)
             {
-                BackgroundOpacity = SetOpacityBySlider(_mainWinViewModel.BackgroundOpacity, e.Opacity);
-                TopBarHeadBackgroundOpacity = SetOpacityBySlider(_mainWinViewModel.TopBarBackgroundOpacity, e.Opacity);
-                LeftBarBackgroundOpacity = SetOpacityBySlider(_mainWinViewModel.LeftBarBackgroundOpacity, e.Opacity);
-                BottomBarBackgroundOpacity = SetOpacityBySlider(_mainWinViewModel.BottomBarBackgroundOpacity, e.Opacity);
-                ContentBackgroundOpacity = SetOpacityBySlider(_mainWinViewModel.ContentBackgroundOpacity, e.Opacity);
+                _mainWinViewModel.BackgroundOpacity = SetOpacityBySlider(DefaultBackgroundOpacity, e.Opacity);
+                _mainWinViewModel.TopBarBackgroundOpacity = SetOpacityBySlider(DefaultTopBarBackgroundOpacity, e.Opacity);
+                _mainWinViewModel.LeftBarBackgroundOpacity = SetOpacityBySlider(DefaultLeftBarBackgroundOpacity, e.Opacity);
+                _mainWinViewModel.BottomBarBackgroundOpacity = SetOpacityBySlider(DefaultBottomBarBackgroundOpacity, e.Opacity);
+                _mainWinViewModel.ContentBackgroundOpacity = SetOpacityBySlider(DefaultContentBackgroundOpacity, e.Opacity);
             }
             else
             {
-                BackgroundOpacity = SetOpacityBySlider(PurityOpacity, e.Opacity);
-                TopBarHeadBackgroundOpacity = SetOpacityBySlider(PurityOpacity, e.Opacity);
-                LeftBarBackgroundOpacity = SetOpacityBySlider(PurityOpacity, e.Opacity);
-                BottomBarBackgroundOpacity = SetOpacityBySlider(PurityOpacity, e.Opacity);
-                ContentBackgroundOpacity = SetOpacityBySlider(PurityOpacity, e.Opacity);
+                _mainWinViewModel.BackgroundOpacity 
+                    = _mainWinViewModel.TopBarBackgroundOpacity
+                    = _mainWinViewModel.LeftBarBackgroundOpacity 
+                    = _mainWinViewModel.BottomBarBackgroundOpacity 
+                    = _mainWinViewModel.ContentBackgroundOpacity 
+                    = SetOpacityBySlider(PurityOpacity, e.Opacity);
             }
         }
 

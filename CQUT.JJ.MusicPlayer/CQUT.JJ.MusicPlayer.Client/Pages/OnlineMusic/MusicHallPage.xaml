@@ -4,11 +4,57 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+      xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="MusicHallPage" Background="#50FFFFFF">
+      Title="MusicHallPage" Loaded="Page_Loaded">
+    <Page.Resources>
+        <converter:RemoveIdenticalColorSuperpositionEffectOpacityConverter x:Key="ColorOpacityConverter" />
 
+        <Style TargetType="jm:JmTabControl">
+            <Setter Property="HeaderPanelHorizontalAlignment" Value="Center" />
+            <Setter Property="HeaderPanelVerticalAlignment" Value="Bottom" />
+            <Setter Property="HeaderPanelHeight" Value="30" />
+            <Setter Property="IsShowContentPage" Value="False" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="HeaderPanelBackground" Value="{Binding TopFloorBackground}" />
+            <!--由于TopBarBackground和ContentBackground都绑定了TopFloorBackground，
+            所以如果需要让HeaderPanelBackground与TopBarBackground相同，就需要
+            通过TopBarBackground的透明度与ContentBackground进行合并转换-->
+            <Setter Property="HeaderPanelBackgroundOpacity" Value="{Binding TopBarBackgroundOpacity, Converter={StaticResource ColorOpacityConverter}}" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style TargetType="jm:JmWidgetTabItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="20 0" />
+            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl},Path=HeaderPanelHeight}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <jm:JmTabControl x:Name="Tc">
+            <jm:JmWidgetTabItem Header="精选" IsSelected="True"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="歌手"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="排行"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="电台" ></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="分类歌单" ></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="有声" ></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="数字专辑"></jm:JmWidgetTabItem>
+        </jm:JmTabControl>
+        <Frame Grid.Row="1" x:Name="FPage" NavigationUIVisibility="Hidden" />
     </Grid>
 </Page>

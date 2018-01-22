@@ -3,11 +3,9 @@
                     xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls">
 
     <ControlTemplate x:Key="DefaultJmWidgetTabItemTemplate" TargetType="local:JmWidgetTabItem">
-
-        <Grid SnapsToDevicePixels="true">
-            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
                     CornerRadius="{TemplateBinding CornerRadius}">
-                <Grid>
+                <Grid SnapsToDevicePixels="true">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
@@ -19,7 +17,6 @@
                     <Rectangle x:Name="Widget" Visibility="Hidden" Grid.Row="1" Fill="{TemplateBinding Foreground}" Height="{TemplateBinding WidgetHeight}"/>
                 </Grid>
             </Border>
-        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
 
