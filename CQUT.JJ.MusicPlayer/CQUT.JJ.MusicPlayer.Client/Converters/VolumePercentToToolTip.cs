@@ -12,7 +12,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return "音量：" + (System.Convert.ToInt32(((string)value).Replace("%",string.Empty)) != 0 ? value : "静音");
+            return "音量：" + (System.Convert.ToDouble(((string)value).Replace("%",string.Empty)) != 0 ? value : "静音");
                 
         }
 

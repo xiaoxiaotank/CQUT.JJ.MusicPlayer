@@ -30,6 +30,7 @@ namespace CQUT.JJ.MusicPlayer.Client
     /// </summary>
     public partial class MainWindow : JmWindow
     {
+        #region Vars
         private const double PurityOpacity = 0.9;
         private const double DefaultTopBarBackgroundOpacity = 0.7;
         private const double DefaultLeftBarBackgroundOpacity = 0.4;
@@ -50,7 +51,8 @@ namespace CQUT.JJ.MusicPlayer.Client
             ContentBackgroundOpacity = DefaultContentBackgroundOpacity,
             BackgroundOpacity = DefaultBackgroundOpacity,
             TopFloorBackground = new SolidColorBrush(Colors.Black)
-        };
+        }; 
+        #endregion
 
         public MainWindow()
         {
@@ -66,12 +68,13 @@ namespace CQUT.JJ.MusicPlayer.Client
             InitializeSkin();
         }
 
+        #region Events
         private void JmWindow_Loaded(object sender, RoutedEventArgs e)
         {
             DataContext = _mainWinViewModel;
         }
 
-        private void BtnSkin_Click(object sender,RoutedEventArgs e)
+        private void BtnSkin_Click(object sender, RoutedEventArgs e)
         {
             var skinWinWidth = Width * 0.7;
             var skinWinHeight = Height * 0.7;
@@ -84,7 +87,7 @@ namespace CQUT.JJ.MusicPlayer.Client
 
         private void JmSkinChanged(object sender, SkinChangedArgs e)
         {
-            if(e.IsImageBrush)
+            if (e.IsImageBrush)
             {
                 Background = e.Background;
                 _mainWinViewModel.BackgroundOpacity = DefaultBackgroundOpacity;
@@ -105,9 +108,9 @@ namespace CQUT.JJ.MusicPlayer.Client
                    = _mainWinViewModel.BottomBarBackgroundOpacity
                    = _mainWinViewModel.ContentBackgroundOpacity
                    = PurityOpacity;
-                   Background = new SolidColorBrush(Colors.Transparent);
-                   _isBackgroundOfImage = false;
-                }                
+                    Background = new SolidColorBrush(Colors.Transparent);
+                    _isBackgroundOfImage = false;
+                }
             }
         }
 
@@ -125,11 +128,11 @@ namespace CQUT.JJ.MusicPlayer.Client
             }
             else
             {
-                _mainWinViewModel.BackgroundOpacity 
+                _mainWinViewModel.BackgroundOpacity
                     = _mainWinViewModel.TopBarBackgroundOpacity
-                    = _mainWinViewModel.LeftBarBackgroundOpacity 
-                    = _mainWinViewModel.BottomBarBackgroundOpacity 
-                    = _mainWinViewModel.ContentBackgroundOpacity 
+                    = _mainWinViewModel.LeftBarBackgroundOpacity
+                    = _mainWinViewModel.BottomBarBackgroundOpacity
+                    = _mainWinViewModel.ContentBackgroundOpacity
                     = SetOpacityBySlider(PurityOpacity, e.Opacity);
             }
         }
@@ -137,13 +140,13 @@ namespace CQUT.JJ.MusicPlayer.Client
 
         private void OnNotifyIcon_Click(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 WindowState = WindowState.Normal;
                 ShowInTaskbar = true;
                 Topmost = true;
             }
-            else if(e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)
             {
                 var nofityIconMenu = (System.Windows.Controls.ContextMenu)FindResource("NofityIconMenu");
                 nofityIconMenu.IsOpen = true;
@@ -161,7 +164,8 @@ namespace CQUT.JJ.MusicPlayer.Client
         {
             Close();
             System.Environment.Exit(0);
-        }
+        } 
+        #endregion
 
 
         #region Helpers

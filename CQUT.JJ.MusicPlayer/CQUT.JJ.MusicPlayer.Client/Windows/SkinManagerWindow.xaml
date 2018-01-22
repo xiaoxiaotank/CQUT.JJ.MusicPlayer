@@ -14,6 +14,7 @@
             <Setter Property="MinimizedVisibility" Value="Collapsed" />
             <Setter Property="TopBarHeadBackground" Value="#8FABC1" />
             <Setter Property="TopBarHeadHeight" Value="5" />
+            <Setter Property="ResizeMode" Value="NoResize" />
         </Style>
     </jm:JmWindow.Style>
     <jm:JmWindow.Resources>

@@ -12,9 +12,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var currentVolume = System.Convert.ToInt32(values[0]);
-            var maxVolume = System.Convert.ToInt32(values[1]);
-            return $"{currentVolume * 100 / maxVolume}%";
+            var currentVolume = System.Convert.ToDouble(values[0]);
+            var maxVolume = System.Convert.ToDouble(values[1]);
+            return $"{(int)(currentVolume * 100 / maxVolume)}%";
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

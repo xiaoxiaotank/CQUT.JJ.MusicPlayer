@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="ControlAttachProperties\TabItemControlAttachProperty.cs" />
     <Compile Include="Converters\DoubleParametersSubtractionConverter.cs" />
+    <Compile Include="Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="Converters\RemoveIdenticalColorSuperpositionEffectOpacityConverter.cs" />
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
@@ -257,6 +258,7 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
+    <Content Include="好想再爱你.mp3" />
     <Resource Include="JM.ico" />
     <Resource Include="Asserts\Icons\JM.ico" />
     <Resource Include="Asserts\Skins\ThemeSkins\1.jpg" />
