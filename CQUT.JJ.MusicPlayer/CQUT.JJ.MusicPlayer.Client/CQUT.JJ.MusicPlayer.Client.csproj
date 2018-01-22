@@ -33,9 +33,14 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>JM.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -252,6 +257,8 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
+    <Resource Include="JM.ico" />
+    <Resource Include="Asserts\Icons\JM.ico" />
     <Resource Include="Asserts\Skins\ThemeSkins\1.jpg" />
     <Resource Include="Asserts\Skins\ThemeSkins\10.jpg" />
     <Resource Include="Asserts\Skins\ThemeSkins\11.jpg" />

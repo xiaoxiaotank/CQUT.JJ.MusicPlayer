@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -25,7 +26,9 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     /// </summary>
     public partial class JmWindow : Window
     {
-        private static Type _ownerType = typeof(JmWindow);  
+        private static Type _ownerType = typeof(JmWindow);       
+
+        public NotifyIcon NotifyIcon { get; set; }
 
         #region TopBarHeadHeight 顶栏头部高度
         public double TopBarHeadHeight
@@ -292,10 +295,19 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty MaximizedOrNormalVisibilityProperty =
-            DependencyProperty.Register("MaximizedOrNormalVisibility", typeof(Visibility), _ownerType, new PropertyMetadata(Visibility.Visible)); 
+            DependencyProperty.Register("MaximizedOrNormalVisibility", typeof(Visibility), _ownerType, new PropertyMetadata(Visibility.Visible));
         #endregion
 
+        #region IsShowInTaskBar 是否在任务通知栏显示
+        public bool IsShowInTaskBar
+        {
+            get { return (bool)GetValue(IsShowInTaskBarProperty); }
+            set { SetValue(IsShowInTaskBarProperty, value); }
+        }
 
+        public static readonly DependencyProperty IsShowInTaskBarProperty =
+            DependencyProperty.Register("IsShowInTaskBar", typeof(bool), _ownerType, new PropertyMetadata(false)); 
+        #endregion
 
         static JmWindow()
         {
@@ -312,6 +324,25 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             base.OnSourceInitialized(e);
             if(IsOpenAreo)
                 this.OpenAero();
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            if (IsShowInTaskBar)
+            {
+                NotifyIcon = new NotifyIcon
+                {
+                    Visible = true,                   
+                };
+            }
+            base.OnInitialized(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {           
+            base.OnClosed(e);
+            if (IsShowInTaskBar)
+                NotifyIcon.Dispose();
         }
     }  
 }

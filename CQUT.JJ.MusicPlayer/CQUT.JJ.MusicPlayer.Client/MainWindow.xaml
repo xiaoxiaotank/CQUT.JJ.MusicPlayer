@@ -7,7 +7,7 @@
         xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
         xmlns:uc="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Loaded="JmWindow_Loaded">
+        WindowStartupLocation="CenterScreen" Loaded="JmWindow_Loaded" Closing="JmWindow_Closing">
     <jm:JmWindow.Style>
         <Style TargetType="jm:JmWindow">
             <Setter Property="Title" Value="JJ Music" />
@@ -30,8 +30,15 @@
             <Setter Property="BottomBarHeight" Value="70" />
             <Setter Property="IsOpenAreo" Value="True" />
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+            <Setter Property="IsShowInTaskBar" Value="True" />
         </Style>
     </jm:JmWindow.Style>
+
+    <jm:JmWindow.Resources>
+        <ContextMenu x:Key="NofityIconMenu" StaysOpen="False">
+            <MenuItem Header="退出" Click="JmWindow_Close" />
+        </ContextMenu>
+    </jm:JmWindow.Resources>
     
     <jm:JmWindow.ToolBarMenuItems>
         <jm:JmTransparentButton>

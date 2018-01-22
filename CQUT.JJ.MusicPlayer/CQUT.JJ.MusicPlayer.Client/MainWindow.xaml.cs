@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -29,12 +30,17 @@ namespace CQUT.JJ.MusicPlayer.Client
     /// </summary>
     public partial class MainWindow : JmWindow
     {
+        private const double PurityOpacity = 0.9;
         private const double DefaultTopBarBackgroundOpacity = 0.7;
         private const double DefaultLeftBarBackgroundOpacity = 0.4;
         private const double DefaultBottomBarBackgroundOpacity = 0.6;
         private const double DefaultContentBackgroundOpacity = 0.5;
         private const double DefaultBackgroundOpacity = 0.9;
 
+        /// <summary>
+        /// 背景是否为图片
+        /// </summary>
+        private bool _isBackgroundOfImage = false;
 
         private static MainWindowViewModel _mainWinViewModel = new MainWindowViewModel()
         {
@@ -46,13 +52,6 @@ namespace CQUT.JJ.MusicPlayer.Client
             TopFloorBackground = new SolidColorBrush(Colors.Black)
         };
 
-        /// <summary>
-        /// 背景是否为图片
-        /// </summary>
-        private bool _isBackgroundOfImage = false;
-
-        public const double PurityOpacity = 0.9;
-
         public MainWindow()
         {
             //页面切换
@@ -63,36 +62,8 @@ namespace CQUT.JJ.MusicPlayer.Client
             JmSkinOpacityChangedUtil.SkinOpacityChangedEvent += JmSkinOpacityChanged;
 
             InitializeComponent();
+            InitializeTaskBarIcon();
             InitializeSkin();
-        }
-
-
-
-        private void InitializeSkin()
-        {
-            if(!File.Exists(JmSkinChangedUtil.SkinConfigFilePath))
-            {
-                File.Create(JmSkinChangedUtil.SkinConfigFilePath).Close();
-                var skinModel = new SkinModel(
-                    JmSkinChangedUtil.DefaultImageSkinArgs.Background
-                    , JmSkinChangedUtil.DefaultImageSkinPath
-                    , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
-                JmSkinChangedUtil.Invoke(skinModel);
-            }
-            else
-            {
-                var skinInfo = File.ReadAllLines(JmSkinChangedUtil.SkinConfigFilePath);
-                var isImageBrush =Convert.ToBoolean(skinInfo[0]);
-                Brush background = null;
-                if (isImageBrush)
-                {
-                    background = new Uri(skinInfo[1], UriKind.Absolute).ToImageBrush();
-                    _isBackgroundOfImage = true;
-                }
-                else
-                    background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(skinInfo[1]));
-                JmSkinChangedUtil.Invoke(new SkinModel(background,skinInfo[1],isImageBrush));
-            }
         }
 
         private void JmWindow_Loaded(object sender, RoutedEventArgs e)
@@ -140,11 +111,7 @@ namespace CQUT.JJ.MusicPlayer.Client
             }
         }
 
-        private void MusicPageChanged(object sender, PageChangedEventArgs e)
-        {
-            FMusicPage.Source = e.PageSource;
-            
-        }
+        private void MusicPageChanged(object sender, PageChangedEventArgs e) => FMusicPage.Source = e.PageSource;
 
         private void JmSkinOpacityChanged(object sender, SkinOpacityChangedArgs e)
         {
@@ -167,6 +134,37 @@ namespace CQUT.JJ.MusicPlayer.Client
             }
         }
 
+
+        private void OnNotifyIcon_Click(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Left)
+            {
+                WindowState = WindowState.Normal;
+                ShowInTaskbar = true;
+                Topmost = true;
+            }
+            else if(e.Button == MouseButtons.Right)
+            {
+                var nofityIconMenu = (System.Windows.Controls.ContextMenu)FindResource("NofityIconMenu");
+                nofityIconMenu.IsOpen = true;
+            }
+        }
+
+        private void JmWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+            ShowInTaskbar = false;
+            e.Cancel = true;
+        }
+
+        private void JmWindow_Close(object sender, RoutedEventArgs e)
+        {
+            Close();
+            System.Environment.Exit(0);
+        }
+
+
+        #region Helpers
         private double SetOpacityBySlider(double startOpacity, double opacityOffset)
         {
             var opacity = startOpacity - opacityOffset;
@@ -176,6 +174,47 @@ namespace CQUT.JJ.MusicPlayer.Client
                 opacity = 1;
             return opacity;
         }
+
+
+        private void InitializeTaskBarIcon()
+        {
+            NotifyIcon.Text = NotifyIcon.BalloonTipText = "JM音乐，听我想听的歌！";
+            NotifyIcon.Icon = new System.Drawing.Icon("JM.ico");
+            //ShowInTaskbar = false;
+            NotifyIcon.MouseClick += OnNotifyIcon_Click;
+            NotifyIcon.ShowBalloonTip(1000);
+        }
+
+        private void InitializeSkin()
+        {
+            if (!File.Exists(JmSkinChangedUtil.SkinConfigFilePath))
+            {
+                File.Create(JmSkinChangedUtil.SkinConfigFilePath).Close();
+                var skinModel = new SkinModel(
+                    JmSkinChangedUtil.DefaultImageSkinArgs.Background
+                    , JmSkinChangedUtil.DefaultImageSkinPath
+                    , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
+                JmSkinChangedUtil.Invoke(skinModel);
+            }
+            else
+            {
+                var skinInfo = File.ReadAllLines(JmSkinChangedUtil.SkinConfigFilePath);
+                var isImageBrush = Convert.ToBoolean(skinInfo[0]);
+                Brush background = null;
+                if (isImageBrush)
+                {
+                    background = new Uri(skinInfo[1], UriKind.Absolute).ToImageBrush();
+                    _isBackgroundOfImage = true;
+                }
+                else
+                    background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(skinInfo[1]));
+                JmSkinChangedUtil.Invoke(new SkinModel(background, skinInfo[1], isImageBrush));
+            }
+        }
+        #endregion
+
+       
+  
     }
-    
+
 }
