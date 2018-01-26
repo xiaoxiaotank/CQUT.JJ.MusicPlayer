@@ -166,7 +166,29 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty ItemTitleOpacityProperty =
-            DependencyProperty.Register("ItemTitleOpacity", typeof(double), _ownerType, new PropertyMetadata(1d)); 
+            DependencyProperty.Register("ItemTitleOpacity", typeof(double), _ownerType, new PropertyMetadata(1d));
+        #endregion
+
+        #region IsOpenHeaderContainer 是否开启头部容器
+        public bool IsOpenHeaderContainer
+        {
+            get { return (bool)GetValue(IsOpenHeaderContainerProperty); }
+            set { SetValue(IsOpenHeaderContainerProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsOpenHeaderContainerProperty =
+            DependencyProperty.Register("IsOpenHeaderContainer", typeof(bool), _ownerType, new PropertyMetadata(false));
+        #endregion
+
+        #region HeaderContent 头部内容
+        public FrameworkElement HeaderContent
+        {
+            get { return (FrameworkElement)GetValue(HeaderContentProperty); }
+            set { SetValue(HeaderContentProperty, value); }
+        }
+
+        public static readonly DependencyProperty HeaderContentProperty =
+            DependencyProperty.Register("HeaderContent", typeof(FrameworkElement), _ownerType, new PropertyMetadata(null)); 
         #endregion
 
 

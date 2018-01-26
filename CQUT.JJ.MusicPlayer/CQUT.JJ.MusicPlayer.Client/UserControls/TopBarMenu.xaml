@@ -8,6 +8,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">
     <UserControl.Resources>
+        <Grid x:Key="MusicSource">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="20 5 0 5">
+                <TextBlock FontSize="14">音乐源</TextBlock>
+                <Rectangle Fill="Silver" Opacity="0.2" Width="1" />
+            </StackPanel>
+            <RadioButton Grid.Column="1" Margin="10 5">QM</RadioButton>
+            <RadioButton Grid.Column="2" Margin="10 5">JM</RadioButton>
+        </Grid>
+        
         <Style TargetType="jm:JmTransparentButton">
             <Setter Property="Width" Value="25" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -41,6 +55,8 @@
             <Setter Property="ItemTitle" Value="搜索历史" />
             <Setter Property="ItemBackground" Value="White" />
             <Setter Property="ItemTitleForeground" Value="Black" />
+            <Setter Property="IsOpenHeaderContainer" Value="True" />
+            <Setter Property="HeaderContent" Value="{StaticResource MusicSource}" />
             <Setter Property="ItemContainerStyle">
                 <Setter.Value>
                     <Style TargetType="ComboBoxItem">
