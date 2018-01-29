@@ -48,11 +48,14 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                         var url = $"https://y.qq.com/portal/search.html#page=1&searchid=1&remoteplace=txt.yqq.top&t=song&w={searchKey}";
                         var htmlWeb = new HtmlWeb()
                         {
-                            BrowserTimeout = TimeSpan.FromSeconds(30)
+                            BrowserTimeout = TimeSpan.FromSeconds(10)
                         };
                         try
                         {
-                            var doc = htmlWeb.LoadFromBrowser(url);
+                            var doc = htmlWeb.LoadFromBrowser(url,html => 
+                            {
+                                return html.Contains("js_song");
+                            });
                             var songList = doc.DocumentNode.SelectNodes("//a[@class='js_song']");
                             var singerList = doc.DocumentNode.SelectNodes("//div[@class='songlist__artist']");
                             var albumList = doc.DocumentNode.SelectNodes("//a[@class='album_name']");
@@ -75,12 +78,15 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                                     TimeDuration = timeDurationList[i].FirstChild.InnerText
                                 });
                             }
-                            MusicSearchInfoChangedUtil.InvokeFromQM(qmSongInfoModels);
                         }
                         catch(Exception ex)
                         {
-                            return;
-                        }                       
+
+                        }
+                        finally
+                        {
+                            MusicSearchInfoChangedUtil.InvokeFromQM(qmSongInfoModels);
+                        }
                     }
                     else
                     {
