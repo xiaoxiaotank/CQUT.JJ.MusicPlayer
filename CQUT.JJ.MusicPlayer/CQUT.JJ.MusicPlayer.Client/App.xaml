@@ -42,12 +42,12 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type RadioButton}">
-                            <BulletDecorator Background="Transparent">
+                            <BulletDecorator Background="Transparent" >
                                 <BulletDecorator.Bullet>
                                     <TextBlock x:Name="Icon" Text="&#xe6b9;" FontFamily="{StaticResource JM}" FontSize="{TemplateBinding FontSize, Converter={StaticResource RadioButtonFontSizeConverter}}" 
-                                        SnapsToDevicePixels="True" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center"/>
+                                        SnapsToDevicePixels="True" Foreground="{TemplateBinding Foreground}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
                                 </BulletDecorator.Bullet>
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
                             </BulletDecorator>
                             <!--触发器：设置选中状态符号-->
                             <ControlTemplate.Triggers>
