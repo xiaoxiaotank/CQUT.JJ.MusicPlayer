@@ -14,6 +14,8 @@ namespace CQUT.JJ.MusicPlayer.Models
 
         public string Singer { get; set; }
 
+        public string TimeDuration { get; set; }
+
         public QMAlbumInfoModel AlbumInfo { get; set; }
     }
 }

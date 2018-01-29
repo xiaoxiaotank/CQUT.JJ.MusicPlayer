@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Converters;
 using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,12 +53,25 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
+            MusicPlayStateChangedUtil.MusicPlayStateChangedEvent += MusicPlayStateChangedUtil_MusicPlayStateChangedEvent;
             _timer.Tick += Timer_Tick;
             _timer.Interval = TimeSpan.FromSeconds(1);
 
             InitializeComponent();
 
             SetBindingAboutMediaPlayer();
+        }
+
+        private void MusicPlayStateChangedUtil_MusicPlayStateChangedEvent(object sender, MusicPlayStateChangedArgs e)
+        {
+            if (e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
+            {
+                PlayNewMusic(e.MusicInfo.Uri);
+                MusicName.Text = e.MusicInfo.Name;
+                Musicians.Text = e.MusicInfo.SingerName;
+                _isPlaying = false;
+            }
+            ChangePlayState();
         }
 
         #region Events
@@ -69,10 +83,10 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
         {
-            MusicProgressSlider.Maximum = _mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-            SliderVolume.Maximum = _mediaPlayer.Volume;
             _timer.Stop();
             _timer.Start();
+            MusicProgressSlider.Maximum = _mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+            SliderVolume.Maximum = _mediaPlayer.Volume;           
         }
 
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
@@ -127,9 +141,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
             if (_mediaPlayer.Source == null)
-                _mediaPlayer.Open(new Uri(@"好想再爱你.mp3",UriKind.Relative));
+                PlayNewMusic(new Uri(@"好想再爱你.mp3", UriKind.Relative));
             ChangePlayState();
         }
+
+    
         #endregion
 
         #region 辅助方法
@@ -166,6 +182,10 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 _notMuteVolume = SliderVolume.Maximum;
         }
 
+        private void PlayNewMusic(Uri uri)
+        {
+            _mediaPlayer.Open(uri);
+        }
 
         /// <summary>
         /// 将音量改为静音

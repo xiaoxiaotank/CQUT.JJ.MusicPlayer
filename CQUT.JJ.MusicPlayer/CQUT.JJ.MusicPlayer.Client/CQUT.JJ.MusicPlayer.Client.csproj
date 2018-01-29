@@ -129,10 +129,12 @@
     <Compile Include="Utils\EventUtils\JmSkinOpacityChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPageChangedUtil.cs" />
     <Compile Include="Utils\Enums\ThemeSkinType.cs" />
+    <Compile Include="Utils\EventUtils\MusicPlayStateChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicSearchInfoChangedUtil.cs" />
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\QMInfoViewModel.cs" />
     <Compile Include="Windows\SkinManagerWindow.xaml.cs">
       <DependentUpon>SkinManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -201,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Skin\ThemeSkin\PurityPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ListViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

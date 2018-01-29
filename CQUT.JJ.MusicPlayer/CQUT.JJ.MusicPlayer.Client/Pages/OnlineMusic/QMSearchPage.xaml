@@ -5,11 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic"
       xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300" 
+      d:DesignHeight="300" d:DesignWidth="300"  Loaded="Page_Loaded"
       Title="SearchPage">
     <Page.Resources>
         <converter:RemoveIdenticalColorSuperpositionEffectOpacityConverter x:Key="ColorOpacityConverter" />
+
+        
+
     </Page.Resources>
 
     <Grid>
@@ -17,6 +21,77 @@
         <TextBlock x:Name="Waiting" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Foreground="Silver" FontSize="72">请稍等。。。</TextBlock>
         <Grid x:Name="GdSong" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel>
+            </StackPanel>
+            <Border Name="ListTemplate" Margin="30,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.2*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Name="ColName" Grid.Column="0" />
+                    <Grid Name="ColSingerName" Grid.Column="1" />
+                    <Grid Name="ColAlbumName" Grid.Column="2" />
+                    <Grid Name="ColTimeDuration" Grid.Column="3" />
+                </Grid>
+            </Border>
+            <ListView x:Name="MusicList" Grid.Row="1" Margin="{Binding ElementName=ListTemplate,Path=Margin}" 
+                       Style="{StaticResource DefaultListViewStyle}">
+                <ListView.View>
+                    <GridView x:Name="GvMusicList" ColumnHeaderContainerStyle="{StaticResource DefaultGridViewColumnHeaderStyle}"
+                              AllowsColumnReorder="False">
+                        <GridViewColumn Header="歌曲" Width="{Binding ElementName=ColName,Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <ItemContainerTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding Name}" />
+                                        <StackPanel x:Name="SpOptions" Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent" Visibility="Hidden">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="jm:JmTransparentButton">
+                                                    <Setter Property="FontSize" Value="20" />
+                                                    <Setter Property="Foreground" Value="Silver" />
+                                                    <Setter Property="Margin" Value="2,0" />
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value="SkyBlue" />
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Resources>
+                                            <jm:JmTransparentButton x:Name="BtnPlay" Click="BtnPlay_Click" Tag="{Binding Id}">
+                                                <TextBlock Text="&#xe774;" FontFamily="{StaticResource JM}" />
+                                            </jm:JmTransparentButton>
+                                            <jm:JmTransparentButton x:Name="BtnAddTo">
+                                                <TextBlock Text="&#xe693;" FontFamily="{StaticResource JM}" />
+                                            </jm:JmTransparentButton>
+                                            <jm:JmTransparentButton x:Name="BtnDownload">
+                                                <TextBlock Text="&#xe612;" FontFamily="{StaticResource JM}" />
+                                            </jm:JmTransparentButton>
+                                            <jm:JmTransparentButton x:Name="BtnMore">
+                                                <TextBlock Text="&#xe62f;" FontFamily="{StaticResource JM}" />
+                                            </jm:JmTransparentButton>
+                                        </StackPanel>
+                                    </Grid>
+                                    <ItemContainerTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" TargetName="SpOptions" />
+                                        </Trigger>
+                                    </ItemContainerTemplate.Triggers>
+                                </ItemContainerTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="歌手" DisplayMemberBinding="{Binding SingerName}" Width="{Binding ElementName=ColSingerName,Path=ActualWidth}"/>
+                        <GridViewColumn Header="专辑" DisplayMemberBinding="{Binding AlbumName}" Width="{Binding ElementName=ColAlbumName,Path=ActualWidth}"/>
+                        <GridViewColumn Header="时长" DisplayMemberBinding="{Binding TimeDuration}" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </Page>

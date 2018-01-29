@@ -42,7 +42,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 {
                     if(qmSource.IsChecked == true)
                     {
-                        MusicPageChangedUtil.Invoke(_qmSearchPageName);
+                        MusicPageChangedUtil.Invoke(_qmSearchPageName,true);
                         var qmSongInfoModels = new List<QMSongInfoModel>();
                         var searchKey = CmbSearch.Text;
                         var url = $"https://y.qq.com/portal/search.html#page=1&searchid=1&remoteplace=txt.yqq.top&t=song&w={searchKey}";
@@ -55,12 +55,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                             var doc = htmlWeb.LoadFromBrowser(url);
                             var songList = doc.DocumentNode.SelectNodes("//a[@class='js_song']");
                             var singerList = doc.DocumentNode.SelectNodes("//div[@class='songlist__artist']");
-                            var albumList = doc.DocumentNode.SelectNodes("//a[@class='album_name']");                           
-                            for (int i = 0; i < MathUtil.GetMin(songList.Count,singerList.Count,albumList.Count); i++)
+                            var albumList = doc.DocumentNode.SelectNodes("//a[@class='album_name']");
+                            var timeDurationList = doc.DocumentNode.SelectNodes("//div[@class='songlist__time']");
+                            var count = MathUtil.GetMin(songList.Count, singerList.Count, albumList.Count, timeDurationList.Count);
+                            for (int i = 0; i < count; i++)
                             {
+                                var id = songList[i].Attributes["href"].Value.Substring(songList[i].Attributes["href"].Value.LastIndexOf('/') + 1).Replace(".html", "");
+                                if (id.Length != 14) continue;
                                 qmSongInfoModels.Add(new QMSongInfoModel()
                                 {
-                                    Id = songList[i].Attributes["href"].Value.Substring(songList[i].Attributes["href"].Value.LastIndexOf('/') + 1, 14),
+                                    Id = id,
                                     Name = songList[i].Attributes["title"].Value,
                                     Singer = string.Join("/", singerList[i].SelectNodes("./a[@class='singer_name']").Select(n => n.Attributes["title"]).Select(n => n.Value)),
                                     AlbumInfo = new QMAlbumInfoModel()
@@ -68,11 +72,12 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                                         Id = albumList[i].Attributes["data-albumid"].Value,
                                         Name = albumList[i].Attributes["title"].Value
                                     },
+                                    TimeDuration = timeDurationList[i].FirstChild.InnerText
                                 });
                             }
                             MusicSearchInfoChangedUtil.InvokeFromQM(qmSongInfoModels);
                         }
-                        catch
+                        catch(Exception ex)
                         {
                             return;
                         }                       

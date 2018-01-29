@@ -14,12 +14,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
 
         public static event EventHandler<PageChangedEventArgs> PageChangedEvent;
 
-        public static void Invoke(string pageName)
+        public static void Invoke(string pageName,bool isRefresh = false)
         {
             if (pageName.Contains(_pageExtension))
             {
                 var pageUri = new Uri($"{PageBaseUrl}/{pageName}", UriKind.Absolute);
-                var e = new PageChangedEventArgs(pageUri);
+                var e = new PageChangedEventArgs(pageUri,isRefresh);
                 PageChangedEvent(null, e);
             }
         }
@@ -29,6 +29,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
     {
         public Uri PageSource { get; set; }
 
-        public PageChangedEventArgs(Uri pageSource) => PageSource = pageSource;
+        public bool IsRefresh { get; set; }
+
+        public PageChangedEventArgs(Uri pageSource,bool isRefresh)
+        {
+            PageSource = pageSource;
+            IsRefresh = isRefresh;
+        }
     }
 }

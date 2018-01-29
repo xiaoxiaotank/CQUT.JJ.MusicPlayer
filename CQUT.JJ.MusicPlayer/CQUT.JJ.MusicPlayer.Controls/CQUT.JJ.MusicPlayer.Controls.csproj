@@ -59,6 +59,9 @@
   <ItemGroup>
     <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />
+    <Compile Include="Controls\JmDataGrid.xaml.cs">
+      <DependentUpon>JmDataGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmRoundButton.xaml.cs">
       <DependentUpon>JmRoundButton.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Controls\JmDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\JmRoundButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
