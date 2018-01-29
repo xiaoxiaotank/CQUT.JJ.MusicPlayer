@@ -67,7 +67,7 @@
                 <TextBlock Text="{TemplateBinding Placeholder}" LineHeight="{Binding ElementName=PART_EditableTextBox,Path=Height}" 
                            Foreground="Silver" VerticalAlignment="Center" Margin="0 0 0 1" />
             </StackPanel>
-            <local:JmTransparentButton x:Name="BtnSearch" Grid.Column="1" HorizontalAlignment="Left" Width="{TemplateBinding SearchButtonWidth}" Visibility="Collapsed">
+            <local:JmTransparentButton x:Name="BtnSearch" Grid.Column="1" HorizontalAlignment="Left" Width="{TemplateBinding SearchButtonWidth}" Visibility="Collapsed" Click="SearchBtn_Click">
                 <TextBlock Text="{TemplateBinding SearchButtonIconCode}" Style="{StaticResource JMIcon}" FontSize="12" />
             </local:JmTransparentButton>
         </Grid>

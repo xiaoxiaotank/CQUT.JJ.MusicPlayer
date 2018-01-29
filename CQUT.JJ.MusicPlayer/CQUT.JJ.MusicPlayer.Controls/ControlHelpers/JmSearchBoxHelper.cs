@@ -43,5 +43,11 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
         {
             _templateParent.Items.Clear();
         }
+
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _templateParent.RaiseEvent(new RoutedEventArgs(JmSearchBox.SearchBtnClickEvent));
+        }
+        
     }
 }

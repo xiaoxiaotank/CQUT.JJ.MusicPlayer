@@ -13,6 +13,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     {
         private static readonly Type _ownerType = typeof(JmSearchBox);
 
+        #region Properties
         #region BorderCornerRadius 边框圆角
         public CornerRadius BorderCornerRadius
         {
@@ -77,7 +78,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty PlaceholderIconProperty =
-            DependencyProperty.Register("PlaceholderIcon", typeof(string), _ownerType, new PropertyMetadata(string.Empty)); 
+            DependencyProperty.Register("PlaceholderIcon", typeof(string), _ownerType, new PropertyMetadata(string.Empty));
         #endregion
 
         #region Placeholder 提示符
@@ -188,10 +189,24 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty HeaderContentProperty =
-            DependencyProperty.Register("HeaderContent", typeof(FrameworkElement), _ownerType, new PropertyMetadata(null)); 
+            DependencyProperty.Register("HeaderContent", typeof(FrameworkElement), _ownerType, new PropertyMetadata(null));
+        #endregion
         #endregion
 
 
+
+        #region Events
+        #region SearchBtnClick 搜索按钮点击事件
+        public event RoutedEventHandler SearchBtnClick
+        {
+            add { AddHandler(SearchBtnClickEvent, value); }
+            remove { RemoveHandler(SearchBtnClickEvent, value); }
+        }
+
+        public static readonly RoutedEvent SearchBtnClickEvent =
+            EventManager.RegisterRoutedEvent("SearchBtnClick", RoutingStrategy.Bubble, typeof(RoutedEventArgs), _ownerType);
+        #endregion 
+        #endregion
 
 
         static JmSearchBox()

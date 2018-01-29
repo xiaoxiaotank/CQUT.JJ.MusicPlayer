@@ -37,6 +37,9 @@
     <ApplicationIcon>JM.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.6.15.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.6.15\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -61,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="ControlAttachProperties\TabItemControlAttachProperty.cs" />
     <Compile Include="Converters\DoubleParametersSubtractionConverter.cs" />
+    <Compile Include="Converters\RadioButtonFontSizeConverter.cs" />
     <Compile Include="Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="Converters\RemoveIdenticalColorSuperpositionEffectOpacityConverter.cs" />
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
@@ -89,6 +93,9 @@
     </Compile>
     <Compile Include="Pages\OnlineMusic\RadioPage.xaml.cs">
       <DependentUpon>RadioPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\QMSearchPage.xaml.cs">
+      <DependentUpon>QMSearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OnlineMusic\Singer2018Page.xaml.cs">
       <DependentUpon>Singer2018Page.xaml</DependentUpon>
@@ -122,7 +129,9 @@
     <Compile Include="Utils\EventUtils\JmSkinOpacityChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPageChangedUtil.cs" />
     <Compile Include="Utils\Enums\ThemeSkinType.cs" />
+    <Compile Include="Utils\EventUtils\MusicSearchInfoChangedUtil.cs" />
     <Compile Include="Utils\FileUtil.cs" />
+    <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Windows\SkinManagerWindow.xaml.cs">
       <DependentUpon>SkinManagerWindow.xaml</DependentUpon>
@@ -168,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\OnlineMusic\RadioPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\QMSearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -232,6 +245,7 @@
     </EmbeddedResource>
     <Resource Include="Asserts\Fonts\ExampleDemo\iconfont.ttf" />
     <Resource Include="Asserts\Fonts\iconfont.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

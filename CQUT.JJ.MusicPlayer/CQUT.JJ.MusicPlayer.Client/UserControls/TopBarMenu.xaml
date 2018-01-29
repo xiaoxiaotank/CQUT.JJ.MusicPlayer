@@ -9,6 +9,11 @@
              d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">
     <UserControl.Resources>
         <Grid x:Key="MusicSource">
+            <Grid.Resources>
+                <Style TargetType="RadioButton" BasedOn="{StaticResource JMRadioButtonStyle}">
+                    
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -18,8 +23,8 @@
                 <TextBlock FontSize="14">音乐源</TextBlock>
                 <Rectangle Fill="Silver" Opacity="0.2" Width="1" />
             </StackPanel>
-            <RadioButton Grid.Column="1" Margin="10 5">QM</RadioButton>
-            <RadioButton Grid.Column="2" Margin="10 5">JM</RadioButton>
+            <RadioButton x:Name="RdQM" Grid.Column="1" Margin="10 5" IsChecked="True">QM</RadioButton>
+            <RadioButton x:Name="RdJM" Grid.Column="2" Margin="10 5">JM</RadioButton>
         </Grid>
         
         <Style TargetType="jm:JmTransparentButton">
@@ -90,7 +95,7 @@
             <TextBlock Text="&#xe643;" Style="{StaticResource DefaultIconStyle}" 
                        FontSize="18" Margin="0 0 0 4" />
         </jm:JmTransparentButton>
-        <jm:JmSearchBox x:Name="CmbSearch" Style="{StaticResource SearchBoxStyle}">
+        <jm:JmSearchBox x:Name="CmbSearch" Style="{StaticResource SearchBoxStyle}" SearchBtnClick="CmbSearch_SearchBtnClick">
             <jm:JmSearchBox.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="Foreground" Value="#000000" />
@@ -98,6 +103,7 @@
                     <Setter Property="Opacity" Value="0.8" />
                 </Style>
             </jm:JmSearchBox.Resources>
+            <TextBlock>病变</TextBlock>
             <TextBlock>不见不散</TextBlock>
             <TextBlock>未完成的歌</TextBlock>
             <TextBlock>美丽的误会</TextBlock>
