@@ -9,21 +9,35 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
 {
     public static class MusicSearchInfoChangedUtil
     {
-        public static event EventHandler<QMSearchChangedArgs> QMSearchChangedEvent;
+        public static event EventHandler<MusicSearchChangedArgs> QMSearchChangedEvent;
 
-        public static void InvokeFromQM(IEnumerable<QMSongInfoModel> qmSongInfoModels)
+        public static event EventHandler<MusicSearchChangedArgs> JMSearchChangedEvent;
+
+        public static void InvokeFromQM(MusicInfoOfPageModel musicInfoOfPageModels,bool isSuccessed = true,string errorInfo = null)
         {
-            var e = new QMSearchChangedArgs(qmSongInfoModels);
+            var e = new MusicSearchChangedArgs(musicInfoOfPageModels, isSuccessed, errorInfo);
             QMSearchChangedEvent(null, e);
+        }
+
+        public static void InvokeFromJM(MusicInfoOfPageModel musicInfoOfPageModels, bool isSuccessed = true,string errorInfo = null)
+        {
+            var e = new MusicSearchChangedArgs(musicInfoOfPageModels,isSuccessed, errorInfo);
+            JMSearchChangedEvent(null, e);
         }
     }
 
-    public class QMSearchChangedArgs : EventArgs
+    public class MusicSearchChangedArgs : EventArgs
     {
-        public IEnumerable<QMSongInfoModel> QMSongInfoModels { get; set; }
-        public QMSearchChangedArgs(IEnumerable<QMSongInfoModel> qmSongInfoModels)
+        public MusicInfoOfPageModel MusicInfoOfPageModels { get; set; }
+
+        public bool IsSuccessed { get; set; }
+
+        public string ErrorInfo { get; set; }
+        public MusicSearchChangedArgs(MusicInfoOfPageModel musicInfoOfPageModels, bool isSuccessed = true, string erroInfo = null)
         {
-            QMSongInfoModels = qmSongInfoModels;
+            MusicInfoOfPageModels = musicInfoOfPageModels;
+            IsSuccessed = isSuccessed;
+            ErrorInfo = erroInfo;
         }
     }
 }

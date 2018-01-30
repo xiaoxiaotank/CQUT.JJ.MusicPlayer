@@ -122,11 +122,11 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel VerticalAlignment="Center">
                         <jm:JmTransparentButton>
-                            <TextBlock x:Name="MusicName" Text="好想再爱你" Foreground="White" />
+                            <TextBlock x:Name="MusicName" Text="{Binding MusicName}" Foreground="White" />
                         </jm:JmTransparentButton>
                         <TextBlock xml:space="preserve"> - </TextBlock>
                         <jm:JmTransparentButton>
-                            <TextBlock x:Name="Musicians" xml:space="preserve" Text="潘广益" />
+                            <TextBlock x:Name="Musicians" xml:space="preserve" Text="{Binding SingerName}" />
                         </jm:JmTransparentButton>
                     </StackPanel>
                     <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">

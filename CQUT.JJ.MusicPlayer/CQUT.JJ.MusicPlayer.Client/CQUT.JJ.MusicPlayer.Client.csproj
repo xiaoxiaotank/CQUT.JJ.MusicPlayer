@@ -131,9 +131,11 @@
     <Compile Include="Utils\Enums\ThemeSkinType.cs" />
     <Compile Include="Utils\EventUtils\MusicPlayStateChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicSearchInfoChangedUtil.cs" />
+    <Compile Include="Utils\EventUtils\MusicSearchPageNumberChangedUtil.cs" />
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MusicPlayerMenuViewModel.cs" />
     <Compile Include="ViewModels\QMInfoViewModel.cs" />
     <Compile Include="Windows\SkinManagerWindow.xaml.cs">
       <DependentUpon>SkinManagerWindow.xaml</DependentUpon>

@@ -12,7 +12,16 @@
     <Page.Resources>
         <converter:RemoveIdenticalColorSuperpositionEffectOpacityConverter x:Key="ColorOpacityConverter" />
 
-        
+        <Style TargetType="jm:JmTransparentButton">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Silver" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="5,0" />
+        </Style>
 
     </Page.Resources>
 
@@ -20,10 +29,13 @@
         <Rectangle Fill="{Binding TopFloorBackground}" Opacity="{Binding TopBarBackgroundOpacity, Converter={StaticResource ColorOpacityConverter}}" />
         <TextBlock x:Name="Waiting" HorizontalAlignment="Center" VerticalAlignment="Center"
                    Foreground="Silver" FontSize="72">请稍等。。。</TextBlock>
+        <TextBlock x:Name="TbError" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"
+                   Foreground="Silver" FontSize="72" />
         <Grid x:Name="GdSong" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="60" />
             </Grid.RowDefinitions>
             <StackPanel>
             </StackPanel>
@@ -92,6 +104,8 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <StackPanel Name="SpPageNumber" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

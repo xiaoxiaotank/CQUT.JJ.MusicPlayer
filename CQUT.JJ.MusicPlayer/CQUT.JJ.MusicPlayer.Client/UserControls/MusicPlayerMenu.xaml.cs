@@ -1,6 +1,7 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Converters;
 using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
     public partial class MusicPlayerMenu : UserControl
     {
         /// <summary>
+        /// 定时更新歌曲进度
+        /// </summary>
+        private static readonly DispatcherTimer _timer = new DispatcherTimer();
+
+        /// <summary>
         /// 是否静音
         /// </summary>
         private static bool _isMute = false;
@@ -46,7 +52,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         private static bool _isPlaying = false;
 
-        private static readonly DispatcherTimer _timer = new DispatcherTimer();
+        private static MusicPlayerMenuViewModel _musicPlayerMenuViewModel = new MusicPlayerMenuViewModel();
 
         public MusicPlayerMenu()
         {
@@ -62,19 +68,28 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             SetBindingAboutMediaPlayer();
         }
 
+       
+
+        #region Events
+
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitVolumeState();
+            InitMusicInfo();
+        }  
+
         private void MusicPlayStateChangedUtil_MusicPlayStateChangedEvent(object sender, MusicPlayStateChangedArgs e)
         {
             if (e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
             {
                 PlayNewMusic(e.MusicInfo.Uri);
-                MusicName.Text = e.MusicInfo.Name;
-                Musicians.Text = e.MusicInfo.SingerName;
+                _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
+                _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
                 _isPlaying = false;
             }
             ChangePlayState();
         }
-
-        #region Events
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -97,12 +112,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void MediaPlayer_MediaEnded(object sender, EventArgs e)
         {
             StopTimer();
-        }
-
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitVolumeState();
         }
 
         private void BtnVolume_Click(object sender, RoutedEventArgs e)
@@ -145,10 +154,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             ChangePlayState();
         }
 
-    
+
         #endregion
 
         #region 辅助方法
+        private void InitMusicInfo()
+        {
+            DataContext = _musicPlayerMenuViewModel;
+            _musicPlayerMenuViewModel.MusicName = "听我想听的歌";
+            _musicPlayerMenuViewModel.SingerName = "JM音乐";
+        }
 
         private void SetBindingAboutMediaPlayer()
         {
