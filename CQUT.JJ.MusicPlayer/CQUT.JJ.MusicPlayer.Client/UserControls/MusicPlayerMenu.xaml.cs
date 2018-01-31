@@ -59,6 +59,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private static bool _isPlaying = false;
 
         /// <summary>
+        /// 播放按钮是否已更新
+        /// </summary>
+        private static bool _isFromPlayBtnStateUpdated = false;
+
+        /// <summary>
         /// 音乐源类型
         /// </summary>
         private static MusicSourceType _musicSourceType = MusicSourceType.JM;
@@ -96,7 +101,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             Task.Factory.StartNew(() =>
             {
                 //进行播放并且不是同一首歌
-                if (e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
+                if (!_isFromPlayBtnStateUpdated && e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
                 {
                     PlayNewMusic(e.MusicInfo.Uri);
                     _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
@@ -174,9 +179,15 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 _musicPlayerMenuViewModel.SingerName = "潘广益";
                 _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
                 _musicSourceType = MusicSourceType.JM;
+                ChangePlayState();
             }
-                
-            ChangePlayState();
+            else
+            {
+                _isFromPlayBtnStateUpdated = true;
+                MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying);
+                _isFromPlayBtnStateUpdated = false;
+            }
+
         }
 
 
@@ -292,6 +303,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 _isPlaying = true;
                 TbPlay.Text = "\ue606";
             }
+
         }
 
         private void StopTimer()

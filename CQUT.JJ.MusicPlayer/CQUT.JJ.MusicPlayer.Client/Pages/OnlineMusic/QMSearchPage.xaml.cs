@@ -34,6 +34,13 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private static int _currentPageNumber = 1;
 
+        private static TaskScheduler _syncTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+        /// <summary>
+        /// 即将要播放的TextBlock对象
+        /// </summary>
+        private static TextBlock _nextPlayingTbObject = null;
+
         /// <summary>
         /// 正在播放的TextBlock对象
         /// </summary>
@@ -42,8 +49,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         public SearchPage()
         {
             InitializeComponent();
-            MusicSearchInfoChangedUtil.QMSearchChangedEvent += MusicSearchInfoChangedUtil_QMSearchChangedEvent;  
+            MusicSearchInfoChangedUtil.QMSearchChangedEvent += MusicSearchInfoChangedUtil_QMSearchChangedEvent;
+            MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
         }
+
+    
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -99,7 +109,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
                     if (musicViewModel != null)
                     {
-                        ChangeMusicPlayBtnState(tb);
+                        _nextPlayingTbObject = tb;
 
                         Task.Factory.StartNew(() =>
                         {
@@ -118,11 +128,19 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             };
 
                             MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
-                        });                       
+                        });
+                        
                     }
                 }
             }
-            
+        }
+
+        private void QMusicPlayStateChanged(object sender, QMusicPlayStateChangedArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                ChangeMusicPlayBtnState(_nextPlayingTbObject);
+            }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
 
         private void PageNumberBtn_Click(object sender, RoutedEventArgs e)
@@ -272,9 +290,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 tb.Text = "\ue69d";
             else
                 tb.Text = "\ue774";
-            if(_currentPlayingTbObject != null)
+            if(_currentPlayingTbObject != null && !_currentPlayingTbObject.Equals(tb))
                 _currentPlayingTbObject.Text = "\ue774";
-            _currentPlayingTbObject = tb;
+            else if(_currentPlayingTbObject == null)
+                _currentPlayingTbObject = tb;
         }
 
         private void ChangePageNumber(int targetPageNumber)
