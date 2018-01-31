@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,6 +59,12 @@ namespace CQUT.JJ.MusicPlayer.Client
         {
             //页面切换
             MusicPageChangedUtil.PageChangedEvent += MusicPageChanged;
+            //页面向前
+            MusicPageSwitchedUtil.MusicPagePreviousSwitchedEvent += MusicPagePreviousSwitched;
+            //页面向后
+            MusicPageSwitchedUtil.MusicPageNextSwitchedEvent += MusicPageNextSwitchedEvent;
+            //页面刷新
+            MusicPageRefreshUtil.MusicPageRefreshEvent += MusicPageRefreshUtil_MusicPageRefreshEvent;
             //皮肤切换
             JmSkinChangedUtil.SkinChangedEvent += JmSkinChanged;
             //皮肤透明度调节
@@ -67,6 +74,25 @@ namespace CQUT.JJ.MusicPlayer.Client
             InitializeTaskBarIcon();
             InitializeSkin();
         }
+
+     
+
+        private void MusicPagePreviousSwitched(object sender, EventArgs e)
+        {
+            if (FMusicPage.NavigationService.CanGoBack)
+                FMusicPage.NavigationService.GoBack();
+            MusicPageSwitchedUtil.InvokeOfCanPrevious(FMusicPage.NavigationService.CanGoBack);
+            MusicPageSwitchedUtil.InvokeOfCanNext(true);
+        }
+
+        private void MusicPageNextSwitchedEvent(object sender, EventArgs e)
+        {
+            if (FMusicPage.NavigationService.CanGoForward)
+                FMusicPage.NavigationService.GoForward();
+            MusicPageSwitchedUtil.InvokeOfCanNext(FMusicPage.NavigationService.CanGoForward);
+            MusicPageSwitchedUtil.InvokeOfCanPrevious(true);
+        }
+
 
         #region Events
         private void JmWindow_Loaded(object sender, RoutedEventArgs e)
@@ -121,7 +147,16 @@ namespace CQUT.JJ.MusicPlayer.Client
                 FMusicPage.NavigationService.Refresh();
             else
                 FMusicPage.Source = e.PageSource;
+
+            MusicPageSwitchedUtil.InvokeOfCanPrevious(true);
+            MusicPageSwitchedUtil.InvokeOfCanNext(false);
         }
+
+        private void MusicPageRefreshUtil_MusicPageRefreshEvent(object sender, EventArgs e)
+        {
+            FMusicPage.NavigationService.Refresh();
+        }
+
 
         private void JmSkinOpacityChanged(object sender, SkinOpacityChangedArgs e)
         {

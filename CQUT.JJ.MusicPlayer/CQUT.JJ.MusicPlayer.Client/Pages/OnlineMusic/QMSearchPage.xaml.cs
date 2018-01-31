@@ -42,9 +42,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             Waiting.Visibility = Visibility.Visible;
             TbError.Visibility = Visibility.Collapsed;
             GdSong.Visibility = Visibility.Collapsed;
+            NonNavPageDisplayedUtil.Invoke();
+
+            MusicSearchInfoChangedUtil.InvokeFromQMRequest(1);
         }
 
-        private void MusicSearchInfoChangedUtil_QMSearchChangedEvent(object sender, MusicSearchChangedArgs e)
+        private void MusicSearchInfoChangedUtil_QMSearchChangedEvent(object sender, MusicSearchInfoChangedArgs e)
         {
             if (e.IsSuccessed)
             {
@@ -65,8 +68,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 InitPageNumber(e.MusicInfoOfPageModels.TotalPageNumber, e.MusicInfoOfPageModels.CurrentPageNumber);
 
                 TbError.Visibility = Visibility.Collapsed;
-                GdSong.Visibility = Visibility.Visible;
-                
+                GdSong.Visibility = Visibility.Visible;               
             }
             else
             {
@@ -80,23 +82,29 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            var id = (sender as FrameworkElement).Tag;
-            if (id != null)
+            if(sender is JmTransparentButton btn && btn.Content is TextBlock tb)
             {
-                var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
-                if(musicViewModel != null)
+                var id = btn.Tag;
+                if (id != null)
                 {
-                    var musicInfo = new MusicPlayInfoModel()
+                    var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
+                    if (musicViewModel != null)
                     {
-                        Id = musicViewModel.Id,
-                        Name = musicViewModel.Name,
-                        SingerName = musicViewModel.SingerName,                      
-                        TimeDuration = musicViewModel.TimeDuration,
-                        Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{id}.m4a?fromtag=38", UriKind.Absolute),
-                    };
-                    MusicPlayStateChangedUtil.Invoke(musicInfo, true);                   
+                        var musicInfo = new MusicPlayInfoModel()
+                        {
+                            Id = musicViewModel.Id,
+                            Name = musicViewModel.Name,
+                            SingerName = musicViewModel.SingerName,
+                            TimeDuration = musicViewModel.TimeDuration,
+                            Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{id}.m4a?fromtag=38", UriKind.Absolute),
+                        };
+
+                        ChangeMusicPlayBtnState(tb);
+                        MusicPlayStateChangedUtil.Invoke(musicInfo, true);
+                    }
                 }
             }
+            
         }
 
         private void PageNumberBtn_Click(object sender, RoutedEventArgs e)
@@ -105,15 +113,20 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             {
                 var clickPageNumber = Convert.ToInt32(pageNumberBtn.Content);
                 if (_currentPageNumber.Equals(clickPageNumber)) return;
-                
-                Waiting.Visibility = Visibility.Visible;
-                GdSong.Visibility = Visibility.Collapsed;
-                TbError.Visibility = Visibility.Collapsed;
-                SpPageNumber.IsEnabled = false;
 
-                _currentPageNumber = clickPageNumber;
-                MusicSearchPageNumberChangedUtil.InvokeFromQM(_currentPageNumber);
+                ChangePageNumber(clickPageNumber);
             }
+        }
+
+        private void PreviousBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePageNumber(_currentPageNumber - 1);
+        }
+
+
+        private void NextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePageNumber(_currentPageNumber + 1);
         }
 
         #region Helpers
@@ -124,20 +137,30 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             SpPageNumber.Children.Clear();
             const int MaxPageNumber = 6;
 
-            if(totalPageNumber <= MaxPageNumber)
+            
+            if(currentPageNumber != 1)
+            {
+                var previousBtn = new JmTransparentButton() { Content = "<" };
+                previousBtn.Click += PreviousBtn_Click;
+                SpPageNumber.Children.Add(previousBtn);
+            }
+                
+
+            #region 页码显示规则
+            if (totalPageNumber <= MaxPageNumber)
             {
                 Enumerable.Range(1, totalPageNumber).ToList()
-                    .ForEach(i => 
+                    .ForEach(i =>
                     {
                         var btn = new JmTransparentButton() { Content = i };
                         btn.Click += PageNumberBtn_Click;
                         SpPageNumber.Children.Add(btn);
                     });
             }
-            else if(currentPageNumber < MaxPageNumber - 1)
+            else if (currentPageNumber < MaxPageNumber - 1)
             {
                 Enumerable.Range(1, MaxPageNumber).ToList()
-                    .ForEach(i => 
+                    .ForEach(i =>
                     {
                         var btn = new JmTransparentButton() { Content = i };
                         btn.Click += PageNumberBtn_Click;
@@ -153,7 +176,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 lastBtn.Click += PageNumberBtn_Click;
                 SpPageNumber.Children.Add(lastBtn);
             }
-            else if(currentPageNumber > MaxPageNumber - 1 && totalPageNumber - currentPageNumber > MaxPageNumber - 1)
+            else if (currentPageNumber > MaxPageNumber - 1 && totalPageNumber - currentPageNumber > MaxPageNumber - 3)
             {
                 var fristBtn = new JmTransparentButton() { Content = 1 };
                 fristBtn.Click += PageNumberBtn_Click;
@@ -167,12 +190,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 });
 
                 Enumerable.Range(currentPageNumber - 1, MaxPageNumber - 2).ToList()
-                   .ForEach(i =>
-                   {
-                       var btn = new JmTransparentButton() { Content = i };
-                       btn.Click += PageNumberBtn_Click;
-                       SpPageNumber.Children.Add(btn);
-                   });
+                    .ForEach(i =>
+                    {
+                        var btn = new JmTransparentButton() { Content = i };
+                        btn.Click += PageNumberBtn_Click;
+                        SpPageNumber.Children.Add(btn);
+                    });
 
                 SpPageNumber.Children.Add(new TextBlock()
                 {
@@ -198,13 +221,21 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     VerticalAlignment = VerticalAlignment.Center
                 });
 
-                Enumerable.Range(totalPageNumber - MaxPageNumber + 1, MaxPageNumber - 1).ToList()
-                  .ForEach(i =>
-                  {
-                      var btn = new JmTransparentButton() { Content = i };
-                      btn.Click += PageNumberBtn_Click;
-                      SpPageNumber.Children.Add(btn);
-                  });
+                Enumerable.Range(totalPageNumber - MaxPageNumber + 1, MaxPageNumber).ToList()
+                    .ForEach(i =>
+                    {
+                        var btn = new JmTransparentButton() { Content = i };
+                        btn.Click += PageNumberBtn_Click;
+                        SpPageNumber.Children.Add(btn);
+                    });
+            } 
+            #endregion
+
+            if(currentPageNumber != totalPageNumber)
+            {
+                var nextBtn = new JmTransparentButton() { Content = ">" };
+                nextBtn.Click += NextBtn_Click;
+                SpPageNumber.Children.Add(nextBtn);
             }
 
             foreach (var child in SpPageNumber.Children)
@@ -215,6 +246,26 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     break;
                 }
             }
+        }
+
+        private void ChangeMusicPlayBtnState(TextBlock tb)
+        {
+            if (tb.Text.Equals("\ue774"))
+                tb.Text = "\ue69d";
+            else
+                tb.Text = "\ue774";
+        }
+
+        private void ChangePageNumber(int targetPageNumber)
+        {
+            if (targetPageNumber < 1) return;
+            Waiting.Visibility = Visibility.Visible;
+            GdSong.Visibility = Visibility.Collapsed;
+            TbError.Visibility = Visibility.Collapsed;
+            SpPageNumber.IsEnabled = false;
+
+            _currentPageNumber = targetPageNumber;
+            MusicSearchInfoChangedUtil.InvokeFromQMRequest(_currentPageNumber);
         }
 
         #endregion

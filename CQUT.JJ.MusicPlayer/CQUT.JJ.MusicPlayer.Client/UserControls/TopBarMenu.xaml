@@ -86,13 +86,13 @@
         </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <jm:JmTransparentButton Margin="14 0 0 0">
+        <jm:JmTransparentButton x:Name="BtnPreviousPage" Margin="14 0 0 0" ToolTip="后退" Click="BtnPreviousPage_Click">
             <TextBlock Text="&#xe600;" Style="{StaticResource DefaultIconStyle}"/>
         </jm:JmTransparentButton>
-        <jm:JmTransparentButton>
+        <jm:JmTransparentButton x:Name="BtnNextPage" ToolTip="前进" Click="BtnNextPage_Click">
             <TextBlock Text="&#xe601;" Style="{StaticResource DefaultIconStyle}" />
         </jm:JmTransparentButton>
-        <jm:JmTransparentButton Width="50">
+        <jm:JmTransparentButton x:Name="BtnRefreshPage" Width="50" ToolTip="刷新" Click="BtnRefreshPage_Click" IsEnabled="False">
             <TextBlock Text="&#xe643;" Style="{StaticResource DefaultIconStyle}" 
                        FontSize="18" Margin="0 0 0 4" />
         </jm:JmTransparentButton>

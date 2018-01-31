@@ -16,6 +16,7 @@ using CQUT.JJ.MusicPlayer.Models;
 using HtmlAgilityPack;
 using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using System.Threading;
 
 namespace CQUT.JJ.MusicPlayer.Client.UserControls
 {
@@ -28,18 +29,27 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private static readonly string _jmSearchPageName = "OnlineMusic/JMSearchPage.xaml";
 
+        private static string _lastQMSearchKey = string.Empty;
+
+        private static string _lastJMSearchKey = string.Empty;
+
         public TopBarMenu()
         {
             InitializeComponent();
 
-            MusicSearchPageNumberChangedUtil.QMSearchPageNumberChangedEvent += MusicSearchPageNumberChangedUtil_QMSearchPageNumberChangedEvent;
+            //数据请求事件
+            MusicSearchInfoChangedUtil.QMRequestEvent += MusicSearchInfoChangedUtil_QMRequestEvent;
+            //后退按钮
+            MusicPageSwitchedUtil.MusicPageEnablePreviousSwitchedEvent += MusicPageEnablePreviousSwitchedEvent;
+            //前进按钮
+            MusicPageSwitchedUtil.MusicPageEnableNextSwitchedEvent += MusicPageEnableNextSwitchedEvent;
         }
 
-        private void MusicSearchPageNumberChangedUtil_QMSearchPageNumberChangedEvent(object sender, MusicSearchPageNumberChangedArgs e)
-        {
-            var musicInfoOfPageModel = GetMusicInfoOfPageModel(e.PageNumber);
-            MusicSearchInfoChangedUtil.InvokeFromQM(musicInfoOfPageModel);
-        }
+        private void MusicPageEnablePreviousSwitchedEvent(object sender, MusicPageSwitchedEventArgs e) => BtnPreviousPage.IsEnabled = e.CanSwitch;
+
+        private void MusicPageEnableNextSwitchedEvent(object sender, MusicPageSwitchedEventArgs e) => BtnNextPage.IsEnabled = e.CanSwitch;
+
+
 
         private void CmbSearch_SearchBtnClick(object sender, RoutedEventArgs e)
         {           
@@ -50,16 +60,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 {
                     if(qmSource.IsChecked == true)
                     {
-                        try
-                        {
-                            MusicPageChangedUtil.Invoke(_qmSearchPageName, true);
-                            var musicInfoOfPageModel = GetMusicInfoOfPageModel(1);
-                            MusicSearchInfoChangedUtil.InvokeFromQM(musicInfoOfPageModel);                                
-                        }
-                        catch (Exception ex)
-                        {
-                            MusicSearchInfoChangedUtil.InvokeFromQM(null, false,ex.Message);
-                        }
+                        MusicPageChangedUtil.Invoke(_qmSearchPageName, true);                      
                     }
                     else
                     {
@@ -69,29 +70,75 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }
         }
 
-        private MusicInfoOfPageModel GetMusicInfoOfPageModel(int currentPageNumber)
+        private void MusicSearchInfoChangedUtil_QMRequestEvent(object sender, MusicSearchInfoRequestArgs e)
         {
-            var musicInfoOfPageModel = new MusicInfoOfPageModel() { CurrentPageNumber = currentPageNumber };
+            GetQMusics(e.TargetPageNumber);
+        }
+
+
+        private void BtnRefreshPage_Click(object sender, RoutedEventArgs e)
+        {
+            MusicPageRefreshUtil.Invoke();
+        }
+
+        private void BtnPreviousPage_Click(object sender, RoutedEventArgs e)
+        {
+            MusicPageSwitchedUtil.InvokeOfPrevious();
+        }
+
+        private void BtnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            MusicPageSwitchedUtil.InvokeOfNext();
+        }
+
+        #region Helpers
+        private void GetQMusics(int page)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    var musicInfoOfPageModel = GetQMusicInfoOfPageModel(page);
+                    if (musicInfoOfPageModel == null) return;
+                    MusicSearchInfoChangedUtil.InvokeFromQMSearchChanged(musicInfoOfPageModel,page);
+                }
+                catch (Exception ex)
+                {
+                    MusicSearchInfoChangedUtil.InvokeFromQMSearchChanged(null,page, false, ex.Message);
+                }
+            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private MusicInfoOfPageModel GetQMusicInfoOfPageModel(int currentPageNumber)
+        {
             var searchKey = CmbSearch.Text;
+            if (!IsValidateSearchKey(ref searchKey)) return null;
+
+            var musicInfoOfPageModel = new MusicInfoOfPageModel() { CurrentPageNumber = currentPageNumber };            
             var url = $"https://y.qq.com/portal/search.html#page={currentPageNumber}&searchid=1&remoteplace=txt.yqq.top&t=song&w={searchKey}";
-            
+
             try
             {
-                var doc = GetHtmlDocument(url,TimeSpan.FromSeconds(10), html =>
-                {
-                    return html.Contains("js_song")
-                    && html.Contains("songlist__artist")
-                    && html.Contains("album_name")
-                    && html.Contains("songlist__time")
-                    && html.Contains("js_pageindex");
-                });
+                var doc = GetHtmlDocument(url, TimeSpan.FromSeconds(10), html =>
+                 {
+                     return html.Contains("js_song")
+                     && html.Contains("songlist__artist")
+                     && html.Contains("album_name")
+                     && html.Contains("songlist__time")
+                     && html.Contains("js_pageindex");
+                 });
                 var songList = doc.DocumentNode.SelectNodes("//a[@class='js_song']");
                 var singerList = doc.DocumentNode.SelectNodes("//div[@class='songlist__artist']");
                 var albumList = doc.DocumentNode.SelectNodes("//a[@class='album_name']");
                 var timeDurationList = doc.DocumentNode.SelectNodes("//div[@class='songlist__time']");
-                var songCount = MathUtil.GetMin(songList.Count, singerList.Count, albumList.Count, timeDurationList.Count);
-                musicInfoOfPageModel.TotalPageNumber = Convert.ToInt32(doc.DocumentNode.SelectNodes("//a[@class='js_pageindex']").LastOrDefault()?.Attributes["data-index"].Value);
+                var lastPagerNode = doc.DocumentNode.SelectNodes("//div[@class='mod_page_nav js_pager']")?.FirstOrDefault()?.ChildNodes?.LastOrDefault();
 
+                if (lastPagerNode?.Attributes["class"].Value.Equals("current") == true)
+                    musicInfoOfPageModel.TotalPageNumber = Convert.ToInt32(lastPagerNode.InnerHtml);
+                else
+                    musicInfoOfPageModel.TotalPageNumber = Convert.ToInt32(doc.DocumentNode.SelectNodes("//a[@class='js_pageindex']").LastOrDefault()?.Attributes["data-index"].Value);
+
+                var songCount = MathUtil.GetMin(songList.Count, singerList.Count, albumList.Count, timeDurationList.Count);
                 for (int i = 0; i < songCount; i++)
                 {
                     var id = songList[i].Attributes["href"].Value.Substring(songList[i].Attributes["href"].Value.LastIndexOf('/') + 1).Replace(".html", "");
@@ -118,7 +165,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }
         }
 
-        private HtmlDocument GetHtmlDocument(string url,TimeSpan outTime,Func<string,bool> isScriptCompleted = null)
+        private HtmlDocument GetHtmlDocument(string url, TimeSpan outTime, Func<string, bool> isScriptCompleted = null)
         {
             try
             {
@@ -128,10 +175,29 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 };
                 return htmlWeb.LoadFromBrowser(url, isScriptCompleted);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        private bool IsValidateSearchKey(ref string searchKey)
+        {
+            if (string.IsNullOrWhiteSpace(searchKey))
+            {
+                if (string.IsNullOrWhiteSpace(_lastQMSearchKey)) return false;
+
+                searchKey = _lastQMSearchKey;
+                CmbSearch.Focus();
+                CmbSearch.Text = _lastQMSearchKey;
+            }
+            else
+                _lastQMSearchKey = searchKey;
+            return true;
+        }
+
+        #endregion
+
+      
     }
 }

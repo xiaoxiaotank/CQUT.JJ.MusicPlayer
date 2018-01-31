@@ -9,35 +9,56 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
 {
     public static class MusicSearchInfoChangedUtil
     {
-        public static event EventHandler<MusicSearchChangedArgs> QMSearchChangedEvent;
+        public static event EventHandler<MusicSearchInfoRequestArgs> QMRequestEvent;
 
-        public static event EventHandler<MusicSearchChangedArgs> JMSearchChangedEvent;
+        public static event EventHandler<MusicSearchInfoRequestArgs> JMRequestEvent;
 
-        public static void InvokeFromQM(MusicInfoOfPageModel musicInfoOfPageModels,bool isSuccessed = true,string errorInfo = null)
+        public static event EventHandler<MusicSearchInfoChangedArgs> QMSearchChangedEvent;
+
+        public static event EventHandler<MusicSearchInfoChangedArgs> JMSearchChangedEvent;
+
+        public static void InvokeFromQMRequest(int targetPageNumber) => QMRequestEvent?.Invoke(null, new MusicSearchInfoRequestArgs(targetPageNumber));
+
+        public static void InvokeFromJMRequest(int targetPageNumber) => JMRequestEvent?.Invoke(null, new MusicSearchInfoRequestArgs(targetPageNumber));
+
+        public static void InvokeFromQMSearchChanged(MusicInfoOfPageModel musicInfoOfPageModels, int targetPageNumber, bool isSuccessed = true,string errorInfo = null)
         {
-            var e = new MusicSearchChangedArgs(musicInfoOfPageModels, isSuccessed, errorInfo);
-            QMSearchChangedEvent(null, e);
+            var e = new MusicSearchInfoChangedArgs(musicInfoOfPageModels,targetPageNumber, isSuccessed, errorInfo);
+            QMSearchChangedEvent?.Invoke(null, e);
         }
 
-        public static void InvokeFromJM(MusicInfoOfPageModel musicInfoOfPageModels, bool isSuccessed = true,string errorInfo = null)
+        public static void InvokeFromJMSearchChanged(MusicInfoOfPageModel musicInfoOfPageModels,int targetPageNumber, bool isSuccessed = true,string errorInfo = null)
         {
-            var e = new MusicSearchChangedArgs(musicInfoOfPageModels,isSuccessed, errorInfo);
-            JMSearchChangedEvent(null, e);
+            var e = new MusicSearchInfoChangedArgs(musicInfoOfPageModels,targetPageNumber,isSuccessed, errorInfo);
+            JMSearchChangedEvent?.Invoke(null, e);
         }
     }
 
-    public class MusicSearchChangedArgs : EventArgs
+    public class MusicSearchInfoChangedArgs : EventArgs
     {
         public MusicInfoOfPageModel MusicInfoOfPageModels { get; set; }
+
+        public int TargetPageNumber { get; set; }
 
         public bool IsSuccessed { get; set; }
 
         public string ErrorInfo { get; set; }
-        public MusicSearchChangedArgs(MusicInfoOfPageModel musicInfoOfPageModels, bool isSuccessed = true, string erroInfo = null)
+        public MusicSearchInfoChangedArgs(MusicInfoOfPageModel musicInfoOfPageModels,int targetPageNumber, bool isSuccessed = true, string erroInfo = null)
         {
             MusicInfoOfPageModels = musicInfoOfPageModels;
+            TargetPageNumber = targetPageNumber;
             IsSuccessed = isSuccessed;
             ErrorInfo = erroInfo;
+        }
+    }
+
+    public class MusicSearchInfoRequestArgs : EventArgs
+    {
+        public int TargetPageNumber { get; set; }
+
+        public MusicSearchInfoRequestArgs(int targetPageNumber)
+        {
+            TargetPageNumber = targetPageNumber;
         }
     }
 }

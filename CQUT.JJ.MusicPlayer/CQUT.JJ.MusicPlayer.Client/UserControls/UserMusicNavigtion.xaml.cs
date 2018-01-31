@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,13 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         public UserMusicNavigtion()
         {
             InitializeComponent();
+            NonNavPageDisplayedUtil.NonNavPageDisplayedEvent += NonNavPageDisplayed;
+        }
+
+        private void NonNavPageDisplayed(object sender, EventArgs e)
+        {
+            _selectedTabItem.IsSelected = false;
+            _selectedTabItem = null;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -41,7 +49,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             if (sender is JmTabItem originalSource && !originalSource.Equals(_selectedTabItem))
             {
-                _selectedTabItem.IsSelected = false;
+                if(_selectedTabItem != null)
+                    _selectedTabItem.IsSelected = false;
                 _selectedTabItem = originalSource;
                 ChangePage();
             }
