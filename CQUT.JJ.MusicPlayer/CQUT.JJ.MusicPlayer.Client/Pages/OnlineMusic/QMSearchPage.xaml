@@ -58,7 +58,7 @@
                 <ListView.View>
                     <GridView x:Name="GvMusicList" ColumnHeaderContainerStyle="{StaticResource DefaultGridViewColumnHeaderStyle}"
                               AllowsColumnReorder="False">
-                        <GridViewColumn Header="歌曲" Width="{Binding ElementName=ColName,Path=ActualWidth}">
+                        <GridViewColumn  Header="歌曲" Width="{Binding ElementName=ColName,Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
                                     <Grid>

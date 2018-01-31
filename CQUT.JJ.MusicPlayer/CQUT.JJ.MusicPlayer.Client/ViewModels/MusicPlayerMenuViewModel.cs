@@ -11,6 +11,7 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
     {
         private string _musicName = string.Empty;
         private string _singerName = string.Empty;
+        private Uri _photoUri;
 
         public string MusicName
         {
@@ -29,6 +30,16 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
             {
                 _singerName = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SingerName)));
+            }
+        }
+
+        public Uri PhotoUri
+        {
+            get { return _photoUri; }
+            set
+            {
+                _photoUri = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PhotoUri)));
             }
         }
 

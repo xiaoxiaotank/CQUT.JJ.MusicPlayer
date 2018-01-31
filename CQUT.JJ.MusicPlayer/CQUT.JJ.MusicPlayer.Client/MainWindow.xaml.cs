@@ -205,7 +205,9 @@ namespace CQUT.JJ.MusicPlayer.Client
         private void JmWindow_Close(object sender, RoutedEventArgs e)
         {
             Close();
-            System.Environment.Exit(0);
+            if (IsShowInTaskBar)
+                NotifyIcon.Dispose();
+            System.Environment.Exit(System.Environment.ExitCode);
         } 
         #endregion
 

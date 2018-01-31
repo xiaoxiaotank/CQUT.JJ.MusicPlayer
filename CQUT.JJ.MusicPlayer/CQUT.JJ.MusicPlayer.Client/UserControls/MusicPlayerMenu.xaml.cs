@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Converters;
 using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using System;
@@ -33,6 +34,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private static readonly DispatcherTimer _timer = new DispatcherTimer();
 
         /// <summary>
+        /// 默认照片Uri
+        /// </summary>
+        private static readonly Uri _defaultPhotoUri = new Uri("/Asserts/Images/DefaultMusicHeader.png", UriKind.Relative);
+
+        /// <summary>
         /// 是否静音
         /// </summary>
         private static bool _isMute = false;
@@ -52,16 +58,22 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         private static bool _isPlaying = false;
 
-        private static MusicPlayerMenuViewModel _musicPlayerMenuViewModel = new MusicPlayerMenuViewModel();
+        /// <summary>
+        /// 音乐源类型
+        /// </summary>
+        private static MusicSourceType _musicSourceType = MusicSourceType.JM;
 
+        private static MusicPlayerMenuViewModel _musicPlayerMenuViewModel = new MusicPlayerMenuViewModel() { PhotoUri = _defaultPhotoUri };
+
+        private static TaskScheduler _syncTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
         public MusicPlayerMenu()
         {
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
-            MusicPlayStateChangedUtil.MusicPlayStateChangedEvent += MusicPlayStateChangedUtil_MusicPlayStateChangedEvent;
+            MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
             _timer.Tick += Timer_Tick;
-            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Interval = TimeSpan.FromSeconds(0.5);
 
             InitializeComponent();
 
@@ -79,16 +91,22 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             InitMusicInfo();
         }  
 
-        private void MusicPlayStateChangedUtil_MusicPlayStateChangedEvent(object sender, MusicPlayStateChangedArgs e)
-        {
-            if (e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
+        private void QMusicPlayStateChanged(object sender, QMusicPlayStateChangedArgs e)
+        {           
+            Task.Factory.StartNew(() =>
             {
-                PlayNewMusic(e.MusicInfo.Uri);
-                _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
-                _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
-                _isPlaying = false;
-            }
-            ChangePlayState();
+                //进行播放并且不是同一首歌
+                if (e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
+                {
+                    PlayNewMusic(e.MusicInfo.Uri);
+                    _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
+                    _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
+                    _musicPlayerMenuViewModel.PhotoUri = e.MusicInfo.PhotoUri ?? _defaultPhotoUri;
+                    _isPlaying = false;
+                    _musicSourceType = MusicSourceType.QM;
+                }
+                ChangePlayState();
+            }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -144,13 +162,20 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void BtnILove_Click(object sender, RoutedEventArgs e)
         {
-            ChangeToILove();
+            ChangeILoveState();
         }
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
             if (_mediaPlayer.Source == null)
+            {
                 PlayNewMusic(new Uri(@"好想再爱你.mp3", UriKind.Relative));
+                _musicPlayerMenuViewModel.MusicName = "好想再爱你";
+                _musicPlayerMenuViewModel.SingerName = "潘广益";
+                _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
+                _musicSourceType = MusicSourceType.JM;
+            }
+                
             ChangePlayState();
         }
 
@@ -223,12 +248,26 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             _isMute = false;
         }
 
-        private void ChangeToILove()
+        private void ChangeILoveState()
         {
-            TbILove.Text = "\ue603";
-            BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
-            BtnILove.FontSize += 2;
-            BtnILove.ToolTip = "取消喜欢";
+            if(_mediaPlayer.HasAudio 
+                && _musicSourceType == MusicSourceType.JM)
+            {
+                if(TbILove.Text.Equals("\ue60e"))
+                {
+                    TbILove.Text = "\ue603";
+                    BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
+                    BtnILove.FontSize += 2;
+                    BtnILove.ToolTip = "取消喜欢";
+                }
+                else
+                {
+                    TbILove.Text = "\ue60e";
+                    BtnILove.Foreground = new SolidColorBrush(Colors.Silver);
+                    BtnILove.FontSize -= 2;
+                    BtnILove.ToolTip = "我喜欢";
+                }
+            }
         }
 
         private void ChangeToCancelILove()

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
              xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">
+             d:DesignHeight="300" d:DesignWidth="300" Background="Transparent" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <Grid x:Key="MusicSource">
             <Grid.Resources>
@@ -104,10 +104,6 @@
                     <Setter Property="Opacity" Value="0.8" />
                 </Style>
             </jm:JmSearchBox.Resources>
-            <TextBlock>病变</TextBlock>
-            <TextBlock>不见不散</TextBlock>
-            <TextBlock>未完成的歌</TextBlock>
-            <TextBlock>美丽的误会</TextBlock>
         </jm:JmSearchBox>
         <jm:JmTransparentButton Width="45">
             <TextBlock Text="&#xe665;" Style="{StaticResource DefaultIconStyle}" FontSize="19" />

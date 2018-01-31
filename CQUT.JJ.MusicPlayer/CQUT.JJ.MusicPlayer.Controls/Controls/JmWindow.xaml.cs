@@ -343,6 +343,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             base.OnClosed(e);
             if (IsShowInTaskBar)
                 NotifyIcon.Dispose();
+            
         }
 
         

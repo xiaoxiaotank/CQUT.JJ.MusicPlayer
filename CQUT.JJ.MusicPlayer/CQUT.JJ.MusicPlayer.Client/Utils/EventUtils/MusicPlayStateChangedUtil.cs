@@ -10,20 +10,20 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
 
     public static class MusicPlayStateChangedUtil
     {
-        public static event EventHandler<MusicPlayStateChangedArgs> MusicPlayStateChangedEvent;
+        public static event EventHandler<QMusicPlayStateChangedArgs> QMusicPlayStateChangedEvent;
 
-        public static void Invoke(MusicPlayInfoModel musicInfo, bool isToPlay)
+        public static void InvokeFromQM(QMPlayInfoModel musicInfo, bool isToPlay)
         {
-            var e = new MusicPlayStateChangedArgs(musicInfo, isToPlay);
-            MusicPlayStateChangedEvent(null, e);
+            var e = new QMusicPlayStateChangedArgs(musicInfo, isToPlay);
+            QMusicPlayStateChangedEvent(null, e);
         }
     }
 
-    public class MusicPlayStateChangedArgs : EventArgs
+    public class QMusicPlayStateChangedArgs : EventArgs
     {
-        public MusicPlayInfoModel MusicInfo { get; set; }
+        public QMPlayInfoModel MusicInfo { get; set; }
         public bool IsToPlay { get; set; }
-        public MusicPlayStateChangedArgs(MusicPlayInfoModel musicInfo, bool isToPlay)
+        public QMusicPlayStateChangedArgs(QMPlayInfoModel musicInfo, bool isToPlay)
         {
             MusicInfo = musicInfo;
             IsToPlay = isToPlay;

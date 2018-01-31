@@ -66,6 +66,7 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
             }
         }
 
+        public string SourcePath { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

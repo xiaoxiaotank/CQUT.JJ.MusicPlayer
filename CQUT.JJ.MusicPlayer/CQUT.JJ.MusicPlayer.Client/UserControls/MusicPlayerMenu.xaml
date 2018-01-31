@@ -56,7 +56,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!--歌曲头像-->
-            <Image Source="/Asserts/Images/DefaultMusicHeader.png" Stretch="UniformToFill" />
+            <Image Source="{Binding PhotoUri}" Stretch="UniformToFill" />
             <!--音质音效选择按钮-->
             <Grid Grid.Column="1" Margin="15 0">
                 <Grid.Resources>
@@ -141,7 +141,7 @@
                         <TextBlock Text="{Binding ElementName=MusicProgressSlider, Path=Maximum,Converter={StaticResource SecondToMinuteConverter}}" />
                     </StackPanel>
                 </Grid>
-                <jm:JmSlider x:Name="MusicProgressSlider" Grid.Row="1" TickFrequency="1" Minimum="0" Maximum="0.1" IsMoveToPointEnabled="True" Height="10"
+                <jm:JmSlider x:Name="MusicProgressSlider" Grid.Row="1" TickFrequency="0.5" Minimum="0" Maximum="0.1" IsMoveToPointEnabled="True" Height="10"
                              Margin="0 -10 0 0" TrackBorderThickness="0" TrackBackground="#626266" TrackHeight="2" TrackMargin="0" ThumbRadius="5" 
                              ThumbBackground="#8FABC1" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="{Binding RelativeSource={RelativeSource Self},Path=Value}"
                              SelectionBrush="{Binding RelativeSource={RelativeSource Self},Path=ThumbBackground}"/>

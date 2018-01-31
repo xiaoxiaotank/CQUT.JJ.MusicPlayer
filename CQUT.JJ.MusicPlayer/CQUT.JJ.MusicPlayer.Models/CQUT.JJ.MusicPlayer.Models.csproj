@@ -42,9 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MusicInfoModel.cs" />
+    <Compile Include="BaseModel\MusicInfoModel.cs" />
     <Compile Include="MusicInfoOfPageModel.cs" />
-    <Compile Include="MusicPlayInfoModel.cs" />
+    <Compile Include="QMPlayInfoModel.cs" />
+    <Compile Include="BaseModel\MusicPlayInfoModel.cs" />
     <Compile Include="QMAlbumInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkinModel.cs" />

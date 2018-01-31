@@ -11,5 +11,7 @@ namespace CQUT.JJ.MusicPlayer.Models
         public string Id { get; set; }      
 
         public QMAlbumInfoModel AlbumInfo { get; set; }
+
+        public string SourcePath { get; set; }
     }
 }

@@ -33,8 +33,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void NonNavPageDisplayed(object sender, EventArgs e)
         {
-            _selectedTabItem.IsSelected = false;
-            _selectedTabItem = null;
+            if(_selectedTabItem != null)
+            {
+                _selectedTabItem.IsSelected = false;
+                _selectedTabItem = null;
+            }           
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

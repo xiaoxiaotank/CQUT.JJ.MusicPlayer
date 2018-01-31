@@ -1,11 +1,14 @@
-﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using CQUT.JJ.MusicPlayer.Models;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +33,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         private static List<QMInfoViewModel> _musicListViewModel = null;
 
         private static int _currentPageNumber = 1;
+
+        /// <summary>
+        /// 正在播放的TextBlock对象
+        /// </summary>
+        private static TextBlock _currentPlayingTbObject = null;
 
         public SearchPage()
         {
@@ -61,7 +69,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             Name = m.Name,
                             SingerName = m.Singer,
                             AlbumName = m.AlbumInfo.Name,
-                            TimeDuration = m.TimeDuration
+                            TimeDuration = m.TimeDuration,
+                            SourcePath = m.SourcePath
                         });
                     });
                 MusicList.ItemsSource = _musicListViewModel;
@@ -90,17 +99,26 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
                     if (musicViewModel != null)
                     {
-                        var musicInfo = new MusicPlayInfoModel()
-                        {
-                            Id = musicViewModel.Id,
-                            Name = musicViewModel.Name,
-                            SingerName = musicViewModel.SingerName,
-                            TimeDuration = musicViewModel.TimeDuration,
-                            Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{id}.m4a?fromtag=38", UriKind.Absolute),
-                        };
-
                         ChangeMusicPlayBtnState(tb);
-                        MusicPlayStateChangedUtil.Invoke(musicInfo, true);
+
+                        Task.Factory.StartNew(() =>
+                        {
+                            var htmlWeb = new HtmlWeb() { BrowserTimeout = TimeSpan.FromSeconds(10) };
+                            var doc = htmlWeb.Load(musicViewModel.SourcePath);
+                            var photoUrl = doc.DocumentNode.SelectNodes("//img[@class='data__photo']")?.FirstOrDefault()?.Attributes["src"].Value?.ToHttpUrl();
+
+                            var musicInfo = new QMPlayInfoModel()
+                            {
+                                Id = musicViewModel.Id,
+                                Name = musicViewModel.Name,
+                                SingerName = musicViewModel.SingerName,
+                                TimeDuration = musicViewModel.TimeDuration,
+                                Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{id}.m4a?fromtag=38", UriKind.Absolute),
+                                PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
+                            };
+
+                            MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
+                        });                       
                     }
                 }
             }
@@ -254,6 +272,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 tb.Text = "\ue69d";
             else
                 tb.Text = "\ue774";
+            if(_currentPlayingTbObject != null)
+                _currentPlayingTbObject.Text = "\ue774";
+            _currentPlayingTbObject = tb;
         }
 
         private void ChangePageNumber(int targetPageNumber)
