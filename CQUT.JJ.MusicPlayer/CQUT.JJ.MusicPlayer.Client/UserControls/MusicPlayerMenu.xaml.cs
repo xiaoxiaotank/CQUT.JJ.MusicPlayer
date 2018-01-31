@@ -172,22 +172,23 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            if (_mediaPlayer.Source == null)
+            _isFromPlayBtnStateUpdated = true;
+            if (_musicSourceType.Equals(MusicSourceType.JM))
             {
-                PlayNewMusic(new Uri(@"好想再爱你.mp3", UriKind.Relative));
-                _musicPlayerMenuViewModel.MusicName = "好想再爱你";
-                _musicPlayerMenuViewModel.SingerName = "潘广益";
-                _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
-                _musicSourceType = MusicSourceType.JM;
+                if(_mediaPlayer.Source == null)
+                {
+                    PlayNewMusic(new Uri(@"好想再爱你.mp3", UriKind.Relative));
+                    _musicPlayerMenuViewModel.MusicName = "好想再爱你";
+                    _musicPlayerMenuViewModel.SingerName = "潘广益";
+                    _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
+                    _musicSourceType = MusicSourceType.JM;
+                }
+               
                 ChangePlayState();
             }
-            else
-            {
-                _isFromPlayBtnStateUpdated = true;
-                MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying);
-                _isFromPlayBtnStateUpdated = false;
-            }
-
+            else if (_musicSourceType == MusicSourceType.QM)           
+                MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying);               
+            _isFromPlayBtnStateUpdated = false;
         }
 
 

@@ -292,8 +292,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 tb.Text = "\ue774";
             if(_currentPlayingTbObject != null && !_currentPlayingTbObject.Equals(tb))
                 _currentPlayingTbObject.Text = "\ue774";
-            else if(_currentPlayingTbObject == null)
-                _currentPlayingTbObject = tb;
+            _currentPlayingTbObject = tb;
         }
 
         private void ChangePageNumber(int targetPageNumber)
