@@ -125,6 +125,7 @@
       <DependentUpon>UserMusicNavigtion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommonUtil.cs" />
+    <Compile Include="Utils\Enums\MusicPlayMode.cs" />
     <Compile Include="Utils\Enums\MusicSourceType.cs" />
     <Compile Include="Utils\EventUtils\JmSkinChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\JmSkinOpacityChangedUtil.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Utils\Enums\ThemeSkinType.cs" />
     <Compile Include="Utils\EventUtils\MusicPageRefreshUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPageSwitchedUtil.cs" />
+    <Compile Include="Utils\EventUtils\MusicPlayEndedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPlayStateChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicSearchInfoChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\NonNavPageDisplayedUtil.cs" />

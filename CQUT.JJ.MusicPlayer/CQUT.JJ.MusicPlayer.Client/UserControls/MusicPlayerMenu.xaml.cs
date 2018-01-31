@@ -59,11 +59,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private static bool _isPlaying = false;
 
         /// <summary>
-        /// 播放按钮是否已更新
-        /// </summary>
-        private static bool _isFromPlayBtnStateUpdated = false;
-
-        /// <summary>
         /// 音乐源类型
         /// </summary>
         private static MusicSourceType _musicSourceType = MusicSourceType.JM;
@@ -101,7 +96,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             Task.Factory.StartNew(() =>
             {
                 //进行播放并且不是同一首歌
-                if (!_isFromPlayBtnStateUpdated && e.IsToPlay && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
+                if (e.IsToPlay && e.IsNeedRefresh 
+                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
                 {
                     PlayNewMusic(e.MusicInfo.Uri);
                     _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
@@ -130,11 +126,13 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
             StopTimer();
+            MusicPlayEndedUtil.InvokeFromQM(MusicPlayMode.List);
         }
 
         private void MediaPlayer_MediaEnded(object sender, EventArgs e)
         {
             StopTimer();
+            MusicPlayEndedUtil.InvokeFromQM(MusicPlayMode.List);
         }
 
         private void BtnVolume_Click(object sender, RoutedEventArgs e)
@@ -172,7 +170,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            _isFromPlayBtnStateUpdated = true;
             if (_musicSourceType.Equals(MusicSourceType.JM))
             {
                 if(_mediaPlayer.Source == null)
@@ -187,8 +184,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 ChangePlayState();
             }
             else if (_musicSourceType == MusicSourceType.QM)           
-                MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying);               
-            _isFromPlayBtnStateUpdated = false;
+                MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying,false);               
         }
 
 

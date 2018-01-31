@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
@@ -37,23 +38,53 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         private static TaskScheduler _syncTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
         /// <summary>
-        /// 即将要播放的TextBlock对象
+        /// 即将要播放的id ,TextBlock对象
         /// </summary>
-        private static TextBlock _nextPlayingTbObject = null;
+        private static KeyValuePair<string, TextBlock> _nextPlayingTbObject;
 
         /// <summary>
-        /// 正在播放的TextBlock对象
+        /// 正在播放的id,TextBlock对象
         /// </summary>
-        private static TextBlock _currentPlayingTbObject = null;
+        private static KeyValuePair<string,TextBlock> _currentPlayingTbObject;
 
         public SearchPage()
         {
             InitializeComponent();
+            //页面信息发生变化
             MusicSearchInfoChangedUtil.QMSearchChangedEvent += MusicSearchInfoChangedUtil_QMSearchChangedEvent;
+            //音乐播放状态更改
             MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
+            //音乐播放结束
+            MusicPlayEndedUtil.QMusicPlayEndedEvent += QMusicPlayEnded;
         }
 
-    
+        private void QMusicPlayEnded(object sender, MusicPlayEndedEventArgs e)
+        {
+            switch (e.MusicPlayMode)
+            {
+                case MusicPlayMode.List:
+                    if(_musicListViewModel != null)
+                    {
+                        var currentPlayingObjIndex = _musicListViewModel.FindIndex(ml => ml == _musicListViewModel.SingleOrDefault(m => m.Id.Equals(_currentPlayingTbObject.Key)));
+                        if(currentPlayingObjIndex >= 0)
+                        {
+                            var nextPlayingObjIndex = currentPlayingObjIndex + 1;
+                            if (nextPlayingObjIndex >= _musicListViewModel.Count)
+                                nextPlayingObjIndex = 0;
+                            var nextPlayingObj = _musicListViewModel[nextPlayingObjIndex];
+                            var a = MusicList;
+                            ChangeMusicPlayState(nextPlayingObj, null);
+                        }
+                    }
+                    break;
+                case MusicPlayMode.Order:
+                    break;
+                case MusicPlayMode.Random:
+                    break;
+                case MusicPlayMode.Single:
+                    break;
+            }
+        }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -107,31 +138,36 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (id != null)
                 {
                     var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
-                    if (musicViewModel != null)
-                    {
-                        _nextPlayingTbObject = tb;
-
-                        Task.Factory.StartNew(() =>
-                        {
-                            var htmlWeb = new HtmlWeb() { BrowserTimeout = TimeSpan.FromSeconds(10) };
-                            var doc = htmlWeb.Load(musicViewModel.SourcePath);
-                            var photoUrl = doc.DocumentNode.SelectNodes("//img[@class='data__photo']")?.FirstOrDefault()?.Attributes["src"].Value?.ToHttpUrl();
-
-                            var musicInfo = new QMPlayInfoModel()
-                            {
-                                Id = musicViewModel.Id,
-                                Name = musicViewModel.Name,
-                                SingerName = musicViewModel.SingerName,
-                                TimeDuration = musicViewModel.TimeDuration,
-                                Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{id}.m4a?fromtag=38", UriKind.Absolute),
-                                PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
-                            };
-
-                            MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
-                        });
-                        
-                    }
+                    ChangeMusicPlayState(musicViewModel,tb);
                 }
+            }
+        }
+
+        private void ChangeMusicPlayState(QMInfoViewModel musicViewModel,TextBlock tb)
+        {
+            if (musicViewModel != null)
+            {
+                _nextPlayingTbObject = new KeyValuePair<string, TextBlock>(musicViewModel.Id, tb);
+
+                Task.Factory.StartNew(() =>
+                {
+                    var htmlWeb = new HtmlWeb() { BrowserTimeout = TimeSpan.FromSeconds(10) };
+                    var doc = htmlWeb.Load(musicViewModel.SourcePath);
+                    var photoUrl = doc.DocumentNode.SelectNodes("//img[@class='data__photo']")?.FirstOrDefault()?.Attributes["src"].Value?.ToHttpUrl();
+
+                    var musicInfo = new QMPlayInfoModel()
+                    {
+                        Id = musicViewModel.Id,
+                        Name = musicViewModel.Name,
+                        SingerName = musicViewModel.SingerName,
+                        TimeDuration = musicViewModel.TimeDuration,
+                        Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{musicViewModel.Id}.m4a?fromtag=38", UriKind.Absolute),
+                        PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
+                    };
+
+                    MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
+                });
+
             }
         }
 
@@ -139,7 +175,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             Task.Factory.StartNew(() =>
             {
-                ChangeMusicPlayBtnState(_nextPlayingTbObject);
+                ChangeMusicPlayBtnState(_nextPlayingTbObject.Value);
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
 
@@ -286,13 +322,16 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private void ChangeMusicPlayBtnState(TextBlock tb)
         {
-            if (tb.Text.Equals("\ue774"))
-                tb.Text = "\ue69d";
-            else
-                tb.Text = "\ue774";
-            if(_currentPlayingTbObject != null && !_currentPlayingTbObject.Equals(tb))
-                _currentPlayingTbObject.Text = "\ue774";
-            _currentPlayingTbObject = tb;
+            if(tb != null)
+            {
+                if (tb.Text.Equals("\ue774"))
+                    tb.Text = "\ue69d";
+                else
+                    tb.Text = "\ue774";
+                if (_currentPlayingTbObject.Value != null && !_currentPlayingTbObject.Value.Equals(tb))
+                    _currentPlayingTbObject.Value.Text = "\ue774";
+                _currentPlayingTbObject = _nextPlayingTbObject;
+            }          
         }
 
         private void ChangePageNumber(int targetPageNumber)
