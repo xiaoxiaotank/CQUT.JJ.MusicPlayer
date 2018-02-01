@@ -72,8 +72,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             if (nextPlayingObjIndex >= _musicListViewModel.Count)
                                 nextPlayingObjIndex = 0;
                             var nextPlayingObj = _musicListViewModel[nextPlayingObjIndex];
-                            var a = MusicList;
-                            ChangeMusicPlayState(nextPlayingObj, null);
+                            if(MusicList.ItemContainerGenerator.ContainerFromItem(nextPlayingObj) is ListViewItem lvi
+                                && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
+                                ChangeMusicPlayState(nextPlayingObj, tb);
                         }
                     }
                     break;
