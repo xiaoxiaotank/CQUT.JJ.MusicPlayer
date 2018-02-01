@@ -37,15 +37,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="jm:JmScrollViewer">
-            <Setter Property="UpArrowVisibility" Value="Collapsed" />
-            <Setter Property="DownArrowVisibility" Value="Collapsed" />
-            <Setter Property="ScrollBarBackground" Value="Transparent" />
-            <Setter Property="ThumbWidth" Value="12" />
-            <Setter Property="ThumbCornerRadius" Value="6" />
-            <Setter Property="ThumbBackground" Value="#40FFFFFF" />
-            <Setter Property="ThumbVisibility" Value="Hidden" />
-            <Setter Property="ThumbMouseOverBackground" Value="#60FFFFFF" />
+        <Style TargetType="jm:JmScrollViewer" BasedOn="{StaticResource JMScrollViewerStyle}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="ThumbVisibility" Value="Visible"/>

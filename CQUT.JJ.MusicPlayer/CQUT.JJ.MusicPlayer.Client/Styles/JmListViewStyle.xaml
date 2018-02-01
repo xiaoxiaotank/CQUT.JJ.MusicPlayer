@@ -74,11 +74,31 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultJmListViewItemStyle}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontSize" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="jm:JmListView">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
+                        <jm:JmScrollViewer UpArrowVisibility="Collapsed" DownArrowVisibility="Collapsed" ThumbBackground="#40FFFFFF" ScrollBarBackground="Transparent" ThumbWidth="12" ThumbCornerRadius="6"  ThumbMouseOverBackground="#60FFFFFF"  Focusable="false" Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </jm:JmScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsGrouping" Value="true"/>
+                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

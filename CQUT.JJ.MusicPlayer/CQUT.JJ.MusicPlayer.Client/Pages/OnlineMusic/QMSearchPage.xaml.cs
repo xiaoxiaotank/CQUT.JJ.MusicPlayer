@@ -28,6 +28,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
     /// </summary>
     public partial class SearchPage : Page
     {
+        #region Vars
         /// <summary>
         /// 歌曲列表视图模型
         /// </summary>
@@ -45,26 +46,47 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// <summary>
         /// 正在播放的id,TextBlock对象
         /// </summary>
-        private static KeyValuePair<string,TextBlock> _currentPlayingTbObject;
+        private static KeyValuePair<string, TextBlock> _currentPlayingTbObject; 
+        #endregion
 
         public SearchPage()
         {
             InitializeComponent();
+
             //页面信息发生变化
             MusicSearchInfoChangedUtil.QMSearchChangedEvent += MusicSearchInfoChangedUtil_QMSearchChangedEvent;
             //音乐播放状态更改
-            MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
-            //音乐播放结束
-            MusicPlaySwitchedUtil.QMusicPlaySwitchedEvent += QMusicSwitchedEnded;
+            if (_musicListViewModel == null)
+                MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
+            //音乐播放切换
+            MusicPlaySwitchedUtil.QMusicPlaySwitchedEvent += QMusicSwitched;       
         }
 
-        private void QMusicSwitchedEnded(object sender, MusicPlaySwitchedEventArgs e)
+        #region Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Waiting.Visibility = Visibility.Visible;
+            TbError.Visibility = Visibility.Collapsed;
+            GdSong.Visibility = Visibility.Collapsed;
+            NonNavPageDisplayedUtil.Invoke();
+
+            MusicSearchInfoChangedUtil.InvokeFromQMRequest(1);
+        }
+
+        /// <summary>
+        /// 音乐切换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void QMusicSwitched(object sender, MusicPlaySwitchedEventArgs e)
         {
             switch (e.MusicPlayMode)
             {
                 case MusicPlayMode.List:
-                    if(JMApp.CurrentPlayingMusicsInfo != null)
+                    if (JMApp.CurrentPlayingMusicsInfo != null)
                     {
+                        //当前页
                         if (JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && _musicListViewModel != null)
                         {
                             var currentPlayingObjIndex = _musicListViewModel.FindIndex(ml => ml == _musicListViewModel.SingleOrDefault(m => m.Id.Equals(_currentPlayingTbObject.Key)));
@@ -80,13 +102,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
                                 {
                                     ChangeMusicPlayState(nextPlayingObj, tb);
-                                    ChangeActivatedState(lvi);
+                                    ChangeMusicActivatedState(lvi);
                                     JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
                                 }
 
                             }
                         }
-                        else if(!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
+                        //不是当前页
+                        else if (!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
                         {
                             var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusics.ToList();
                             var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
@@ -120,16 +143,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             }
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            Waiting.Visibility = Visibility.Visible;
-            TbError.Visibility = Visibility.Collapsed;
-            GdSong.Visibility = Visibility.Collapsed;
-            NonNavPageDisplayedUtil.Invoke();
-
-            MusicSearchInfoChangedUtil.InvokeFromQMRequest(1);
-        }
-
+        /// <summary>
+        /// 页面信息更改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MusicSearchInfoChangedUtil_QMSearchChangedEvent(object sender, MusicSearchInfoChangedArgs e)
         {
             if (e.IsSuccessed)
@@ -152,7 +170,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 InitPageNumber(e.MusicInfoOfPageModels.TotalPageNumber, e.MusicInfoOfPageModels.CurrentPageNumber);
 
                 TbError.Visibility = Visibility.Collapsed;
-                GdSong.Visibility = Visibility.Visible;               
+                GdSong.Visibility = Visibility.Visible;
             }
             else
             {
@@ -160,23 +178,31 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 GdSong.Visibility = Visibility.Collapsed;
                 TbError.Visibility = Visibility.Visible;
             }
+
             Waiting.Visibility = Visibility.Collapsed;
             SpPageNumber.IsEnabled = true;
-            if(JMApp.CurrentPlayingMusicsInfo != null)
-                JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false; 
+            MusicList.ScrollIntoView(_musicListViewModel[0]);
+            if (JMApp.CurrentPlayingMusicsInfo != null)
+                JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
         }
 
+        /// <summary>
+        /// 播放按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
-            if(sender is JmTransparentButton btn && btn.Content is TextBlock tb)
+            if (sender is JmTransparentButton btn && btn.Content is TextBlock tb)
             {
                 var id = btn.Tag;
                 if (id != null)
                 {
                     var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
                     if (MusicList.ItemContainerGenerator.ContainerFromItem(musicViewModel) is JmListViewItem lvi)
-                        ChangeActivatedState(lvi);
-                    ChangeMusicPlayState(musicViewModel,tb);
+                        ChangeMusicActivatedState(lvi);
+                    ChangeMusicPlayState(musicViewModel, tb);
+
                     JMApp.CurrentPlayingMusicsInfo = new CurrentPlayingMusicsInfo()
                     {
                         CurrentQMPlayingMusics = _musicListViewModel.Select(m => new QMInfoModel()
@@ -190,37 +216,15 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         IsCurrentPlayingPage = true,
                         CurrentQMPlayingMusicId = musicViewModel.Id
                     };
-                }               
+                }
             }
-        }
+        }     
 
-        private void ChangeMusicPlayState(QMInfoViewModel musicViewModel,TextBlock tb)
-        {
-            if (musicViewModel != null)
-            {
-                _nextPlayingTbObject = new KeyValuePair<string, TextBlock>(musicViewModel.Id, tb);
-
-                Task.Factory.StartNew(() =>
-                {
-                    var htmlWeb = new HtmlWeb() { BrowserTimeout = TimeSpan.FromSeconds(10) };
-                    var doc = htmlWeb.Load(musicViewModel.SourcePath);
-                    var photoUrl = doc.DocumentNode.SelectNodes("//img[@class='data__photo']")?.FirstOrDefault()?.Attributes["src"].Value?.ToHttpUrl();
-
-                    var musicInfo = new QMPlayInfoModel()
-                    {
-                        Id = musicViewModel.Id,
-                        Name = musicViewModel.Name,
-                        SingerName = musicViewModel.SingerName,
-                        TimeDuration = musicViewModel.TimeDuration,
-                        Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{musicViewModel.Id}.m4a?fromtag=38", UriKind.Absolute),
-                        PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
-                    };
-
-                    MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
-                });
-            }
-        }
-
+        /// <summary>
+        /// QM音乐播放状态改变（从播放菜单发起，激发该页面）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void QMusicPlayStateChanged(object sender, QMusicPlayStateChangedArgs e)
         {
             Task.Factory.StartNew(() =>
@@ -229,9 +233,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
 
+        /// <summary>
+        /// 页码点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PageNumberBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(sender is Button pageNumberBtn)
+            if (sender is Button pageNumberBtn)
             {
                 var clickPageNumber = Convert.ToInt32(pageNumberBtn.Content);
                 if (_currentPageNumber.Equals(clickPageNumber)) return;
@@ -240,19 +249,34 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             }
         }
 
-        private void PreviousBtn_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 上一页点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PreviousPageBtn_Click(object sender, RoutedEventArgs e)
         {
             ChangePageNumber(_currentPageNumber - 1);
         }
 
-
-        private void NextBtn_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 下一页点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NextPageBtn_Click(object sender, RoutedEventArgs e)
         {
             ChangePageNumber(_currentPageNumber + 1);
-        }
+        } 
+        #endregion
 
         #region Helpers
 
+        /// <summary>
+        /// 初始化页码
+        /// </summary>
+        /// <param name="totalPageNumber"></param>
+        /// <param name="currentPageNumber"></param>
         private void InitPageNumber(int totalPageNumber,int currentPageNumber)
         {
             if (totalPageNumber < currentPageNumber || currentPageNumber <= 0) return;
@@ -263,7 +287,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if(currentPageNumber != 1)
             {
                 var previousBtn = new JmTransparentButton() { Content = "<" };
-                previousBtn.Click += PreviousBtn_Click;
+                previousBtn.Click += PreviousPageBtn_Click;
                 SpPageNumber.Children.Add(previousBtn);
             }
                 
@@ -356,7 +380,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if(currentPageNumber != totalPageNumber)
             {
                 var nextBtn = new JmTransparentButton() { Content = ">" };
-                nextBtn.Click += NextBtn_Click;
+                nextBtn.Click += NextPageBtn_Click;
                 SpPageNumber.Children.Add(nextBtn);
             }
 
@@ -370,6 +394,58 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             }
         }
 
+        /// <summary>
+        /// 更改页码
+        /// </summary>
+        /// <param name="targetPageNumber"></param>
+        private void ChangePageNumber(int targetPageNumber)
+        {
+            if (targetPageNumber < 1) return;
+            Waiting.Visibility = Visibility.Visible;
+            GdSong.Visibility = Visibility.Collapsed;
+            TbError.Visibility = Visibility.Collapsed;
+            SpPageNumber.IsEnabled = false;
+
+            _currentPageNumber = targetPageNumber;
+            MusicSearchInfoChangedUtil.InvokeFromQMRequest(_currentPageNumber);
+        }
+
+        /// <summary>
+        /// 更改音乐播放状态
+        /// </summary>
+        /// <param name="musicViewModel"></param>
+        /// <param name="tb"></param>
+        private void ChangeMusicPlayState(QMInfoViewModel musicViewModel, TextBlock tb)
+        {
+            if (musicViewModel != null)
+            {
+                _nextPlayingTbObject = new KeyValuePair<string, TextBlock>(musicViewModel.Id, tb);
+
+                Task.Factory.StartNew(() =>
+                {
+                    var htmlWeb = new HtmlWeb() { BrowserTimeout = TimeSpan.FromSeconds(10) };
+                    var doc = htmlWeb.Load(musicViewModel.SourcePath);
+                    var photoUrl = doc.DocumentNode.SelectNodes("//img[@class='data__photo']")?.FirstOrDefault()?.Attributes["src"].Value?.ToHttpUrl();
+
+                    var musicInfo = new QMPlayInfoModel()
+                    {
+                        Id = musicViewModel.Id,
+                        Name = musicViewModel.Name,
+                        SingerName = musicViewModel.SingerName,
+                        TimeDuration = musicViewModel.TimeDuration,
+                        Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{musicViewModel.Id}.m4a?fromtag=38", UriKind.Absolute),
+                        PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
+                    };
+
+                    MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
+                });
+            }
+        }
+
+        /// <summary>
+        /// 更改音乐播放按钮状态
+        /// </summary>
+        /// <param name="tb"></param>
         private void ChangeMusicPlayBtnState(TextBlock tb)
         {
             if(tb != null)
@@ -383,25 +459,20 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 _currentPlayingTbObject = _nextPlayingTbObject;
             }          
         }
-
-        private void ChangePageNumber(int targetPageNumber)
-        {
-            if (targetPageNumber < 1) return;
-            Waiting.Visibility = Visibility.Visible;
-            GdSong.Visibility = Visibility.Collapsed;
-            TbError.Visibility = Visibility.Collapsed;
-            SpPageNumber.IsEnabled = false;
-
-            _currentPageNumber = targetPageNumber;
-            MusicSearchInfoChangedUtil.InvokeFromQMRequest(_currentPageNumber);
-        }
-
-        private void ChangeActivatedState(JmListViewItem lvi)
+      
+        /// <summary>
+        /// 更改激活状态
+        /// </summary>
+        /// <param name="lvi"></param>
+        private void ChangeMusicActivatedState(JmListViewItem lvi)
         {
             RemoveCurrentPlayingMusicActivatedState();
             lvi.IsActivated = true;
         }
 
+        /// <summary>
+        /// 移除当前播放音乐激活状态
+        /// </summary>
         private void RemoveCurrentPlayingMusicActivatedState()
         {
             if(JMApp.CurrentPlayingMusicsInfo?.CurrentQMPlayingMusicId != null && _musicListViewModel != null)

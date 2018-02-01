@@ -39,7 +39,7 @@
             </Grid.RowDefinitions>
             <StackPanel>
             </StackPanel>
-            <Border Name="ListTemplate" Margin="30,0">
+            <Border Name="ListTemplate" Margin="30,0,0,0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.2*" />
