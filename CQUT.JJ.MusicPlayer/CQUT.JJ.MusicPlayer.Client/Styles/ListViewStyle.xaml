@@ -38,20 +38,26 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="0,13"/>
         <Setter Property="BorderThickness" Value="0,0,0,1" />
-        <Setter Property="BorderBrush" Value="#30C0C0C0" />
+        <Setter Property="BorderBrush" Value="#50C0C0C0" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListViewItem}">
-                    <Border x:Name="Bg" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                        <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    <Border x:Name="Bg" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle x:Name="Widget" Fill="Transparent" Width="4" Height="{TemplateBinding Height}" />
+                            <Border  Padding="{TemplateBinding Padding}">
+                                <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" TargetName="Bg" Value="#20FFFFFF"/>
+                            <Setter Property="Background" TargetName="Bg" Value="#15FFFFFF"/>
+                            <Setter Property="Fill" Value="SkyBlue"  TargetName="Widget" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" TargetName="Bg" Value="#20FFFFFF"/>
+                            <Setter Property="Background" TargetName="Bg" Value="#15FFFFFF"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

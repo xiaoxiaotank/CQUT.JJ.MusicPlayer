@@ -73,7 +73,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
             MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
             _timer.Tick += Timer_Tick;
-            _timer.Interval = TimeSpan.FromSeconds(0.5);
+            _timer.Interval = TimeSpan.FromSeconds(0.1);
 
             InitializeComponent();
 
@@ -106,7 +106,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _isPlaying = false;
                     _musicSourceType = MusicSourceType.QM;
                 }
-                ChangePlayState();
+                else
+                    ChangePlayState();
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
 
@@ -117,8 +118,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
         {
-            _timer.Stop();
-            _timer.Start();
+            ChangePlayState();
             MusicProgressSlider.Maximum = _mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
             SliderVolume.Maximum = _mediaPlayer.Volume;           
         }
@@ -126,13 +126,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
             StopTimer();
-            MusicPlayEndedUtil.InvokeFromQM(MusicPlayMode.List);
+            ChangePlayState();
+            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List,true);
         }
 
         private void MediaPlayer_MediaEnded(object sender, EventArgs e)
         {
             StopTimer();
-            MusicPlayEndedUtil.InvokeFromQM(MusicPlayMode.List);
+            _mediaPlayer.Position = TimeSpan.FromSeconds(0);
+            ChangePlayState();
+            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List,true);
         }
 
         private void BtnVolume_Click(object sender, RoutedEventArgs e)
@@ -179,12 +182,21 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _musicPlayerMenuViewModel.SingerName = "潘广益";
                     _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
                     _musicSourceType = MusicSourceType.JM;
-                }
-               
+                }               
                 ChangePlayState();
             }
             else if (_musicSourceType == MusicSourceType.QM)           
                 MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying,false);               
+        }
+
+        private void BtnPreviousMusic_Click(object sender, RoutedEventArgs e)
+        {
+            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List, false);
+        }
+
+        private void BtnNextMusic_Click(object sender, RoutedEventArgs e)
+        {
+            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List,true);
         }
 
 
@@ -287,15 +299,17 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         }
 
         private void ChangePlayState()
-        {
+        {                       
             if (_isPlaying)
             {
+                _timer.Stop();
                 _mediaPlayer.Pause();
                 _isPlaying = false;
                 TbPlay.Text = "\ue60f";
             }
             else
             {
+                _timer.Start();
                 _mediaPlayer.Play();
                 _isPlaying = true;
                 TbPlay.Text = "\ue606";
@@ -308,10 +322,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             Timer_Tick(_timer, null);
             _timer.Stop();
         }
+
+
+
         #endregion
 
-
-
-
+ 
     }
 }

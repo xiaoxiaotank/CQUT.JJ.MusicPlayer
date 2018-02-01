@@ -133,7 +133,7 @@
     <Compile Include="Utils\Enums\ThemeSkinType.cs" />
     <Compile Include="Utils\EventUtils\MusicPageRefreshUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPageSwitchedUtil.cs" />
-    <Compile Include="Utils\EventUtils\MusicPlayEndedUtil.cs" />
+    <Compile Include="Utils\EventUtils\MusicPlaySwitchedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicPlayStateChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicSearchInfoChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\NonNavPageDisplayedUtil.cs" />
