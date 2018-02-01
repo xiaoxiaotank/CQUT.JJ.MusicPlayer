@@ -62,6 +62,9 @@
     <Compile Include="Controls\JmDataGrid.xaml.cs">
       <DependentUpon>JmDataGrid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmListView.xaml.cs">
+      <DependentUpon>JmListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmRoundButton.xaml.cs">
       <DependentUpon>JmRoundButton.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,9 @@
     </Compile>
     <Compile Include="Controls\JmTransparentButton.xaml.cs">
       <DependentUpon>JmTransparentButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\JmListViewItem.xaml.cs">
+      <DependentUpon>JmListViewItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DiameterToRadiusConverter.cs" />
     <Compile Include="Converters\RadiusToMarginConverters.cs" />
@@ -129,6 +135,10 @@
     <Page Include="Controls\JmDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\JmRoundButton.xaml">
       <SubType>Designer</SubType>
@@ -173,6 +183,10 @@
     <Page Include="Controls\JmTransparentButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmListViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dictionary1.xaml">
       <SubType>Designer</SubType>

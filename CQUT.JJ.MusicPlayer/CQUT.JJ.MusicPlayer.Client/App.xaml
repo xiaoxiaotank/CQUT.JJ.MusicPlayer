@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/Styles/ListViewStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/Styles/JmListViewStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converter:RadioButtonFontSizeConverter x:Key="RadioButtonFontSizeConverter" />

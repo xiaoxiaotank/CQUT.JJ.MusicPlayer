@@ -15,6 +15,8 @@
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmScrollBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmThumb.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmDataGrid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmListViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmListView.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 

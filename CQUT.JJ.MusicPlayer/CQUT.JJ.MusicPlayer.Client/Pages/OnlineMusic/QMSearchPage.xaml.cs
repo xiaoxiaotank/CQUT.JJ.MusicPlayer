@@ -76,14 +76,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                                 else if (nextPlayingObjIndex < 0)
                                     nextPlayingObjIndex = _musicListViewModel.Count - 1;
                                 var nextPlayingObj = _musicListViewModel[nextPlayingObjIndex];
-                                if (MusicList.ItemContainerGenerator.ContainerFromItem(nextPlayingObj) is ListViewItem lvi
+                                if (MusicList.ItemContainerGenerator.ContainerFromItem(nextPlayingObj) is JmListViewItem lvi
                                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
                                 {
-                                    MusicList.SelectedItem = null;
-                                    lvi.IsSelected = true;
                                     ChangeMusicPlayState(nextPlayingObj, tb);
+                                    ChangeActivatedState(lvi);
+                                    JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
                                 }
-                                    
+
                             }
                         }
                         else if(!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
@@ -174,9 +174,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (id != null)
                 {
                     var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
-                    MusicList.SelectedItem = null;
-                    if (MusicList.ItemContainerGenerator.ContainerFromItem(musicViewModel) is ListViewItem lvi)
-                        lvi.IsSelected = true;
+                    if (MusicList.ItemContainerGenerator.ContainerFromItem(musicViewModel) is JmListViewItem lvi)
+                        ChangeActivatedState(lvi);
                     ChangeMusicPlayState(musicViewModel,tb);
                     JMApp.CurrentPlayingMusicsInfo = new CurrentPlayingMusicsInfo()
                     {
@@ -395,6 +394,26 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
             _currentPageNumber = targetPageNumber;
             MusicSearchInfoChangedUtil.InvokeFromQMRequest(_currentPageNumber);
+        }
+
+        private void ChangeActivatedState(JmListViewItem lvi)
+        {
+            RemoveCurrentPlayingMusicActivatedState();
+            lvi.IsActivated = true;
+        }
+
+        private void RemoveCurrentPlayingMusicActivatedState()
+        {
+            if(JMApp.CurrentPlayingMusicsInfo?.CurrentQMPlayingMusicId != null && _musicListViewModel != null)
+            {
+                var currentItem = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
+                if(currentItem != null)
+                {
+                    var container = MusicList.ItemContainerGenerator.ContainerFromItem(currentItem);
+                    if (container is JmListViewItem lvi)
+                        lvi.IsActivated = false;
+                }
+            }
         }
 
         #endregion

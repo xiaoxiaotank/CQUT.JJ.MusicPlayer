@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"               
+                    xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls">
+
+    <Style x:Key="DefaultJmListViewItemStyle" TargetType="local:JmListViewItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="0,13"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderBrush" Value="#50C0C0C0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:JmListViewItem">
+                    <Border x:Name="Bg" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle x:Name="Widget" Fill="Transparent" Width="4" Height="{TemplateBinding Height}" />
+                            <Border  Padding="{TemplateBinding Padding}">
+                                <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Bg" Property="Background"  Value="#15FFFFFF"/>
+                            <Setter TargetName="Widget" Property="Fill" Value="SkyBlue" />
+                            <Setter Property="Foreground" Value="SkyBlue" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Bg" Value="#15FFFFFF"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style  TargetType="local:JmListView">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultJmListViewItemStyle}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+</ResourceDictionary>
