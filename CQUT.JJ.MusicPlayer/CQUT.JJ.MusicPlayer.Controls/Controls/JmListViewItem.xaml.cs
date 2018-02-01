@@ -39,5 +39,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));
         }
+
     }
 }

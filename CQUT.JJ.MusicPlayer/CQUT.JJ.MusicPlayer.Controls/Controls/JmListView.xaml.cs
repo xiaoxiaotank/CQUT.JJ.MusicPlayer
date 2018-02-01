@@ -22,7 +22,6 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
     {
         private static readonly Type _ownerType = typeof(JmListView);
 
-
         static JmListView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(_ownerType, new FrameworkPropertyMetadata(_ownerType));

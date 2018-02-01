@@ -15,6 +15,17 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
         private string _singerName = string.Empty;
         private string _albumName = string.Empty;
         private string _timeDuration = string.Empty;
+        private bool _isActivated = false;
+
+        public bool IsActivated
+        {
+            get { return _isActivated; }
+            set
+            {
+                _isActivated = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsActivated)));
+            }
+        }
 
         public string Id
         {

@@ -102,7 +102,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
                                 {
                                     ChangeMusicPlayState(nextPlayingObj, tb);
-                                    ChangeMusicActivatedState(lvi);
+                                    ChangeMusicActivatedState(nextPlayingObj);
                                     JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
                                 }
 
@@ -181,7 +181,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
             Waiting.Visibility = Visibility.Collapsed;
             SpPageNumber.IsEnabled = true;
-            MusicList.ScrollIntoView(_musicListViewModel[0]);
+            MusicList.ScrollIntoView(_musicListViewModel?[0]);
             if (JMApp.CurrentPlayingMusicsInfo != null)
                 JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
         }
@@ -199,8 +199,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (id != null)
                 {
                     var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
-                    if (MusicList.ItemContainerGenerator.ContainerFromItem(musicViewModel) is JmListViewItem lvi)
-                        ChangeMusicActivatedState(lvi);
+                    ChangeMusicActivatedState(musicViewModel);
                     ChangeMusicPlayState(musicViewModel, tb);
 
                     JMApp.CurrentPlayingMusicsInfo = new CurrentPlayingMusicsInfo()
@@ -464,10 +463,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// 更改激活状态
         /// </summary>
         /// <param name="lvi"></param>
-        private void ChangeMusicActivatedState(JmListViewItem lvi)
+        private void ChangeMusicActivatedState(QMInfoViewModel item)
         {
             RemoveCurrentPlayingMusicActivatedState();
-            lvi.IsActivated = true;
+            if(item != null)
+                item.IsActivated = true;
         }
 
         /// <summary>
@@ -479,11 +479,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             {
                 var currentItem = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
                 if(currentItem != null)
-                {
-                    var container = MusicList.ItemContainerGenerator.ContainerFromItem(currentItem);
-                    if (container is JmListViewItem lvi)
-                        lvi.IsActivated = false;
-                }
+                    currentItem.IsActivated = false;
             }
         }
 

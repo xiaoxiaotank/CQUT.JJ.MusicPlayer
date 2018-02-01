@@ -55,6 +55,11 @@
             </Border>
             <jm:JmListView x:Name="MusicList" Grid.Row="1" Margin="{Binding ElementName=ListTemplate,Path=Margin}"
                            Style="{StaticResource DefaultJmListViewStyle}">
+                <jm:JmListView.ItemContainerStyle>
+                    <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
+                        <Setter Property="IsActivated" Value="{Binding IsActivated}" />
+                    </Style>
+                </jm:JmListView.ItemContainerStyle>
                 <jm:JmListView.View>
                     <GridView x:Name="GvMusicList" ColumnHeaderContainerStyle="{StaticResource DefaultGridViewColumnHeaderStyle}"
                               AllowsColumnReorder="False">
