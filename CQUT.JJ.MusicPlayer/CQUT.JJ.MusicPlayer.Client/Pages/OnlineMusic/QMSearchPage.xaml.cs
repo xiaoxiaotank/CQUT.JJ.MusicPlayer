@@ -419,7 +419,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (musicViewModel != null)
             {
                 _nextPlayingTbObject = new KeyValuePair<string, TextBlock>(musicViewModel.Id, tb);
-                var isToPlay = !tb.Text.Equals("\ue69d");
+                var isToPlay = true;
+                if (tb != null)
+                    isToPlay = !tb.Text.Equals("\ue69d");
 
                 Task.Factory.StartNew(() =>
                 {
