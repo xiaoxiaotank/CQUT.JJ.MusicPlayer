@@ -12,6 +12,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converter:RadioButtonFontSizeConverter x:Key="RadioButtonFontSizeConverter" />
+            <converter:OppositeNumberConverter x:Key="OppositeNumberConverter" />
+            <converter:DoubleParametersSubtractionConverter x:Key="DoubleParametersSubtractionConverter" />
 
             <FontFamily x:Key="JM">/CQUT.JJ.MusicPlayer.Client;component/Asserts/Fonts/#JM</FontFamily>
 
@@ -71,9 +73,6 @@
                 <Setter Property="ScrollBarBackground" Value="Transparent" />
                 <Setter Property="ThumbWidth" Value="12" />
                 <Setter Property="ThumbCornerRadius" Value="6" />
-                <Setter Property="ThumbBackground" Value="#40FFFFFF" />
-                <Setter Property="ThumbVisibility" Value="Hidden" />
-                <Setter Property="ThumbMouseOverBackground" Value="#60FFFFFF" />
             </Style>
 
         </ResourceDictionary>

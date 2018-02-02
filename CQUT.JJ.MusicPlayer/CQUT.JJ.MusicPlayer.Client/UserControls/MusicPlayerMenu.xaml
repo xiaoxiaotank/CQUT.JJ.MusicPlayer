@@ -190,10 +190,11 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
+                <!--歌词-->
                 <jm:JmTransparentButton ToolTip="歌词">
                     <TextBlock Text="&#xe671;"  />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton x:Name="BtnMusicPlayMode" Tag="{x:Static enum:MusicPlayMode.Random}" FontSize="18" Margin="12 0" ToolTip="随机播放" PreviewMouseLeftButtonUp="BtnMusicPlayMode_PreviewMouseLeftButtonUp">
+                <jm:JmTransparentButton x:Name="BtnMusicPlayMode" Tag="{x:Static enum:MusicPlayMode.Random}" FontSize="18" Margin="12 -1" ToolTip="随机播放" PreviewMouseLeftButtonUp="BtnMusicPlayMode_PreviewMouseLeftButtonUp">
                     <TextBlock Text="&#xe60d;" />
                 </jm:JmTransparentButton>
                 <Popup x:Name="PopMusicPlayMode" StaysOpen="False" IsOpen="False" PlacementTarget="{Binding ElementName=BtnMusicPlayMode}" 
@@ -250,6 +251,7 @@
                         </Grid>
                     </Border>
                 </Popup>
+                <!--音量设置-->
                 <jm:JmTransparentButton x:Name="BtnVolume" ToolTip="{Binding ElementName=TbVolumePercent, Path=Text,Converter={StaticResource VolumePercentToToolTip}}" 
                                         PreviewMouseLeftButtonUp="BtnVolume_PreviewMouseLeftButtonUp">
                     <TextBlock x:Name="TbVolume" Text="&#xe60b;" FontSize="17" />
@@ -301,7 +303,7 @@
         </StackPanel>
         <!--播放队列-->
         <StackPanel Grid.Column="4" Orientation="Vertical" VerticalAlignment="Center" Margin="27 0">
-            <jm:JmTransparentButton Foreground="Silver" FontSize="16">
+            <jm:JmTransparentButton x:Name="BtnMusicPlayList" Foreground="Silver" FontSize="16" PreviewMouseLeftButtonUp="BtnMusicPlayList_PreviewMouseLeftButtonUp">
                 <jm:JmTransparentButton.Style>
                     <Style TargetType="jm:JmTransparentButton">
                         <Style.Triggers>
@@ -313,9 +315,134 @@
                 </jm:JmTransparentButton.Style>
                 <StackPanel>
                     <TextBlock Text="&#xe640;" FontFamily="{StaticResource JM}" ToolTip="播放队列" />
-                    <TextBlock Text="50" FontSize="12" VerticalAlignment="Bottom" />
+                    <TextBlock x:Name="TbMusicTotalCountOfMenu"  Text="0" FontSize="12" VerticalAlignment="Bottom" />
                 </StackPanel>
             </jm:JmTransparentButton>
         </StackPanel>
+        <Rectangle x:Name="MusicPlayListBar" Grid.Column="4" Width="0" HorizontalAlignment="Right" />
+        <Popup x:Name="PopMusicPlayList" PlacementTarget="{Binding ElementName=MusicPlayListBar}" StaysOpen="False" IsOpen="False" Placement="Left" AllowsTransparency="True"
+               VerticalOffset="{Binding RelativeSource={RelativeSource AncestorType=jm:JmWindow},Path=BottomBarHeight,Converter={StaticResource OppositeNumberConverter}}" 
+               PopupAnimation="Slide">
+            <Border Background="White" Width="300" BorderBrush="#DBDBDB" BorderThickness="0 1 1 0">
+                <Border.Height>
+                    <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=jm:JmWindow}" Path="BottomBarHeight" />
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=jm:JmWindow}" Path="ActualHeight" />
+                    </MultiBinding>
+                </Border.Height>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="#F9F9F9">
+                        <Grid Margin="20 0" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="16" VerticalAlignment="Bottom">播放队列</TextBlock>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Silver" />
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <TextBlock x:Name="TbMusicTotalCount" Text="{Binding MusicTotalCount}" />
+                                    <TextBlock>首歌曲</TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <jm:JmScrollViewer Grid.Row="1" Style="{StaticResource JMScrollViewerStyle}" VerticalScrollBarVisibility="Auto"
+                                       ThumbBackground="#DBDBDB" ThumbMouseOverBackground="#CCCCCC">
+                        <ListView x:Name="LvMusicPlayList" BorderThickness="0">
+                            <ListView.Template>
+                                <ControlTemplate TargetType="{x:Type ListView}">
+                                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled" Value="false">
+                                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                        </Trigger>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsGrouping" Value="true"/>
+                                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                                        </MultiTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ListView.Template>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <Border x:Name="Bg" Background="{Binding Background}" Padding="0 10" Height="60" BorderThickness="0 0 0 1" BorderBrush="#50C0C0C0">
+                                                    <Grid x:Name="GdContent" Margin="20 0" VerticalAlignment="{Binding VerticalContentAlignment}">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid>
+                                                            <Grid.Resources>
+                                                                <Style TargetType="jm:JmTransparentButton">
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Foreground" Value="SkyBlue" />
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Grid.Resources>
+                                                            
+                                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="14" />
+                                                            <jm:JmTransparentButton x:Name="BtnListPlay" Visibility="Hidden" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                                                    Margin="0 0 10 0" FontSize="16" Tag="{Binding Id}" Click="BtnListPlay_Click">
+                                                                <TextBlock Text="&#xe774;" FontFamily="{StaticResource JM}" />
+                                                            </jm:JmTransparentButton>
+                                                        </Grid>
+                                                        <Grid Grid.Row="1">
+                                                            <Grid.Resources>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Foreground" Value="Silver" />
+                                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                                </Style>
+                                                            </Grid.Resources>
+                                                            <TextBlock Text="{Binding SingerName}" />
+                                                            <TextBlock Text="{Binding TimeDuration}" HorizontalAlignment="Right" />
+                                                        </Grid>
+                                                    </Grid>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="true">
+                                                        <Setter TargetName="Bg" Property="Background"  Value="#F7F7F7"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background"  Value="#F7F7F7"/>
+                                                        <Setter TargetName="BtnListPlay" Property="Visibility" Value="Visible" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </jm:JmScrollViewer>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 </UserControl>

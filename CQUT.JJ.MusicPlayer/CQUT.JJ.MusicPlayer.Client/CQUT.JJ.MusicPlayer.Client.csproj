@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="ControlAttachProperties\TabItemControlAttachProperty.cs" />
     <Compile Include="Converters\DoubleParametersSubtractionConverter.cs" />
+    <Compile Include="Converters\OppositeNumberConverter.cs" />
     <Compile Include="Converters\RadioButtonFontSizeConverter.cs" />
     <Compile Include="Converters\TimeSpanToSecondsConverter.cs" />
     <Compile Include="Converters\RemoveIdenticalColorSuperpositionEffectOpacityConverter.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Utils\StringFormatUtil.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MusicPlayerMenuViewModel.cs" />
+    <Compile Include="ViewModels\MusicPlayerMenu\MusicPlayListViewModel.cs" />
     <Compile Include="ViewModels\QMInfoViewModel.cs" />
     <Compile Include="Windows\SkinManagerWindow.xaml.cs">
       <DependentUpon>SkinManagerWindow.xaml</DependentUpon>

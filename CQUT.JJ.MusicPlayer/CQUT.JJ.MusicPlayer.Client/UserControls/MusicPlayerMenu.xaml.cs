@@ -3,6 +3,7 @@ using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
+using CQUT.JJ.MusicPlayer.Client.ViewModels.MusicPlayerMenu;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private static MusicPlayerMenuViewModel _musicPlayerMenuViewModel = new MusicPlayerMenuViewModel() { PhotoUri = _defaultPhotoUri };
 
+        private static MusicPlayListViewModel _musicPlayListViewModel = new MusicPlayListViewModel();
+
         private static TaskScheduler _syncTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
         public MusicPlayerMenu()
         {
@@ -84,7 +87,10 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             InitializeComponent();
 
             SetBindingAboutMediaPlayer();
+            SetBindingAboutMusicList();
         }
+
+        
 
         #region Events
 
@@ -108,7 +114,26 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
                     _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
                     _musicPlayerMenuViewModel.PhotoUri = e.MusicInfo.PhotoUri ?? _defaultPhotoUri;                   
-                    _musicSourceType = MusicSourceType.QM;                  
+                    _musicSourceType = MusicSourceType.QM;
+
+                    if (_musicPlayListViewModel?.MusicPlayList != null)
+                    {
+                        var music = _musicPlayListViewModel.MusicPlayList.SingleOrDefault(m => m.Id.Equals(e.MusicInfo.Id));
+                        if (music == null)
+                        {
+                            var newMusic = new MusicOfPlayListViewModel()
+                            {
+                                Id = e.MusicInfo.Id,
+                                Name = e.MusicInfo.Name,
+                                SingerName = e.MusicInfo.SingerName,
+                                TimeDuration = e.MusicInfo.TimeDuration
+                            };
+                            _musicPlayListViewModel.MusicPlayList.Add(newMusic);
+                            LvMusicPlayList.SelectedItem = newMusic;
+                        }
+                        else
+                            LvMusicPlayList.SelectedItem = music;
+                    }
                 }
                 else
                     ChangePlayState();
@@ -201,10 +226,12 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             SwitchMusic(true);
         }
+
         private void BtnMusicPlayMode_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             PopMusicPlayMode.IsOpen = !PopMusicPlayMode.IsOpen;
         }
+
         private void SelectMusicPlayMode_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (e.OriginalSource is JmButton btn)
@@ -217,6 +244,21 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 BtnMusicPlayMode.ToolTip = btn.Content;
                 PopMusicPlayMode.IsOpen = false;
             }
+        }
+
+        private void BtnMusicPlayList_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PopMusicPlayList.IsOpen = !PopMusicPlayList.IsOpen;
+        }
+
+        /// <summary>
+        /// 歌曲列表中的播放按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnListPlay_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         #endregion
 
@@ -246,6 +288,19 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 Mode = BindingMode.TwoWay
             };
             SliderVolume.SetBinding(Slider.ValueProperty, musicVolumeBingding);
+        }
+
+        private void SetBindingAboutMusicList()
+        {
+            LvMusicPlayList.ItemsSource = _musicPlayListViewModel.MusicPlayList;
+            var musicTotalCountOfmusicListBinding = new Binding()
+            {
+                Source = _musicPlayListViewModel,
+                Path = new PropertyPath("MusicTotalCount"),
+                Mode = BindingMode.OneWay
+            };
+            TbMusicTotalCount.SetBinding(TextBlock.TextProperty, musicTotalCountOfmusicListBinding);
+            TbMusicTotalCountOfMenu.SetBinding(TextBlock.TextProperty, musicTotalCountOfmusicListBinding);
         }
 
         /// <summary>
@@ -356,7 +411,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             MusicPlaySwitchedUtil.InvokeFromQM(musicPlayMode, isDescending);
         }
 
-        #endregion
 
+
+        #endregion
     }
 }

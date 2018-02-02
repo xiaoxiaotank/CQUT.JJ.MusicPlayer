@@ -8,6 +8,9 @@ using System.Windows.Data;
 
 namespace CQUT.JJ.MusicPlayer.Client.Converters
 {
+    /// <summary>
+    /// 两个double类型参数之差绝对值
+    /// </summary>
     public class DoubleParametersSubtractionConverter : IMultiValueConverter
     {      
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
