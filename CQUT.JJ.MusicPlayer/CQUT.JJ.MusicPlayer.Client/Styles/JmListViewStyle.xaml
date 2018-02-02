@@ -47,7 +47,7 @@
                     <Border x:Name="Bg" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <StackPanel Orientation="Horizontal">
                             <Rectangle x:Name="Widget" Fill="Transparent" Width="4" Height="{TemplateBinding Height}" />
-                            <Border  Padding="{TemplateBinding Padding}">
+                            <Border Padding="{TemplateBinding Padding}">
                                 <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                             </Border>
                         </StackPanel>
@@ -72,7 +72,6 @@
 
     <Style x:Key="DefaultJmListViewStyle" TargetType="jm:JmListView">
         <Setter Property="Padding" Value="0" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultJmListViewItemStyle}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Background" Value="Transparent" />
@@ -84,7 +83,17 @@
                 <ControlTemplate TargetType="jm:JmListView">
                     <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="1" SnapsToDevicePixels="true">
                         <jm:JmScrollViewer UpArrowVisibility="Collapsed" DownArrowVisibility="Collapsed" ThumbBackground="#40FFFFFF" ScrollBarBackground="Transparent" ThumbWidth="12" ThumbCornerRadius="6"  ThumbMouseOverBackground="#60FFFFFF"  Focusable="false" Padding="{TemplateBinding Padding}">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <DockPanel>
+                                <GridViewHeaderRowPresenter DockPanel.Dock="Top" AllowsColumnReorder="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.AllowsColumnReorder}" 
+                                                            ColumnHeaderContainerStyle="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.ColumnHeaderContainerStyle}" 
+                                                            ColumnHeaderToolTip="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.ColumnHeaderToolTip}"
+                                                            ColumnHeaderContextMenu="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.ColumnHeaderContextMenu}" 
+                                                            ColumnHeaderTemplate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.ColumnHeaderTemplate}" 
+                                                            Columns="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.Columns}" 
+                                                            Margin="2,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </DockPanel>
+
                         </jm:JmScrollViewer>
                     </Border>
                     <ControlTemplate.Triggers>

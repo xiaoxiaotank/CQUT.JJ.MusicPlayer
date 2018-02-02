@@ -59,6 +59,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private static bool _isPlaying = false;
 
         /// <summary>
+        /// 当前播放歌曲打开是否失败
+        /// </summary>
+        private static bool _isCurrentPlayingMusicOpenFailed = false;
+
+        /// <summary>
         /// 音乐源类型
         /// </summary>
         private static MusicSourceType _musicSourceType = MusicSourceType.JM;
@@ -80,8 +85,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             SetBindingAboutMediaPlayer();
         }
 
-       
-
         #region Events
 
 
@@ -95,16 +98,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {           
             Task.Factory.StartNew(() =>
             {
-                //进行播放并且不是同一首歌
+                //进行播放并且是属于（当前无播放源、不是同一首歌、播放失败）之一的情况 
                 if (e.IsToPlay && e.IsNeedRefresh 
-                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri)))
+                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri) || _isCurrentPlayingMusicOpenFailed))
                 {
+                    _isPlaying = false;
                     PlayNewMusic(e.MusicInfo.Uri);
                     _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
                     _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
-                    _musicPlayerMenuViewModel.PhotoUri = e.MusicInfo.PhotoUri ?? _defaultPhotoUri;
-                    _isPlaying = false;
-                    _musicSourceType = MusicSourceType.QM;
+                    _musicPlayerMenuViewModel.PhotoUri = e.MusicInfo.PhotoUri ?? _defaultPhotoUri;                   
+                    _musicSourceType = MusicSourceType.QM;                  
                 }
                 else
                     ChangePlayState();
@@ -118,16 +121,15 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
         {
-            ChangePlayState();
+            MusicPlayStateChangedUtil.InvokeFromQM(null, true, false);
             MusicProgressSlider.Maximum = _mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-            SliderVolume.Maximum = _mediaPlayer.Volume;           
+            SliderVolume.Maximum = _mediaPlayer.Volume;
+            _isCurrentPlayingMusicOpenFailed = false;
         }
 
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
-            StopTimer();
-            ChangePlayState();
-            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List,true);
+            _isCurrentPlayingMusicOpenFailed = true;
         }
 
         private void MediaPlayer_MediaEnded(object sender, EventArgs e)
@@ -244,6 +246,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void PlayNewMusic(Uri uri)
         {
+            if (_isCurrentPlayingMusicOpenFailed)
+                _mediaPlayer.Close();
             _mediaPlayer.Open(uri);
         }
 
@@ -300,7 +304,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void ChangePlayState()
         {                       
-            if (_isPlaying)
+            if (_isCurrentPlayingMusicOpenFailed || _isPlaying)
             {
                 _timer.Stop();
                 _mediaPlayer.Pause();

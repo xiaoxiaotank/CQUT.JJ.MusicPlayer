@@ -105,7 +105,15 @@
                         </GridViewColumn>
                         <GridViewColumn Header="歌手" DisplayMemberBinding="{Binding SingerName}" Width="{Binding ElementName=ColSingerName,Path=ActualWidth}"/>
                         <GridViewColumn Header="专辑" DisplayMemberBinding="{Binding AlbumName}" Width="{Binding ElementName=ColAlbumName,Path=ActualWidth}"/>
-                        <GridViewColumn Header="时长" DisplayMemberBinding="{Binding TimeDuration}" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}"/>
+                        <GridViewColumn Header="时长" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <ItemContainerTemplate>
+                                    <Border>
+                                        <TextBlock Foreground="Silver" Text="{Binding TimeDuration}" />
+                                    </Border>
+                                </ItemContainerTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </jm:JmListView.View>
             </jm:JmListView>

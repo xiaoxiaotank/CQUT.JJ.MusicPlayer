@@ -228,7 +228,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             Task.Factory.StartNew(() =>
             {
-                ChangeMusicPlayBtnState(_nextPlayingTbObject.Value);
+                ChangeMusicPlayBtnState(_nextPlayingTbObject.Value,e.IsToPlay);
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
 
@@ -419,6 +419,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (musicViewModel != null)
             {
                 _nextPlayingTbObject = new KeyValuePair<string, TextBlock>(musicViewModel.Id, tb);
+                var isToPlay = !tb.Text.Equals("\ue69d");
 
                 Task.Factory.StartNew(() =>
                 {
@@ -436,7 +437,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
                     };
 
-                    MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, true);
+                    MusicPlayStateChangedUtil.InvokeFromQM(musicInfo, isToPlay);
                 });
             }
         }
@@ -445,11 +446,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// 更改音乐播放按钮状态
         /// </summary>
         /// <param name="tb"></param>
-        private void ChangeMusicPlayBtnState(TextBlock tb)
+        private void ChangeMusicPlayBtnState(TextBlock tb,bool isToPlay)
         {
             if(tb != null)
             {
-                if (tb.Text.Equals("\ue774"))
+                if (isToPlay)
                     tb.Text = "\ue69d";
                 else
                     tb.Text = "\ue774";
