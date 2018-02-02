@@ -81,65 +81,86 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// <param name="e"></param>
         private void QMusicSwitched(object sender, MusicPlaySwitchedEventArgs e)
         {
-            switch (e.MusicPlayMode)
+            if (JMApp.CurrentPlayingMusicsInfo != null)
             {
-                case MusicPlayMode.List:
-                    if (JMApp.CurrentPlayingMusicsInfo != null)
+                //当前页
+                if (JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && _musicListViewModel != null)
+                {
+                    var currentPlayingObjIndex = _musicListViewModel.FindIndex(ml => ml == _musicListViewModel.SingleOrDefault(m => m.Id.Equals(_currentPlayingTbObject.Key)));
+                    if (currentPlayingObjIndex >= 0)
                     {
-                        //当前页
-                        if (JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && _musicListViewModel != null)
+                        int nextPlayingObjIndex = currentPlayingObjIndex;
+                        switch (e.MusicPlayMode)
                         {
-                            var currentPlayingObjIndex = _musicListViewModel.FindIndex(ml => ml == _musicListViewModel.SingleOrDefault(m => m.Id.Equals(_currentPlayingTbObject.Key)));
-                            if (currentPlayingObjIndex >= 0)
-                            {
-                                var nextPlayingObjIndex = e.IsDescending == true ? currentPlayingObjIndex + 1 : currentPlayingObjIndex - 1;
+                            case MusicPlayMode.List:
+                                nextPlayingObjIndex = e.IsDescending == true ? currentPlayingObjIndex + 1 : currentPlayingObjIndex - 1;
                                 if (nextPlayingObjIndex >= _musicListViewModel.Count)
                                     nextPlayingObjIndex = 0;
                                 else if (nextPlayingObjIndex < 0)
                                     nextPlayingObjIndex = _musicListViewModel.Count - 1;
-                                var nextPlayingObj = _musicListViewModel[nextPlayingObjIndex];
-                                if (MusicList.ItemContainerGenerator.ContainerFromItem(nextPlayingObj) is JmListViewItem lvi
-                                    && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
-                                {
-                                    ChangeMusicPlayState(nextPlayingObj, tb);
-                                    ChangeMusicActivatedState(nextPlayingObj);
-                                    JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
-                                }
-
-                            }
+                                break;
+                            case MusicPlayMode.Order:
+                                nextPlayingObjIndex = e.IsDescending == true ? currentPlayingObjIndex + 1 : currentPlayingObjIndex - 1;
+                                if (nextPlayingObjIndex >= _musicListViewModel.Count || nextPlayingObjIndex < 0) return;
+                                break;
+                            case MusicPlayMode.Random:
+                                nextPlayingObjIndex = new Random().Next(0, _musicListViewModel.Count);
+                                break;
+                            case MusicPlayMode.Single:
+                                break;
                         }
-                        //不是当前页
-                        else if (!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
+                       
+                        var nextPlayingObj = _musicListViewModel[nextPlayingObjIndex];
+                        if (MusicList.ItemContainerGenerator.ContainerFromItem(nextPlayingObj) is JmListViewItem lvi
+                            && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
                         {
-                            var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusics.ToList();
-                            var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
-                            if (currentPlayingObjIndex >= 0)
-                            {
-                                var nextPlayingObjIndex = e.IsDescending == true ? currentPlayingObjIndex + 1 : currentPlayingObjIndex - 1;
+                            ChangeMusicPlayState(nextPlayingObj, tb);
+                            ChangeMusicActivatedState(nextPlayingObj);
+                            JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
+                        }
+                        MusicList.ScrollIntoView(nextPlayingObj);
+                    }
+                }
+                //不是当前页
+                else if (!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
+                {
+                    var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusics.ToList();
+                    var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
+                    if (currentPlayingObjIndex >= 0)
+                    {
+                        int nextPlayingObjIndex = currentPlayingObjIndex;
+                        switch (e.MusicPlayMode)
+                        {
+                            case MusicPlayMode.List:
+                                nextPlayingObjIndex = e.IsDescending == true ? currentPlayingObjIndex + 1 : currentPlayingObjIndex - 1;
                                 if (nextPlayingObjIndex >= currentPlayingMusicList.Count)
                                     nextPlayingObjIndex = 0;
                                 else if (nextPlayingObjIndex < 0)
                                     nextPlayingObjIndex = currentPlayingMusicList.Count - 1;
-                                var nextPlayingObj = currentPlayingMusicList[nextPlayingObjIndex];
-                                ChangeMusicPlayState(new QMInfoViewModel()
-                                {
-                                    Id = nextPlayingObj.Id,
-                                    Name = nextPlayingObj.Name,
-                                    SingerName = nextPlayingObj.Singer,
-                                    TimeDuration = nextPlayingObj.TimeDuration,
-                                    SourcePath = nextPlayingObj.SourcePath
-                                }, null);
-                                JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
-                            }
+                                break;
+                            case MusicPlayMode.Order:
+                                nextPlayingObjIndex = e.IsDescending == true ? currentPlayingObjIndex + 1 : currentPlayingObjIndex - 1;
+                                if (nextPlayingObjIndex >= currentPlayingMusicList.Count || nextPlayingObjIndex < 0) return;
+                                break;
+                            case MusicPlayMode.Random:
+                                nextPlayingObjIndex = new Random().Next(0, currentPlayingMusicList.Count);
+                                break;
+                            case MusicPlayMode.Single:
+                                break;
                         }
+                       
+                        var nextPlayingObj = currentPlayingMusicList[nextPlayingObjIndex];
+                        ChangeMusicPlayState(new QMInfoViewModel()
+                        {
+                            Id = nextPlayingObj.Id,
+                            Name = nextPlayingObj.Name,
+                            SingerName = nextPlayingObj.Singer,
+                            TimeDuration = nextPlayingObj.TimeDuration,
+                            SourcePath = nextPlayingObj.SourcePath
+                        }, null);
+                        JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
                     }
-                    break;
-                case MusicPlayMode.Order:
-                    break;
-                case MusicPlayMode.Random:
-                    break;
-                case MusicPlayMode.Single:
-                    break;
+                }
             }
         }
 

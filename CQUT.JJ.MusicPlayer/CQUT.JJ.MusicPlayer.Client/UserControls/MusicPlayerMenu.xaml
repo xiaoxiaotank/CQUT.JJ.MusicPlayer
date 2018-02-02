@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
              xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+             xmlns:enum="clr-namespace:CQUT.JJ.MusicPlayer.Client.Utils.Enums"
              xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="2000" Loaded="UserControl_Loaded">
@@ -191,11 +193,65 @@
                 <jm:JmTransparentButton ToolTip="歌词">
                     <TextBlock Text="&#xe671;"  />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton x:Name="BtnMusicPlayMode" Margin="12 0" ToolTip="随机播放">
+                <jm:JmTransparentButton x:Name="BtnMusicPlayMode" Tag="{x:Static enum:MusicPlayMode.Random}" FontSize="18" Margin="12 0" ToolTip="随机播放" PreviewMouseLeftButtonUp="BtnMusicPlayMode_PreviewMouseLeftButtonUp">
                     <TextBlock Text="&#xe60d;" />
                 </jm:JmTransparentButton>
+                <Popup x:Name="PopMusicPlayMode" StaysOpen="False" IsOpen="False" PlacementTarget="{Binding ElementName=BtnMusicPlayMode}" 
+                       Placement="Top" AllowsTransparency="True" HorizontalOffset="-55" VerticalOffset="-20">
+                    <Border Background="White" Width="120" Height="165">
+                        <Grid x:Name="SelectMusicPlayMode" PreviewMouseLeftButtonUp="SelectMusicPlayMode_PreviewMouseLeftButtonUp">
+                            <Grid.Resources>
+                                <Style TargetType="jm:JmButton">
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="IconMargin" Value="0 0 15 0" />
+                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="BorderThickness" Value="0 0 0 1"/>
+                                    <Setter Property="BorderBrush" Value="#20C0C0C0" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#F0F0F0" />
+                                            <Setter Property="Foreground" Value="#666666" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Opacity" Value="0.6" />
+                                    <Setter Property="FontFamily" Value="{StaticResource JM}" />
+                                    <Setter Property="FontSize" Value="18" />
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <jm:JmButton Tag="{x:Static enum:MusicPlayMode.Random}">随机播放
+                                <jm:JmButton.Icon>
+                                    <TextBlock Text="&#xe60d;" />
+                                </jm:JmButton.Icon>
+                            </jm:JmButton>
+                            <jm:JmButton Grid.Row="1" Tag="{x:Static enum:MusicPlayMode.Order}">顺序播放
+                                <jm:JmButton.Icon>
+                                    <TextBlock Text="&#xe751;" />
+                                </jm:JmButton.Icon>
+                            </jm:JmButton>
+                            <jm:JmButton Grid.Row="2" Tag="{x:Static enum:MusicPlayMode.Single}">单曲循环
+                                <jm:JmButton.Icon>
+                                    <TextBlock Text="&#xe607;" />
+                                </jm:JmButton.Icon>
+                            </jm:JmButton>
+                            <jm:JmButton Grid.Row="3" Tag="{x:Static enum:MusicPlayMode.List}">列表循环
+                                <jm:JmButton.Icon>
+                                    <TextBlock Text="&#xe60a;" />
+                                </jm:JmButton.Icon>
+                            </jm:JmButton>
+                        </Grid>
+                    </Border>
+                </Popup>
                 <jm:JmTransparentButton x:Name="BtnVolume" ToolTip="{Binding ElementName=TbVolumePercent, Path=Text,Converter={StaticResource VolumePercentToToolTip}}" 
-                                        Click="BtnVolume_Click">
+                                        PreviewMouseLeftButtonUp="BtnVolume_PreviewMouseLeftButtonUp">
                     <TextBlock x:Name="TbVolume" Text="&#xe60b;" FontSize="17" />
                 </jm:JmTransparentButton>
                 <Popup x:Name="PopVolume" StaysOpen="False" IsOpen="False" PlacementTarget="{Binding ElementName=BtnVolume}" Placement="Top" Width="70" Height="256"
@@ -210,7 +266,7 @@
                                 </Grid.RowDefinitions>
                                 <StackPanel Orientation="Vertical" Margin="0 15">
                                     <!--音量调节-->
-                                    <jm:JmSlider x:Name="SliderVolume" Maximum="100"
+                                    <jm:JmSlider x:Name="SliderVolume" Maximum="1"
                                         Value="{Binding RelativeSource={RelativeSource Self},Path=Maximum,Mode=OneWay}"
                                         Orientation="Vertical" Width="22" Height="130" TrackBackground="#ECECEC" TrackWidth="3"
                                         ThumbBackground="#31C27C" ThumbRadius="5" IsSelectionRangeEnabled="True" SelectionStart="0" 

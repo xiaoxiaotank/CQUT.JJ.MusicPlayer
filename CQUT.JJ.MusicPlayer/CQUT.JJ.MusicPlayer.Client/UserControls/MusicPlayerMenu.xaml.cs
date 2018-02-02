@@ -3,6 +3,7 @@ using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// <summary>
         /// 播放器
         /// </summary>
-        private static MediaPlayer _mediaPlayer = new MediaPlayer();
+        private static MediaPlayer _mediaPlayer = new MediaPlayer() { Volume = 1 };
 
         /// <summary>
         /// 是否正在播放
@@ -117,6 +118,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void Timer_Tick(object sender, EventArgs e)
         {
             MusicProgressSlider.Value = _mediaPlayer.Position.TotalSeconds;
+            //MessageBox.Show($"{_mediaPlayer.DownloadProgress * 100}%");
         }
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
@@ -137,12 +139,12 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             StopTimer();
             _mediaPlayer.Position = TimeSpan.FromSeconds(0);
             ChangePlayState();
-            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List,true);
+            MusicPlaySwitchedUtil.InvokeFromQM(GetMusicPlayMode(), true);
         }
 
-        private void BtnVolume_Click(object sender, RoutedEventArgs e)
+        private void BtnVolume_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            PopVolume.IsOpen = true;
+            PopVolume.IsOpen = !PopVolume.IsOpen;
         }
 
         private void BtnPopVolume_Click(object sender, RoutedEventArgs e)
@@ -185,7 +187,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
                     _musicSourceType = MusicSourceType.JM;
                 }               
-                ChangePlayState();
             }
             else if (_musicSourceType == MusicSourceType.QM)           
                 MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying,false);               
@@ -193,15 +194,30 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void BtnPreviousMusic_Click(object sender, RoutedEventArgs e)
         {
-            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List, false);
+            SwitchMusic(false);
         }
 
         private void BtnNextMusic_Click(object sender, RoutedEventArgs e)
         {
-            MusicPlaySwitchedUtil.InvokeFromQM(MusicPlayMode.List,true);
+            SwitchMusic(true);
         }
-
-
+        private void BtnMusicPlayMode_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PopMusicPlayMode.IsOpen = !PopMusicPlayMode.IsOpen;
+        }
+        private void SelectMusicPlayMode_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is JmButton btn)
+            {
+                if(btn.Icon is TextBlock icon && BtnMusicPlayMode.Content is TextBlock btnIcon)
+                {
+                    btnIcon.Text = icon.Text;
+                }
+                BtnMusicPlayMode.Tag = btn.Tag;
+                BtnMusicPlayMode.ToolTip = btn.Content;
+                PopMusicPlayMode.IsOpen = false;
+            }
+        }
         #endregion
 
         #region 辅助方法
@@ -327,10 +343,20 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             _timer.Stop();
         }
 
+        private MusicPlayMode GetMusicPlayMode()
+        {
+            return BtnMusicPlayMode.Tag as MusicPlayMode? ?? MusicPlayMode.Random;
+        }
 
+        private void SwitchMusic(bool isDescending)
+        {
+            var musicPlayMode = GetMusicPlayMode();
+            if (musicPlayMode.Equals(MusicPlayMode.Single))
+                musicPlayMode = MusicPlayMode.List;
+            MusicPlaySwitchedUtil.InvokeFromQM(musicPlayMode, isDescending);
+        }
 
         #endregion
 
- 
     }
 }
