@@ -53,7 +53,7 @@
                     <Grid Name="ColTimeDuration" Grid.Column="3" />
                 </Grid>
             </Border>
-            <jm:JmListView x:Name="MusicList" Grid.Row="1" Margin="{Binding ElementName=ListTemplate,Path=Margin}"
+            <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False" Grid.Row="1" Margin="{Binding ElementName=ListTemplate,Path=Margin}"
                            Style="{StaticResource DefaultJmListViewStyle}">
                 <jm:JmListView.ItemContainerStyle>
                     <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">

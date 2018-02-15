@@ -117,8 +117,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             ChangeMusicPlayState(nextPlayingObj, tb);
                             ChangeMusicActivatedState(nextPlayingObj);
                             JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId = nextPlayingObj.Id;
-                        }
-                        MusicList.ScrollIntoView(nextPlayingObj);
+                            MusicList.ScrollIntoView(nextPlayingObj);
+                        }                        
                     }
                 }
                 //不是当前页
