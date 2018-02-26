@@ -1,0 +1,32 @@
+﻿@model List<JJJ.CQLG.MIS.Web.Areas.Admin.Models.Shared.MenuItem>
+
+
+<ul class="sidebar-menu">
+    <li class="header">HEADER</li>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            if (item.HasChild)
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i> <span>@item.Name</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    @Html.Partial("Components/Menus/_SidebarChildren", item.Children)
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@item.Url">
+                        <i class="fa fa-circle-o"></i> <span>@item.Name</span>
+                    </a>
+                </li>
+            }
+        }
+    }
+</ul>

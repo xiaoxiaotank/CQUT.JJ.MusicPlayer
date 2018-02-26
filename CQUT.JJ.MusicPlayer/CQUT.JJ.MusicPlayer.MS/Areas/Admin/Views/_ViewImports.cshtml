@@ -1,0 +1,49 @@
+﻿@using CQUT.JJ.MusicPlayer.MS
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@*
+    这个项目中，为了暴露所有的Tag Helpers（创建一个名称为 AuthoringTagHelpers 的程序集），你可以像下面一样使用：
+    @using AuthoringTagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper "*, AuthoringTagHelpers" // 手动高亮
+
+    如果你的项目包含一个使用默认命名空间(AuthoringTagHelpers.TagHelpers.EmailTagHelper)的 EmailTagHelper ，你可以对 Tag Helper 提供完全限定名（FQN）：
+    @using AuthoringTagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper "AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers" // 手动高亮
+*@
+
+
+@*视图可以使用 Razor 指令做许多事，比如导入命名空间或者进行依赖注入。由多个视图共享的指令可以在公共的 _ViewImports.cshtml 文件中指定。
+    _ViewImports 文件支持以下指令：
+        @addTagHelper
+        @removeTagHelper
+        @tagHelperPrefix
+        @using
+        @model
+        @inherits
+        @inject
+    这个文件不支持其他 Razor 特性，比如 functions 和 section 的定义等等。
+
+
+    一个 _ViewImports.cshtml 文件的例子：
+    @using WebApplication1
+    @using WebApplication1.Models
+    @using WebApplication1.Models.AccountViewModels
+    @using WebApplication1.Models.ManageViewModels
+    @using Microsoft.AspNetCore.Identity
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+    在ASP.NET Core MVC 应用程序中，_ViewImports.cshtml 通常被放置在 Views 文件夹下,也可以有多个，但一个文件夹一层只能有一个
+    _ViewImports.cshtml 文件也可以放在任何文件夹下面，在这种情况下，它将只作用于该文件夹和其子文件夹下的视图。在执行顺序上，首先执行在根目录下的 _ViewImports 文件，然后执行视图所在文件夹下的 _ViewImports文件，所以在根目录中 _ViewImports 文件里指定的设定可能会被覆盖掉。
+    举个例子，如果根目录中 _ViewImports.cshtml 文件指定了 @model 和 @addTagHelper，另外一个 Controller 相关文件夹下的 _ViewImports.cshtml 文件指定一个不同的 @model 并添加另外一个 @addTagHelper ，视图将可访问两种 TagHelper 并使用后者指定的 @model 。
+    移除TagHelper需要使用removeTagHelper
+
+    如果一个视图中有多个 _ViewImports.cshtml 文件被运行，多个 ViewImports.cshtml 文件中指令的组合行为如下：
+    @addTagHelper, @removeTagHelper：按照顺序全部运行
+    @tagHelperPrefix：离视图最近的一个覆盖其他的
+    @model：离视图最近的一个覆盖其他的
+    @inherits：离视图最近的一个覆盖其他的
+    @using：全部包含; 重复的忽略
+    @inject：对每一个属性而言（通过属性名区分），离视图最近的一个覆盖其他的*@

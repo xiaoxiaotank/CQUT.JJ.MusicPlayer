@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Error";
+}
+<p>@Context.Session.GetString("ErrorMessage")</p>
+@{ 
+    Context.Session.Remove("ErrorMessage");
+}

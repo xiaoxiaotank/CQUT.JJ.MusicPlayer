@@ -41,6 +41,11 @@ namespace CQUT.JJ.MusicPlayer.MS
 
             app.UseMvc(routes =>
             {
+                routes.MapAreaRoute(
+                    name: "admin_area",
+                    areaName: "Admin",
+                    template: "{controller=Home}/{action=Index}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
