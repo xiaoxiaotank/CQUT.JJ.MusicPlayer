@@ -6,8 +6,8 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 {
     public partial class JMDbContext : DbContext
     {
-        public virtual DbSet<Menu> Menus { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         public JMDbContext(DbContextOptions options) : base(options) { }
 
