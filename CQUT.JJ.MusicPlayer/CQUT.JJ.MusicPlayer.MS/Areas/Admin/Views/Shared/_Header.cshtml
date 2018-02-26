@@ -1,10 +1,9 @@
-﻿@*@using CQUT.JJ.MusicPlayer.EntityFramework.Models*@
+﻿@using CQUT.JJ.MusicPlayer.EntityFramework.Models
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json;
 @{
-    //var jsonValue = Context.Session.GetString("User");
-    //var user = jsonValue != null ? JsonConvert.DeserializeObject<User>(jsonValue) : default(User);
-    string user = null;
+    var jsonValue = Context.Session.GetString("User");
+    var user = jsonValue != null ? JsonConvert.DeserializeObject<User>(jsonValue) : default(User);
 }
 <!-- 主头部 -->
 <header class="main-header">
