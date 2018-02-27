@@ -21,6 +21,8 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
                 entity.Property(e => e.ParentId).HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.Priority).HasDefaultValueSql("((99))");
+
                 entity.Property(e => e.RequiredAuthorizeCode)
                     .HasMaxLength(128)
                     .IsUnicode(false);

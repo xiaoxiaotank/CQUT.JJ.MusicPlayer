@@ -1,9 +1,8 @@
-﻿@using CQUT.JJ.MusicPlayer.EntityFramework.Models
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
+@using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 @using Newtonsoft.Json;
 @{
-    var jsonValue = Context.Session.GetString("User");
-    var user = jsonValue != null ? JsonConvert.DeserializeObject<User>(jsonValue) : default(User);
+    var user = Context.Session.GetCurrentUser();
 }
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -44,7 +43,7 @@
             <!-- /.search form -->
             <!-- Sidebar Menu -->
             <div id="sidebardiv">
-                @await Component.InvokeAsync("Menus")
+                @await Component.InvokeAsync("Menu")
             </div>
     <!-- /.sidebar-menu -->
     }

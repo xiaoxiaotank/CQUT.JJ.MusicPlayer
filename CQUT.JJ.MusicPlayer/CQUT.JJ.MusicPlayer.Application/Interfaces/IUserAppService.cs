@@ -14,7 +14,15 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="userName">用户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        UserModel Login(string userName, string password);     
+        UserModel LoginOfUser(string userName, string password);
+
+        /// <summary>
+        /// 管理员登录
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
+        UserModel LoginOfAdmin(string userName, string password);
 
         /// <summary>
         /// 通过id获取用户信息

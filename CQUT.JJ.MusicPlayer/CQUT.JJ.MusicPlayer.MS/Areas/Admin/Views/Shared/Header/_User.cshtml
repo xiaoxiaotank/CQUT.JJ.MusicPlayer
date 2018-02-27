@@ -1,9 +1,9 @@
-﻿@using JJJ.CQLG.MIS.EntityFramework.Models
+﻿@using CQUT.JJ.MusicPlayer.Core.Models
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json;
 @{
     var jsonValue = Context.Session.GetString("User");
-    var user = jsonValue != null ? JsonConvert.DeserializeObject<User>(jsonValue) : default(User);
+    var user = jsonValue != null ? JsonConvert.DeserializeObject<UserModel>(jsonValue) : default(UserModel);
 }
 
 @if (user != null)

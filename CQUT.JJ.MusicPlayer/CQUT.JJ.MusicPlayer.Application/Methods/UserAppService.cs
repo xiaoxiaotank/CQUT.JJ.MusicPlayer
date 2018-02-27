@@ -123,10 +123,21 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return null;
         }
 
-        public UserModel Login(string userName, string password)
+        public UserModel LoginOfUser(string userName, string password)
+        {
+            return Login(userName, password, false);
+        }
+
+
+        public UserModel LoginOfAdmin(string userName, string password)
+        {
+            return Login(userName, password, true);
+        }
+
+        private UserModel Login(string userName,string password,bool isAdmin)
         {
             password = password.EncryptByMD5();
-            var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName) && m.Password.Equals(password) && !m.IsDeleted);
+            var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName) && m.Password.Equals(password) && !m.IsDeleted && m.IsAdmin == isAdmin);
             if (user == null)
                 _userManager.ThrowException("用户名或密码错误！");
             return new UserModel()
@@ -191,5 +202,6 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             }
             return null;
         }
+
     }
 }

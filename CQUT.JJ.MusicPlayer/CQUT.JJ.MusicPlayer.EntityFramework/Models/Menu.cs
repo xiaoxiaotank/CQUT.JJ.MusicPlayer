@@ -10,5 +10,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public string TargetUrl { get; set; }
         public int ParentId { get; set; }
         public string RequiredAuthorizeCode { get; set; }
+        public short Priority { get; set; }
     }
 }

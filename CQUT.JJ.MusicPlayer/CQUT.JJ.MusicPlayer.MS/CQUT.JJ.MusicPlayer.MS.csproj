@@ -21,7 +21,4 @@
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.Core\CQUT.JJ.MusicPlayer.Core.csproj" />
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
-  </ItemGroup>
 </Project>

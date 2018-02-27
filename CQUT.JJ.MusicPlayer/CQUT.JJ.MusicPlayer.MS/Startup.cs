@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CQUT.JJ.MusicPlayer.Application.Interfaces;
+using CQUT.JJ.MusicPlayer.Application.Methods;
+using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +32,13 @@ namespace CQUT.JJ.MusicPlayer.MS
             {
                 options.UseSqlServer(Configuration.GetConnectionString("JMDbContext"));
             });
+
+            //用户
+            services.AddScoped<IUserAppService, UserAppService>();
+            services.AddScoped<UserManager, UserManager>();
+            //菜单
+            services.AddScoped<IMenuAppService, MenuAppService>();
+            services.AddScoped<MenuManager, MenuManager>();
 
             services.AddSession();
 

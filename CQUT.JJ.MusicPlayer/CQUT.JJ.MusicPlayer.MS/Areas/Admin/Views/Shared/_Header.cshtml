@@ -1,14 +1,13 @@
-﻿@using CQUT.JJ.MusicPlayer.EntityFramework.Models
+﻿@using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 @using Microsoft.AspNetCore.Http
 @using Newtonsoft.Json;
 @{
-    var jsonValue = Context.Session.GetString("User");
-    var user = jsonValue != null ? JsonConvert.DeserializeObject<User>(jsonValue) : default(User);
+    var user = Context.Session.GetCurrentUser();
 }
 <!-- 主头部 -->
 <header class="main-header">
     <!-- Logo -->
-    <a href="/Admin/Home/Index" class="logo">
+    <a asp-action="Index" asp-controller="Home" asp-area="Admin" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>CQLG</b></span>
         <!-- logo for regular state and mobile devices -->
