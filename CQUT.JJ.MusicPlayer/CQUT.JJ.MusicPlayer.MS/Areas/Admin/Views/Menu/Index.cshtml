@@ -20,9 +20,16 @@
                 <button id="add-root" class="btn btn-default form-control"><span class="fa fa-plus">添加菜单项</span></button>
             </div>
         </div>
-        <div class="menu-tree-content" >
+        <div class="menu-tree-content">
             <ul id="menuTree" class="ztree"></ul>
         </div>
+    </div>
+    <div id="rMenu" style="position:absolute; visibility:hidden; top:0; background-color: #555;text-align: left;padding: 2px;">
+        <a href="#" class="list-group-item" onclick="expand();">展开下一级</a>
+        <a href="#" class="list-group-item" onclick="expandSon();">展开所有子节点</a>
+        <a href="#" class="list-group-item" onclick="collapse();">折叠子节点</a>
+        <a href="#" class="list-group-item" onclick="expandAll();">全部展开</a>
+        <a href="#" class="list-group-item" onclick="collapseAll();">全部折叠</a>
     </div>
 </section>
 
