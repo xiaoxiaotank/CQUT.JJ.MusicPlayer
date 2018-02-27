@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
+using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -22,19 +23,19 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public IActionResult GetMenu()
-        //{
-        //    //if (Request. IsAjaxRequest())
-        //    //{
-        //    //var menus = _menuAppService.GetMenus().MapToMenuTree();
-        //    //return Json(menus);
-        //    //}
-        //    //else
-        //    //{
-        //    //    throw new UserFriendlyException("访问错误!", HttpStatusCode.BadRequest);
-        //    //}
-        //}
+        [HttpGet]
+        public IActionResult GetMenu()
+        {
+            //if (Request. IsAjaxRequest())
+            //{
+            var menus = _menuAppService.GetMenus().MapMenuToZTree();
+            return Json(menus);
+            //}
+            //else
+            //{
+            //    throw new UserFriendlyException("访问错误!", HttpStatusCode.BadRequest);
+            //}
+        }
 
         //#region 创建
         //[HttpGet]

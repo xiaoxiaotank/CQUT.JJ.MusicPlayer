@@ -20,7 +20,7 @@
     <link href="~/lib/admin-lte/css/skins/_all-skins.css" rel="stylesheet" />
     <link href="~/lib/admin-lte/css/AdminLTE.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    @RenderSection("styles", required: false)
+    @RenderSection("Styles", required: false)
     @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body class="fixed hold-transition skin-blue sidebar-mini">
@@ -65,8 +65,7 @@
     </environment>
 
 
-
-    <script src="~/lib/scripts/jquery.slimscroll.js"></script>
+    <script src="~/lib/jquery/dist/jquery.slimscroll.min.js"></script>
     <script src="~/lib/admin-lte/js/app.js"></script>
     @RenderSection("Scripts", required: false)
 </body>

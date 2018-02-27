@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Data.Entities;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Shared;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Extensions
 {
     public static class MenuExtension
     {
+        #region 映射菜单树
         public static List<MenuItemViewModel> MapToMenuTree(this IEnumerable<MenuItemModel> menuItem)
         {
             var roots = menuItem.Where(m => m.ParentId == 0)
@@ -47,5 +49,18 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Extensions
             }
             return children;
         }
+        #endregion
+
+        #region 映射菜单到ZTree
+        public static List<ZTreeNode> MapMenuToZTree(this IEnumerable<MenuItemModel> list)
+        {
+            return list.Select(c => new ZTreeNode
+            {
+                id = c.Id,
+                pId = c.ParentId ?? 0,
+                name = c.Header
+            }).ToList();
+        }
+        #endregion
     }
 }

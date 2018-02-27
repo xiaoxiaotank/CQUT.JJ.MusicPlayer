@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "菜单管理";
+}
+@section Styles{
+    <link href="~/lib/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/css/menu/index.css" rel="stylesheet" />
+}
+
+<section class="content-header">
+    <h1>@ViewBag.Title<small>@ViewBag.Title</small></h1>
+</section>
+<section class="content">
+    <div id="sidebar">
+        <div class="head-option">
+            <div class="search-input col-sm-6">
+                <input type="text" id="search" class="form-control" placeholder="搜索菜单项..." />
+            </div>
+            <div class="add-root col-sm-6">
+                <button id="add-root" class="btn btn-default form-control"><span class="fa fa-plus">添加菜单项</span></button>
+            </div>
+        </div>
+        <div class="menu-tree-content" >
+            <ul id="menuTree" class="ztree"></ul>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/lib/zTree/js/jquery.ztree.core.js"></script>
+    <script src="~/js/menu/index.js"></script>
+}
+
