@@ -39,13 +39,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     menus = _menuAppService.GetMenus().MapMenuToZTree();
                 else if (int.TryParse(parentId, out int id))
                 {
-                    menus = _menuAppService.GetChildMenuItemsById(id)
-                        .Select(i => new ZTreeNode()
-                        {
-                            id = i.Id,
-                            pId = i.ParentId ?? 0,
-                            name = i.Header
-                        }).ToList();
+                    menus = _menuAppService.GetChildMenuItemsById(id).MapMenuToZTree();                  
                 }
                 return Json(menus);
             }
@@ -95,31 +89,31 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
         #endregion
 
-        //#region 删除
-        //[HttpGet]
-        //public IActionResult DeleteColumn(int id, DeleteColumnViewModel model)
-        //{
-        //    var column = _menuAppService.GetColumnById(id);
-        //    if (column != null)
-        //    {
-        //        model = new DeleteColumnViewModel
-        //        {
-        //            Id = column.Id,
-        //            Name = column.Name
-        //        };
-        //        return PartialView("_Delete", model);
-        //    }
-        //    else
-        //        throw new UserFriendlyException("栏目不存在！", HttpStatusCode.BadRequest);
-        //}
+        #region 删除
+        [HttpGet]
+        public IActionResult DeleteMenuItem(int id, DeleteMenuItemViewModel model)
+        {
+            var menuItem = _menuAppService.GetMenuItemById(id);
+            if (menuItem != null)
+            {
+                model = new DeleteMenuItemViewModel
+                {
+                    Id = menuItem.Id,
+                    Header = menuItem.Header
+                };
+                return PartialView("_Delete", model);
+            }
+            else
+                throw new JMBasicException("栏目不存在！", HttpStatusCode.BadRequest);
+        }
 
-        //[HttpPost]
-        //public IActionResult DeleteColumn(int id)
-        //{
-        //    _menuAppService.DeleteColumn(id);
-        //    return Json("删除成功！");
-        //}
-        //#endregion
+        [HttpPost]
+        public IActionResult DeleteMenuItem(DeleteMenuItemViewModel model)
+        {
+            _menuAppService.DeleteMenuItem(model.Id);
+            return Json("删除成功！");
+        }
+        #endregion
 
         //#region 更新
         //[HttpGet]

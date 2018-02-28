@@ -15,7 +15,7 @@
                     <h4 class="modal-title">为<span class="title-highlight">@Model.ParentHeader</span>新增子菜单项</h4>
                 }
             </div>
-            <form asp-action="CreateMenuItem" asp-controller="Menu" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="menuTreeOptionSuccess">
+            <form asp-action="CreateMenuItem" asp-controller="Menu" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="createMenuItemSuccess">
                 @Html.HiddenFor(model => model.ParentId)
                 <div class="modal-body">
                     <h4><label>请输入菜单项名称</label></h4>

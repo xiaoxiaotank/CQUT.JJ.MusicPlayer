@@ -1,6 +1,6 @@
 ﻿var menuTreeId = "menuTree";
 var currentNodeId = null;
-
+var menuTreeObj = null;
 var setting = {
     view: {
         selectedMulti: false, //设置是否能够同时选中多个节点
@@ -47,7 +47,8 @@ var setting = {
 
 $(function () {     
     $.fn.zTree.init($("#" + menuTreeId), setting);
-    
+    menuTreeObj = getMenuTreeObj();
+
     $("#createMenu").click(function () {
         var parentId = currentNodeId;
         $.ajax({
@@ -59,18 +60,39 @@ $(function () {
             }
         })
     }) 
+
+    $("#deleteMenu").click(function () {
+        var id = currentNodeId;
+        $.ajax({
+            type: "get",
+            url: "/Admin/Menu/DeleteMenuItem",
+            data: { "id": id },
+            success: function (msg) {
+                $("#modal").html(msg);
+            }
+        })
+    }) 
 })
 
 //菜单树成功操作后执行
-function menuTreeOptionSuccess(data) {   
+function menuTreeOptionSuccess(data,refreshNode) {   
     $("#my-modal").modal("hide");
-    alert(data);
-    var menuTreeObj = getMenuTreeObj();
-    var refreshNode = menuTreeObj.getNodeByParam("id", currentNodeId);
-    refreshNode.isParent = true;
+    alert(data);   
     menuTreeObj.setting.async.url = "/Admin/Menu/GetMenuByParentId?parentId=" + refreshNode.id;
     menuTreeObj.reAsyncChildNodes(refreshNode, "refresh",false);
     //RefreshSidebar();
+}
+
+function createMenuItemSuccess(data) {
+    var refreshNode = menuTreeObj.getNodeByParam("id", currentNodeId);
+    refreshNode.isParent = true;
+    menuTreeOptionSuccess(data, refreshNode);
+}
+
+function deleteMenuItemSuccess(data) {
+    var currentNode = menuTreeObj.getNodeByParam("id", currentNodeId);
+    var refreshNode = menuTreeObj.getNodeByParam("id", currentNode.pId);
+    menuTreeOptionSuccess(data, refreshNode);
 }
 
 function getMenuTreeObj() {

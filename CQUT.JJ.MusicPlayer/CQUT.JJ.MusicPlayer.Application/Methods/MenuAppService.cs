@@ -43,16 +43,27 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public IEnumerable<MenuItemModel> GetChildMenuItemsById(int id)
         {
-            return _ctx.Menu.Where(m => m.ParentId == id)?
-                .Select(i => new MenuItemModel()
+            var menuList = new List<MenuItemModel>();
+
+            var menu = _ctx.Menu.Where(m => m.ParentId == id);           
+            if (menu.Any())
+            {
+                foreach (var item in menu)
                 {
-                    Id = i.Id,
-                    Header = i.Header,
-                    ParentId = i.ParentId,
-                    Priority = i.Priority,
-                    TargetUrl = i.TargetUrl,
-                    RequiredAuthorizeCode = i.RequiredAuthorizeCode
-                });
+                    menuList.AddRange(GetChildMenuItemsById(item.Id));
+                }               
+            }
+
+            menuList.AddRange(menu.Select(i => new MenuItemModel()
+            {
+                Id = i.Id,
+                Header = i.Header,
+                ParentId = i.ParentId,
+                Priority = i.Priority,
+                TargetUrl = i.TargetUrl,
+                RequiredAuthorizeCode = i.RequiredAuthorizeCode
+            }));
+            return menuList;
         }
 
         public MenuItemModel GetMenuItemById(int id)
