@@ -18,9 +18,16 @@
             pidKey: "pId" //设置启用简单数据格式时parentId对应的属性名称,ztree根据id及pid层级关系构建树结构
         }
     },
+    edit: { //此属性添加后，树才可以被拖拽
+        enable: true,
+        showRenameBtn: false,
+        showRemoveBtn:false,
+    },
     callback: {
-        onClick: menuItemOnClick,   //定义节点单击事件回调函数
-        onRightClick: OnRightClick, //定义节点右键单击事件回调函数
+        //onClick: menuItemOnClick,   //定义节点单击事件回调函数
+        beforeDrag: beforeDrag,
+        beforeDrop: function (treeId, treeNodes, targetNode, moveType, isCopy) { console.log("可以拖拽");}
+        //onRightClick: onRightClick, //定义节点右键单击事件回调函数
         //beforeRename: beforeRename, //定义节点重新编辑成功前回调函数，一般用于节点编辑时判断输入的节点名称是否合法
         //onDblClick: onDblClick,  //定义节点双击事件回调函数
         //onCheck: onCheck    //定义节点复选框选中或取消选中事件的回调函数
@@ -38,33 +45,39 @@ $(function () {
     $.fn.zTree.init($("#menuTree"), setting);
 })
 
-
 function menuItemOnClick(event, treeId, treeNode) {
     alert(treeNode.id + " ," + treeNode.name + "," + treeNode.pId);
 };
 
 // 在ztree上的右击事件  
-function OnRightClick(event, treeId, treeNode) {
+function onRightClick(event, treeId, treeNode) {
     if (!treeNode && event.target.tagName.toLowerCase() != "button" && $(event.target).parents("a").length == 0) {
         showRMenu("root", event.clientX, event.clientY);
     } else if (treeNode && !treeNode.noR) {
         showRMenu("node", event.clientX, event.clientY);
     }
 }
+
+function beforeDrag(treeId, treeNode) {
+    console.log("开启拖拽");
+    return true;
+}
+
 //显示右键菜单  
 function showRMenu(type, x, y) {
-    $("#rMenu ul").show();
-    rMenu.css({ "top": y + "px", "left": x + "px", "visibility": "visible" }); //设置右键菜单的位置、可见  
+    var topOffset = y - $(".logo").height();
+    $("#rMenu").css({ "top": topOffset + "px", "left": x + "px", "visibility": "visible" }); //设置右键菜单的位置、可见  
     $("body").bind("mousedown", onBodyMouseDown);
 }
 //隐藏右键菜单  
 function hideRMenu() {
-    if (rMenu) rMenu.css({ "visibility": "hidden" }); //设置右键菜单不可见  
+    if (rMenu)
+        $("#rMenu").css({ "visibility": "hidden" }); //设置右键菜单不可见  
     $("body").unbind("mousedown", onBodyMouseDown);
 }
 //鼠标按下事件  
 function onBodyMouseDown(event) {
     if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length > 0)) {
-        rMenu.css({ "visibility": "hidden" });
+        $("#rMenu").css({ "visibility": "hidden" });
     }
 }  
