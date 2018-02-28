@@ -21,6 +21,13 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         MenuItemModel GetMenuItemById(int id);
 
         /// <summary>
+        /// 根据id获取其子菜单
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        IEnumerable<MenuItemModel> GetChildMenuItemsById(int id);
+
+        /// <summary>
         /// 添加菜单项
         /// </summary>
         /// <param name="model"></param>

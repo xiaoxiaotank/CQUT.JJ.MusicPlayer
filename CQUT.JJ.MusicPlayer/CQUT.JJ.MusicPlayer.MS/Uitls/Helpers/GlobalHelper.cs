@@ -10,11 +10,29 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
 {
     public static class GlobalHelper
     {
+        /// <summary>
+        /// 获取当前登录用户
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
         public static UserModel GetCurrentUser(this ISession session)
         {
             var jsonValue = session.GetString("User");
             var user = jsonValue != null ? JsonConvert.DeserializeObject<UserModel>(jsonValue) : default(UserModel);
             return user;
         }
+
+        /// <summary>
+        /// 判断是否为ajax请求
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static bool IsAjaxRequest(this HttpRequest request)
+        {
+            string header = request.Headers["X-Requested-With"];
+            return (header != null && header == "XMLHttpRequest") ? true : false;
+        }
     }
+
+   
 }

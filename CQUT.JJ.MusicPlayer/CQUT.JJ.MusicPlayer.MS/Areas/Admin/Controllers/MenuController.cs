@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
+using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
+using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Data.Entities;
+using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Menu;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
+using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -23,51 +29,71 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult GetMenu()
+        [HttpPost]
+        public IActionResult GetMenuByParentId(string parentId)
         {
-            //if (Request. IsAjaxRequest())
-            //{
-            var menus = _menuAppService.GetMenus().MapMenuToZTree();
-            return Json(menus);
-            //}
-            //else
-            //{
-            //    throw new UserFriendlyException("访问错误!", HttpStatusCode.BadRequest);
-            //}
+            if (Request.IsAjaxRequest())
+            {
+                var menus = new List<ZTreeNode>();
+                if (parentId == null)
+                    menus = _menuAppService.GetMenus().MapMenuToZTree();
+                else if (int.TryParse(parentId, out int id))
+                {
+                    menus = _menuAppService.GetChildMenuItemsById(id)
+                        .Select(i => new ZTreeNode()
+                        {
+                            id = i.Id,
+                            pId = i.ParentId ?? 0,
+                            name = i.Header
+                        }).ToList();
+                }
+                return Json(menus);
+            }
+            else
+            {
+                throw new JMBasicException("访问错误!", HttpStatusCode.BadRequest);
+            }
         }
 
-        //#region 创建
-        //[HttpGet]
-        //public IActionResult CreateColumn(int? parentId)
-        //{
-        //    var column = _menuAppService.GetMenuItemById(parentId);
-        //    //var permissions = PermissionProvider._permissions;
+        #region 创建
+        [HttpGet]
+        public IActionResult CreateMenuItem(int? parentId,CreateMenuItemViewModel model)
+        {
+            if(parentId == null)
+            {
+                model.ParentId = 0;
+                model.ParentHeader = string.Empty;
+            }
+            else
+            {
+                var parent = _menuAppService.GetMenuItemById((int)parentId);
 
-        //    var model = new CreateColumnViewModel()
-        //    {
-        //        ParentId = column?.Id ?? 0,
-        //        ParentName = column?.Name,
-        //    };
-        //    permissions.ForEach(p => model.Permissions.Add(new SelectListItem() { Text = p.DisplayName, Value = p.Code }));
+                model.ParentId = parent.Id;
+                model.ParentHeader = parent.Header;
+            }
 
-        //    return PartialView("_Create", model);
-        //}
+            return PartialView("_Create", model);
+        }
 
-        //[HttpPost]
-        //public IActionResult CreateColumn(int? parentId, string name, string url = "", string requiredAuthorizeCode = "")
-        //{
-        //    var column = new Navigation
-        //    {
-        //        ParentId = parentId ?? 0,
-        //        Name = name,
-        //        Url = url ?? string.Empty,
-        //        RequiredAuthorizeCode = requiredAuthorizeCode ?? string.Empty
-        //    };
-        //    _menuAppService.CreateColumn(column);
-        //    return Json("添加成功！");
-        //}
-        //#endregion
+        /// <summary>
+        /// 初次创建不涉及优先级
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult CreateMenuItem(CreateMenuItemViewModel model)
+        {
+            var menuItem = new MenuItemModel
+            {
+                ParentId = model.ParentId,
+                Header = model.Header,
+                TargetUrl = model.TargetUrl ?? string.Empty,
+                RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,                
+            };
+            _menuAppService.CreateMenuItem(menuItem);
+            return Json("添加成功！");
+        }
+        #endregion
 
         //#region 删除
         //[HttpGet]

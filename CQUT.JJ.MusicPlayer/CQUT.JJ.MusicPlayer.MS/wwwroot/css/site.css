@@ -1,6 +1,4 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
 }
 
 /* Wrapping element */
@@ -32,4 +30,26 @@
     .carousel-caption {
         display: none;
     }
+}
+
+.sidebar-btn {
+    color: #999;
+    background: #374850;
+}
+
+.sidebar-btn:hover{
+    color:white !important;
+}
+
+.sidebar-btn:focus{
+    color: #999 !important;
+}
+
+.sidebar-menu li.active > a > .fa-angle-left,
+.sidebar-menu li.active > a > .pull-right-container > .fa-angle-left {
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }

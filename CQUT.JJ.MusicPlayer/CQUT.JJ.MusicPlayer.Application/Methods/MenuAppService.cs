@@ -2,18 +2,22 @@
 using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
+using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CQUT.JJ.MusicPlayer.Application.Methods
 {
     public class MenuAppService : IMenuAppService
     {
+        private readonly JMDbContext _ctx;
         private readonly MenuManager _menuManager;
 
-        public MenuAppService(MenuManager menuManager)
+        public MenuAppService(JMDbContext ctx,MenuManager menuManager)
         {
+            _ctx = ctx;
             _menuManager = menuManager;
         }
 
@@ -25,10 +29,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
             return new MenuItemModel()
             {
-                Id = menuItem.Id,
                 Header = menuItem.Header,
                 ParentId = menuItem.ParentId,
-                Priority = menuItem.Priority,
                 TargetUrl = menuItem.TargetUrl,
                 RequiredAuthorizeCode = menuItem.RequiredAuthorizeCode
             };
@@ -37,6 +39,20 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
         public int DeleteMenuItem(int id)
         {
             return _menuManager.Remove(id);
+        }
+
+        public IEnumerable<MenuItemModel> GetChildMenuItemsById(int id)
+        {
+            return _ctx.Menu.Where(m => m.ParentId == id)?
+                .Select(i => new MenuItemModel()
+                {
+                    Id = i.Id,
+                    Header = i.Header,
+                    ParentId = i.ParentId,
+                    Priority = i.Priority,
+                    TargetUrl = i.TargetUrl,
+                    RequiredAuthorizeCode = i.RequiredAuthorizeCode
+                });
         }
 
         public MenuItemModel GetMenuItemById(int id)
@@ -61,22 +77,16 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public IEnumerable<MenuItemModel> GetMenus()
         {
-            var menus = _menuManager.FindAll();            
-            var menuItemList = new List<MenuItemModel>();
-            foreach (var item in menus)
-            {
-                menuItemList.Add(new MenuItemModel()
+            return _menuManager.FindAll()?
+                .Select(i => new MenuItemModel()
                 {
-                    Id = item.Id,
-                    Header = item.Header,
-                    ParentId = item.ParentId,
-                    Priority = item.Priority,
-                    TargetUrl = item.TargetUrl,
-                    RequiredAuthorizeCode = item.RequiredAuthorizeCode
-                });
-            }
-
-            return menuItemList;
+                    Id = i.Id,
+                    Header = i.Header,
+                    ParentId = i.ParentId,
+                    Priority = i.Priority,
+                    TargetUrl = i.TargetUrl,
+                    RequiredAuthorizeCode = i.RequiredAuthorizeCode
+                });                       
         }
 
         public void MigrateMenuItem(int id, int? parentId)

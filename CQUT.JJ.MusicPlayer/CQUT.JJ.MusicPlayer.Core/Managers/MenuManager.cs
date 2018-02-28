@@ -2,6 +2,7 @@
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CQUT.JJ.MusicPlayer.Core.Managers
@@ -21,12 +22,15 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         {
             ValidateForCreate(model);
 
+            var siblings = JMDbContext.Menu.Where(m => m.ParentId == model.ParentId);
+            var lowestPriority = siblings.Any() ? siblings.Max(i => i.Priority) : (short)0;
+
             var menu = new Menu()
             {
                 Header = model.Header,
                 ParentId = model.ParentId ?? 0,
                 TargetUrl = model.TargetUrl,
-                Priority = model.Priority,
+                Priority = ++lowestPriority,
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode
             };
             return Create(menu);
@@ -54,16 +58,16 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return menuItem;
         }
 
-        private void ValidateForCreate(MenuItemModel model)
+        private void ValidateForUpdate(MenuItemModel model)
         {
-            ValidateForUpdate(model);
+            ValidateForCreate(model);
             if (model.Priority < 1)
                 ThrowException("菜单优先级最高为1");
             if (model.Priority > 99)
                 ThrowException("菜单优先级最低为99");
         }
 
-        private void ValidateForUpdate(MenuItemModel model)
+        private void ValidateForCreate(MenuItemModel model)
         {
             if (!(string.IsNullOrWhiteSpace(model.TargetUrl) || model.TargetUrl.StartsWith("/")))
                 model.TargetUrl = model.TargetUrl.Insert(0, "/");

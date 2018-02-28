@@ -1,0 +1,48 @@
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Menu.CreateMenuItemViewModel
+
+
+<div class="modal fade" id="my-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                @if (Model.ParentId == 0)
+                {
+                    <h4 class="modal-title">创建新的根菜单项</h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">为<span class="title-highlight">@Model.ParentHeader</span>新增子菜单项</h4>
+                }
+            </div>
+            <form asp-action="CreateMenuItem" asp-controller="Menu" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="menuTreeOptionSuccess">
+                @Html.HiddenFor(model => model.ParentId)
+                <div class="modal-body">
+                    <h4><label>请输入菜单项名称</label></h4>
+                    <input autofocus class="form-control input-text" id="text" name="Header" placeholder="请输入菜单项名称" maxlength="15" required />
+                    <h4><label>请输入菜单项目标URL</label></h4>
+                    <input class="form-control input-text" id="url" name="TargetUrl" placeholder="若为叶子栏目，请输入菜单项目标URL" value="" maxlength="256" />
+                    @*<h4><label>请选择栏目权限码</label></h4>*@
+                    @*@Html.DropDownListFor(model => model.RequiredAuthorizeCode, Model.Permissions, new { @class = "form-control" })*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">关闭</button>
+                    <button type="submit" class="btn btn-primary" id="submit" disabled>确认</button>
+                </div>
+            </form>
+</div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+    $("#my-modal").modal('show');
+    $("#text")
+        .bind('input propertychange',
+            function() {
+                var text = $("#text").val();
+                if (text === "") {
+                    $("#submit").attr("disabled", true);
+                } else {
+                    $("#submit").attr("disabled", false);
+                }
+            });
+</script>
