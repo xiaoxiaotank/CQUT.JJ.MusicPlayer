@@ -38,7 +38,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public int DeleteMenuItem(int id)
         {
-            return _menuManager.Remove(id);
+            return _menuManager.Delete(id);
         }
 
         public IEnumerable<MenuItemModel> GetChildMenuItemsById(int id)
@@ -103,6 +103,23 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
         public void MigrateMenuItem(int id, int? parentId)
         {
             _menuManager.Migrate(id, parentId);
+        }
+
+        public MenuItemModel RenameMenuItem(int id, string header)
+        {
+            var menuItem = _menuManager.Rename(id, header);
+            if(menuItem == null)
+                throw new JMBasicException("重命名菜单项失败!");
+
+            return new MenuItemModel()
+            {
+                Id = menuItem.Id,
+                Header = menuItem.Header,
+                ParentId = menuItem.ParentId,
+                Priority = menuItem.Priority,
+                TargetUrl = menuItem.TargetUrl,
+                RequiredAuthorizeCode = menuItem.RequiredAuthorizeCode
+            };
         }
 
         public MenuItemModel UpdateMenuItem(MenuItemModel model)

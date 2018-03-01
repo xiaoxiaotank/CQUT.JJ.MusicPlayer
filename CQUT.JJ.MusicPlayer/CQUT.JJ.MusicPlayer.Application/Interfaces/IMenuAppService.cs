@@ -41,6 +41,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <returns></returns>
         int DeleteMenuItem(int id);
 
+        MenuItemModel RenameMenuItem(int id, string header);
+
         /// <summary>
         /// 更新菜单项信息
         /// </summary>

@@ -58,25 +58,26 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return menuItem;
         }
 
-        private void ValidateForUpdate(MenuItemModel model)
+        public int Delete(int id)
         {
-            ValidateForCreate(model);
-            if (model.Priority < 1)
-                ThrowException("菜单优先级最高为1");
-            if (model.Priority > 99)
-                ThrowException("菜单优先级最低为99");
+            if (JMDbContext.Menu.Any(m => m.ParentId == id))
+                ThrowException("该菜单下含有子菜单，请先删除子菜单！");
+            return Remove(id);
         }
 
-        private void ValidateForCreate(MenuItemModel model)
+        public Menu Rename(int id,string header)
         {
-            if (!(string.IsNullOrWhiteSpace(model.TargetUrl) || model.TargetUrl.StartsWith("/")))
-                model.TargetUrl = model.TargetUrl.Insert(0, "/");
-            if (string.IsNullOrWhiteSpace(model.Header))
-                ThrowException("菜单名不能为空！");
-            if (model.Header.Length < 2)
-                ThrowException("菜单名长度至少为2个字符");
-            if (model.Header.Length > 8)
-                ThrowException("菜单名长度不能超过8个字符");
+            var menuItem = Find(id);
+            if(menuItem != null)
+            {
+                ValidateForHeader(header);
+
+                menuItem.Header = header;
+                Save();
+            }
+            else
+                ThrowException("栏目不存在！");
+            return menuItem;
         }
 
         /// <summary>
@@ -92,6 +93,33 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             else
                 ThrowException("菜单项不存在！");
             Save();
+        }
+
+
+        private void ValidateForUpdate(MenuItemModel model)
+        {
+            ValidateForCreate(model);
+            if (model.Priority < 1)
+                ThrowException("菜单优先级最高为1");
+            if (model.Priority > 99)
+                ThrowException("菜单优先级最低为99");
+        }
+
+        private void ValidateForCreate(MenuItemModel model)
+        {
+            if (!(string.IsNullOrWhiteSpace(model.TargetUrl) || model.TargetUrl.StartsWith("/")))
+                model.TargetUrl = model.TargetUrl.Insert(0, "/");
+            ValidateForHeader(model.Header);
+        }
+
+        private void ValidateForHeader(string header)
+        {
+            if (string.IsNullOrWhiteSpace(header))
+                ThrowException("菜单名不能为空！");
+            if (header.Length < 2)
+                ThrowException("菜单名长度至少为2个字符");
+            if (header.Length > 8)
+                ThrowException("菜单名长度不能超过8个字符");
         }
     }
 }

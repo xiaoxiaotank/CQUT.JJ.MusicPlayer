@@ -24,11 +24,14 @@ var setting = {
     edit: { //此属性添加后，树才可以被拖拽，需要提前引用exedit.js
         enable: true,
         showRenameBtn: false,
-        showRemoveBtn:false,
+        showRemoveBtn: false,
+        editNameSelectAll: true,
     },
     callback: {
         onClick: menuItemOnClick,   //定义节点单击事件回调函数
         onRightClick: onRightClick, //定义节点右键单击事件回调函数
+        beforeRename: beforeRename,
+        onRename:onRename,
         beforeDrag: beforeDrag,
         beforeDrop: function (treeId, treeNodes, targetNode, moveType, isCopy) { console.log("可以拖拽");}
         //beforeRename: beforeRename, //定义节点重新编辑成功前回调函数，一般用于节点编辑时判断输入的节点名称是否合法
@@ -61,6 +64,12 @@ $(function () {
         })
     }) 
 
+    $("#renameMenu").click(function () {
+        var renameNode = menuTreeObj.getNodeByParam("id", currentNodeId);
+        menuTreeObj.editName(renameNode);
+        $("#rMenu").css({ "visibility": "hidden" }); //设置右键菜单不可见  
+    }) 
+
     $("#deleteMenu").click(function () {
         var id = currentNodeId;
         $.ajax({
@@ -72,6 +81,8 @@ $(function () {
             }
         })
     }) 
+
+    
 })
 
 //菜单树成功操作后执行
@@ -137,4 +148,33 @@ function onBodyMouseDown(event) {
     }
 }  
 
+function beforeRename(treeId, treeNode, newName, isCancel) {
+    if (newName != null) {
+        newName = $.trim(newName);
+        if (newName.length > 0 && newName.length <= 8) {
+            $.ajax({
+                type: "post",
+                url: "/Admin/Menu/RenameMenuItem",
+                data: { "id": treeNode.id, "header": newName },
+                success: function (msg) {
+                    alert(msg);
+                    return true;
+                },
+            })
+        }
+        else {
+            alert("菜单名不能为空白字符且不能大于8个字符！");
+            return false;
+        }
+            
+    }
+    else
+        return false;
+}
+
+function onRename(event, treeId, treeNode, isCancel) {
+    if (!isCancel) {
+        
+    }    
+}
 
