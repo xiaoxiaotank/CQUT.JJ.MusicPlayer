@@ -157,6 +157,16 @@ function refreshChildNodes(refreshParentNode) {
     menuTreeObj.reAsyncChildNodes(refreshParentNode, "refresh", false);
 }
 
+$("#add-root").on("click", function () {
+    $.ajax({
+        type: "get",
+        url: "/Admin/Menu/CreateMenuItem",
+        success: function (msg) {
+            $("#modal").html(msg);
+        }
+    });
+});
+
 function createMenuItemed(data) {
     if (data.isSuccessed) {
         var refreshNode = menuTreeObj.getNodeByParam("id", currentNodeId);
