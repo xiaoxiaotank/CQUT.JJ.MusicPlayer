@@ -1,0 +1,42 @@
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Menu.UpdateMenuItemViewModel
+
+<div class="modal fade" id="my-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">编辑菜单信息</h4>
+            </div>
+        <form asp-action="UpdateMenuItem" asp-controller="Menu" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="updateMenuItemed">
+            @Html.HiddenFor(model => model.Id)
+            <div class="modal-body">
+                <h4><label>请输入<span class="title-highlight">@Model.Header</span>栏目的新URL</label></h4>
+                <input name="TargetUrl" class="form-control input-text" id="url" value="@Model.TargetUrl" maxlength="256" placeholder="若为叶子栏目，请输入栏目URL" />
+                @*<h4><label>请选择<span class="title-highlight">@Model.Name</span>栏目的新权限</label></h4>
+                @Html.DropDownListFor(model => model.RequiredAuthorizeCode, Model.Permissions, new { @class = "form-control" })*@
+                <h4><label>请输入<span class="title-highlight">@Model.Header</span>栏目的新优先级</label></h4>
+                <input name="Priority" class="form-control input-text" id="url" value="@Model.Priority" type="number" min="1" max="99" placeholder="越小优先级越高，范围是1~99的任意整数" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel">取消</button>
+                <button type="submit" class="btn btn-primary" id="submit">确认</button>
+            </div>
+        </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    var name = $("#text").val();
+    $("#my-modal").modal('show');
+    $("#text")
+        .bind('input propertychange',
+            function() {
+                var text = $("#text").val();
+                if (text === "") {
+                    $("#submit").attr("disabled", true);
+                } else {
+                    $("#submit").attr("disabled", false);
+                }
+            });
+</script>

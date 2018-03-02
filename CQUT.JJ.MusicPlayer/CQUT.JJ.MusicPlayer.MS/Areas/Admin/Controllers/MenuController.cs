@@ -122,44 +122,40 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #endregion
 
 
-        //#region 更新
-        //[HttpGet]
-        //public IActionResult UpdateColumn(int id, UpdateColumnViewModel model)
-        //{
-        //    var column = _menuAppService.GetColumnById(id);
-        //    if (column != null)
-        //    {
-        //        model = new UpdateColumnViewModel
-        //        {
-        //            Id = column.Id,
-        //            Name = column.Name,
-        //            Url = column.Url
-        //        };
-        //        var permissions = PermissionProvider._permissions;
-        //        permissions.ForEach(p => model.Permissions.Add(new SelectListItem() { Text = p.DisplayName, Value = p.Code }));
-        //        var selectedCode = model.Permissions.SingleOrDefault(p => p.Value.Equals(column.RequiredAuthorizeCode));
-        //        if (selectedCode != null)
-        //            selectedCode.Selected = true;
-        //        return PartialView("_Update", model);
-        //    }
-        //    else
-        //        throw new UserFriendlyException("栏目不存在！", HttpStatusCode.BadRequest);
-        //}
+        #region 更新
+        [HttpGet]
+        public IActionResult UpdateMenuItem(int id, UpdateMenuItemViewModel model)
+        {
+            var menuItem = _menuAppService.GetMenuItemById(id);
+            if (menuItem != null)
+            {
+                model = new UpdateMenuItemViewModel
+                {
+                    Id = menuItem.Id,
+                    TargetUrl = menuItem.TargetUrl,
+                    Priority = menuItem.Priority,
+                    Header = menuItem.Header,
+                };
+                return PartialView("_Update", model);
+            }
+            else
+                throw new JMBasicException("菜单不存在！", HttpStatusCode.BadRequest);
+        }
 
-        //[HttpPost]
-        //public IActionResult UpdateColumn(int id, string name, string url, string requiredAuthorizeCode)
-        //{
-        //    var column = new Navigation
-        //    {
-        //        Id = id,
-        //        Name = name,
-        //        Url = url ?? string.Empty,
-        //        RequiredAuthorizeCode = requiredAuthorizeCode ?? string.Empty
-        //    };
-        //    _menuAppService.UpdateColumn(column);
-        //    return Json("更新成功！");
-        //}
-        //#endregion
+        [HttpPost]
+        public IActionResult UpdateMenuItem(UpdateMenuItemViewModel model)
+        {
+            var menuItem = new MenuItemModel
+            {
+                Id = model.Id,
+                TargetUrl = model.TargetUrl ?? string.Empty,
+                RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,
+                Priority = model.Priority,
+            };
+            _menuAppService.UpdateMenuItem(menuItem);
+            return Json(new JsonResultEntity() { message = "更新成功！" });
+        }
+        #endregion
 
         #region 迁移
         [HttpGet]
@@ -201,6 +197,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 刷新菜单
+        /// </summary>
+        /// <param name="keywords"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult RefreshMenu(string keywords)
         {

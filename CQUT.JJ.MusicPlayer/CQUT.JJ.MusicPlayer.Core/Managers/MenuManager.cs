@@ -9,6 +9,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class MenuManager : BaseManager<Menu>
     {
+        private const short Lowest_Prioriy = 99;
+
         public MenuManager(JMDbContext ctx) : base(ctx)
         {
         }
@@ -20,23 +22,19 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <returns></returns>
         public Menu Create(MenuItemModel model)
         {
-            ValidateForCreate(model);
-
-            var siblings = JMDbContext.Menu.Where(m => m.ParentId == model.ParentId);
-            var lowestPriority = siblings.Any() ? siblings.Max(i => i.Priority) : (short)0;
+            ValidateForCreate(model);           
 
             var menu = new Menu()
             {
                 Header = model.Header,
                 ParentId = model.ParentId ?? 0,
                 TargetUrl = model.TargetUrl,
-                Priority = ++lowestPriority,
+                Priority = CreateLowestPriorityOfSiblings(model.ParentId ?? 0),
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode
             };
             return Create(menu);
         }
-
-        //TODO:先实现filter，再实现编辑和拖拽功能 
+ 
         /// <summary>
         /// 更新菜单项
         /// </summary>
@@ -48,17 +46,29 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             if (menuItem != null)
             {
                 ValidateForUpdate(model);
-                menuItem.Header = model.Header;
-                menuItem.TargetUrl = model.TargetUrl;
-                menuItem.RequiredAuthorizeCode = model.RequiredAuthorizeCode;               
-                Save();
+
+                using (var trans = JMDbContext.Database.BeginTransaction())
+                {
+                    menuItem.TargetUrl = model.TargetUrl;
+                    menuItem.RequiredAuthorizeCode = model.RequiredAuthorizeCode;
+
+                    if (menuItem.Priority != model.Priority)
+                    {
+                        ResettingSiblingPriority(menuItem.Id, menuItem.ParentId, model.Priority);
+                        menuItem.Priority = model.Priority;
+                    }
+
+                    Save();
+                    trans.Commit();
+                }
             }
             else
-                ThrowException("栏目不存在！");
+                ThrowException("菜单项不存在！");
 
             return menuItem;
         }
 
+      
         public int Delete(int id)
         {
             if (JMDbContext.Menu.Any(m => m.ParentId == id))
@@ -88,18 +98,64 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <param name="parentId"></param>
         public void Migrate(int id, int? parentId)
         {
-            var column = Find(id);
-            if (column != null)
-                column.ParentId = parentId ?? 0;
+            var menuItem = Find(id);
+            if (menuItem != null)
+            {
+                menuItem.ParentId = parentId ?? 0;
+                menuItem.Priority = CreateLowestPriorityOfSiblings(parentId ?? 0);
+            }
+                
             else
                 ThrowException("菜单项不存在！");
             Save();
         }
 
+        /// <summary>
+        /// 创建新的最低优先级
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        private short CreateLowestPriorityOfSiblings(int parentId)
+        {
+            var lowestPriority = GetLowestPriorityOfSiblings(parentId);
+            var newLowestPriority = (short)(lowestPriority + 1);
+            return newLowestPriority > Lowest_Prioriy - 1 ? Lowest_Prioriy : newLowestPriority;
+                
+        }
+
+        /// <summary>
+        /// 获取兄弟结点最低优先级
+        /// </summary>
+        /// <param name="parentId"></param>
+        private short GetLowestPriorityOfSiblings(int parentId)
+        {
+            var siblings = JMDbContext.Menu.Where(m => m.ParentId == parentId);
+            return siblings.Any() ? siblings.Max(i => i.Priority) : (short)0;
+        }
+
+        /// <summary>
+        /// 由于优先级发生变化，需要重新设置同级菜单项优先级参数
+        /// </summary>
+        /// <param name="priority"></param>
+        private void ResettingSiblingPriority(int id, int parentId, short priority)
+        {
+            var siblings = JMDbContext.Menu.Where(m => m.ParentId == parentId && m.Priority >= priority && m.Id != id);
+            if (siblings.Any(s => s.Priority == priority))
+            {
+                foreach (var sibling in siblings)
+                {
+                    sibling.Priority++;
+                }
+            }
+            Save();
+        }
+
+
 
         private void ValidateForUpdate(MenuItemModel model)
         {
-            ValidateForCreate(model);
+            if (!(string.IsNullOrWhiteSpace(model.TargetUrl) || model.TargetUrl.StartsWith("/")))
+                model.TargetUrl = model.TargetUrl.Insert(0, "/");
             if (model.Priority < 1)
                 ThrowException("菜单优先级最高为1");
             if (model.Priority > 99)

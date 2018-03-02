@@ -86,7 +86,17 @@ $(function () {
         })
     }) 
 
-    
+    $("#editMenu").click(function () {
+        var id = currentNodeId;
+        $.ajax({
+            type: "get",
+            url: "/Admin/Menu/UpdateMenuItem",
+            data: { "id": id },
+            success: function (msg) {
+                $("#modal").html(msg);                                
+            }
+        });
+    })
 })
 
 function getMenuTreeObj() {
@@ -153,6 +163,15 @@ function createMenuItemed(data) {
         refreshChildNodes(refreshNode);
     }
     afterMenuTreeOption(data);
+}
+
+function updateMenuItemed(data) {    
+    afterMenuTreeOption(data);
+    if (data.isSuccessed) {
+        var selectedNode = menuTreeObj.getNodeByParam("id",currentNodeId);
+        var refreshNode = menuTreeObj.getNodeByParam("id",selectedNode.pId);
+        refreshChildNodes(refreshNode);
+    }
 }
 
 function deleteMenuItemed(data) {   
