@@ -1,5 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Core.Models;
-using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Data.Entities;
+using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Shared;
 using System;
 using System.Collections.Generic;

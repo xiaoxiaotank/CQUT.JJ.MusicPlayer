@@ -6,6 +6,7 @@ using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Application.Methods;
 using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
+using CQUT.JJ.MusicPlayer.MS.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,12 @@ namespace CQUT.JJ.MusicPlayer.MS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(MvcGlobalHandleErrorAttribute)); // by type
+                options.Filters.Add(new MvcGlobalHandleErrorAttribute()); // an instance    
+            });
+
             //注册数据库上下文
             services.AddDbContext<JMDbContext>(options =>
             {

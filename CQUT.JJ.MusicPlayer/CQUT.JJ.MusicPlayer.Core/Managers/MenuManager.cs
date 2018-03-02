@@ -34,8 +34,9 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode
             };
             return Create(menu);
-        }       
+        }
 
+        //TODO:先实现filter，再实现编辑和拖拽功能 
         /// <summary>
         /// 更新菜单项
         /// </summary>

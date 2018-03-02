@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Data.Entities
+namespace CQUT.JJ.MusicPlayer.MS.Entities
 {
     public class ZTreeNode
     {

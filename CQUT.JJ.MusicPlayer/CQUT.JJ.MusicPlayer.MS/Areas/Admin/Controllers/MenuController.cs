@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
-using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Data.Entities;
+using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Menu;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
 using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
@@ -85,14 +85,14 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,                
             };
             _menuAppService.CreateMenuItem(menuItem);
-            return Json("添加成功！");
+            return Json(new JsonResultEntity() { message = "添加成功！" });
         }
         #endregion
 
         public IActionResult RenameMenuItem(int id,string header)
         {
             _menuAppService.RenameMenuItem(id, header);
-            return Json("重命名成功！");
+            return Json(new JsonResultEntity() { message = "重命名成功！" });
         }
 
         #region 删除
@@ -117,7 +117,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult DeleteMenuItem(DeleteMenuItemViewModel model)
         {
             _menuAppService.DeleteMenuItem(model.Id);
-            return Json("删除成功！");
+            return Json(new JsonResultEntity() { message = "删除成功！" });
         }
         #endregion
 

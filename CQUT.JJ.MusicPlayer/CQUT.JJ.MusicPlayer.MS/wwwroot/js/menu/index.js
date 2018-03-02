@@ -1,6 +1,8 @@
 ﻿var menuTreeId = "menuTree";
 var currentNodeId = null;
 var menuTreeObj = null;
+var oldName = "";
+
 var setting = {
     view: {
         selectedMulti: false, //设置是否能够同时选中多个节点
@@ -88,7 +90,7 @@ $(function () {
 //菜单树成功操作后执行
 function menuTreeOptionSuccess(data,refreshNode) {   
     $("#my-modal").modal("hide");
-    alert(data);   
+    alert(data.message);   
     menuTreeObj.setting.async.url = "/Admin/Menu/GetMenuByParentId?parentId=" + refreshNode.id;
     menuTreeObj.reAsyncChildNodes(refreshNode, "refresh",false);
     //RefreshSidebar();
@@ -149,27 +151,34 @@ function onBodyMouseDown(event) {
 }  
 
 function beforeRename(treeId, treeNode, newName, isCancel) {
+    if (isCancel) {
+        return true;
+    }
+        
     if (newName != null) {
+        oldName = treeNode.name;
         newName = $.trim(newName);
         if (newName.length > 0 && newName.length <= 8) {
+            var isSuccessed = false;
             $.ajax({
                 type: "post",
+                async: false,
                 url: "/Admin/Menu/RenameMenuItem",
                 data: { "id": treeNode.id, "header": newName },
                 success: function (msg) {
-                    alert(msg);
-                    return true;
+                    alert(msg.message);
+                    isSuccessed = msg.isSuccessed;
+                    if (!isSuccessed)
+                        menuTreeObj.cancelEditName(oldName);
                 },
-            })
+            });
+            return isSuccessed;
         }
         else {
-            alert("菜单名不能为空白字符且不能大于8个字符！");
-            return false;
-        }
-            
+            alert("菜单名不能为空白字符且不能大于8个字符！");            
+        }  
     }
-    else
-        return false;
+    return false;
 }
 
 function onRename(event, treeId, treeNode, isCancel) {
