@@ -161,39 +161,50 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         //}
         //#endregion
 
-        //#region 迁移
-        //[HttpGet]
-        //public IActionResult MigrateColumn(int id, int? parentId, MigrateColumnViewModel model)
-        //{
-        //    var column = _menuAppService.GetColumnById(id);
-        //    if (column != null)
-        //    {
-        //        var parentColumn = _menuAppService.GetColumnById(parentId);
-        //        model = new MigrateColumnViewModel()
-        //        {
-        //            Id = column.Id,
-        //            ParentId = column.ParentId == parentId ? -1 : parentId ?? 0,
-        //            Name = column.Name,
-        //            ParentName = parentColumn?.Name,
-        //        };
-        //        return PartialView("_Migrate", model);
-        //    }
-        //    else
-        //        throw new UserFriendlyException("栏目不存在！", HttpStatusCode.BadRequest);
-        //}
+        #region 迁移
+        [HttpGet]
+        public IActionResult MigrateMenuItem(int id, int? parentId, MigrateMenuItemViewModel model)
+        {
+            if (parentId == null)
+                parentId = 0;
+            var menuItem = _menuAppService.GetMenuItemById(id);
+            if (menuItem != null)
+            {                
+                var parentMenuItem = parentId == 0 ? null : _menuAppService.GetMenuItemById((int)parentId);
+                if (menuItem.ParentId == parentId)
+                {
+                    return Json(new JsonResultEntity()
+                    {
+                        message = $"{parentMenuItem?.Header ?? "根"}菜单下已包含子菜单{menuItem.Header},无需迁移!",
+                        isSuccessed = false
+                    });
+                }
 
-        //[HttpPost]
-        //public IActionResult MigrateColumn(int id, int? parentId)
-        //{
-        //    _menuAppService.MigrateColumn(id, parentId);
-        //    return Json("迁移成功！");
-        //}
-        //#endregion
+                model = new MigrateMenuItemViewModel()
+                {
+                    Id = menuItem.Id,
+                    ParentId = (int)parentId,
+                    Header = menuItem.Header,
+                    ParentHeader = parentMenuItem?.Header,
+                };
+                return PartialView("_Migrate", model);
+            }
+            else
+                throw new JMBasicException("菜单不存在！", HttpStatusCode.BadRequest);
+        }
+
+        [HttpPost]
+        public IActionResult MigrateMenuItem(MigrateMenuItemViewModel model)
+        {
+            _menuAppService.MigrateMenuItem(model.Id, model.ParentId);
+            return Json(new JsonResultEntity() { message = "迁移成功！" });
+        }
+        #endregion
 
         [HttpGet]
         public IActionResult RefreshMenu(string keywords)
         {
-            return ViewComponent("Menus", new {  keywords });
+            return ViewComponent("Menu", new { keywords });
         }
     }
 }

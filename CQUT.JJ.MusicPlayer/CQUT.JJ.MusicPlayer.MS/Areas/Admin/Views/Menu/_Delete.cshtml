@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title">删除部门</h4>
             </div>
-            <form asp-action="DeleteMenuItem" asp-controller="Menu" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="deleteMenuItemSuccess">
+            <form asp-action="DeleteMenuItem" asp-controller="Menu" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="deleteMenuItemed">
                 @Html.HiddenFor(model => model.Id)
                 <div class="modal-body">
                     <h4>您确定要删除<span class="title-highlight">@Model.Header</span>菜单项吗？</h4>

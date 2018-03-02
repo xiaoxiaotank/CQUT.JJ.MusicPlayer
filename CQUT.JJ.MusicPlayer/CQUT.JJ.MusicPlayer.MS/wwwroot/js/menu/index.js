@@ -28,15 +28,17 @@ var setting = {
         showRenameBtn: false,
         showRemoveBtn: false,
         editNameSelectAll: true,
+        drag: {
+            prev: false,
+            next: false,
+        }
     },
     callback: {
         onClick: menuItemOnClick,   //定义节点单击事件回调函数
         onRightClick: onRightClick, //定义节点右键单击事件回调函数
-        beforeRename: beforeRename,
-        onRename:onRename,
-        beforeDrag: beforeDrag,
-        beforeDrop: function (treeId, treeNodes, targetNode, moveType, isCopy) { console.log("可以拖拽");}
-        //beforeRename: beforeRename, //定义节点重新编辑成功前回调函数，一般用于节点编辑时判断输入的节点名称是否合法
+        beforeRename: beforeRename, //定义节点重新编辑成功前回调函数，一般用于节点编辑时判断输入的节点名称是否合法
+        onRename: onRename,         //beforeRename返回true执行
+        beforeDrop: beforeDrop,     //拖拽操作结束前执行
         //onDblClick: onDblClick,  //定义节点双击事件回调函数
         //onCheck: onCheck    //定义节点复选框选中或取消选中事件的回调函数
     },
@@ -87,30 +89,10 @@ $(function () {
     
 })
 
-//菜单树成功操作后执行
-function menuTreeOptionSuccess(data,refreshNode) {   
-    $("#my-modal").modal("hide");
-    alert(data.message);   
-    menuTreeObj.setting.async.url = "/Admin/Menu/GetMenuByParentId?parentId=" + refreshNode.id;
-    menuTreeObj.reAsyncChildNodes(refreshNode, "refresh",false);
-    //RefreshSidebar();
-}
-
-function createMenuItemSuccess(data) {
-    var refreshNode = menuTreeObj.getNodeByParam("id", currentNodeId);
-    refreshNode.isParent = true;
-    menuTreeOptionSuccess(data, refreshNode);
-}
-
-function deleteMenuItemSuccess(data) {
-    var currentNode = menuTreeObj.getNodeByParam("id", currentNodeId);
-    var refreshNode = menuTreeObj.getNodeByParam("id", currentNode.pId);
-    menuTreeOptionSuccess(data, refreshNode);
-}
-
 function getMenuTreeObj() {
-    return $.fn.zTree.getZTreeObj(menuTreeId);    
+    return $.fn.zTree.getZTreeObj(menuTreeId);
 }
+
 
 function menuItemOnClick(event, treeId, treeNode) {
     alert(treeNode.id + " ," + treeNode.name + "," + treeNode.pId);
@@ -125,11 +107,6 @@ function onRightClick(event, menuTreeIdName, treeNode) {
     else if (treeNode && !treeNode.noR) {
         showRMenu("node", event.clientX, event.clientY);
     }
-}
-
-function beforeDrag(treeId, treeNode) {
-    console.log("开启拖拽");
-    return true;
 }
 
 //显示右键菜单  
@@ -149,6 +126,43 @@ function onBodyMouseDown(event) {
         $("#rMenu").css({ "visibility": "hidden" });
     }
 }  
+
+
+//菜单树成功操作后执行
+function afterMenuTreeOption(data) {   
+    $("#my-modal").modal("hide");
+    alert(data.message);
+    if (data.isSuccessed)
+        refreshMenu();
+}
+
+function refreshChildNodes(refreshParentNode) {
+    var parentId = 0;
+    if (refreshParentNode != null) {
+        parentId = refreshParentNode.id;
+        refreshParentNode.isParent = true;
+        menuTreeObj.expandNode(refreshParentNode);
+    }
+    menuTreeObj.setting.async.url = "/Admin/Menu/GetMenuByParentId?parentId=" + parentId;
+    menuTreeObj.reAsyncChildNodes(refreshParentNode, "refresh", false);
+}
+
+function createMenuItemed(data) {
+    if (data.isSuccessed) {
+        var refreshNode = menuTreeObj.getNodeByParam("id", currentNodeId);
+        refreshChildNodes(refreshNode);
+    }
+    afterMenuTreeOption(data);
+}
+
+function deleteMenuItemed(data) {   
+    if (data.isSuccessed){
+        var currentNode = menuTreeObj.getNodeByParam("id", currentNodeId);
+        var refreshNode = menuTreeObj.getNodeByParam("id", currentNode.pId);
+        refreshChildNodes(refreshNode);
+    }        
+    afterMenuTreeOption(data);
+}
 
 function beforeRename(treeId, treeNode, newName, isCancel) {
     if (isCancel) {
@@ -183,7 +197,57 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
 
 function onRename(event, treeId, treeNode, isCancel) {
     if (!isCancel) {
-        
-    }    
+        refreshMenu();
+    }
+}
+
+function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+    //拖拽到根节点
+    moveType = "inner";
+    var id = treeNodes[0].id, origParentId = treeNodes[0].pId, parentId = null;
+    if (targetNode != null)
+        parentId = targetNode.id;
+
+    var isSuccessed = true;
+    $.ajax({
+        type: "get",
+        async: false,
+        url: "/Admin/Menu/MigrateMenuItem",
+        data: { "id": id, "parentId": parentId },
+        success: function (msg) {
+            if (isJsonFormat(msg) && !msg.isSuccessed) {
+                alert(msg.message);
+                isSuccessed = false;
+            }
+            else {
+                $("#modal").html(msg);
+                $("#cancel").click(function () {
+                    var sourceParentNode = menuTreeObj.getNodeByParam("id", origParentId);
+                    refreshChildNodes(sourceParentNode);                 
+                    refreshChildNodes(targetNode);
+                })
+            }
+        }
+    });
+    return isSuccessed;
+}
+
+function migrateMenuItemed(data) {
+    afterMenuTreeOption(data);
+    if (!data.isSuccessed) {
+        menuTreeObj.refresh();
+    }
+}
+
+
+function refreshMenu(keywords) {
+    $.ajax({
+        type: "get",
+        url: "/Admin/Menu/RefreshMenu",
+        data: { "keywords": keywords },
+        success: function (msg) {
+            $("#sidebardiv").html(msg);
+        }
+    });
 }
 
