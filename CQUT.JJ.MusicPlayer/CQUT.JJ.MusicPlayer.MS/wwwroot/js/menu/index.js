@@ -280,3 +280,53 @@ function refreshMenu(keywords) {
     });
 }
 
+var result = null;
+//出现无效的情况是因为id和其他标签重复了
+$("#menuSearch").bind("keyup", function () {
+    if (result) {
+        clearTimeout(result);
+    }
+    result = setTimeout(function () {
+        var key = $("#menuSearch").val();
+        if (key == null || key == "") {
+            var hiddenNodes = menuTreeObj.getNodesByParam("isHidden", true);
+            menuTreeObj.showNodes(hiddenNodes);
+            return;
+        }
+        
+        var nodes = menuTreeObj.getNodes()
+
+        menuTreeObj.hideNodes(nodes);
+        var resultNodes = menuTreeObj.getNodesByParamFuzzy("name", key);
+        menuTreeObj.showNodes(resultNodes);
+        for (node of resultNodes) {
+            showParentNode(node);
+        }
+
+        //for (node of nodes) {
+        //    console.log(node);
+        //}
+        //$.fn.zTree.init($("#" + menuTreeId), setting);
+        //menuTreeObj = getMenuTreeObj();
+        //if (key == null || key == "")
+        //    return;
+        //var nodeList = menuTreeObj.getNodesByParamFuzzy("name", key);
+        ////将找到的nodelist节点更新至Ztree内
+        //$.fn.zTree.init($("#" + menuTreeId), setting, nodeList);     
+    }, 250);   
+});
+
+function showParentNode(node) {
+    var parentNode = node.getParentNode();
+    
+    if (parentNode != null) {
+        if (parentNode.isHidden == true) {
+            showParentNode(parentNode);
+            menuTreeObj.showNode(parentNode);
+        }        
+    }
+    else {
+        menuTreeObj.expandNode(node,true,true);
+    }
+}
+
