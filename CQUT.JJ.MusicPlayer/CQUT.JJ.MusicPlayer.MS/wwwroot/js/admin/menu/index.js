@@ -276,16 +276,6 @@ function migrateMenuItemed(data) {
 }
 
 
-function refreshMenu(keywords) {
-    $.ajax({
-        type: "get",
-        url: "/Admin/Menu/RefreshMenu",
-        data: { "keywords": keywords },
-        success: function (msg) {
-            $("#sidebardiv").html(msg);
-        }
-    });
-}
 
 var result = null;
 //出现无效的情况是因为id和其他标签重复了
@@ -304,9 +294,6 @@ $("#menuSearch").bind("keyup", function () {
         if (key == null || key == "") {
             return;
         }
-        
-        var nodes = menuTreeObj.getNodes()       
-
         var resultNodes = menuTreeObj.getNodesByParamFuzzy("name", key);
         for (node of resultNodes) {
             node.highlight = true;
