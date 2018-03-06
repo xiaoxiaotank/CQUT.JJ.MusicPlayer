@@ -9,6 +9,7 @@ var setting = {
         showIcon: true,  //设置是否显示节点图标
         showLine: true,  //设置是否显示节点与节点之间的连线
         showTitle: true,  //设置是否显示节点的title提示信息
+        fontCss: getFontCss 
     },
     check: {
         enable: false,                   //设置是否显示checkbox复选框
@@ -101,6 +102,12 @@ $(function () {
 
 function getMenuTreeObj() {
     return $.fn.zTree.getZTreeObj(menuTreeId);
+}
+
+function getFontCss(treeId, treeNode) {
+    return (!!treeNode.highlight) ?
+        { color: "#A60000", "font-weight": "bold" } :
+        { color: "#333", "font-weight": "normal" }
 }
 
 
@@ -288,45 +295,38 @@ $("#menuSearch").bind("keyup", function () {
     }
     result = setTimeout(function () {
         var key = $("#menuSearch").val();
+        var highlightNodes = menuTreeObj.getNodesByParam("highlight", true);  
+        for (node of highlightNodes) {
+            node.highlight = false;
+            menuTreeObj.updateNode(node);
+        }
+
         if (key == null || key == "") {
-            var hiddenNodes = menuTreeObj.getNodesByParam("isHidden", true);
-            menuTreeObj.showNodes(hiddenNodes);
             return;
         }
         
-        var nodes = menuTreeObj.getNodes()
+        var nodes = menuTreeObj.getNodes()       
 
-        menuTreeObj.hideNodes(nodes);
         var resultNodes = menuTreeObj.getNodesByParamFuzzy("name", key);
-        menuTreeObj.showNodes(resultNodes);
         for (node of resultNodes) {
-            showParentNode(node);
-        }
-
-        //for (node of nodes) {
-        //    console.log(node);
-        //}
-        //$.fn.zTree.init($("#" + menuTreeId), setting);
-        //menuTreeObj = getMenuTreeObj();
-        //if (key == null || key == "")
-        //    return;
-        //var nodeList = menuTreeObj.getNodesByParamFuzzy("name", key);
-        ////将找到的nodelist节点更新至Ztree内
-        //$.fn.zTree.init($("#" + menuTreeId), setting, nodeList);     
+            node.highlight = true;
+            menuTreeObj.updateNode(node);
+            FocusNode(node.getParentNode());
+        }  
     }, 250);   
+
+    function FocusNode(node) {
+        if (node) {
+            if (!node.open) {
+                menuTreeObj.expandNode(node, true);
+            }
+            if (node.pId != 0) {
+                var parentNode = node.getParentNode();
+                FocusNode(parentNode);
+            }         
+        }
+          
+    }
 });
 
-function showParentNode(node) {
-    var parentNode = node.getParentNode();
-    
-    if (parentNode != null) {
-        if (parentNode.isHidden == true) {
-            showParentNode(parentNode);
-            menuTreeObj.showNode(parentNode);
-        }        
-    }
-    else {
-        menuTreeObj.expandNode(node,true,true);
-    }
-}
 
