@@ -18,13 +18,13 @@ function refreshMenu(keywords) {
 }
 
 $(function () {
-    //自己写的固定菜单栏
+    //固定菜单栏的方式
     var url = location.pathname;
     $('.sidebar-menu a').each(function () {
         var href = $(this).attr('href');
         if (url === href) {
-            $(this).parents('li').eq(1).addClass("active");
-            $(this).parents('ul').first().css("display", "block");
+            $(this).parents('li').addClass("active");
+            $(this).parents('ul').addClass("menu-open");
             $(this).css("color", "white");
         }
     });

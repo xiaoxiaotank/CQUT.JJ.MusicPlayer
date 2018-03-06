@@ -136,6 +136,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Priority = menuItem.Priority,
                     Header = menuItem.Header,
                 };
+                
                 return PartialView("_Update", model);
             }
             else
@@ -148,13 +149,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             var menuItem = new MenuItemModel
             {
                 Id = model.Id,
-                TargetUrl = model.TargetUrl ?? string.Empty,
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,
                 Priority = model.Priority,
             };
+
+            menuItem.TargetUrl = GetValidUrl(model.TargetUrl);
             _menuAppService.UpdateMenuItem(menuItem);
             return Json(new JsonResultEntity() { message = "更新成功！" });
         }
+    
         #endregion
 
         #region 迁移
@@ -206,6 +209,20 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult RefreshMenu(string keywords)
         {
             return ViewComponent("Menu", new { keywords });
+        }
+
+
+        private string GetValidUrl(string targetUrl)
+        {
+            if (string.IsNullOrWhiteSpace(targetUrl))
+                return string.Empty;
+
+            var area = ControllerContext.RouteData.Values["area"];
+            if (targetUrl[0] != '/')
+                targetUrl = targetUrl.Insert(0, "/");
+            if (!targetUrl.StartsWith($@"/{ area }"))
+                targetUrl = targetUrl.Insert(0, $@"/{ area }");
+            return targetUrl;
         }
     }
 }
