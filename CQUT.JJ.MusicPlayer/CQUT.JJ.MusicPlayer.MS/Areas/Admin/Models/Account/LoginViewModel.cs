@@ -13,5 +13,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Account
 
         [Display(Name = "密码"), Required(ErrorMessage = "请输入密码")]
         public string Password { get; set; }
+
+        public bool IsRememberMe { get; set; }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Account;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -26,11 +29,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            var model = new LoginViewModel()
+            {
+                IsRememberMe = HttpContext.User.Identity.IsAuthenticated
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             var user = new UserModel();
             try
@@ -42,8 +49,27 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 HttpContext.Session.SetString("ErrorMessage", ex.Message);
                 return View();
             }
-            HttpContext.Session.SetString("User", JsonConvert.SerializeObject(user));
-            return RedirectToAction("Index", "Home");
+            if (user != null)
+            {
+                var jsonValue = JsonConvert.SerializeObject(user);
+                HttpContext.Session.SetString($"User", jsonValue);
+
+                if (model.IsRememberMe)
+                {
+                    var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, model.UserName) }, CookieAuthenticationDefaults.AuthenticationScheme));
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userClaim, new AuthenticationProperties
+                    {
+                        IsPersistent = true,
+                        ExpiresUtc = DateTimeOffset.Now.Add(TimeSpan.FromDays(7)),
+                    });
+                }
+                else
+                {
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
         } 
         #endregion
 

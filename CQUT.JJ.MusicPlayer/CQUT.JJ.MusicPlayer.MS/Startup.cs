@@ -7,8 +7,10 @@ using CQUT.JJ.MusicPlayer.Application.Methods;
 using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using CQUT.JJ.MusicPlayer.MS.Filters;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +50,8 @@ namespace CQUT.JJ.MusicPlayer.MS
             services.AddScoped<MenuManager, MenuManager>();
 
             services.AddSession();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o => o.LoginPath = new PathString("/Admin/Account/Login"));
 
             services.AddMvc();
         }
@@ -71,6 +75,8 @@ namespace CQUT.JJ.MusicPlayer.MS
             app.UseStaticFiles();
 
             app.UseSession();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
