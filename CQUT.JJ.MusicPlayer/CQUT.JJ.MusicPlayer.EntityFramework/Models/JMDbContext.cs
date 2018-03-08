@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 {
+    /// <summary>
+    /// Scaffold-DbContext "data source=.;Initial catalog=JJMusicManage;User Id=sa;Password=19950913;" Microsoft.EntityFrameworkCore.SqlServer -outputdir Models
+    /// </summary>
     public partial class JMDbContext : DbContext
     {
         public virtual DbSet<Menu> Menu { get; set; }

@@ -52,7 +52,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             if (user != null)
             {
                 var jsonValue = JsonConvert.SerializeObject(user);
-                HttpContext.Session.SetString($"User", jsonValue);
+                HttpContext.Session.SetString("User", jsonValue);
 
                 if (model.IsRememberMe)
                 {
