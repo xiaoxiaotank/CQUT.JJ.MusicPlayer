@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Entities
         /// 默认值为true
         /// </summary>
         public bool isSuccessed { get; set; } = true;
+
+        /// <summary>
+        /// json对象
+        /// </summary>
+        public JsonResult jsonObject { get; set; }
 
     }
 }

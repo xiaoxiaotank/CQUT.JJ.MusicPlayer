@@ -31,6 +31,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 user = new User()
                 {
                     UserName = model.UserName,
+                    NickName = model.NickName,
                     Password = model.Password.EncryptByMD5(),
                     IsAdmin = model.IsAdmin,
                     CreationTime = now,
@@ -58,7 +59,6 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ValidateForUpdate(model);
 
                 user.NickName = model.NickName;
-                user.UserName = model.UserName;
                 user.LastModificationTime = DateTime.Now;
                 Save();
             }
@@ -110,10 +110,10 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         }
 
         /// <summary>
-        /// 查询所有用户
+        /// 查询所有会员
         /// </summary>
         /// <returns></returns>
-        public IQueryable<User> FindAllCommonUsers()
+        public IQueryable<User> FindAllMembers()
         {
             return base.FindAll().Where(u => !u.IsDeleted && !u.IsAdmin);
         }
@@ -191,12 +191,10 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         private void ValidateForUpdate(UserModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.UserName))
-                ThrowException("用户名不能为空！");
-            if (model.UserName.Length < 3)
-                ThrowException("用户名太短了！");
-            if (model.UserName.Length > 32)
-                ThrowException("用户名太长了!");
+            if (string.IsNullOrWhiteSpace(model.NickName))
+                ThrowException("昵称不能为空！");
+            if (model.NickName.Length > 8)
+                ThrowException("昵称太长了!");
         }
 
         private void ValidateForPassword(string password, string confirmPassword)

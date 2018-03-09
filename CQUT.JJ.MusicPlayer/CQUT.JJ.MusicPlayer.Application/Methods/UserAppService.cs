@@ -59,6 +59,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                         UserName = a.UserName,
                         NickName = a.NickName,
                         IsAdmin = a.IsAdmin,
+                        CreationTime = a.CreationTime
                     });
                 });
                 return models;
@@ -71,9 +72,9 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             throw new NotImplementedException();
         }
 
-        public IEnumerable<UserModel> GetAllCommonUsers()
+        public IEnumerable<UserModel> GetAllMembers()
         {
-            var users = _userManager.FindAllCommonUsers();
+            var users = _userManager.FindAllMembers();
             if (users != null)
             {
                 var models = new List<UserModel>();
@@ -84,6 +85,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                         Id = u.Id,
                         UserName = u.UserName,
                         NickName = u.NickName,
+                        CreationTime = u.CreationTime
                     });
                 });
                 return models;
@@ -91,7 +93,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return null;
         }
 
-        public UserModel GetUserById(int id)
+        public UserModel GetMemberById(int id)
         {
             var user = _ctx.User.SingleOrDefault(u => u.Id == id && !u.IsAdmin && !u.IsDeleted);
             if(user != null)
@@ -107,7 +109,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return null;
         }
 
-        public UserModel GetUserOrAdminById(int id)
+        public UserModel GetUserById(int id)
         {
             var user = _userManager.Find(id);
             if (user != null)
@@ -123,7 +125,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return null;
         }
 
-        public UserModel LoginOfUser(string userName, string password)
+        public UserModel LoginOfMember(string userName, string password)
         {
             return Login(userName, password, false);
         }
@@ -160,6 +162,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 UserName = user.UserName,
                 NickName = user.NickName,
                 IsAdmin = user.IsAdmin,
+                CreationTime = user.CreationTime,
             };
         }
 
@@ -203,5 +206,28 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return null;
         }
 
+        public IEnumerable<UserModel> GetMembersBySkiperAndTaker(int skiper, int taker)
+        {
+            return GetUsersBySkiperAndTaker(skiper, taker, false);
+        }
+
+        public IEnumerable<UserModel> GetAdminsBySkiperAndTaker(int skiper, int taker)
+        {
+            return GetUsersBySkiperAndTaker(skiper, taker, true);
+        }
+
+        private IEnumerable<UserModel> GetUsersBySkiperAndTaker(int skiper,int taker,bool isAdmin)
+        {
+            return _ctx.User.Where(u => u.IsAdmin == isAdmin && !u.IsDeleted)
+                .Skip(skiper)
+                .Take(taker)
+                .Select(m => new UserModel()
+                {
+                    Id = m.Id,
+                    UserName = m.UserName,
+                    NickName = m.NickName,
+                    CreationTime = m.CreationTime
+                });
+        }
     }
 }

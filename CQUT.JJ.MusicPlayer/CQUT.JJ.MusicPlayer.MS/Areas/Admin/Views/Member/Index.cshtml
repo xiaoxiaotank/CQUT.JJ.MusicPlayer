@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "会员管理";
+}
+@section Styles{
+    <link href="~/css/admin/member/index.css" rel="stylesheet" />
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small>@ViewBag.Title</small>
+    </h1>
+</section>
+<section class="content">
+    <div id="memberGrid" class="ag-theme-balham"></div>
+</section>
+
+
+<div id="modal"></div>
+
+@section scripts{
+    <script src="~/lib/ag-grid/js/ag-grid-enterprise.min.js"></script>
+    <script src="~/js/admin/member/index.js"></script>
+}

@@ -30,7 +30,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ParentId = model.ParentId ?? 0,
                 TargetUrl = model.TargetUrl,
                 Priority = CreateLowestPriorityOfSiblings(model.ParentId ?? 0),
-                RequiredAuthorizeCode = model.RequiredAuthorizeCode
+                RequiredAuthorizeCode = model.RequiredAuthorizeCode,
+                CreationTime = DateTime.Now
             };
             return Create(menu);
         }
@@ -51,6 +52,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 {
                     menuItem.TargetUrl = model.TargetUrl;
                     menuItem.RequiredAuthorizeCode = model.RequiredAuthorizeCode;
+                    menuItem.LastModificationTime = DateTime.Now;
 
                     if (menuItem.Priority != model.Priority)
                     {
@@ -84,6 +86,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ValidateForHeader(header);
 
                 menuItem.Header = header;
+                menuItem.LastModificationTime = DateTime.Now;
                 Save();
             }
             else
@@ -103,6 +106,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             {
                 menuItem.ParentId = parentId ?? 0;
                 menuItem.Priority = CreateLowestPriorityOfSiblings(parentId ?? 0);
+                menuItem.LastModificationTime = DateTime.Now;
             }
                 
             else

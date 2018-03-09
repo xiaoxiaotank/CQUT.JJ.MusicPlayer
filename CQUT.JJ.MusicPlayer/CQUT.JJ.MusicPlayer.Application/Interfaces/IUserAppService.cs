@@ -9,12 +9,12 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
     public interface IUserAppService
     {
         /// <summary>
-        /// 用户登录
+        /// 会员登录
         /// </summary>
         /// <param name="userName">用户名</param>
         /// <param name="password">密码</param>
         /// <returns></returns>
-        UserModel LoginOfUser(string userName, string password);
+        UserModel LoginOfMember(string userName, string password);
 
         /// <summary>
         /// 管理员登录
@@ -25,11 +25,11 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         UserModel LoginOfAdmin(string userName, string password);
 
         /// <summary>
-        /// 通过id获取用户信息
+        /// 通过id获取会员信息
         /// </summary>
         /// <param name="id">用户id</param>
         /// <returns></returns>
-        UserModel GetUserById(int id);
+        UserModel GetMemberById(int id);
 
         /// <summary>
         /// 通过id获取管理员信息
@@ -39,23 +39,39 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         UserModel GetAdminById(int id);
 
         /// <summary>
-        /// 通过id获取
+        /// 通过id获取用户
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        UserModel GetUserOrAdminById(int id);
+        UserModel GetUserById(int id);
 
         /// <summary>
-        /// 获取所有用户
+        /// 获取所有会员
         /// </summary>
         /// <returns></returns>
-        IEnumerable<UserModel> GetAllCommonUsers();
+        IEnumerable<UserModel> GetAllMembers();
 
         /// <summary>
         /// 获取所有管理员
         /// </summary>
         /// <returns></returns>
         IEnumerable<UserModel> GetAllAdmins();
+
+        /// <summary>
+        /// 获取特定会员
+        /// </summary>
+        /// <param name="skiper"></param>
+        /// <param name="taker"></param>
+        /// <returns></returns>
+        IEnumerable<UserModel> GetMembersBySkiperAndTaker(int skiper,int taker);
+
+        /// <summary>
+        /// 获取特定管理员
+        /// </summary>
+        /// <param name="skiper"></param>
+        /// <param name="taker"></param>
+        /// <returns></returns>
+        IEnumerable<UserModel> GetAdminsBySkiperAndTaker(int skiper,int taker);
 
         /// <summary>
         /// 用户注册

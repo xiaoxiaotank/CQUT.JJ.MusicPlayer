@@ -81,7 +81,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             {
                 ParentId = model.ParentId,
                 Header = model.Header,
-                TargetUrl = model.TargetUrl ?? string.Empty,
+                TargetUrl = GetValidUrl(model.TargetUrl),
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,                
             };
             _menuAppService.CreateMenuItem(menuItem);

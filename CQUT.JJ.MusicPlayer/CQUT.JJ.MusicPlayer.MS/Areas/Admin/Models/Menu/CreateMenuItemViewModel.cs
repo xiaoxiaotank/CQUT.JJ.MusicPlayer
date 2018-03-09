@@ -8,8 +8,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Menu
 {
     public class CreateMenuItemViewModel
     {
-        public int Id { set; get; }
-
         [Required]
         public string Header { get; set; }
 
