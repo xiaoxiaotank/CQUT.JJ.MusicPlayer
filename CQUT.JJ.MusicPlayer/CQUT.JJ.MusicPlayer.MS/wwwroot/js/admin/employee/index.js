@@ -79,7 +79,7 @@ function getContextMenuItems(params) {
                     }
                 })
             },
-            cssClasses: ['redFont', 'bold']
+            //cssClasses: ['redFont', 'bold']
         },
         {
             name: '权限管理',
@@ -101,7 +101,14 @@ function getContextMenuItems(params) {
         {
             name: '删除',
             action: function () {
-                console.log('Niall was pressed');
+                $.ajax({
+                    type: "get",
+                    url: "/Admin/Employee/Delete",
+                    data: { "id": params.node.data.id },
+                    success: function (data) {
+                        $("#modal").html(data);
+                    }
+                })
             }
         },
         //加一个横线
@@ -133,6 +140,24 @@ function afterUpdateEmployee(data) {
                 return;
             }
         });      
+    }
+}
+
+function afterDeleteEmployee(data) {
+    alert(data.message);
+    $("#my-modal").modal("hide");
+    if (data.isSuccessed) {       
+        var sId = 0;
+        gridOptions.api.forEachNode(function (node) {
+            if (node.data.id === data.jsonObject.value.id) {
+                gridOptions.api.updateRowData({ remove: [node.data] });
+                sId = node.data.sId;
+            }
+            else if (sId !== 0) {
+                node.data.sId = sId++;
+                gridOptions.api.updateRowData({ update: [node] });
+            }
+        });
     }
 }
 

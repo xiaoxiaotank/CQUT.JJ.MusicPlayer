@@ -89,11 +89,16 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
         #endregion
 
-        public IActionResult RenameMenuItem(int id,string header)
+        #region 重命名
+
+        [HttpPost]
+        public IActionResult RenameMenuItem(int id, string header)
         {
             _menuAppService.RenameMenuItem(id, header);
             return Json(new JsonResultEntity() { message = "重命名成功！" });
-        }
+        } 
+
+        #endregion
 
         #region 删除
         [HttpGet]
@@ -120,7 +125,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return Json(new JsonResultEntity() { message = "删除成功！" });
         }
         #endregion
-
 
         #region 更新
         [HttpGet]

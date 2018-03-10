@@ -112,6 +112,33 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #endregion
 
+        #region 删除
+
+        [HttpGet]
+        public IActionResult Delete(int id, DeleteEmployeeViewModel model)
+        {
+            var user = _userAppService.GetAdminById(id);
+            model = new DeleteEmployeeViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+            };
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(DeleteEmployeeViewModel model)
+        {
+            _userAppService.DeleteUserById(model.Id);
+            return Json(new JsonResultEntity()
+            {
+                message = "删除帐号成功！",
+                jsonObject = new JsonResult(new { id = model.Id })
+            });
+        }
+
+        #endregion
+
         [NonAction]
         private string GetFormattingTime(DateTime time)
         {
