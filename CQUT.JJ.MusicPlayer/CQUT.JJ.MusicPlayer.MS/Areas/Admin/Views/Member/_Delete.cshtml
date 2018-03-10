@@ -1,7 +1,6 @@
-﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee.DeleteMemberViewModel
-<div id="modal">
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Member.DeleteMemberViewModel
     <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <form asp-action="Delete" asp-controller="Employee" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="afterDeleteEmployee" >
+        <form asp-action="Delete" asp-controller="Member" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="afterDeleteMember" >
             @Html.HiddenFor(m => m.Id)
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

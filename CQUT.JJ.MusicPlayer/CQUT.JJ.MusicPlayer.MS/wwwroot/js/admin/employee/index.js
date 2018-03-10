@@ -27,7 +27,7 @@ var gridOptions = {
             })
         })
 
-        data = await GetRowData(params);
+        data = await GetRowData();
         params.api.setRowData(data);
     }
 };

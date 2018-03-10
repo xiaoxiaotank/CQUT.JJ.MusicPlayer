@@ -50,7 +50,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateEmployeeViewModel model)
+        public IActionResult Create(CreateMemberViewModel model)
         {
             var user = new UserModel
             {
@@ -78,10 +78,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 更新
 
         [HttpGet]
-        public IActionResult Update(int id, UpdateEmployeeViewModel model)
+        public IActionResult Update(int id, UpdateMemberViewModel model)
         {
             var user = _userAppService.GetAdminById(id);
-            model = new UpdateEmployeeViewModel()
+            model = new UpdateMemberViewModel()
             {
                 Id = user.Id,
                 UserName = user.UserName,
@@ -91,7 +91,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(UpdateEmployeeViewModel model)
+        public IActionResult Update(UpdateMemberViewModel model)
         {
             var user = new UserModel()
             {
@@ -132,7 +132,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             _userAppService.DeleteUserById(model.Id);
             return Json(new JsonResultEntity()
             {
-                message = "删除帐号成功！",
+                message = "删除员工帐号成功！",
                 jsonObject = new JsonResult(new { id = model.Id })
             });
         }

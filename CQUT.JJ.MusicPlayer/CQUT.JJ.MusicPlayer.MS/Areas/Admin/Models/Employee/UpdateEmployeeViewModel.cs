@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee
 {
-    public class UpdateEmployeeViewModel
+    public class UpdateMemberViewModel
     {
         public int Id { get; set; }
 
