@@ -193,18 +193,20 @@ function getContextMenuItems(params) {
 }
 
 
-function afterCreateEmployee(data) {
-    alert(data.message);
+function afterCreateEmployee(data) {   
     if (data.isSuccessed) {
+        success_prompt(data.message);
         $("#my-modal").modal("hide");
         data.jsonObject.value.sId = gridOptions.api.paginationGetRowCount() + 1;
         gridOptions.api.updateRowData({ add: [data.jsonObject.value] });
-    }    
+    }else {
+        fail_prompt(data.message);
+    }
 }
 
 function afterUpdateEmployee(data) {
-    alert(data.message);
     if (data.isSuccessed) {
+        success_prompt(data.message);
         $("#my-modal").modal("hide");
         gridOptions.api.forEachNode(function (node) {
             if (node.data.id === data.jsonObject.value.id) {
@@ -212,14 +214,16 @@ function afterUpdateEmployee(data) {
                 gridOptions.api.updateRowData({ update: [node] });
                 return;
             }
-        });      
+        });
+    } else {
+        fail_prompt(data.message);
     }
 }
 
 function afterDeleteEmployee(data) {
-    alert(data.message);
     $("#my-modal").modal("hide");
-    if (data.isSuccessed) {       
+    if (data.isSuccessed) {
+        success_prompt(data.message);
         var sId = 0;
         gridOptions.api.forEachNode(function (node) {
             if (node.data.id === data.jsonObject.value.id) {
@@ -231,6 +235,7 @@ function afterDeleteEmployee(data) {
                 gridOptions.api.updateRowData({ update: [node] });
             }
         });
+    } else {
+        fail_prompt(data.message);
     }
 }
-
