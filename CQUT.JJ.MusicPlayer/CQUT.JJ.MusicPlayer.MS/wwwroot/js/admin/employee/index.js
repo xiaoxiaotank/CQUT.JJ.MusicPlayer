@@ -1,10 +1,30 @@
 ﻿var data = [];
 
 var columnDefs = [
-    { headerName: "序号", field: "sId", width: 40, colId:"110" },
-    { headerName: "用户名", field: "userName" },
-    { headerName: "昵称", field: "nickName" },
-    { headerName: "创建日期", field: "creationTime" }
+    { headerName: "序号", field: "sId", width: 40, filter: 'agNumberColumnFilter' },
+    { headerName: "用户名", field: "userName", filter: 'agTextColumnFilter' },
+    { headerName: "昵称", field: "nickName", filter: 'agTextColumnFilter' },
+    { headerName: "创建日期", field: "creationTime", filter: 'agDateColumnFilter', filterParams:{
+        comparator:function (filterLocalDateAtMidnight, cellValue){
+            var dateAsString = cellValue;
+            if (dateAsString == null) return -1;
+            var dateParts = [dateAsString.substr(0, 4), dateAsString.substr(5, 2), dateAsString.substr(8, 2)];
+            var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+
+            if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
+                return 0
+            }
+
+            if (cellDate < filterLocalDateAtMidnight) {
+                return -1;
+            }
+
+            if (cellDate > filterLocalDateAtMidnight) {
+                return 1;
+            }
+        }
+    }}
+
 ];
 
 
@@ -18,6 +38,10 @@ var gridOptions = {
     getContextMenuItems: getContextMenuItems,   //右键菜单
     allowContextMenuWithControlKey: true,      
     enableCellChangeFlash: true,    //单元格数据改变时闪一下
+    paginationNumberFormatter: function (params) {
+        return '[' + params.value.toLocaleString() + ']';
+    },
+    localeText: localeText,
     onGridReady: async function (params) {
         params.api.sizeColumnsToFit();
 
@@ -31,6 +55,7 @@ var gridOptions = {
         params.api.setRowData(data);
     }
 };
+
 
 document.addEventListener("DOMContentLoaded", function () {
 

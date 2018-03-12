@@ -50,7 +50,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateMemberViewModel model)
+        public IActionResult Create(CreateEmployeeViewModel model)
         {
             var user = new UserModel
             {
@@ -78,10 +78,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 更新
 
         [HttpGet]
-        public IActionResult Update(int id, UpdateMemberViewModel model)
+        public IActionResult Update(int id, UpdateEmployeeViewModel model)
         {
             var user = _userAppService.GetAdminById(id);
-            model = new UpdateMemberViewModel()
+            model = new UpdateEmployeeViewModel()
             {
                 Id = user.Id,
                 UserName = user.UserName,
@@ -91,7 +91,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(UpdateMemberViewModel model)
+        public IActionResult Update(UpdateEmployeeViewModel model)
         {
             var user = new UserModel()
             {

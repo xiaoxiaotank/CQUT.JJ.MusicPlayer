@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee
 {
-    public class CreateMemberViewModel
+    public class CreateEmployeeViewModel
     {
         [Display(Name = "用户名")]
         public string UserName { get; set; }
