@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,21 @@ namespace CQUT.JJ.MusicPlayer.MS.Entities
         /// <summary>
         /// 发送的消息
         /// </summary>
-        public string message { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
 
         /// <summary>
         /// 标识是否成功
         /// 默认值为true
         /// </summary>
-        public bool isSuccessed { get; set; } = true;
+        [JsonProperty(PropertyName = "isSuccessed")]
+        public bool IsSuccessed { get; set; } = true;
 
         /// <summary>
         /// json对象
         /// </summary>
-        public JsonResult jsonObject { get; set; }
+        [JsonProperty(PropertyName = "jsonObject")]
+        public JsonResult JsonObject { get; set; }
 
     }
 }

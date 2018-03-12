@@ -64,9 +64,9 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Extensions
                 {
                     menuTreeList.Add(new ZTreeNode()
                     {
-                        id = menuItem.Id,
-                        pId = menuItem.ParentId ?? 0,
-                        name = menuItem.Header
+                        Id = menuItem.Id,
+                        ParentId = menuItem.ParentId ?? 0,
+                        Name = menuItem.Header
                     });
 
                 }

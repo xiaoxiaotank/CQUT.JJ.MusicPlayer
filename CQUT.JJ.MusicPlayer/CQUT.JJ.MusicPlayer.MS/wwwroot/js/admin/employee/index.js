@@ -83,14 +83,13 @@ var gridOptions = {
         data = await GetRowData();
         params.api.setRowData(data);
 
-        addPageSizeSelector();
-        $("#employeeGrid").height(getContentHeight());
+        addPageSizeSelector();        
     }
 };
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
+    $("#employeeGrid").height(getContentHeight());
     var eGridDiv = document.querySelector('#employeeGrid');
     new agGrid.Grid(eGridDiv, gridOptions);
 

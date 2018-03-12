@@ -29,8 +29,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Filters
             {
                 context.Result = new JsonResult(new JsonResultEntity
                 {
-                    message = ex.Message,
-                    isSuccessed = false
+                    Message = ex.Message,
+                    IsSuccessed = false
                 });
             }
             else

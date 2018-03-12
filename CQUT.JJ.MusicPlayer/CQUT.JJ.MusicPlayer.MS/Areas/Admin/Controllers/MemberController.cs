@@ -32,11 +32,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             var members = _userAppService.GetAllMembers()
                 .Select((m,i) => new MemberViewModel()
                 {
-                    id = m.Id,
-                    sId = i + 1,
-                    userName = m.UserName,
-                    nickName = m.NickName,
-                    creationTime = m.CreationTime.ToString("yyyy年MM月dd日")
+                    Id = m.Id,
+                    SId = i + 1,
+                    UserName = m.UserName,
+                    NickName = m.NickName,
+                    CreationTime = m.CreationTime.ToString("yyyy年MM月dd日")
                 });
             return Json(members);
         }
@@ -62,8 +62,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             _userAppService.DeleteUserById(model.Id);
             return Json(new JsonResultEntity()
             {
-                message = "删除会员帐号成功！",
-                jsonObject = new JsonResult(new { id = model.Id })
+                Message = "删除会员帐号成功！",
+                JsonObject = new JsonResult(new { id = model.Id })
             });
         }
 

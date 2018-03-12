@@ -32,11 +32,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             var employees = _userAppService.GetAllAdmins()
                 .Select((m, i) => new EmployeeViewModel()
                 {
-                    id = m.Id,
-                    sId = i + 1,
-                    userName = m.UserName,
-                    nickName = m.NickName,
-                    creationTime = GetFormattingTime(m.CreationTime)
+                    Id = m.Id,
+                    SId = i + 1,
+                    UserName = m.UserName,
+                    NickName = m.NickName,
+                    CreationTime = GetFormattingTime(m.CreationTime)
                 });
             return Json(employees);
         }
@@ -62,13 +62,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
             return Json(new JsonResultEntity()
             {
-                message = "创建员工成功！",
-                jsonObject = Json(new EmployeeViewModel()
+                Message = "创建员工成功！",
+                JsonObject = Json(new EmployeeViewModel()
                 {
-                    id = user.Id,
-                    userName = user.UserName,
-                    nickName = user.NickName,
-                    creationTime = GetFormattingTime(user.CreationTime)
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    NickName = user.NickName,
+                    CreationTime = GetFormattingTime(user.CreationTime)
                 })
             });
         }
@@ -101,11 +101,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             user = _userAppService.UpdateBasicInfo(user);
             return Json(new JsonResultEntity()
             {
-                message = "编辑信息成功！",
-                jsonObject = Json(new EmployeeViewModel()
+                Message = "编辑信息成功！",
+                JsonObject = Json(new EmployeeViewModel()
                 {
-                    id = user.Id,
-                    nickName = user.NickName,
+                    Id = user.Id,
+                    NickName = user.NickName,
                 })
             });
         }
@@ -132,8 +132,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             _userAppService.DeleteUserById(model.Id);
             return Json(new JsonResultEntity()
             {
-                message = "删除员工帐号成功！",
-                jsonObject = new JsonResult(new { id = model.Id })
+                Message = "删除员工帐号成功！",
+                JsonObject = new JsonResult(new { id = model.Id })
             });
         }
 

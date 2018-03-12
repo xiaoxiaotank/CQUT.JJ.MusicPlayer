@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,17 +8,22 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee
 {
     public class EmployeeViewModel
     {
-        public int id { get; set; }
+        [JsonProperty(PropertyName = "id")]
+        public int Id { get; set; }
 
         /// <summary>
         /// 序号
         /// </summary>
-        public int sId { get; set; }
+        [JsonProperty(PropertyName = "sId")]
+        public int SId { get; set; }
 
-        public string userName { get; set; }
+        [JsonProperty(PropertyName = "userName")]
+        public string UserName { get; set; }
 
-        public string nickName { get; set; }
+        [JsonProperty(PropertyName = "nickName")]
+        public string NickName { get; set; }
 
-        public string creationTime { get; set; }
+        [JsonProperty(PropertyName = "creationTime")]
+        public string CreationTime { get; set; }
     }
 }

@@ -85,7 +85,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,                
             };
             _menuAppService.CreateMenuItem(menuItem);
-            return Json(new JsonResultEntity() { message = "添加成功！" });
+            return Json(new JsonResultEntity() { Message = "添加成功！" });
         }
         #endregion
 
@@ -95,7 +95,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult RenameMenuItem(int id, string header)
         {
             _menuAppService.RenameMenuItem(id, header);
-            return Json(new JsonResultEntity() { message = "重命名成功！" });
+            return Json(new JsonResultEntity() { Message = "重命名成功！" });
         } 
 
         #endregion
@@ -122,7 +122,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult DeleteMenuItem(DeleteMenuItemViewModel model)
         {
             _menuAppService.DeleteMenuItem(model.Id);
-            return Json(new JsonResultEntity() { message = "删除成功！" });
+            return Json(new JsonResultEntity() { Message = "删除成功！" });
         }
         #endregion
 
@@ -159,7 +159,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
             menuItem.TargetUrl = GetValidUrl(model.TargetUrl);
             _menuAppService.UpdateMenuItem(menuItem);
-            return Json(new JsonResultEntity() { message = "更新成功！" });
+            return Json(new JsonResultEntity() { Message = "更新成功！" });
         }
     
         #endregion
@@ -178,8 +178,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 {
                     return Json(new JsonResultEntity()
                     {
-                        message = $"{parentMenuItem?.Header ?? "根"}菜单下已包含子菜单{menuItem.Header},无需迁移!",
-                        isSuccessed = false
+                        Message = $"{parentMenuItem?.Header ?? "根"}菜单下已包含子菜单{menuItem.Header},无需迁移!",
+                        IsSuccessed = false
                     });
                 }
 
@@ -200,7 +200,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult MigrateMenuItem(MigrateMenuItemViewModel model)
         {
             _menuAppService.MigrateMenuItem(model.Id, model.ParentId);
-            return Json(new JsonResultEntity() { message = "迁移成功！" });
+            return Json(new JsonResultEntity() { Message = "迁移成功！" });
         }
         #endregion
 

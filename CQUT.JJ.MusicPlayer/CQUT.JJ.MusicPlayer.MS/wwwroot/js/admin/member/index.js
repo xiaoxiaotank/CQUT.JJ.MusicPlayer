@@ -82,15 +82,13 @@ var gridOptions = {
         params.api.setRowData(data);
 
         addPageSizeSelector();
-        $("#memberGrid").height(getContentHeight());
-
     }
 };
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
+    $("#memberGrid").height(getContentHeight());
     var eGridDiv = document.querySelector('#memberGrid');
     new agGrid.Grid(eGridDiv, gridOptions);
 
