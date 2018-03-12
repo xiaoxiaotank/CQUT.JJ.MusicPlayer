@@ -41,3 +41,9 @@ $(function () {
         refreshMenu(keywords);
     })
 })
+
+function getContentHeight() {
+    return $('.content-wrapper').height()
+        - $('.main-footer').height()
+        - $('.navbar').height() - 1;
+}
