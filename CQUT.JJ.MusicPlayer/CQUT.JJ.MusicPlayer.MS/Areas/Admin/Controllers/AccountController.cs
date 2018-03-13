@@ -7,6 +7,7 @@ using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Account;
+using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -51,12 +52,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             }
             if (user != null)
             {
-                var jsonValue = JsonConvert.SerializeObject(user);
-                HttpContext.Session.SetString("User", jsonValue);
+                HttpContext.Session.SaveCurrentUser(user);
 
                 if (model.IsRememberMe)
                 {
-                    var userClaim = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, model.UserName) }, CookieAuthenticationDefaults.AuthenticationScheme));
+                    var userClaim = new ClaimsPrincipal(new ClaimsIdentity(
+                        new[] { new Claim(ClaimTypes.Name, model.UserName) }, 
+                        CookieAuthenticationDefaults.AuthenticationScheme));
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userClaim, new AuthenticationProperties
                     {
                         IsPersistent = true,

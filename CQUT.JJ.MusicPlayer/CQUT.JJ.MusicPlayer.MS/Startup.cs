@@ -30,12 +30,6 @@ namespace CQUT.JJ.MusicPlayer.MS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(MvcGlobalHandleErrorAttribute)); // by type
-                options.Filters.Add(new MvcGlobalHandleErrorAttribute()); // an instance    
-            });
-
             //注册数据库上下文
             services.AddDbContext<JMDbContext>(options =>
             {
@@ -53,7 +47,11 @@ namespace CQUT.JJ.MusicPlayer.MS
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(o => o.LoginPath = new PathString("/Admin/Account/Login"));
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(MvcGlobalHandleErrorAttribute)); // by type
+                options.Filters.Add(new MvcGlobalHandleErrorAttribute()); // an instance    
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

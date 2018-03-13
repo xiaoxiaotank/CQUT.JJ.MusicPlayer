@@ -133,15 +133,39 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <param name="id"></param>
         public void Delete(int id)
         {
-            var user = base.Find(id);
-            if (user != null && !user.IsDeleted)
+            if (!IsSuperMangerOrNotExist(id,out User user))
             {
                 user.IsDeleted = true;
-                user.LastModificationTime = DateTime.Now;
+                user.LastModificationTime 
+                    = user.DeletionTime 
+                    = DateTime.Now;
                 Save();
             }
             else
                 ThrowException("用户不存在！");
+        }
+
+        /// <summary>
+        /// 否是超级管理
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>用户id</returns>
+        public bool IsSuperManager(int id,out User user)
+        {
+            user = JMDbContext.User.SingleOrDefault(u => u.Id == id && u.IsAdmin && !u.IsDeleted);
+            return (user != null && user.UserName == "Admin");
+
+        }
+
+        /// <summary>
+        /// 是否是超级管理或者用户不存在
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private bool IsSuperMangerOrNotExist(int id,out User user)
+        {
+            return (IsSuperManager(id, out user) || user == null);
         }
 
         /// <summary>

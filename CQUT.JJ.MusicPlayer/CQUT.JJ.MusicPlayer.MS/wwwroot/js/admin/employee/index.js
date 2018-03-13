@@ -12,6 +12,7 @@ var columnDefs = [
         field: "userName",
         filter: 'agTextColumnFilter',
         cellClass: 'floatLeft',
+        cellRenderer: 'sManagerRenderer'
     },
     {
         headerName: "昵称",
@@ -29,15 +30,15 @@ var columnDefs = [
                 if (dateAsString == null) return -1;
                 var dateParts = [dateAsString.substr(0, 4), dateAsString.substr(5, 2), dateAsString.substr(8, 2)];
                 var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
-
+                //相等
                 if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
                     return 0
                 }
-
+                //小于
                 if (cellDate < filterLocalDateAtMidnight) {
                     return -1;
                 }
-
+                //大于
                 if (cellDate > filterLocalDateAtMidnight) {
                     return 1;
                 }
@@ -71,6 +72,9 @@ var gridOptions = {
             },
         }        
     ],
+    components: {
+        sManagerRenderer: sManagerRenderer,
+    },
     onGridReady: async function (params) {
         params.api.sizeColumnsToFit();
 
@@ -121,6 +125,30 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+function sManagerRenderer(params) {
+    if (params.data.isSuperManager) {
+        var element = document.createElement("span");
+        element.appendChild(document.createTextNode(params.value));
+        var brand = createBrand("label-primary", "超级管理员")
+        element.appendChild(brand);
+        return element;
+    }
+
+    return params.value;
+    
+}
+
+/**
+ * 创建标签
+ * @param {string} className 类名
+ * @param {string} text 文本
+ */
+function createBrand(className, text) {
+    var labelElement = document.createElement("span");
+    labelElement.className += "label label-brand " + className;
+    labelElement.appendChild(document.createTextNode(text));
+    return labelElement;
+}
 
 
 function createFlagImg(flag) {
@@ -131,7 +159,7 @@ async function GetRowData() {
         $.ajax({
             type: "get",
             url: "/Admin/Employee/GetEmployees",
-            success: function (data) {
+            success: function (data) {              
                 return data;
             }
         })
@@ -178,7 +206,13 @@ function getContextMenuItems(params) {
                     url: "/Admin/Employee/Delete",
                     data: { "id": params.node.data.id },
                     success: function (data) {
-                        $("#modal").html(data);
+                        if (data.isSuccessed !== undefined
+                            && !data.isSuccessed) {
+                            fail_prompt(data.message);
+                        }
+                        else {
+                            $("#modal").html(data);
+                        }
                     }
                 })
             }

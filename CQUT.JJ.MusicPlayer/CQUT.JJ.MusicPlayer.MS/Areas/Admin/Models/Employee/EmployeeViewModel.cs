@@ -25,5 +25,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee
 
         [JsonProperty(PropertyName = "creationTime")]
         public string CreationTime { get; set; }
+
+        [JsonProperty("isSuperManager")]
+        public bool IsSuperManager { get; set; }
     }
 }

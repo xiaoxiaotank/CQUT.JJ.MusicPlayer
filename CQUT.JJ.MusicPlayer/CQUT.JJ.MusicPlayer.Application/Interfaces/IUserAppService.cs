@@ -74,6 +74,13 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         IEnumerable<UserModel> GetAdminsBySkiperAndTaker(int skiper,int taker);
 
         /// <summary>
+        /// 是否是超级管理员
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        bool IsSuperManager(int id, out UserModel userModel);
+
+        /// <summary>
         /// 用户注册
         /// </summary>
         /// <param name="model"></param>

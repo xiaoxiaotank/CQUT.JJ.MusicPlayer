@@ -22,6 +22,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
             return user;
         }
 
+        public static void SaveCurrentUser(this ISession session, UserModel user)
+        {
+            var jsonValue = JsonConvert.SerializeObject(user);
+            session.SetString("User", jsonValue);
+        }
+
         /// <summary>
         /// 判断是否为ajax请求
         /// </summary>

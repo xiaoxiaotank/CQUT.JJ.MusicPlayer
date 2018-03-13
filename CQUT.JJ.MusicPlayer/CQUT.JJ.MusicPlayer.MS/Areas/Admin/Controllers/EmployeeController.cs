@@ -37,7 +37,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     UserName = m.UserName,
                     NickName = m.NickName,
                     CreationTime = GetFormattingTime(m.CreationTime)
-                });
+                }).ToList();
+            employees.ForEach(e =>
+            {
+                if (IsSuperManager(e.Id))
+                {
+                    e.IsSuperManager = true;
+                    return;
+                }
+            });
             return Json(employees);
         }
 
@@ -117,7 +125,9 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Delete(int id, DeleteEmployeeViewModel model)
         {
-            var user = _userAppService.GetAdminById(id);
+            if (_userAppService.IsSuperManager(id, out UserModel user))
+                return Json(new JsonResultEntity() { IsSuccessed = false, Message = "超级管理账户不能删除!" });
+
             model = new DeleteEmployeeViewModel()
             {
                 Id = user.Id,
@@ -138,6 +148,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         #endregion
+
+        [NonAction]
+        private bool IsSuperManager(int id)
+        {
+            return _userAppService.IsSuperManager(id, out UserModel user);
+        }
 
         [NonAction]
         private string GetFormattingTime(DateTime time)

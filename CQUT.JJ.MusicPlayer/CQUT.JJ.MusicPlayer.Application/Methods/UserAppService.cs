@@ -229,5 +229,25 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     CreationTime = m.CreationTime
                 });
         }
+
+        public bool IsSuperManager(int id,out UserModel userModel)
+        {
+            var isSuperManager = _userManager.IsSuperManager(id, out User user);
+            if (user == null)
+                userModel = null;
+            else
+            {
+                userModel = new UserModel()
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    NickName = user.NickName,
+                    IsAdmin = user.IsAdmin,
+                    CreationTime = user.CreationTime
+                };
+            }
+
+            return isSuperManager;
+        }
     }
 }
