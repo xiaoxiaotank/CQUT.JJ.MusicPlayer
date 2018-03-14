@@ -1,4 +1,6 @@
-﻿
+﻿import { fail } from "assert";
+
+
 var columnDefs = [
     {
         headerName: "序号",
@@ -144,9 +146,9 @@ function getContextMenuItems(params) {
 }
 
 function afterDeleteMember(data) {
-    alert(data.message);
     $("#my-modal").modal("hide");
     if (data.isSuccessed) {
+        success_prompt(data.message);
         var sId = 0;
         gridOptions.api.forEachNode(function (node) {
             if (node.data.id === data.jsonObject.value.id) {
@@ -158,5 +160,8 @@ function afterDeleteMember(data) {
                 gridOptions.api.updateRowData({ update: [node] });
             }
         });
+    }
+    else {
+        fail_prompt(data.message);
     }
 }

@@ -35,7 +35,7 @@ var setting = {
         }
     },
     callback: {
-        onClick: menuItemOnClick,   //定义节点单击事件回调函数
+        //onClick: menuItemOnClick,   //定义节点单击事件回调函数
         onRightClick: onRightClick, //定义节点右键单击事件回调函数
         beforeRename: beforeRename, //定义节点重新编辑成功前回调函数，一般用于节点编辑时判断输入的节点名称是否合法
         onRename: onRename,         //beforeRename返回true执行
@@ -110,11 +110,6 @@ function getFontCss(treeId, treeNode) {
         { color: "#333", "font-weight": "normal" }
 }
 
-
-function menuItemOnClick(event, treeId, treeNode) {
-    alert(treeNode.id + " ," + treeNode.name + "," + treeNode.pId);
-};
-
 // 在ztree上的右击事件  
 function onRightClick(event, menuTreeIdName, treeNode) {
     currentNodeId = treeNode.id;
@@ -145,12 +140,16 @@ function onBodyMouseDown(event) {
 }  
 
 
-//菜单树成功操作后执行
+//菜单树操作后执行
 function afterMenuTreeOption(data) {   
-    $("#my-modal").modal("hide");
-    alert(data.message);
-    if (data.isSuccessed)
+    if (data.isSuccessed) {
+        $("#my-modal").modal("hide");
+        success_prompt(data.message);
         refreshMenu();
+    } else {
+        fail_prompt(data.message);
+    }
+        
 }
 
 function refreshChildNodes(refreshParentNode) {
@@ -216,16 +215,19 @@ function beforeRename(treeId, treeNode, newName, isCancel) {
                 url: "/Admin/Menu/RenameMenuItem",
                 data: { "id": treeNode.id, "header": newName },
                 success: function (msg) {
-                    alert(msg.message);
                     isSuccessed = msg.isSuccessed;
-                    if (!isSuccessed)
+                    if (!isSuccessed) {
                         menuTreeObj.cancelEditName(oldName);
+                        fail_prompt(msg.message);
+                    } else {
+                        success_prompt(msg.message);
+                    }
                 },
             });
             return isSuccessed;
         }
         else {
-            alert("菜单名不能为空白字符且不能大于8个字符！");            
+            warning_prompt("菜单名不能为空白字符且不能大于8个字符！");            
         }  
     }
     return false;
@@ -252,7 +254,7 @@ function beforeDrop(treeId, treeNodes, targetNode, moveType) {
         data: { "id": id, "parentId": parentId },
         success: function (msg) {
             if (isJsonFormat(msg) && !msg.isSuccessed) {
-                alert(msg.message);
+                fail_prompt(msg.message);
                 isSuccessed = false;
             }
             else {
@@ -271,7 +273,10 @@ function beforeDrop(treeId, treeNodes, targetNode, moveType) {
 function migrateMenuItemed(data) {
     afterMenuTreeOption(data);
     if (!data.isSuccessed) {
+        fail_prompt(msg.message);
         menuTreeObj.refresh();
+    } else {
+        success_prompt(msg.message);
     }
 }
 

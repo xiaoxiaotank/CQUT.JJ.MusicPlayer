@@ -14,6 +14,7 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/lib/admin-lte/css/AdminLTE.min.css" rel="stylesheet" />
     <link href="~/lib/iCheck/square/blue.css" rel="stylesheet" />
+    <link href="~/css/admin/site.css" rel="stylesheet" />
     <link href="~/css/admin/account/login.css" rel="stylesheet" />
 </head>
 <body class="hold-transition login-page">
@@ -24,8 +25,7 @@
         <div class="login-box-body">
             <p class="login-box-msg">管理员登录</p>
 
-            <form asp-action="Login" asp-controller="Account" asp-area="Admin" method="post" asp-antiforgery="true">
-                @Html.AntiForgeryToken()
+            <form asp-action="Login" asp-controller="Account" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="afterLogin" asp-antiforgery="true">
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group has-feedback">
                     @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "用户名" })
@@ -43,9 +43,9 @@
                             <label>
                                 @Html.CheckBoxFor(m => m.IsRememberMe) 记住我
                             </label>
-                            </div>
                         </div>
-                        <div class="col-xs-4">
+                    </div>
+                    <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
                     </div>
                     <!-- /.col -->
@@ -56,8 +56,10 @@
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive-master/dist/jquery.unobtrusive-ajax.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/iCheck/icheck.min.js"></script>
+    <script src="~/js/admin/site.js"></script>
     <script src="~/js/admin/account/login.js"></script>
 </body>
 </html>

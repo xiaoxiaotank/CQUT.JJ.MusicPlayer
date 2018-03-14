@@ -8,7 +8,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public int Id { get; set; }
         public int? UserId { get; set; }
         public int? RoleId { get; set; }
-        public int Code { get; set; }
+        public string Code { get; set; }
         public DateTime CreationTime { get; set; }
 
         public Role Role { get; set; }

@@ -12,7 +12,6 @@ namespace CQUT.JJ.MusicPlayer.Core.Models
         public string ConfirmPassword { get; set; }
         public string NickName { get; set; }
         public bool IsAdmin { get; set; }
-
         public DateTime CreationTime { get; set; }
     }
 }

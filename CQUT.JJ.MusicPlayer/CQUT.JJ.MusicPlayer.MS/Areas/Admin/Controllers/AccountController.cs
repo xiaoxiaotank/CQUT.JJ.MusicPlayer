@@ -7,6 +7,7 @@ using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Account;
+using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -40,38 +41,42 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var user = new UserModel();
-            try
+            if (HttpContext.Request.IsAjaxRequest())
             {
-                user = _userAppService.LoginOfAdmin(model.UserName, model.Password);
-            }
-            catch (JMBasicException ex)
-            {
-                HttpContext.Session.SetString("ErrorMessage", ex.Message);
-                return View();
-            }
-            if (user != null)
-            {
-                HttpContext.Session.SaveCurrentUser(user);
+                var user = new UserModel();
+                try
+                {
+                    user = _userAppService.LoginOfAdmin(model.UserName, model.Password);
 
-                if (model.IsRememberMe)
-                {
-                    var userClaim = new ClaimsPrincipal(new ClaimsIdentity(
-                        new[] { new Claim(ClaimTypes.Name, model.UserName) }, 
-                        CookieAuthenticationDefaults.AuthenticationScheme));
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userClaim, new AuthenticationProperties
+                    if (user != null)
                     {
-                        IsPersistent = true,
-                        ExpiresUtc = DateTimeOffset.Now.Add(TimeSpan.FromDays(7)),
-                    });
+                        HttpContext.Session.SaveCurrentUser(user);
+
+                        if (model.IsRememberMe)
+                        {
+                            var userClaim = new ClaimsPrincipal(new ClaimsIdentity(
+                                new[] { new Claim(ClaimTypes.Name, model.UserName) },
+                                CookieAuthenticationDefaults.AuthenticationScheme));
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userClaim, new AuthenticationProperties
+                            {
+                                IsPersistent = true,
+                                ExpiresUtc = DateTimeOffset.Now.Add(TimeSpan.FromDays(7)),
+                            });
+                        }
+                        else
+                        {
+                            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                        }
+                        return Json(new JsonResultEntity() { Message = $"{user.UserName}登录成功", JsonObject = new JsonResult($"/{ControllerContext.RouteData.Values["area"]}/Home/Index") });
+                    }
+                    throw new JMBasicException("用户名不存在");
                 }
-                else
+                catch (JMBasicException ex)
                 {
-                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    return Json(new JsonResultEntity() { IsSuccessed = false,Message = ex.Message });
                 }
-                return RedirectToAction("Index", "Home");
             }
-            return View();
+            throw new JMBasicException("请求处理错误");
         } 
         #endregion
 

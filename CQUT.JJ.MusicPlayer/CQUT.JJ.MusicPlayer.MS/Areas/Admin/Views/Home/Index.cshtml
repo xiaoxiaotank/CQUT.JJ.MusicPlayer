@@ -1,7 +1,23 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 @{
     ViewData["Title"] = "Index";
+    var user = Context.Session.GetCurrentUser();
 }
 
 <h2>Index</h2>
 
+@section Scripts{ 
+    <script>
+        $(function () {
+            var userName = "@user?.UserName";
+            if (userName != null
+                && document.referrer.endsWith("/Admin/Account/Login")
+                && sessionStorage.getItem('history.length') != history.length) {
+
+                success_prompt(userName + "登录成功");
+                sessionStorage.setItem('history.length', history.length);
+            }
+        })
+    </script>
+}

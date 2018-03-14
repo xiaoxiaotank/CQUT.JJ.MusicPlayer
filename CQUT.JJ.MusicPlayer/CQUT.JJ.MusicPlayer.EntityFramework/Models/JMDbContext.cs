@@ -32,7 +32,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
                 entity.Property(e => e.ParentId).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.RequiredAuthorizeCode)
-                    .HasMaxLength(128)
+                    .HasMaxLength(256)
                     .IsUnicode(false);
 
                 entity.Property(e => e.TargetUrl)
@@ -53,6 +53,10 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
                     .WithMany(p => p.Permission)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_PERMISSI_FK_PERMIS_USER");
+
+                entity.Property(e => e.Code)
+                    .HasMaxLength(256)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Role>(entity =>
