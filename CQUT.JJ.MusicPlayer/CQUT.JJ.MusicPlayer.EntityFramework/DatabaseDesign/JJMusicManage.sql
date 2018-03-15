@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     2018/3/8 14:53:30                            */
+/* Created on:     2018/3/14 15:11:57                           */
 /*==============================================================*/
 
 
@@ -75,7 +75,7 @@ create table Menu (
    Header               nvarchar(8)          not null,
    TargetUrl            varchar(128)         null,
    ParentId             int                  not null default 0,
-   RequiredAuthorizeCode varchar(128)         null,
+   RequiredAuthorizeCode varchar(256)         null,
    Priority             smallint             not null,
    CreationTime         datetime             not null,
    LastModificationTime datetime             null,
@@ -90,7 +90,7 @@ create table Permission (
    Id                   int                  identity,
    UserId               int                  null,
    RoleId               int                  null,
-   Code                 int                  not null,
+   Code                 varchar(256)         not null,
    CreationTime         datetime             not null,
    constraint PK_PERMISSION primary key (Id)
 )
