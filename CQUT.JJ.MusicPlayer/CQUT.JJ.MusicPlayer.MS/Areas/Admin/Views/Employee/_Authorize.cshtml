@@ -1,0 +1,32 @@
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee.AuthorizeEmployeeViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑权限</h4>
+            </div>
+            <div class="modal-body" style="max-height:400px;overflow-y:auto;">
+                <ul id="permissionTree" class="ztree" data-id="@Model.Id"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="submitBtn" type="submit" class="btn btn-primary" data-dismiss="modal">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#my-modal').modal('show');
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.slimscroll.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/zTree/js/jquery.ztree.core.js"></script>
+<script src="~/lib/zTree/js/jquery.ztree.excheck.js"></script>
+<script src="~/js/admin/employee/authorize.js"></script>

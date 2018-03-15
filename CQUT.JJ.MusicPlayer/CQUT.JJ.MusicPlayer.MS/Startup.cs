@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Application.Methods;
 using CQUT.JJ.MusicPlayer.Core.Managers;
+using CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using CQUT.JJ.MusicPlayer.MS.Filters;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -42,6 +43,9 @@ namespace CQUT.JJ.MusicPlayer.MS
             //菜单
             services.AddScoped<IMenuAppService, MenuAppService>();
             services.AddScoped<MenuManager, MenuManager>();
+            //权限
+            services.AddScoped<IPermissionManager, PermissionManager>();
+            services.AddScoped<PermissionManager, PermissionManager>();
 
             services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

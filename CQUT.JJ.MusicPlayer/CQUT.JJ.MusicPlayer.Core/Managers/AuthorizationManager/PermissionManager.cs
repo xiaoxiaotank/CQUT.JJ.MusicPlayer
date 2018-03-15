@@ -75,7 +75,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager
             var originalPermissions = _ctx.Permission.Where(p => p.UserId == userId);
             _ctx.Permission.RemoveRange(originalPermissions);
 
-            var permissions = permissionCodes.Select(code => new Permission
+            var permissions = permissionCodes?.Select(code => new Permission
             {
                 Code = code,
                 UserId = userId,

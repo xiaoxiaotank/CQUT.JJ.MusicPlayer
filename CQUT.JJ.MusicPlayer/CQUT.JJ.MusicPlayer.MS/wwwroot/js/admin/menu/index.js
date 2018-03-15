@@ -45,7 +45,7 @@ var setting = {
     },
     async: {
         enable: true,      //设置启用异步加载
-        type: "post",      //异步加载类型:post和get
+        type: "get",      //异步加载类型:post和get
         contentType: "application/json", //定义ajax提交参数的参数类型，一般为json格式
         url: "/Admin/Menu/GetMenuByParentId",    //定义数据请求路径
         autoParam: ["id=id", "name=name", "pId=pId"] //定义提交时参数的名称，=号前面标识节点属性，后面标识提交时json数据中参数的名称
@@ -64,7 +64,7 @@ $(function () {
             url: "/Admin/Menu/CreateMenuItem",
             data: { "parentId": parentId },
             success: function (msg) {
-                $("#modal").html(msg);               
+                showAjaxGetRequestData(msg);             
             }
         })
     }) 
@@ -82,7 +82,7 @@ $(function () {
             url: "/Admin/Menu/DeleteMenuItem",
             data: { "id": id },
             success: function (msg) {
-                $("#modal").html(msg);
+                showAjaxGetRequestData(msg);
             }
         })
     }) 
@@ -94,7 +94,7 @@ $(function () {
             url: "/Admin/Menu/UpdateMenuItem",
             data: { "id": id },
             success: function (msg) {
-                $("#modal").html(msg);                                
+                showAjaxGetRequestData(msg);                          
             }
         });
     })
@@ -168,7 +168,7 @@ $("#add-root").on("click", function () {
         type: "get",
         url: "/Admin/Menu/CreateMenuItem",
         success: function (msg) {
-            $("#modal").html(msg);
+            showAjaxGetRequestData(msg);
         }
     });
 });

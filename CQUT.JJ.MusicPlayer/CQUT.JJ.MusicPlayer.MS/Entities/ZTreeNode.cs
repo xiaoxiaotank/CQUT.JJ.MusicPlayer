@@ -12,13 +12,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Entities
         /// 节点的标识属性，对应的是启用简单数据格式时idKey对应的属性名，并不一定是id,如果setting中定义的idKey:"zId",那么此处就是zId
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// 节点parentId属性，命名规则同id
         /// </summary>
         [JsonProperty(PropertyName = "pId")]
-        public int ParentId { get; set; }
+        public string ParentId { get; set; }
 
         /// <summary>
         /// 结点显示的文本
@@ -30,7 +30,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Entities
         /// 节点是否勾选，ztree配置启用复选框时有效
         /// </summary>
         [JsonProperty(PropertyName = "checked")]
-        public bool? Checked { get; set; }
+        public bool Checked { get; set; }
 
         /// <summary>
         /// 节点是否展开

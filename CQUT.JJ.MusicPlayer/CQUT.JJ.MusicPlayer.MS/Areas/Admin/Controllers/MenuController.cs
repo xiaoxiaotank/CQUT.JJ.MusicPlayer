@@ -11,6 +11,8 @@ using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Menu;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
 using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
+using CQUT.JJ.MusicPlayer.MS.Filters;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 {
@@ -29,7 +31,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult GetMenuByParentId(string parentId)
         {
             if (Request.IsAjaxRequest())
@@ -51,6 +53,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #region 创建
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Create)]
         public IActionResult CreateMenuItem(int? parentId,CreateMenuItemViewModel model)
         {
             if(parentId == null)
@@ -75,6 +78,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Create)]
         public IActionResult CreateMenuItem(CreateMenuItemViewModel model)
         {
             var menuItem = new MenuItemModel
@@ -92,6 +96,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 重命名
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Rename)]
         public IActionResult RenameMenuItem(int id, string header)
         {
             _menuAppService.RenameMenuItem(id, header);
@@ -102,6 +107,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #region 删除
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Delete)]
         public IActionResult DeleteMenuItem(int id, DeleteMenuItemViewModel model)
         {
             var menuItem = _menuAppService.GetMenuItemById(id);
@@ -119,6 +125,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Delete)]
         public IActionResult DeleteMenuItem(DeleteMenuItemViewModel model)
         {
             _menuAppService.DeleteMenuItem(model.Id);
@@ -128,6 +135,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #region 更新
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Update)]
         public IActionResult UpdateMenuItem(int id, UpdateMenuItemViewModel model)
         {
             var menuItem = _menuAppService.GetMenuItemById(id);
@@ -148,6 +156,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Update)]
         public IActionResult UpdateMenuItem(UpdateMenuItemViewModel model)
         {
             var menuItem = new MenuItemModel
@@ -166,6 +175,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #region 迁移
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Migrate)]
         public IActionResult MigrateMenuItem(int id, int? parentId, MigrateMenuItemViewModel model)
         {
             if (parentId == null)
@@ -197,6 +207,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Migrate)]
         public IActionResult MigrateMenuItem(MigrateMenuItemViewModel model)
         {
             _menuAppService.MigrateMenuItem(model.Id, model.ParentId);
@@ -215,7 +226,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return ViewComponent("Menu", new { keywords });
         }
 
-
+        [NonAction]
         private string GetValidUrl(string targetUrl)
         {
             if (string.IsNullOrWhiteSpace(targetUrl))

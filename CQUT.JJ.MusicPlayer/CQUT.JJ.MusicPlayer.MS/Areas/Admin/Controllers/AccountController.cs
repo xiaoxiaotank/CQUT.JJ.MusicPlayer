@@ -11,6 +11,7 @@ using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -29,6 +30,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #region 登录
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             var model = new LoginViewModel()
@@ -39,6 +41,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (HttpContext.Request.IsAjaxRequest())

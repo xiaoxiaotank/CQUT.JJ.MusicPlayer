@@ -1,6 +1,4 @@
-﻿import { fail } from "assert";
-
-
+﻿
 var columnDefs = [
     {
         headerName: "序号",
@@ -133,7 +131,7 @@ function getContextMenuItems(params) {
                     url: "/Admin/Member/Delete",
                     data: { "id": params.node.data.id },
                     success: function (data) {
-                        $("#modal").html(data);
+                        showAjaxGetRequestData(data);
                     }
                 })
             }

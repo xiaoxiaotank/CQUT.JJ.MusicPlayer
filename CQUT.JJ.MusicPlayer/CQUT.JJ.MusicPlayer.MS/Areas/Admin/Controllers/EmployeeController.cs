@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee;
 using CQUT.JJ.MusicPlayer.MS.Entities;
+using CQUT.JJ.MusicPlayer.MS.Filters;
+using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -49,15 +52,24 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return Json(employees);
         }
 
+        [HttpGet]
+        public ActionResult GetPermissions(int id)
+        {
+            var permissions = _userAppService.GetAllPermissionsByUserId(id).MapToPermissionTree();
+            return Json(permissions);
+        }
+
         #region 创建
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Create)]
         public IActionResult Create()
         {
             return PartialView("_Create");
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Create)]
         public IActionResult Create(CreateEmployeeViewModel model)
         {
             var user = new UserModel
@@ -86,6 +98,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 更新
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Update)]
         public IActionResult Update(int id, UpdateEmployeeViewModel model)
         {
             var user = _userAppService.GetAdminById(id);
@@ -99,6 +112,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Update)]
         public IActionResult Update(UpdateEmployeeViewModel model)
         {
             var user = new UserModel()
@@ -123,6 +137,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 删除
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Delete)]
         public IActionResult Delete(int id, DeleteEmployeeViewModel model)
         {
             if (_userAppService.IsSuperManager(id, out UserModel user))
@@ -137,6 +152,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Delete)]
         public IActionResult Delete(DeleteEmployeeViewModel model)
         {
             _userAppService.DeleteUserById(model.Id);
@@ -146,6 +162,23 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 JsonObject = new JsonResult(new { id = model.Id })
             });
         }
+
+        #endregion
+
+        #region 授权
+
+        [HttpGet]
+        public IActionResult Authorize(int id, AuthorizeEmployeeViewModel model)
+        {
+            model = new AuthorizeEmployeeViewModel() { Id = id };
+            return View("_Authorize", model);
+        }
+
+        public IActionResult Authorize(AuthorizeEmployeeViewModel model)
+        {
+            _userAppService.SetPermissions(model.Id, model.PermissionCodes);
+            return Json(new JsonResultEntity() { Message = "设置权限成功！" });
+        } 
 
         #endregion
 

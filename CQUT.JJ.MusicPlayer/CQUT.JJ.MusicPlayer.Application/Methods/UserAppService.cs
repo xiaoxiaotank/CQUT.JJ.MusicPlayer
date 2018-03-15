@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Managers;
+using CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Algorithms;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
@@ -15,11 +16,13 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
     {
         private readonly JMDbContext _ctx;
         private readonly UserManager _userManager;
+        private readonly IPermissionManager _permissionManager;
 
-        public UserAppService(JMDbContext ctx,UserManager userManager)
+        public UserAppService(JMDbContext ctx,UserManager userManager,IPermissionManager permissionManager)
         {
             _ctx = ctx;
             _userManager = userManager;
+            _permissionManager = permissionManager;
         }
 
 
@@ -69,7 +72,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public IEnumerable<string> GetAllPermissionsByUserId(int userId)
         {
-            throw new NotImplementedException();
+            return _permissionManager.GetAllPermissionsByUserId(userId);
         }
 
         public IEnumerable<UserModel> GetAllMembers()
@@ -168,7 +171,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public void SetPermissions(int userId, string[] permissionCodes)
         {
-            throw new NotImplementedException();
+            _permissionManager.SetPermissionsToUser(userId, permissionCodes);
         }
 
         public void SetRolesByUserId(int id, int[] roleIds)

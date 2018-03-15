@@ -175,7 +175,7 @@ function getContextMenuItems(params) {
                     url: "/Admin/Employee/Update",
                     data: { "id": params.node.data.id },
                     success: function (data) {
-                        $("#modal").html(data);
+                        showAjaxGetRequestData(data);
                     }
                 })
             },
@@ -187,7 +187,14 @@ function getContextMenuItems(params) {
                 {
                     name: '设置权限',
                     action: function () {
-                        console.log('Ireland was pressed');
+                        $.ajax({
+                            type: "get",
+                            url: "/Admin/Employee/Authorize",
+                            data: { "id": params.node.data.id },
+                            success: function (data) {
+                                showAjaxGetRequestData(data);
+                            }
+                        })
                     },                    
                 },
                 {
@@ -206,13 +213,7 @@ function getContextMenuItems(params) {
                     url: "/Admin/Employee/Delete",
                     data: { "id": params.node.data.id },
                     success: function (data) {
-                        if (data.isSuccessed !== undefined
-                            && !data.isSuccessed) {
-                            fail_prompt(data.message);
-                        }
-                        else {
-                            $("#modal").html(data);
-                        }
+                        showAjaxGetRequestData(data);
                     }
                 })
             }

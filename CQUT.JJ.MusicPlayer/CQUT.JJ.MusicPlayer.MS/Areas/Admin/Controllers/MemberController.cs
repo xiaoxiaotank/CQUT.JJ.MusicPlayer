@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Member;
 using CQUT.JJ.MusicPlayer.MS.Entities;
+using CQUT.JJ.MusicPlayer.MS.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -45,6 +47,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 删除
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Member_Delete)]
         public IActionResult Delete(int id, DeleteMemberViewModel model)
         {
             var user = _userAppService.GetMemberById(id);
@@ -57,6 +60,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Member_Delete)]
         public IActionResult Delete(DeleteMemberViewModel model)
         {
             _userAppService.DeleteUserById(model.Id);
