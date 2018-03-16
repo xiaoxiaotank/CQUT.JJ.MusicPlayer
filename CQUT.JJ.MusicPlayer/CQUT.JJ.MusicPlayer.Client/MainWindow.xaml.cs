@@ -252,6 +252,7 @@ namespace CQUT.JJ.MusicPlayer.Client
                 if (isImageBrush)
                 {
                     background = new Uri(skinInfo[1], UriKind.Absolute).ToImageBrush();
+                    if (background == null) return;
                     _isBackgroundOfImage = true;
                 }
                 else

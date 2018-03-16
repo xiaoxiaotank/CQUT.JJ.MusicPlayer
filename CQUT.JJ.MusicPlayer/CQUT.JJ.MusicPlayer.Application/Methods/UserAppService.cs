@@ -63,7 +63,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                         UserName = a.UserName,
                         NickName = a.NickName,
                         IsAdmin = a.IsAdmin,
-                        CreationTime = a.CreationTime
+                        CreationTime = a.CreationTime,
+                        LastModificationTime = a.LastModificationTime
                     });
                 });
                 return models;
@@ -89,7 +90,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                         Id = u.Id,
                         UserName = u.UserName,
                         NickName = u.NickName,
-                        CreationTime = u.CreationTime
+                        CreationTime = u.CreationTime,
+                        LastModificationTime = u.LastModificationTime
                     });
                 });
                 return models;
@@ -143,9 +145,12 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
         private UserModel Login(string userName,string password,bool isAdmin)
         {
             password = password.EncryptByMD5();
-            var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName) && m.Password.Equals(password) && !m.IsDeleted && m.IsAdmin == isAdmin);
+            var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName) && !m.IsDeleted && m.IsAdmin == isAdmin);
             if (user == null)
-                _userManager.ThrowException("用户名或密码错误！");
+                _userManager.ThrowException("用户不存在");
+            else if(!user.Password.Equals(password))
+                _userManager.ThrowException("用户名或密码错误");
+
             return new UserModel()
             {
                 Id = user.Id,
@@ -190,6 +195,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     Id = user.Id,
                     UserName = user.UserName,
                     NickName = user.NickName,
+                    CreationTime = user.CreationTime,
+                    LastModificationTime = user.LastModificationTime
                 };
             }
             return null;

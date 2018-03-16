@@ -25,24 +25,15 @@ var columnDefs = [
         field: "creationTime",
         filter: 'agDateColumnFilter',
         filterParams: {
-            comparator:function (filterLocalDateAtMidnight, cellValue){
-                var dateAsString = cellValue;
-                if (dateAsString == null) return -1;
-                var dateParts = [dateAsString.substr(0, 4), dateAsString.substr(5, 2), dateAsString.substr(8, 2)];
-                var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
-                //相等
-                if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
-                    return 0
-                }
-                //小于
-                if (cellDate < filterLocalDateAtMidnight) {
-                    return -1;
-                }
-                //大于
-                if (cellDate > filterLocalDateAtMidnight) {
-                    return 1;
-                }
-            }
+            comparator: timeComparator()
+        }
+    },
+    {
+        headerName: "最近修改日期",
+        field: "lastModificationTime",
+        filter: 'agDateColumnFilter',
+        filterParams: {
+            comparator: timeComparator()
         }
     }
 ];
@@ -136,6 +127,25 @@ function sManagerRenderer(params) {
 
     return params.value;
     
+}
+
+function timeComparator(filterLocalDateAtMidnight, cellValue) {
+    var dateAsString = cellValue;
+    if (dateAsString == null) return -1;
+    var dateParts = [dateAsString.substr(0, 4), dateAsString.substr(5, 2), dateAsString.substr(8, 2)];
+    var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+    //相等
+    if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
+        return 0
+    }
+    //小于
+    if (cellDate < filterLocalDateAtMidnight) {
+        return -1;
+    }
+    //大于
+    if (cellDate > filterLocalDateAtMidnight) {
+        return 1;
+    }
 }
 
 /**
@@ -245,6 +255,7 @@ function afterUpdateEmployee(data) {
         gridOptions.api.forEachNode(function (node) {
             if (node.data.id === data.jsonObject.value.id) {
                 node.data.nickName = data.jsonObject.value.nickName;
+                node.data.lastModificationTime = data.jsonObject.value.lastModificationTime
                 gridOptions.api.updateRowData({ update: [node] });
                 return;
             }

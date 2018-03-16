@@ -18,11 +18,19 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         /// <returns></returns>
         public static ImageBrush ToImageBrush(this Uri imageUri)
         {
-            return new ImageBrush()
+            try
             {
-                ImageSource = new BitmapImage(imageUri),
-                Stretch = Stretch.UniformToFill
-            };
+                return new ImageBrush()
+                {
+                    ImageSource = new BitmapImage(imageUri),
+                    Stretch = Stretch.UniformToFill
+                };
+            }
+            catch
+            {
+                return null;
+            }
+           
         }
 
         /// <summary>  

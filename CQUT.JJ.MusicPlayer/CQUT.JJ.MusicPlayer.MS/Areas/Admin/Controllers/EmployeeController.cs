@@ -42,7 +42,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     SId = i + 1,
                     UserName = m.UserName,
                     NickName = m.NickName,
-                    CreationTime = m.CreationTime.ToStandardDateOfChina()
+                    CreationTime = m.CreationTime.ToStandardDateOfChina(),
+                    LastModificationTime = m.LastModificationTime?.ToStandardDateOfChina()                   
                 }).ToList();
             employees.ForEach(e =>
             {
@@ -132,6 +133,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 {
                     Id = user.Id,
                     NickName = user.NickName,
+                    LastModificationTime = user.LastModificationTime?.ToStandardDateOfChina()
                 })
             });
         }
