@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
             type: 'get',
             url: '/Admin/Role/Create',
             success: function (data) {
-                $("#modal").html(data);
+                showAjaxGetRequestData(data);
             }
         })
     })
@@ -167,7 +167,25 @@ function getContextMenuItems(params) {
                     }
                 })
             },
-            //cssClasses: ['redFont', 'bold']
+        },
+        {
+            name: '切换默认角色',
+            action: function () {
+                $.ajax({
+                    type: "post",
+                    url: "/Admin/Role/ToggleSetDefault",
+                    data: { "id": params.node.data.id },
+                    success: function (data) {
+                        var obj = params.node.data;
+                        if (data.isSuccessed) {
+                            success_prompt(data.message);
+                            deleteDefaultRole(!obj.isDefault);
+                            obj.isDefault = !obj.isDefault;
+                            gridOptions.api.redrawRows(params.node);
+                        }
+                    }
+                })
+            }
         },
         {
             name: '设置权限',
@@ -207,10 +225,15 @@ function afterUpdateRole(data) {
     if (data.isSuccessed) {
         success_prompt(data.message);
         $("#my-modal").modal("hide");
+        var obj = data.jsonObject.value;
         gridOptions.api.forEachNode(function (node) {
-            if (node.data.id === data.jsonObject.value.id) {
-                node.data.nickName = data.jsonObject.value.nickName;
-                gridOptions.api.updateRowData({ update: [node] });
+            if (node.data.id === obj.id) {
+                //切记先删除默认角色，再设置默认角色
+                deleteDefaultRole(obj.isDefault);
+                node.data.name = obj.name;
+                node.data.isDefault = obj.isDefault;
+                node.data.lastModificationTime = obj.lastModificationTime;
+                gridOptions.api.redrawRows(node);
                 return;
             }
         });
@@ -236,5 +259,19 @@ function afterDeleteRole(data) {
         });
     } else {
         fail_prompt(data.message);
+    }
+}
+
+
+//如果新创建的角色为默认的，则删除之前默认角色属性
+function deleteDefaultRole(isDefault) {
+    if (isDefault) {
+        gridOptions.api.forEachNode(function (node) {
+            if (node.data.isDefault) {
+                node.data.isDefault = false;
+                gridOptions.api.redrawRows(node);
+                return;
+            }
+        })
     }
 }

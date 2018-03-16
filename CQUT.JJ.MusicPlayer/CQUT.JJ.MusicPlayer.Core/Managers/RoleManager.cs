@@ -1,4 +1,6 @@
-﻿using CQUT.JJ.MusicPlayer.Core.Models;
+﻿using CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager;
+using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,11 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class RoleManager : BaseManager<Role>
     {
-        public RoleManager(JMDbContext ctx) : base(ctx) { }
+        private readonly IPermissionManager _permissionManager;
+        public RoleManager(JMDbContext ctx,IPermissionManager permissionManager) : base(ctx)
+        {
+            _permissionManager = permissionManager;
+        }
 
         /// <summary>
         /// 创建角色
@@ -31,10 +37,11 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                     IsDefault = model.IsDefault,
                     IsDeleted = false,
                 };
-                SetForDefualt(model.IsDefault);
+                DeleteOriginalDefualtRole(model.IsDefault);
                 JMDbContext.Role.Add(role);
                 Save();
-                SetRolePermissions(role.Id, permissionCodes);
+
+                _permissionManager.SetPermissions(AuthorizationObjectType.Role, role.Id, permissionCodes);
                 tran.Commit();
             }
             Save();
@@ -52,33 +59,43 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             role.IsDeleted = true;
             var permissionCodes = JMDbContext.Permission.Where(m => m.RoleId == id);
             JMDbContext.Permission.RemoveRange(permissionCodes);
+            role.LastModificationTime 
+                = role.DeletionTime 
+                = DateTime.Now;
             Save();
         }
 
         /// <summary>
         /// 更新角色
         /// </summary>
-        /// <param name="roleId"></param>
-        /// <param name="roleName"></param>
-        /// <param name="isDefault"></param>
-        /// <param name="permissionCodes"></param>
-        public Role Update(RoleModel model, string[] permissionCodes)
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public Role Update(RoleModel model)
         {
             ValidateForUpdate(model);
 
             var role = Find(model.Id);
-
-            var origPermissionCodes = JMDbContext.Permission.Where(m => m.RoleId == model.Id);
-            JMDbContext.Permission.RemoveRange(origPermissionCodes);
-            SetRolePermissions(model.Id, permissionCodes);
-                
+            DeleteOriginalDefualtRole(model.IsDefault);
             role.Name = model.Name;
             role.IsDefault = model.IsDefault;
             role.LastModificationTime = DateTime.Now;
-            SetForDefualt(model.IsDefault);           
             Save();
 
             return role;
+        }
+
+        /// <summary>
+        /// 切换默认角色
+        /// </summary>
+        /// <param name="id"></param>
+        public void ToggleSetDefault(int id)
+        {
+            var role = Find(id);
+            if (!role.IsDefault)
+                DeleteOriginalDefualtRole(true);
+            role.IsDefault = !role.IsDefault;
+            role.LastModificationTime = DateTime.Now;
+            Save();
         }
 
         /// <summary>
@@ -104,28 +121,10 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         }
 
         /// <summary>
-        /// 设置角色权限
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <param name="permissionCodes"></param>
-        private void SetRolePermissions(int? roleId, string[] permissionCodes)
-        {
-            if (permissionCodes == null)
-                return;
-            var permissions = permissionCodes.Select(p => new EntityFramework.Models.Permission
-            {
-                RoleId = roleId,
-                Code = p,
-                CreationTime = DateTime.Now,
-            });
-            JMDbContext.Permission.AddRange(permissions);
-        }
-
-        /// <summary>
-        /// 设置为默认角色
+        /// 删除之前的默认角色
         /// </summary>
         /// <param name="isDefault"></param>
-        private void SetForDefualt(bool isDefault)
+        private void DeleteOriginalDefualtRole(bool isDefault)
         {
             if (isDefault)
             {
@@ -137,10 +136,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         private void ValidateForCreate(RoleModel model)
         {
-            if (string.IsNullOrWhiteSpace(model.Name))
-                ThrowException("角色名不能为空！");
-            if (model.Name.Length > 8)
-                ThrowException("角色名太长了，不能大于8个字符！");
+            ValidateForUpdate(model);
             var role = JMDbContext.Role.SingleOrDefault(r => r.Name == model.Name && !r.IsDeleted);
             if (role != null)
                 ThrowException("角色名已存在！");
@@ -148,7 +144,10 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         private void ValidateForUpdate(RoleModel model)
         {
-            ValidateForCreate(model);
+            if (string.IsNullOrWhiteSpace(model.Name))
+                ThrowException("角色名不能为空！");
+            if (model.Name.Length > 8)
+                ThrowException("角色名太长了，不能大于8个字符！");
         }
     }
 }

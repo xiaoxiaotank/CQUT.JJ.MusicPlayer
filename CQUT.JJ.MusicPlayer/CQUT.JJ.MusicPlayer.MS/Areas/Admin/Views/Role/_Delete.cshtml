@@ -1,7 +1,8 @@
-﻿@model JJJ.CQLG.MIS.Web.Areas.Admin.Models.Role.RoleDeleteViewModel
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Role.DeleteRoleViewModel
 <div id="modal">
     <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <form>
+        <form asp-action="Delete" asp-controller="Role" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="afterDeleteRole">
+            @Html.HiddenFor(m => m.Id)
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -13,7 +14,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-primary" id="submit">确定</button>
+                        <button type="submit" class="btn btn-primary">确定</button>
                     </div>
                 </div>
             </div>

@@ -1,55 +1,38 @@
-﻿@model JJJ.CQLG.MIS.Web.Areas.Admin.Models.Role.RoleUpdateViewModel
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Role.UpdateRoleViewModel
 <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">修改角色权限</h4>
+                <h4 class="modal-title" id="myModalLabel">修改角色基本信息</h4>
             </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="show-set-role-attribute"><a href="javaScript:void(0)">角色属性</a></li>
-                    <li role="presentation" class="show-set-permission-tree"><a href="javaScript:void(0)">权限设置</a></li>
-                </ul>
-                <div class="show-set-role-attribute-value">
-                    <div class="input-group input-group-lg rolenameinput">
-                        <input type="text" class="form-control" name="edit-role-name" id="edit-role-name" value="@Model.Name">
-                    </div>
-
-                    <div class="checkboxdiv">
-                        <input type="checkbox" name="editisdefault" id="editisdefault" value="@Model.IsDefault" @(Model.IsDefault ? "checked=\"checked\"" : "") />
-                        <span>是否设置为默认</span>
+            <form asp-action="Update" asp-controller="Role" asp-area="Admin" data-ajax="true" data-ajax-method="post" data-ajax-success="afterUpdateRole">
+                @Html.HiddenFor(m => m.Id)
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group" style="margin-top:10px">
+                            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                <input id="roleName" name="Name" class="form-control" value="@Model.Name" />
+                                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "validate-error" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2"></label>
+                            <div class="col-md-6">
+                                @Html.CheckBoxFor(m => m.IsDefault)<span>设置为默认角色</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div style="display:none;max-height:400px;overflow-y:auto;" class="show-set-permission-tree-value">
-                    <div id="edit-permission-tree"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">保存</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="saveeditroleset" onclick="saveEditPermission(@Model.Id)">保存</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
-<script src="~/js/Role/update.js"></script>
 <script>
-    $(function () {
-        $('#edit-permission-tree').jstree({
-            'core': {
-                'data': {
-                    'url': '/Admin/Role/GetRolePermissions/@Model.Id',
-                    'dataType': 'json'
-                },
-                "check_callback": true
-            },
-            'checkbox': {
-                // 禁用级联选中
-                //'three_state': false,
-                //'cascade': 'undetermined' //有三个选项，up, down, undetermined; 使用前需要先禁用three_state
-            },
-            "plugins": ["themes", "json_data", "search", "checkbox"],
-
-        });
-    })
+    $('#my-modal').modal('show');
 </script>

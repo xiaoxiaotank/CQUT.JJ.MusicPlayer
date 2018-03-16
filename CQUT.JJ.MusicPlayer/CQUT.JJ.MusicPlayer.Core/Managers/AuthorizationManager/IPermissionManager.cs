@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
+﻿using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,11 +37,12 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager
         IEnumerable<Permissioner> GetAllPermissions();
 
         /// <summary>
-        /// 设置用户权限
+        /// 设置权限
         /// </summary>
-        /// <param name="userId">用户编号</param>
-        /// <param name="PermissionCodes">权限码列表</param>
-        void SetPermissionsToUser(int userId, string[] permissionCodes);
+        /// <param name="objType"></param>
+        /// <param name="id"></param>
+        /// <param name="permissionCodes"></param>
+        void SetPermissions(AuthorizationObjectType objType, int id, string[] permissionCodes);
 
         /// <summary>
         /// 根据角色编号获取权限

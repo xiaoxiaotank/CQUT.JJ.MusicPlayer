@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
+﻿using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using System;
@@ -70,20 +71,60 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager
             return permissionCodes.Contains(permissionCode);
         }
 
-        public void SetPermissionsToUser(int userId, string[] permissionCodes)
+        public void SetPermissions(AuthorizationObjectType objType, int id, string[] permissionCodes)
         {
-            var originalPermissions = _ctx.Permission.Where(p => p.UserId == userId);
-            _ctx.Permission.RemoveRange(originalPermissions);
-
-            var permissions = permissionCodes?.Select(code => new Permission
+            IEnumerable<Permission> originalPermissions = null;
+            switch (objType)
             {
-                Code = code,
-                UserId = userId,
-                CreationTime = DateTime.Now
-            });
-            if (permissions != null)
-                _ctx.Permission.AddRange(permissions);
-            _ctx.SaveChanges();
+                case AuthorizationObjectType.User:
+                    var user = _ctx.User.SingleOrDefault(u => u.Id == id && !u.IsDeleted && u.IsAdmin);
+                    if (user != null)
+                    {
+                        user.LastModificationTime = DateTime.Now;
+                        originalPermissions = _ctx.Permission.Where(p => p.UserId == id);
+                    }
+                    else
+                        ThrowException("用户不存在");
+                    break;
+                case AuthorizationObjectType.Role:
+                    var role = _ctx.Role.SingleOrDefault(r => r.Id == id && !r.IsDeleted);
+                    if (role != null)
+                    {
+                        role.LastModificationTime = DateTime.Now;
+                        originalPermissions = _ctx.Permission.Where(p => p.RoleId == id);
+                    }
+                    else
+                        ThrowException("角色不存在");
+                    break;
+            }  
+            
+            if(originalPermissions != null)
+            {
+                if(originalPermissions.Any())
+                    _ctx.Permission.RemoveRange(originalPermissions);
+
+                var permissions = permissionCodes?.Select(code => new Permission
+                {
+                    Code = code,
+                    CreationTime = DateTime.Now
+                })
+                .ToList();
+
+                if (permissions != null && permissions.Any())
+                {
+                    switch (objType)
+                    {
+                        case AuthorizationObjectType.User:
+                            permissions.ForEach(p => p.UserId = id);
+                            break;
+                        case AuthorizationObjectType.Role:
+                            permissions.ForEach(p => p.RoleId = id);
+                            break;
+                    }
+                    _ctx.Permission.AddRange(permissions);
+                }
+                _ctx.SaveChanges();
+            }
         }
 
         public void SetRolesToUser(int userId, int[] roleIds)

@@ -31,8 +31,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// 更新角色
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="permissionCodes"></param>
-        RoleModel UpdateRole(RoleModel model, string[] permissionCodes);
+        RoleModel UpdateRole(RoleModel model);
 
         /// <summary>
         /// 获取所有角色
@@ -53,5 +52,18 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         IEnumerable<RoleModel> GetAllRolesByUserId(int userId);
+
+        /// <summary>
+        /// 设置角色权限
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="permissions"></param>
+        void SetPermissions(int id, string[] permissionCodes);
+
+        /// <summary>
+        /// 切换默认角色
+        /// </summary>
+        /// <param name="id"></param>
+        void ToggleSetDefault(int id);
     }
 }

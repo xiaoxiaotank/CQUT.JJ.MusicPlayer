@@ -2,6 +2,7 @@
 using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager;
 using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
@@ -91,9 +92,9 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             };
         }
 
-        public RoleModel UpdateRole(RoleModel model, string[] permissionCodes)
+        public RoleModel UpdateRole(RoleModel model)
         {
-            var role = _roleManager.Update(model, permissionCodes);
+            var role = _roleManager.Update(model);
             return new RoleModel()
             {
                 Id = role.Id,
@@ -102,6 +103,16 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 CreationTime = role.CreationTime,
                 LastModificationTime = role.LastModificationTime
             };
+        }
+
+        public void SetPermissions(int id, string[] permissionCodes)
+        {
+            _permissionManager.SetPermissions(AuthorizationObjectType.Role, id, permissionCodes);
+        }
+
+        public void ToggleSetDefault(int id)
+        {
+            _roleManager.ToggleSetDefault(id);
         }
     }
 }

@@ -55,6 +55,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             throw new JMBasicException("访问出错");
         }
 
+        [HttpGet]
+        public IActionResult GetRolePermissions(int id)
+        {
+            var permissions = _roleAppService.GetAllPermissionsByRoleId(id).MapToPermissionTree();
+            return Json(permissions);
+        }
+
         #region 创建
         [HttpGet]
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Create)]
@@ -105,18 +112,40 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         [HttpPost]
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Update)]
-        public IActionResult Update(int id, string name, bool isDefault, string[] permissionCodes)
+        public IActionResult Update(UpdateRoleViewModel model)
         {
             var role = new RoleModel()
             {
-                Id = id,
-                Name = name,
-                IsDefault = isDefault
+                Id = model.Id,
+                Name = model.Name,
+                IsDefault = model.IsDefault
             };
-            _roleAppService.UpdateRole(role, permissionCodes);
-            return Json(new JsonResultEntity() { Message = "修改成功" });
+            role = _roleAppService.UpdateRole(role);
+            return Json(new JsonResultEntity()
+            {
+                Message = "修改角色基本信息成功！",
+                JsonObject = Json(new RoleViewModel()
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                    IsDefault = role.IsDefault,
+                    LastModificationTime = role.LastModificationTime?.ToStandardDateOfChina(),
+                })
+            });
         }
         #endregion
+
+        #region 设置默认
+
+        [HttpPost]
+        public IActionResult ToggleSetDefault(int id)
+        {
+            _roleAppService.ToggleSetDefault(id);
+            return Json(new JsonResultEntity() { Message = "切换默认角色成功！" });
+        }
+
+        #endregion
+
 
         #region 删除
         [HttpGet]
@@ -134,17 +163,42 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         [HttpPost]
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Delete)]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(DeleteRoleViewModel model)
         {
-            _roleAppService.DeleteRoleById(id);
-            return Json(new JsonResultEntity() { Message = "删除成功！" });
+            _roleAppService.DeleteRoleById(model.Id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "删除角色成功！",
+                JsonObject = Json(new { id = model.Id })
+            });
         }
         #endregion
 
-        public IActionResult GetRolePermissions(int id)
+
+        #region 授权
+
+        [HttpGet]
+        public IActionResult Authorize(int id, AuthorizeRoleViewModel model)
         {
-            var permissions = _roleAppService.GetAllPermissionsByRoleId(id).MapToPermissionTree();
-            return Json(permissions);
-        }     
+            model = new AuthorizeRoleViewModel() { Id = id };
+            return View("_Authorize", model);
+        }
+
+        [HttpPost]
+        public IActionResult Authorize(AuthorizeRoleViewModel model)
+        {
+            _roleAppService.SetPermissions(model.Id, model.PermissionCodes);
+            return Json(new JsonResultEntity()
+            {
+                Message = "设置权限成功！",
+                JsonObject = Json(new RoleViewModel()
+                {
+                    Id = model.Id,
+                    LastModificationTime = DateTime.Now.ToStandardDateOfChina()
+                })
+            });
+        }
+
+        #endregion
     }
 }

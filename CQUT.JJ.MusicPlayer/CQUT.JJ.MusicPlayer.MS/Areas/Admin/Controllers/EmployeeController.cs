@@ -178,6 +178,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return View("_Authorize", model);
         }
 
+        [HttpPost]
         public IActionResult Authorize(AuthorizeEmployeeViewModel model)
         {
             _userAppService.SetPermissions(model.Id, model.PermissionCodes);

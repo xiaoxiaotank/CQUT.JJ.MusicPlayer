@@ -3,6 +3,7 @@ using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Algorithms;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System;
@@ -171,7 +172,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public void SetPermissions(int userId, string[] permissionCodes)
         {
-            _permissionManager.SetPermissionsToUser(userId, permissionCodes);
+            _permissionManager.SetPermissions(AuthorizationObjectType.User, userId, permissionCodes);
         }
 
         public void SetRolesByUserId(int id, int[] roleIds)
