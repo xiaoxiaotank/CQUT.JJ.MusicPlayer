@@ -26,12 +26,14 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public IActionResult GetMenuByParentId(string parentId)
         {
             if (Request.IsAjaxRequest())
@@ -221,6 +223,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         /// <param name="keywords"></param>
         /// <returns></returns>
         [HttpGet]
+        [MvcAuthorize]
         public IActionResult RefreshMenu(string keywords)
         {
             return ViewComponent("Menu", new { keywords });

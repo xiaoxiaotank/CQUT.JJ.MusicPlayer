@@ -8,43 +8,29 @@ var columnDefs = [
         filter: 'agNumberColumnFilter'
     },
     {
-        headerName: "用户名",
-        field: "userName",
+        headerName: "角色名",
+        field: "name",
         filter: 'agTextColumnFilter',
         cellClass: 'floatLeft',
         cellRenderer: 'sManagerRenderer'
-    },
-    {
-        headerName: "昵称",
-        field: "nickName",
-        filter: 'agTextColumnFilter',
-        cellClass: 'floatLeft',
     },
     {
         headerName: "创建日期",
         field: "creationTime",
         filter: 'agDateColumnFilter',
         filterParams: {
-            comparator:function (filterLocalDateAtMidnight, cellValue){
-                var dateAsString = cellValue;
-                if (dateAsString == null) return -1;
-                var dateParts = [dateAsString.substr(0, 4), dateAsString.substr(5, 2), dateAsString.substr(8, 2)];
-                var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
-                //相等
-                if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
-                    return 0
-                }
-                //小于
-                if (cellDate < filterLocalDateAtMidnight) {
-                    return -1;
-                }
-                //大于
-                if (cellDate > filterLocalDateAtMidnight) {
-                    return 1;
-                }
-            }
+            comparator: timeComparator()
+        }
+    },
+    {
+        headerName: "最近修改日期",
+        field: "lastModificationTime",
+        filter: 'agDateColumnFilter',
+        filterParams: {
+            comparator: timeComparator()
         }
     }
+
 ];
 
 
@@ -54,23 +40,23 @@ var gridOptions = {
     enableFilter: true,                                     //过滤器
     animateRows: true,                                      //行动画
     pagination: true,                                       //分页
-    //paginationAutoPageSize: true,                           //自动确定每一页显示数据多少
+    //paginationAutoPageSize: true,                         //自动确定每一页显示数据多少
     paginationPageSize: 20,                                 //page size
     getContextMenuItems: getContextMenuItems,               //右键菜单
-    allowContextMenuWithControlKey: true,      
+    allowContextMenuWithControlKey: true,
     enableCellChangeFlash: true,                            //单元格数据改变时闪一下
     paginationNumberFormatter: function (params) {
         return '[' + params.value.toLocaleString() + ']';   //页码格式
     },
     localeText: localeText,                                 //本地化
-    excelStyles: [        
+    excelStyles: [
         {
             id: 'floatLeft',
             alignment: {
                 horizontal: 'left',
                 vertical: 'center'
             },
-        }        
+        }
     ],
     components: {
         sManagerRenderer: sManagerRenderer,
@@ -87,55 +73,57 @@ var gridOptions = {
         data = await GetRowData();
         params.api.setRowData(data);
 
-        addPageSizeSelector();        
+        addPageSizeSelector();
     }
 };
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    $("#employeeGrid").height(getContentHeight());
-    var eGridDiv = document.querySelector('#employeeGrid');
+    $("#roleGrid").height(getContentHeight());
+    var eGridDiv = document.querySelector('#roleGrid');
     new agGrid.Grid(eGridDiv, gridOptions);
 
-    $("#createEmployee").on('click', function () {
+    $("#createRole").on('click', function () {
         $.ajax({
             type: 'get',
-            url: '/Admin/Employee/Create',
+            url: '/Admin/Role/Create',
             success: function (data) {
                 $("#modal").html(data);
             }
         })
     })
-
-    $("#exportToExcel").on('click', function () {
-        var params = {
-            skipHeader: false,          //如果不希望第一行是列标题名称，则设置为true。
-            columnGroups: true,         //设置为true以包含标题列分组。
-            skipFooters: false,         //设置为true仅在分组时才跳过页脚。没有影响，如果不分组，或者如果不使用页脚分组。
-            skipGroups: false,          //如果对行进行分组，则设置为true以跳过行组页眉和页脚。没有影响，如果不分组行。
-            skipPinnedTop: false,
-            skipPinnedBottom: false,
-            allColumns: false,          //如果为true，则所有列将按照它们在columnDefs中出现的顺序导出。否则，仅导出网格中当前显示的列，并按此顺序导出。
-            onlySelected: false,        //只导出选定的行。
-            fileName: '员工清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
-            sheetName: 'EmployeeList'
-        };
-        gridOptions.api.exportDataAsExcel(params);
-    })
 });
 
 
 function sManagerRenderer(params) {
-    if (params.data.isSuperManager) {
+    if (params.data.isDefault) {
         var element = document.createElement("span");
         element.appendChild(document.createTextNode(params.value));
-        var brand = createBrand("label-primary", "超级管理员")
+        var brand = createBrand("label-info", "默认角色")
         element.appendChild(brand);
         return element;
     }
 
     return params.value;
-    
+}
+
+function timeComparator(filterLocalDateAtMidnight, cellValue) {
+    var dateAsString = cellValue;
+    if (dateAsString == null) return -1;
+    var dateParts = [dateAsString.substr(0, 4), dateAsString.substr(5, 2), dateAsString.substr(8, 2)];
+    var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+    //相等
+    if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
+        return 0
+    }
+    //小于
+    if (cellDate < filterLocalDateAtMidnight) {
+        return -1;
+    }
+    //大于
+    if (cellDate > filterLocalDateAtMidnight) {
+        return 1;
+    }
 }
 
 /**
@@ -158,8 +146,8 @@ async function GetRowData() {
     return await
         $.ajax({
             type: "get",
-            url: "/Admin/Employee/GetEmployees",
-            success: function (data) {              
+            url: "/Admin/Role/GetRoles",
+            success: function (data) {
                 return data;
             }
         })
@@ -172,7 +160,7 @@ function getContextMenuItems(params) {
             action: function () {
                 $.ajax({
                     type: "get",
-                    url: "/Admin/Employee/Update",
+                    url: "/Admin/Role/Update",
                     data: { "id": params.node.data.id },
                     success: function (data) {
                         showAjaxGetRequestData(data);
@@ -182,35 +170,24 @@ function getContextMenuItems(params) {
             //cssClasses: ['redFont', 'bold']
         },
         {
-            name: '权限管理',
-            subMenu: [
-                {
-                    name: '设置权限',
-                    action: function () {
-                        $.ajax({
-                            type: "get",
-                            url: "/Admin/Employee/Authorize",
-                            data: { "id": params.node.data.id },
-                            success: function (data) {
-                                showAjaxGetRequestData(data);
-                            }
-                        })
-                    },                    
-                },
-                {
-                    name: '设置角色',
-                    action: function () {
-                        console.log('UK was pressed');
-                    },                    
-                },
-            ]
+            name: '设置权限',
+            action: function () {
+                $.ajax({
+                    type: "get",
+                    url: "/Admin/Role/Authorize",
+                    data: { "id": params.node.data.id },
+                    success: function (data) {
+                        showAjaxGetRequestData(data);
+                    }
+                })
+            },
         },
         {
             name: '删除',
             action: function () {
                 $.ajax({
                     type: "get",
-                    url: "/Admin/Employee/Delete",
+                    url: "/Admin/Role/Delete",
                     data: { "id": params.node.data.id },
                     success: function (data) {
                         showAjaxGetRequestData(data);
@@ -219,26 +196,14 @@ function getContextMenuItems(params) {
             }
         },
         //加一个横线
-        'separator',      
+        'separator',
         'copy'
     ];
 
     return result;
 }
 
-
-function afterCreateEmployee(data) {   
-    if (data.isSuccessed) {
-        success_prompt(data.message);
-        $("#my-modal").modal("hide");
-        data.jsonObject.value.sId = gridOptions.api.paginationGetRowCount() + 1;
-        gridOptions.api.updateRowData({ add: [data.jsonObject.value] });
-    }else {
-        fail_prompt(data.message);
-    }
-}
-
-function afterUpdateEmployee(data) {
+function afterUpdateRole(data) {
     if (data.isSuccessed) {
         success_prompt(data.message);
         $("#my-modal").modal("hide");
@@ -254,7 +219,7 @@ function afterUpdateEmployee(data) {
     }
 }
 
-function afterDeleteEmployee(data) {
+function afterDeleteRole(data) {
     $("#my-modal").modal("hide");
     if (data.isSuccessed) {
         success_prompt(data.message);
@@ -273,5 +238,3 @@ function afterDeleteEmployee(data) {
         fail_prompt(data.message);
     }
 }
-
-

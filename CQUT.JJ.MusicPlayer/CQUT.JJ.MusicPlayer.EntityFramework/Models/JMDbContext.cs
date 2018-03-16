@@ -61,8 +61,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");
 
                 entity.Property(e => e.DeletionTime).HasColumnType("datetime");

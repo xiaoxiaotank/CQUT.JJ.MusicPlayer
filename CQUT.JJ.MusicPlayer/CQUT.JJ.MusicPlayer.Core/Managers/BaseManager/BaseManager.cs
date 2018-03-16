@@ -37,7 +37,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return obj;
         }
 
-        public IQueryable<T> FindAll()
+        public virtual IQueryable<T> FindAll()
         {
             return _dbSet;
         }

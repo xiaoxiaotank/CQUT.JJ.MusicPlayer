@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "角色管理";
+}
+@section Styles{
+    <link href="~/lib/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="~/css/admin/role/index.css" rel="stylesheet" />
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small>@ViewBag.Title</small>
+        <button id="createRole" class="btn btn-primary func-btn"><span class="fa fa-plus">&nbsp; 添加角色</span></button>
+    </h1>
+</section>
+<section class="content">
+    <div id="roleGrid" class="ag-theme-balham"></div>
+</section>
+
+<div id="modal"></div>
+@section Scripts{
+    <script src="~/lib/ag-grid/js/zh-cn.js"></script>
+    <script src="~/lib/ag-grid/js/ag-grid-enterprise.min.js"></script>
+    <script src="~/lib/ag-grid/js/custom.js"></script>
+    <script src="~/js/admin/role/index.js"></script>
+}

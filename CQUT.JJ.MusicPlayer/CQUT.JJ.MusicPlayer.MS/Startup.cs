@@ -28,7 +28,6 @@ namespace CQUT.JJ.MusicPlayer.MS
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //注册数据库上下文
@@ -46,6 +45,9 @@ namespace CQUT.JJ.MusicPlayer.MS
             //权限
             services.AddScoped<IPermissionManager, PermissionManager>();
             services.AddScoped<PermissionManager, PermissionManager>();
+            //角色
+            services.AddScoped<IRoleAppService, RoleAppService>();
+            services.AddScoped<RoleManager, RoleManager>();
 
             services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

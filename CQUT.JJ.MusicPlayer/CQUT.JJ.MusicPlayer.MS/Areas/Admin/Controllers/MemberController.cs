@@ -8,6 +8,7 @@ using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Member;
 using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Filters;
+using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -23,12 +24,14 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public JsonResult GetMembers()
         {
             var members = _userAppService.GetAllMembers()
@@ -38,7 +41,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     SId = i + 1,
                     UserName = m.UserName,
                     NickName = m.NickName,
-                    CreationTime = m.CreationTime.ToString("yyyy年MM月dd日")
+                    CreationTime = m.CreationTime.ToStandardDateOfChina()
                 });
             return Json(members);
         }
@@ -73,10 +76,5 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
         #endregion
 
-        [NonAction]
-        private string GetFormattingTime(DateTime time)
-        {
-            return time.ToString("yyyy年MM月dd日");
-        }
     }
 }

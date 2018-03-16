@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     2018/3/14 15:11:57                           */
+/* Created on:     2018/3/16 12:44:16                           */
 /*==============================================================*/
 
 
@@ -100,7 +100,7 @@ go
 /* Table: Role                                                  */
 /*==============================================================*/
 create table Role (
-   Id                   int                  not null,
+   Id                   int                  identity,
    Name                 nvarchar(8)          not null,
    IsDefault            bit                  not null default 0,
    LastModificationTime datetime             null,

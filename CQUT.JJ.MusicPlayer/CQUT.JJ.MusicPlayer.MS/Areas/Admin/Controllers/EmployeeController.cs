@@ -9,6 +9,7 @@ using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee;
 using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Filters;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
+using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -24,12 +25,14 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public JsonResult GetEmployees()
         {
             var employees = _userAppService.GetAllAdmins()
@@ -39,7 +42,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     SId = i + 1,
                     UserName = m.UserName,
                     NickName = m.NickName,
-                    CreationTime = GetFormattingTime(m.CreationTime)
+                    CreationTime = m.CreationTime.ToStandardDateOfChina()
                 }).ToList();
             employees.ForEach(e =>
             {
@@ -53,6 +56,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [MvcAuthorize]
         public ActionResult GetPermissions(int id)
         {
             var permissions = _userAppService.GetAllPermissionsByUserId(id).MapToPermissionTree();
@@ -88,7 +92,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     NickName = user.NickName,
-                    CreationTime = GetFormattingTime(user.CreationTime)
+                    CreationTime = user.CreationTime.ToStandardDateOfChina()
                 })
             });
         }
@@ -186,12 +190,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         private bool IsSuperManager(int id)
         {
             return _userAppService.IsSuperManager(id, out UserModel user);
-        }
-
-        [NonAction]
-        private string GetFormattingTime(DateTime time)
-        {
-            return time.ToString("yyyy年MM月dd日");
         }
     }
 }

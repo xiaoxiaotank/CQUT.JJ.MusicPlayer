@@ -40,6 +40,7 @@ $(function () {
         var keywords = $("#search").val();
         refreshMenu(keywords);
     })
+
 })
 
 function getContentHeight() {
@@ -119,3 +120,4 @@ function showAjaxGetRequestData(data) {
         $("#modal").html(data);
     }
 }
+

@@ -1,0 +1,55 @@
+﻿@model CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Role.CreateRoleViewModel
+<div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">创建新的角色</h4>
+            </div>
+
+            <div class="modal-body">
+                <ul id="roleTabs" class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a id="basicTab" href="#setRoleBasic">角色基本信息</a></li>
+                    <li role="presentation"><a id="permissionTab" href="#setRolePermission">权限设置</a></li>
+                </ul>
+                <div id="roleTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade active in" id="setRoleBasic">
+                        <div class="form-horizontal">
+                            <div class="form-group" style="margin-top:10px">
+                                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-6">
+                                    <input id="roleName" name="UserName" class="form-control" />
+                                    @Html.ValidationMessageFor(m => m.Name, null, new { @class = "validate-error" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2"></label>
+                                <div class="col-md-6">
+                                    <input id="isDefault" type="checkbox" name="IsDefault" /><span>设置为默认角色</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="setRolePermission" style="max-height:400px;overflow-y:auto;" class="tab-pane fade">
+                        <ul id="permissionTree" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="submitBtn">确定</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $('#my-modal').modal('show');
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.slimscroll.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/zTree/js/jquery.ztree.core.js"></script>
+<script src="~/lib/zTree/js/jquery.ztree.excheck.js"></script>
+<script src="~/js/admin/role/create.js"></script>
+
