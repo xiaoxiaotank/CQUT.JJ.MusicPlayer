@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Core.Models;
+using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee;
 using CQUT.JJ.MusicPlayer.MS.Entities;
 using CQUT.JJ.MusicPlayer.MS.Filters;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Extensions;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
+using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
@@ -18,10 +20,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
     public class EmployeeController : Controller
     {
         private readonly IUserAppService _userAppService;
+        private readonly IRoleAppService _roleAppService;
 
-        public EmployeeController(IUserAppService userAppService)
+        public EmployeeController(IUserAppService userAppService, IRoleAppService roleAppService)
         {
             _userAppService = userAppService;
+            _roleAppService = roleAppService;
         }
 
         [HttpGet]
@@ -43,7 +47,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     UserName = m.UserName,
                     NickName = m.NickName,
                     CreationTime = m.CreationTime.ToStandardDateOfChina(),
-                    LastModificationTime = m.LastModificationTime?.ToStandardDateOfChina()                   
+                    LastModificationTime = m.LastModificationTime?.ToStandardDateOfChina(),
+                    RoleNames = _roleAppService.GetAllRolesByUserId(m.Id)?.Select(r => r.Name)
                 }).ToList();
             employees.ForEach(e =>
             {
@@ -57,12 +62,39 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        [MvcAuthorize]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee)]
         public ActionResult GetPermissions(int id)
         {
-            var permissions = _userAppService.GetAllPermissionsByUserId(id).MapToPermissionTree();
+            var permissionCodesOfRoles = new List<string>();
+            var roleIds = _roleAppService.GetAllRolesByUserId(id).Select(r => r.Id).ToList();
+            roleIds.ForEach(i => permissionCodesOfRoles.AddRange(_roleAppService.GetAllPermissionsByRoleId(i)));
+            var permissions = _userAppService.GetAllPermissionsByUserId(id).MapToPermissionTree(permissionCodesOfRoles.Distinct());
             return Json(permissions);
         }
+
+        [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee)]
+        public JsonResult GetUserRolesByUserId(int id)
+        {
+            var userRoleIds = _roleAppService.GetAllRolesByUserId(id)
+                .Select(r => r.Id);
+            if (HttpContext.Request.IsAjaxRequest())
+            {
+                var model = _roleAppService.GetAllRoles()
+                    .Select((r, i) => new UserRoleViewModel()
+                    {
+                        SId = i + 1,
+                        Id = r.Id,
+                        RoleName = r.Name,
+                        IsDefault = r.IsDefault,
+                        HasOwned = userRoleIds.Contains(r.Id)
+                    });
+
+                return Json(model);
+            }
+            throw new JMBasicException("访问出错");
+        }
+
 
         #region 创建
 
@@ -93,7 +125,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     NickName = user.NickName,
-                    CreationTime = user.CreationTime.ToStandardDateOfChina()
+                    CreationTime = user.CreationTime.ToStandardDateOfChina(),
+                    RoleNames = _roleAppService.GetAllRolesByUserId(user.Id).Select(r => r.Name)
                 })
             });
         }
@@ -185,7 +218,35 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         {
             _userAppService.SetPermissions(model.Id, model.PermissionCodes);
             return Json(new JsonResultEntity() { Message = "设置权限成功！" });
-        } 
+        }
+
+        #endregion
+
+        #region 设置角色
+       
+        [HttpGet]
+        public IActionResult SetRoles(int id, SetRolesToEmployeeViewModel model)
+        {
+            var user = _userAppService.GetAdminById(id);
+            model = new SetRolesToEmployeeViewModel()
+            {
+                Id = id,
+                UserName = user.UserName
+            };
+            return View("_SetRoles", model);
+        }
+
+        [HttpPost]
+        public IActionResult SetRoles(SetRolesToEmployeeViewModel model)
+        {
+            _userAppService.SetRolesByUserId(model.Id, model.RoleIds);
+            var roleNames = model.RoleIds?.Select(id => _roleAppService.GetRoleById(id).Name);
+            return Json(new JsonResultEntity()
+            {
+                Message = "设置角色成功！",
+                JsonObject = Json(roleNames)
+            });
+        }
 
         #endregion
 

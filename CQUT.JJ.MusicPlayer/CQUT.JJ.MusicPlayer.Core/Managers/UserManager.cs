@@ -174,16 +174,16 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <param name="user"></param>
         private void SetDefaultRole(User user)
         {
-            //var defaultRole = JMDbContext.Role.SingleOrDefault(r => r.IsDefault);
-            //if (defaultRole != null)
-            //{
-            //    user.UserRole.Add(new UserRole
-            //    {
-            //        User = user,
-            //        Role = defaultRole
-            //    });
-            //    Save();
-            //}
+            var defaultRole = JMDbContext.Role.SingleOrDefault(r => r.IsDefault);
+            if (defaultRole != null)
+            {
+                user.UserRole.Add(new UserRole
+                {
+                    UserId = user.Id,
+                    RoleId = defaultRole.Id
+                });
+                Save();
+            }
         }
 
         /// <summary>

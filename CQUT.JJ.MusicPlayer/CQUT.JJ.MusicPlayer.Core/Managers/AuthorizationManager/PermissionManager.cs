@@ -2,6 +2,7 @@
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,11 +97,11 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager
                     else
                         ThrowException("角色不存在");
                     break;
-            }  
-            
-            if(originalPermissions != null)
+            }
+
+            if (originalPermissions != null)
             {
-                if(originalPermissions.Any())
+                if (originalPermissions.Any())
                     _ctx.Permission.RemoveRange(originalPermissions);
 
                 var permissions = permissionCodes?.Select(code => new Permission
@@ -128,20 +129,27 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers.AuthorizationManager
         }
 
         public void SetRolesToUser(int userId, int[] roleIds)
-        {           
+        {
             var user = FindAdminUser(userId);
             if (user != null)
             {
-                var orgiRolesOfUser = _ctx.UserRole.Where(ur => ur.UserId == user.Id);
-                _ctx.UserRole.RemoveRange(orgiRolesOfUser);
+                using(var trans = _ctx.Database.BeginTransaction())
+                {
+                    var orgiRolesOfUser = _ctx.UserRole.Where(ur => ur.UserId == userId);
 
-                _ctx.Role.Where(r => roleIds.Contains(r.Id))
-                    .ToList()
-                    .ForEach(role => user.UserRole.Add(new UserRole()
-                    {
-                        Role = role,
-                        User = user
-                    })); 
+                    if (orgiRolesOfUser != null && orgiRolesOfUser.Any())
+                        _ctx.UserRole.RemoveRange(orgiRolesOfUser);
+                    _ctx.SaveChanges();
+
+                    _ctx.Role.Where(r => roleIds.Contains(r.Id))
+                        .ToList()
+                        .ForEach(role => user.UserRole.Add(new UserRole()
+                        {
+                            UserId = userId,
+                            RoleId = role.Id
+                        }));
+                    trans.Commit();
+                }
             }
             else
                 ThrowException("用户不存在");

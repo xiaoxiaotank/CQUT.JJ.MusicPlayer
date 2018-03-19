@@ -33,6 +33,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Entities
         public bool Checked { get; set; }
 
         /// <summary>
+        /// 设置checked不可用
+        /// </summary>
+        [JsonProperty("chkDisabled")]
+        public bool CheckDisabled { get; set; }
+
+        /// <summary>
         /// 节点是否展开
         /// </summary>
         [JsonProperty(PropertyName = "open")]

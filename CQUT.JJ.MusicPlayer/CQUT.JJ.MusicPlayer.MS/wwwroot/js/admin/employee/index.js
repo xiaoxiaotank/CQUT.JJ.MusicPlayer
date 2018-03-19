@@ -1,6 +1,4 @@
-﻿var data = [];
-
-var columnDefs = [
+﻿var columnDefs = [
     {
         headerName: "序号",
         field: "sId",
@@ -45,6 +43,8 @@ var gridOptions = {
     enableFilter: true,                                     //过滤器
     animateRows: true,                                      //行动画
     pagination: true,                                       //分页
+    //rowSelection: 'multiple',                               //多选
+    //rowMultiSelectWithClick: true,                          //点击多选模式
     //paginationAutoPageSize: true,                           //自动确定每一页显示数据多少
     paginationPageSize: 20,                                 //page size
     getContextMenuItems: getContextMenuItems,               //右键菜单
@@ -75,7 +75,7 @@ var gridOptions = {
             })
         })
 
-        data = await GetRowData();
+        var data = await GetRowData();
         params.api.setRowData(data);
 
         addPageSizeSelector();        
@@ -117,16 +117,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function sManagerRenderer(params) {
-    if (params.data.isSuperManager) {
-        var element = document.createElement("span");
-        element.appendChild(document.createTextNode(params.value));
-        var brand = createBrand("label-primary", "超级管理员")
-        element.appendChild(brand);
-        return element;
-    }
+    var element = document.createElement("span");
+    element.appendChild(document.createTextNode(params.value));
 
-    return params.value;
-    
+    if (params.data.isSuperManager) {
+        var brand = createBrand("label-primary", "内置账户")
+        element.appendChild(brand);
+    }
+    if (params.data.roleNames) {
+        for (roleName of params.data.roleNames) {
+            element.appendChild(createBrand("label-warning", roleName));
+        }
+    }
+    return element;    
 }
 
 function timeComparator(filterLocalDateAtMidnight, cellValue) {
@@ -210,7 +213,14 @@ function getContextMenuItems(params) {
                 {
                     name: '设置角色',
                     action: function () {
-                        console.log('UK was pressed');
+                        $.ajax({
+                            type: "get",
+                            url: "/Admin/Employee/SetRoles",
+                            data: { "id": params.node.data.id },
+                            success: function (data) {
+                                showAjaxGetRequestData(data);
+                            }
+                        })
                     },                    
                 },
             ]

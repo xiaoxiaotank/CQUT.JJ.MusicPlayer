@@ -44,9 +44,10 @@ $(function () {
 })
 
 function getContentHeight() {
-    return $('.content-wrapper').height()
+    var height = $('.content-wrapper').height()
         - $('.main-footer').height()
         - $('.navbar').height() - 1;
+    return height;
 }
 
 

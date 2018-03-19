@@ -182,7 +182,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public void SetRolesByUserId(int id, int[] roleIds)
         {
-            throw new NotImplementedException();
+            _permissionManager.SetRolesToUser(id, roleIds);
         }
 
         public UserModel UpdateBasicInfo(UserModel model)

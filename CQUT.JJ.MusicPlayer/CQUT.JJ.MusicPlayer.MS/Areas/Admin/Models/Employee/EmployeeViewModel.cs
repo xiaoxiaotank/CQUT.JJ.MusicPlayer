@@ -31,5 +31,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Employee
 
         [JsonProperty("isSuperManager")]
         public bool IsSuperManager { get; set; }
+
+        [JsonProperty("roleNames")]
+        public IEnumerable<string> RoleNames { get; set; }
     }
 }

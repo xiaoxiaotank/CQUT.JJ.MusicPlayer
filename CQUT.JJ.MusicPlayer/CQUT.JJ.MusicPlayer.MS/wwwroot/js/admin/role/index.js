@@ -12,7 +12,7 @@ var columnDefs = [
         field: "name",
         filter: 'agTextColumnFilter',
         cellClass: 'floatLeft',
-        cellRenderer: 'sManagerRenderer'
+        cellRenderer: 'attributeRenderer'
     },
     {
         headerName: "创建日期",
@@ -59,10 +59,12 @@ var gridOptions = {
         }
     ],
     components: {
-        sManagerRenderer: sManagerRenderer,
+        attributeRenderer: attributeRenderer,
     },
     onGridReady: async function (params) {
         params.api.sizeColumnsToFit();
+        //初始化表格高度
+        $("#roleGrid").height(getContentHeight());
 
         $(window).on('resize', function () {
             setTimeout(function () {
@@ -79,7 +81,7 @@ var gridOptions = {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    $("#roleGrid").height(getContentHeight());
+
     var eGridDiv = document.querySelector('#roleGrid');
     new agGrid.Grid(eGridDiv, gridOptions);
 
@@ -95,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function sManagerRenderer(params) {
+function attributeRenderer(params) {
     if (params.data.isDefault) {
         var element = document.createElement("span");
         element.appendChild(document.createTextNode(params.value));

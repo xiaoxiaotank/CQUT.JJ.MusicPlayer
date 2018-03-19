@@ -10,7 +10,14 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Extensions
     public static class PermissionExtension
     {
         #region 映射权限树
-        public static IEnumerable<ZTreeNode> MapToPermissionTree(this IEnumerable<string> permissionCodes)
+
+        /// <summary>
+        /// 映射权限树
+        /// </summary>
+        /// <param name="permissionCodes">权限码</param>
+        /// <param name="fixedPermissionCodes">固定的权限码，不可操作</param>
+        /// <returns></returns>
+        public static IEnumerable<ZTreeNode> MapToPermissionTree(this IEnumerable<string> permissionCodes, IEnumerable<string> fixedPermissionCodes = null)
         {
             var permissionerList = GetAllPermissionerList();
 
@@ -29,8 +36,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Extensions
                 return node;
             });
             
-
-            
+            if(fixedPermissionCodes != null)
+            {
+                permissionNodeList = permissionNodeList.Select(p =>
+                {
+                    if (fixedPermissionCodes.Contains(p.Id))
+                        p.CheckDisabled = true;
+                    return p;
+                });
+            }            
 
             return permissionNodeList;
         }
