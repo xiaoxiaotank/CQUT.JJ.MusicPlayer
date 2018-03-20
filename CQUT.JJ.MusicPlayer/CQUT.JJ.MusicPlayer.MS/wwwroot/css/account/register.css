@@ -1,0 +1,16 @@
+﻿body {
+    background: url(/resource/admin/index/login-background.jpg) no-repeat !important;
+    background-size: 100% 100% !important;
+}
+
+#title {
+    color: white;
+}
+
+.register-box {
+    margin: 10% auto !important;
+}
+
+.register-box-body {
+    box-shadow: 10px 10px 30px #000000;
+}
