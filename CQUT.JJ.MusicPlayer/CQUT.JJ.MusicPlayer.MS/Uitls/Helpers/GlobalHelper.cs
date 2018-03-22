@@ -38,6 +38,20 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
             string header = request.Headers["X-Requested-With"];
             return (header != null && header == "XMLHttpRequest") ? true : false;
         }
+
+        public static IEnumerable<KeyValuePair<string,string>> GetNationalities()
+        {
+            return new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("中国","中国"),
+                new KeyValuePair<string, string>("美国","美国"),
+                new KeyValuePair<string, string>("英国","英国"),
+                new KeyValuePair<string, string>("日本","日本"),
+                new KeyValuePair<string, string>("澳大利亚","澳大利亚"),
+                new KeyValuePair<string, string>("韩国","韩国"),
+                new KeyValuePair<string, string>("挪威","挪威"),
+            };
+        }
     }
 
    

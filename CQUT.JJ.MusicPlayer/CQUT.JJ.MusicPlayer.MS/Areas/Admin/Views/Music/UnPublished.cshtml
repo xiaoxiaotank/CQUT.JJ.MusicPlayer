@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "音乐管理";
+}
+@section Styles{
+    <link href="~/css/admin/music/unpublished.css" rel="stylesheet" />
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small>@ViewBag.Title</small>
+        <button id="createMusic" class="btn btn-primary func-btn"><span class="fa fa-plus">&nbsp; 添加音乐</span></button>
+        <button id="exportToExcel" class="btn btn-success func-btn"><span class="fa fa-file-excel-o">&nbsp; 导出到Excel</span></button>
+    </h1>
+</section>
+<section class="content">
+    <div id="musicGrid" class="ag-theme-balham"></div>
+</section>
+
+@section scripts{
+    <script src="~/lib/ag-grid/js/zh-cn.js"></script>
+    <script src="~/lib/ag-grid/js/ag-grid-enterprise.min.js"></script>
+    <script src="~/lib/ag-grid/js/custom.js"></script>
+    <script src="~/js/admin/music/unpublished.js"></script>
+}

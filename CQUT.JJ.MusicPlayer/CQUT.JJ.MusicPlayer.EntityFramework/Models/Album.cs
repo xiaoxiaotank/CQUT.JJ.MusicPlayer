@@ -15,6 +15,8 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public string Name { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
+        public bool IsPublished { get; set; }
+        public DateTime? PublishmentTime { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? DeletionTime { get; set; }
 

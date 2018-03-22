@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     2018/3/20 14:54:03                           */
+/* Created on:     2018/3/21 15:29:05                           */
 /*==============================================================*/
 
 
@@ -83,6 +83,8 @@ create table Album (
    Name                 nvarchar(32)         not null,
    CreationTime         datetime             not null,
    LastModificationTime datetime             null,
+   IsPublished          bit                  not null default 0,
+   PublishmentTime      datetime             null,
    IsDeleted            bit                  not null,
    DeletionTime         datetime             null,
    constraint PK_ALBUM primary key (Id)
@@ -101,6 +103,8 @@ create table Music (
    FileUrl              varchar(256)         not null,
    CreationTime         datetime             not null,
    LastModificationTime datetime             null,
+   IsPublished          bit                  not null default 0,
+   PublishmentTime      datetime             null,
    IsDeleted            bit                  not null,
    DeletionTime         datetime             null,
    constraint PK_MUSIC primary key (Id)
@@ -130,6 +134,8 @@ create table Singer (
    Nationality          nvarchar(32)         not null,
    CreationTime         datetime             not null,
    LastModificationTime datetime             null,
+   IsPublished          bit                  not null default 0,
+   PublishmentTime      datetime             null,
    IsDeleted            bit                  not null,
    DeletionTime         datetime             null,
    constraint PK_SINGER primary key (Id)

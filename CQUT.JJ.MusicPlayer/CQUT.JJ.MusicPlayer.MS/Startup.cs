@@ -48,6 +48,12 @@ namespace CQUT.JJ.MusicPlayer.MS
             //角色
             services.AddScoped<IRoleAppService, RoleAppService>();
             services.AddScoped<RoleManager, RoleManager>();
+            //音乐
+            services.AddScoped<IMusicAppService, MusicAppService>();
+            services.AddScoped<MusicManager, MusicManager>();
+            //歌唱家
+            services.AddScoped<ISingerAppService, SingerAppService>();
+            services.AddScoped<SingerManager, SingerManager>();
 
             services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

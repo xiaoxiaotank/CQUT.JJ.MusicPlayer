@@ -154,7 +154,6 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         {
             user = JMDbContext.User.SingleOrDefault(u => u.Id == id && u.IsAdmin && !u.IsDeleted);
             return (user != null && user.UserName == "Admin");
-
         }
 
         /// <summary>

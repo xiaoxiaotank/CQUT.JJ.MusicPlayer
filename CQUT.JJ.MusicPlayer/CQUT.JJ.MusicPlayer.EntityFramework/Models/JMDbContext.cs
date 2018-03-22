@@ -30,6 +30,8 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");
 
+                entity.Property(e => e.PublishmentTime).HasColumnType("datetime");
+
                 entity.Property(e => e.DeletionTime).HasColumnType("datetime");
 
                 entity.Property(e => e.LastModificationTime).HasColumnType("datetime");
@@ -71,6 +73,8 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");
+
+                entity.Property(e => e.PublishmentTime).HasColumnType("datetime");
 
                 entity.Property(e => e.DeletionTime).HasColumnType("datetime");
 
@@ -151,6 +155,8 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
             modelBuilder.Entity<Singer>(entity =>
             {
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");
+
+                entity.Property(e => e.PublishmentTime).HasColumnType("datetime");
 
                 entity.Property(e => e.DeletionTime).HasColumnType("datetime");
 
