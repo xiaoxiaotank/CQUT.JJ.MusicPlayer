@@ -40,7 +40,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public SingerModel Publish(int id)
         {
-            var singer = _singerManager.Pubulish(id);
+            var singer = _singerManager.Publish(id);
             return new SingerModel()
             {
                 Id = singer.Id,

@@ -26,8 +26,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         {
             modelBuilder.Entity<Album>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");
 
                 entity.Property(e => e.PublishmentTime).HasColumnType("datetime");
@@ -70,8 +68,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
             modelBuilder.Entity<Music>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");
 
                 entity.Property(e => e.PublishmentTime).HasColumnType("datetime");
@@ -104,8 +100,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
             modelBuilder.Entity<MusicAttach>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CoverUrl)
                     .HasMaxLength(256)
                     .IsUnicode(false);
@@ -177,8 +171,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
             modelBuilder.Entity<SingerAttach>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.FansNumber).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.Singer)

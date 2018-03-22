@@ -54,6 +54,9 @@ namespace CQUT.JJ.MusicPlayer.MS
             //歌唱家
             services.AddScoped<ISingerAppService, SingerAppService>();
             services.AddScoped<SingerManager, SingerManager>();
+            //专辑
+            services.AddScoped<IAlbumAppService, AlbumAppService>();
+            services.AddScoped<AlbumManager, AlbumManager>();
 
             services.AddSession();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -53,6 +53,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             return Json(models);
         }
 
+        [HttpGet]
         public IActionResult GetPublishedSingers()
         {
             var models = _singerAppService.GetPublishedSingers()?

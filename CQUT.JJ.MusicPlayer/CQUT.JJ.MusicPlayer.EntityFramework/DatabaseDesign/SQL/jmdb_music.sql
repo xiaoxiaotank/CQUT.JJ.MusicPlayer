@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     2018/3/21 15:29:05                           */
+/* Created on:     2018/3/22 17:05:24                           */
 /*==============================================================*/
 
 
@@ -78,7 +78,7 @@ go
 /* Table: Album                                                 */
 /*==============================================================*/
 create table Album (
-   Id                   int                  not null,
+   Id                   int                  identity,
    SingerId             int                  not null,
    Name                 nvarchar(32)         not null,
    CreationTime         datetime             not null,
@@ -95,7 +95,7 @@ go
 /* Table: Music                                                 */
 /*==============================================================*/
 create table Music (
-   Id                   int                  not null,
+   Id                   int                  identity,
    SingerId             int                  not null,
    AlbumId              int                  not null,
    Name                 nvarchar(32)         not null,
@@ -115,7 +115,7 @@ go
 /* Table: MusicAttach                                           */
 /*==============================================================*/
 create table MusicAttach (
-   Id                   int                  not null,
+   Id                   int                  identity,
    MusicId              int                  not null,
    CoverUrl             varchar(256)         null,
    Passion              int                  not null default 0
@@ -146,7 +146,7 @@ go
 /* Table: SingerAttach                                          */
 /*==============================================================*/
 create table SingerAttach (
-   Id                   int                  not null,
+   Id                   int                  identity,
    SingerId             int                  not null,
    FansNumber           int                  not null default 0
       constraint CKC_FANSNUMBER_SINGERAT check (FansNumber >= 0),

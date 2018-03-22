@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "专辑-未发布管理";
+}
+@section Styles{
+    <link href="~/css/admin/album/unpublished.css" rel="stylesheet" />
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small>@ViewBag.Title</small>
+        <button id="createAlbum" class="btn btn-primary func-btn"><span class="fa fa-plus">&nbsp; 添加专辑</span></button>
+        <button id="exportToExcel" class="btn btn-success func-btn"><span class="fa fa-file-excel-o">&nbsp; 导出到Excel</span></button>
+    </h1>
+</section>
+<section class="content">
+    <div id="albumGrid" class="ag-theme-balham"></div>
+</section>
+
+@section scripts{
+    <script src="~/lib/ag-grid/js/zh-cn.js"></script>
+    <script src="~/lib/ag-grid/js/ag-grid-enterprise.min.js"></script>
+    <script src="~/lib/ag-grid/js/custom.js"></script>
+    <script src="~/js/admin/album/unpublished.js"></script>
+}

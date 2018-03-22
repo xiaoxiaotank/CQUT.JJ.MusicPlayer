@@ -58,7 +58,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             Save();
         }
 
-        public Singer Pubulish(int id)
+        public Singer Publish(int id)
         {
             var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
             if (singer == null)
