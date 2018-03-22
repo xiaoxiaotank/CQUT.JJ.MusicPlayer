@@ -95,6 +95,20 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 });
         }
 
+        public IEnumerable<SingerModel> GetPublishedSingers()
+        {
+            return _ctx.Singer.Where(s => s.IsPublished && !s.IsDeleted)
+                .Select(r => new SingerModel()
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    ForeignName = r.ForeignName,
+                    Nationality = r.Nationality,
+                    CreationTime = r.CreationTime,
+                    PublishmentTime = r.PublishmentTime
+                });
+        }
+
         public SingerModel GetSingerById(int id)
         {
             var singer = _singerManager.Find(id);

@@ -54,6 +54,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             singer.LastModificationTime
                 = singer.DeletionTime
                 = DateTime.Now;
+
+            Save();
         }
 
         public Singer Pubulish(int id)
@@ -65,7 +67,9 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ThrowException("歌唱家已发布，无需再次操作！");
 
             singer.IsPublished = true;
-            singer.PublishmentTime = DateTime.Now;
+            singer.PublishmentTime 
+                = singer.LastModificationTime
+                = DateTime.Now;
 
             Save();
             return singer;
@@ -80,6 +84,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ThrowException("歌唱家属于未发布状态，无需再次操作！");
 
             singer.IsPublished = false;
+            singer.LastModificationTime = DateTime.Now;
             singer.PublishmentTime = null;
 
             Save();

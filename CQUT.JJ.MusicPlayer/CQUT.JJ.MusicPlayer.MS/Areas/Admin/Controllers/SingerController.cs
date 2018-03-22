@@ -38,6 +38,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult GetUnpublishedSingers()
         {
             var models = _singerAppService.GetUnpublishedSingers()?
+                .OrderByDescending(s1 => s1.LastModificationTime)
+                .ThenByDescending(s2 => s2.CreationTime)
                 .Select((s, i) => new SingerViewModel()
                 {
                     SId = ++i,
@@ -47,6 +49,24 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Nationality = s.Nationality,
                     CreationTime = s.CreationTime.ToStandardDateOfChina(),
                     LastModificationTime = s.LastModificationTime?.ToStandardDateOfChina()
+                });
+            return Json(models);
+        }
+
+        public IActionResult GetPublishedSingers()
+        {
+            var models = _singerAppService.GetPublishedSingers()?
+                .OrderByDescending(s1 => s1.PublishmentTime)
+                .ThenByDescending(s2 => s2.CreationTime)
+                .Select((s, i) => new SingerViewModel()
+                {
+                    SId = ++i,
+                    Id = s.Id,
+                    Name = s.Name,
+                    ForeignName = s.ForeignName,
+                    Nationality = s.Nationality,
+                    CreationTime = s.CreationTime.ToStandardDateOfChina(),
+                    PublishmentTime = s.PublishmentTime?.ToStandardDateOfChina()
                 });
             return Json(models);
         }
@@ -121,6 +141,59 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Nationality = singer.Nationality,
                     LastModificationTime = singer.LastModificationTime?.ToStandardDateOfChina()
                 })
+            });
+        }
+
+        #endregion
+
+        #region 删除
+
+        [HttpGet]
+        public IActionResult Delete(int id, DeleteSingerViewModel model)
+        {
+            var singer = _singerAppService.GetSingerById(id);
+            model = new DeleteSingerViewModel()
+            {
+                Id = singer.Id,
+                Name = singer.Name
+            };
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(DeleteSingerViewModel model)
+        {
+            _singerAppService.Delete(model.Id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "删除成功",
+                JsonObject = Json(new SingerViewModel() { Id = model.Id })
+            });
+        }
+
+        #endregion
+
+        #region 发布和下架
+
+        [HttpPost]
+        public IActionResult Publish(int id)
+        {
+            _singerAppService.Publish(id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "发布成功",
+                JsonObject = Json(new { id })
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Unpublish(int id)
+        {
+            _singerAppService.Unpublish(id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "下架成功",
+                JsonObject = Json(new { id })
             });
         }
 

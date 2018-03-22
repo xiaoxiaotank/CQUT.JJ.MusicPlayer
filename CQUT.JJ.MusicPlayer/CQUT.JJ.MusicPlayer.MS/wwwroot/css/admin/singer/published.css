@@ -1,0 +1,9 @@
+﻿body {
+}
+
+.func-btn {
+    float: right;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+}
