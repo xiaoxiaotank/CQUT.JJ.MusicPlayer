@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Album Publish(int id)
         {
-            var album = JMDbContext.Album.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
-            if (album == null)
-                ThrowException("专辑不存在！");
+            var album = Find(id);
             if (album.IsPublished)
                 ThrowException("专辑已发布，无需再次操作！");
 
@@ -71,9 +70,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Album Unpublish(int id)
         {
-            var album = JMDbContext.Album.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
-            if (album == null)
-                ThrowException("专辑不存在！");
+            var album = Find(id);
             if (!album.IsPublished)
                 ThrowException("专辑属于未发布状态，无需再次操作！");
 
@@ -87,9 +84,10 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public override Album Find(int id)
         {
-            var album = base.Find(id);
-            if (album == null || album.IsDeleted)
-                ThrowException("歌唱家不存在");
+            var album = JMDbContext.Album.Include(a => a.Singer)
+                .SingleOrDefault(s => s.Id == id && !s.IsDeleted);
+            if (album == null)
+                ThrowException("专辑不存在");
             return album;
         }
 
@@ -114,9 +112,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         private void ValidForDelete(int id, out Album album)
         {
-            album = JMDbContext.Album.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
-            if (album == null)
-                ThrowException("专辑不存在！");
+            album = Find(id);
             if (album.IsPublished)
                 ThrowException("专辑已发布，请撤销后进行该操作!");
         }

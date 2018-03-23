@@ -227,8 +227,8 @@ function afterUpdateBasicAlbum(data) {
         $("#my-modal").modal("hide");
         gridOptions.api.forEachNode(function (node) {
             if (node.data.id === data.jsonObject.value.id) {
-                node.data.foreignName = data.jsonObject.value.foreignName;
-                node.data.nationality = data.jsonObject.value.nationality;
+                node.data.name = data.jsonObject.value.name;
+                node.data.singerName = data.jsonObject.value.singerName;
                 node.data.lastModificationTime = data.jsonObject.value.lastModificationTime
                 gridOptions.api.updateRowData({ update: [node] });
                 return;

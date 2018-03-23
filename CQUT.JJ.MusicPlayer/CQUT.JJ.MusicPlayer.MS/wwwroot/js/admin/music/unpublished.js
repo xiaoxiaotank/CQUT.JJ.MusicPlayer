@@ -10,7 +10,6 @@
         field: "name",
         filter: 'agTextColumnFilter',
         cellClass: 'floatLeft',
-        cellRenderer: 'sManagerRenderer'
     },
     {
         headerName: "歌手",
@@ -112,11 +111,12 @@ document.addEventListener("DOMContentLoaded", function () {
             skipPinnedBottom: false,
             allColumns: false,          //如果为true，则所有列将按照它们在columnDefs中出现的顺序导出。否则，仅导出网格中当前显示的列，并按此顺序导出。
             onlySelected: false,        //只导出选定的行。
-            fileName: '歌曲清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
+            fileName: '乐曲清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
             sheetName: 'MusicList'
         };
         gridOptions.api.exportDataAsExcel(params);
     })
+ 
 });
 
 function timeComparator(filterLocalDateAtMidnight, cellValue) {
@@ -161,7 +161,7 @@ function getContextMenuItems(params) {
             action: function () {
                 $.ajax({
                     type: "get",
-                    url: "/Admin/Employee/Update",
+                    url: "/Admin/Music/Update",
                     data: { "id": params.node.data.id },
                     success: function (data) {
                         showAjaxGetRequestData(data);
@@ -169,44 +169,13 @@ function getContextMenuItems(params) {
                 })
             },
             //cssClasses: ['redFont', 'bold']
-        },
-        {
-            name: '权限管理',
-            subMenu: [
-                {
-                    name: '设置权限',
-                    action: function () {
-                        $.ajax({
-                            type: "get",
-                            url: "/Admin/Employee/Authorize",
-                            data: { "id": params.node.data.id },
-                            success: function (data) {
-                                showAjaxGetRequestData(data);
-                            }
-                        })
-                    },
-                },
-                {
-                    name: '设置角色',
-                    action: function () {
-                        $.ajax({
-                            type: "get",
-                            url: "/Admin/Employee/SetRoles",
-                            data: { "id": params.node.data.id },
-                            success: function (data) {
-                                showAjaxGetRequestData(data);
-                            }
-                        })
-                    },
-                },
-            ]
-        },
+        },        
         {
             name: '删除',
             action: function () {
                 $.ajax({
                     type: "get",
-                    url: "/Admin/Employee/Delete",
+                    url: "/Admin/Music/Delete",
                     data: { "id": params.node.data.id },
                     success: function (data) {
                         showAjaxGetRequestData(data);
@@ -223,7 +192,7 @@ function getContextMenuItems(params) {
 }
 
 
-function afterCreateEmployee(data) {
+function afterCreateMusic(data) {
     if (data.isSuccessed) {
         success_prompt(data.message);
         $("#my-modal").modal("hide");
@@ -234,7 +203,7 @@ function afterCreateEmployee(data) {
     }
 }
 
-function afterUpdateEmployee(data) {
+function afterUpdateMusic(data) {
     if (data.isSuccessed) {
         success_prompt(data.message);
         $("#my-modal").modal("hide");
@@ -251,7 +220,7 @@ function afterUpdateEmployee(data) {
     }
 }
 
-function afterDeleteEmployee(data) {
+function afterDeleteMusic(data) {
     $("#my-modal").modal("hide");
     if (data.isSuccessed) {
         success_prompt(data.message);

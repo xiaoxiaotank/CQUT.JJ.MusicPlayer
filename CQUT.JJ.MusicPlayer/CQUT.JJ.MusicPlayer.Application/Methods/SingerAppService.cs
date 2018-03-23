@@ -2,6 +2,7 @@
 using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,6 +110,23 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 });
         }
 
+
+        public IEnumerable<SingerModel> GetPublishedSingersHasAlbums()
+        {
+            return _ctx.Singer.Where(s => s.IsPublished && !s.IsDeleted)?
+                .Join(_ctx.Album.Where(m => m.IsPublished && !m.IsDeleted)
+                    ,s => s.Id,m => m.SingerId,(s,m) =>
+                    new SingerModel()
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        ForeignName = s.ForeignName,
+                        Nationality = s.Nationality,
+                        CreationTime = s.CreationTime,
+                        PublishmentTime = s.PublishmentTime
+                    });
+        }
+
         public SingerModel GetSingerById(int id)
         {
             var singer = _singerManager.Find(id);
@@ -122,5 +140,6 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 LastModificationTime = singer.LastModificationTime
             };
         }
+
     }
 }

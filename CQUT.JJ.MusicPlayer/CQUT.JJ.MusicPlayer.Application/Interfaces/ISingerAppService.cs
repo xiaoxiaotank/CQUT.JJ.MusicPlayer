@@ -54,6 +54,12 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         IEnumerable<SingerModel> GetPublishedSingers();
 
         /// <summary>
+        /// 获取已发布的且发布了专辑的歌唱家信息
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<SingerModel> GetPublishedSingersHasAlbums();
+
+        /// <summary>
         /// 通过id获取歌唱家
         /// </summary>
         /// <param name="id"></param>

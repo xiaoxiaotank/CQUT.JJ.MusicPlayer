@@ -39,7 +39,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _musicManager.Delete(id);
         }
 
         public IEnumerable<MusicModel> GetUnpublishedMusics()
@@ -60,24 +60,102 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 });
         }
 
+
+        public IEnumerable<MusicModel> GetPublishedMusics()
+        {
+            var musicList = _ctx.Music.Where(m => m.IsPublished && !m.IsDeleted);
+            return musicList
+                .Select(s => new MusicModel()
+                {
+                    Id = s.Id,
+                    SingerId = s.SingerId,
+                    AlbumId = s.AlbumId,
+                    Name = s.Name,
+                    SingerName = s.Singer.Name,
+                    AlbumName = s.Album.Name,
+                    Duration = s.Duration,
+                    FileUrl = s.FileUrl,
+                    CreationTime = s.CreationTime,
+                    PublishmentTime = s.PublishmentTime,
+                });
+        }
+
         public MusicModel GetMusicById(int id)
         {
-            throw new NotImplementedException();
+            var music = _musicManager.Find(id);
+            return music == null ? null
+                : new MusicModel()
+                {
+                    Id = music.Id,
+                    SingerId = music.SingerId,
+                    AlbumId = music.AlbumId,
+                    Name = music.Name,
+                    SingerName = music.Singer.Name,
+                    AlbumName = music.Album.Name,
+                    Duration = music.Duration,
+                    FileUrl = music.FileUrl,
+                    CreationTime = music.CreationTime,
+                    LastModificationTime = music.LastModificationTime,
+                    PublishmentTime = music.PublishmentTime,
+                };
         }
 
         public IEnumerable<MusicModel> GetMusicsByAlbumId(int id)
         {
-            throw new NotImplementedException();
+            return _ctx.Music.Where(m => m.AlbumId == id && !m.IsDeleted)?
+                .Select(music => new MusicModel()
+                {
+                    Id = music.Id,
+                    SingerId = music.SingerId,
+                    AlbumId = music.AlbumId,
+                    Name = music.Name,
+                    SingerName = music.Singer.Name,
+                    AlbumName = music.Album.Name,
+                    Duration = music.Duration,
+                    FileUrl = music.FileUrl,
+                    CreationTime = music.CreationTime,
+                    LastModificationTime = music.LastModificationTime,
+                    PublishmentTime = music.PublishmentTime,
+                });
         }
 
         public IEnumerable<MusicModel> GetMusicsBySingerId(int id)
         {
-            throw new NotImplementedException();
+            return _ctx.Music.Where(m => m.SingerId == id && !m.IsDeleted)?
+                .Select(music => new MusicModel()
+                {
+                    Id = music.Id,
+                    SingerId = music.SingerId,
+                    AlbumId = music.AlbumId,
+                    Name = music.Name,
+                    SingerName = music.Singer.Name,
+                    AlbumName = music.Album.Name,
+                    Duration = music.Duration,
+                    FileUrl = music.FileUrl,
+                    CreationTime = music.CreationTime,
+                    LastModificationTime = music.LastModificationTime,
+                    PublishmentTime = music.PublishmentTime,
+                });
         }
 
-        public MusicModel Update(MusicModel model)
+        public MusicModel UpdateBasic(MusicModel model)
         {
-            throw new NotImplementedException();
+            var music = _musicManager.UpdateBasic(model);
+            return music == null ? null
+                : new MusicModel()
+                {
+                    Id = music.Id,
+                    SingerId = music.SingerId,
+                    AlbumId = music.AlbumId,
+                    Name = music.Name,
+                    SingerName = music.Singer.Name,
+                    AlbumName = music.Album.Name,
+                    Duration = music.Duration,
+                    FileUrl = music.FileUrl,
+                    CreationTime = music.CreationTime,
+                    LastModificationTime = music.LastModificationTime,                    
+                };
         }
+
     }
 }

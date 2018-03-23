@@ -57,7 +57,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPublishedSingers()
+        public IActionResult GetPublishedAlbums()
         {
             var models = _albumAppService.GetPublishedAlbums()?
                 .OrderByDescending(s1 => s1.PublishmentTime)
@@ -121,6 +121,110 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             else
                 throw new JMBasicException("歌唱家不存在");
             
+        }
+
+        #endregion
+
+        #region 更新基本信息
+
+        [HttpGet]
+        public IActionResult UpdateBasic(int id, UpdateBasicAlbumViewModel model)
+        {
+            var album = _albumAppService.GetAlbumById(id);
+            model = new UpdateBasicAlbumViewModel()
+            {
+                Id = album.Id,
+                Name = album.Name,
+                Singers = _singerAppService.GetPublishedSingers()?
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString(),
+                    Selected = s.Id == album.SingerId
+                })
+            };  
+            return PartialView("_UpdateBasic", model);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateBasic(UpdateBasicAlbumViewModel model)
+        {
+            if (int.TryParse(model.SingerId, out int singerId))
+            {
+                var album = new AlbumModel()
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                    SingerId = singerId
+                };
+                album = _albumAppService.UpdateBasic(album);
+                return Json(new JsonResultEntity()
+                {
+                    Message = "更新基本信息成功！",
+                    JsonObject = Json(new AlbumViewModel()
+                    {
+                        Id = album.Id,
+                        SingerId = album.SingerId,
+                        Name = album.Name,
+                        SingerName = album.SingerName,
+                        LastModificationTime = album.LastModificationTime?.ToStandardDateOfChina()
+                    })
+                });
+            }
+            throw new JMBasicException("歌唱家不存在");
+        }
+
+        #endregion
+
+        #region 删除
+
+        [HttpGet]
+        public IActionResult Delete(int id, DeleteAlbumViewModel model)
+        {
+            var singer = _albumAppService.GetAlbumById(id);
+            model = new DeleteAlbumViewModel()
+            {
+                Id = singer.Id,
+                Name = singer.Name
+            };
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(DeleteAlbumViewModel model)
+        {
+            _albumAppService.Delete(model.Id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "删除成功",
+                JsonObject = Json(new AlbumViewModel() { Id = model.Id })
+            });
+        }
+
+        #endregion
+
+        #region 发布和下架
+
+        [HttpPost]
+        public IActionResult Publish(int id)
+        {
+            _albumAppService.Publish(id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "发布成功",
+                JsonObject = Json(new { id })
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Unpublish(int id)
+        {
+            _albumAppService.Unpublish(id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "下架成功",
+                JsonObject = Json(new { id })
+            });
         }
 
         #endregion

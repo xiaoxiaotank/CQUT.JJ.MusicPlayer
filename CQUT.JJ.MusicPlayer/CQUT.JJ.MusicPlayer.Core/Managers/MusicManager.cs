@@ -6,19 +6,20 @@ using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System.Runtime.InteropServices;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences;
 using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.APIs;
 
 namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class MusicManager : BaseManager<Music>
     {
-        [DllImport("winmm.dll", CharSet = CharSet.Auto)]
-        private static extern int mciSendString(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
-
         public MusicManager(JMDbContext ctx) : base(ctx)
         {
             
         }
 
+        //TODO  增加操作人
         public Music Create(MusicModel model)
         {
             ValidateForCreate(model);
@@ -28,46 +29,58 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 SingerId = model.SingerId,
                 AlbumId = model.AlbumId,
                 Name = model.Name,
-                CreationTime = model.CreationTime,
+                CreationTime = DateTime.Now,
                 IsDeleted = false,
+                FileUrl = model.FileUrl,
                 Duration = GetMusicDuration(model.FileUrl)
             };
 
             return Create(music);
         }
 
-        private TimeSpan GetMusicDuration(string fileName)
-        {
-            var durLength = string.Empty.PadLeft(128, ' ');
-            mciSendString(string.Format($"open {fileName}"), durLength, durLength.Length, 0);
-            if(int.TryParse(durLength.Trim(),out int second))
-                return TimeSpan.FromSeconds(second);
-            throw new JMBasicException("音乐文件无效");
-        }
 
-        public Music Update(MusicModel model)
+        public Music UpdateBasic(MusicModel model)
         {
-            ValidateForUpdate(model);
+            ValidateForUpdateBasic(model,out Music music);
 
-            var music = JMDbContext.Music.SingleOrDefault(m => m.Id == model.Id);
+            music.Name = model.Name;
+            music.SingerId = model.SingerId;
+            music.AlbumId = model.AlbumId;
+            music.LastModificationTime = DateTime.Now;
+
             return music;
 
         }
 
         public void Delete(int id)
         {
-            var music = JMDbContext.Music.SingleOrDefault(m => m.Id == id && !m.IsDeleted);
-            if (music != null)
-            {
-                music.IsDeleted = false;
-                music.LastModificationTime
-                    = music.DeletionTime
-                    = DateTime.Now;
-                Save();
-            }
+            ValidForDelete(id, out Music music);
+            
+            music.IsDeleted = false;
+            music.LastModificationTime
+                = music.DeletionTime
+                = DateTime.Now;
+            Save();
         }
 
-    
+        public override Music Find(int id)
+        {
+            var music = JMDbContext.Music.Include(m => new { m.Singer, m.Album })
+                .SingleOrDefault(mu => mu.Id == id && !mu.IsDeleted);
+            if (music == null)
+                ThrowException("音乐信息不存在！");
+            return music;
+        }
+
+        private TimeSpan GetMusicDuration(string fileName)
+        {
+            var durationString = APIClass.GetMusicDurationString(fileName);
+            if(int.TryParse(durationString,out int durationInt))
+                return TimeSpan.FromMilliseconds(durationInt);
+            throw new JMBasicException("音乐文件无效!");
+        }
+
+
         private void ValidateForCreate(MusicModel model)
         {
             var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == model.SingerId && !s.IsDeleted);
@@ -82,13 +95,31 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ThrowException("音乐名不能超过32个字符！");
             if (!File.Exists(model.FileUrl))
                 ThrowException("音乐文件不存在");
-            if (!GlobalConstants.Music_File_Suffix.Contains(Path.GetExtension(model.FileUrl)))
+            if (!model.FileUrl.IsEffectiveMusicFile())
                 ThrowException("文件格式无效");
         }
 
-        private void ValidateForUpdate(MusicModel model)
+        private void ValidateForUpdateBasic(MusicModel model,out Music music)
         {
-            throw new NotImplementedException();
+            ValidForDelete(model.Id, out music);
+            var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == model.SingerId && !s.IsDeleted);
+            if (singer == null)
+                ThrowException("歌唱家不存在！");
+            var album = JMDbContext.Album.SingleOrDefault(a => a.Id == model.AlbumId && !a.IsDeleted);
+            if (album == null)
+                ThrowException("专辑不存在");
+            if (string.IsNullOrWhiteSpace(model.Name))
+                ThrowException("音乐名不能为空！");
+            if (model.Name.Length > 32)
+                ThrowException("音乐名不能超过32个字符！");
+        }
+
+
+        private void ValidForDelete(int id, out Music music)
+        {
+            music = Find(id);
+            if (music.IsPublished)
+                ThrowException("音乐作品已发布，请撤销后进行该操作");
         }
 
     }

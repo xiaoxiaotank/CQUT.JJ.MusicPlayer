@@ -8,6 +8,9 @@
     <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.Core\CQUT.JJ.MusicPlayer.Core.csproj" />
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj" />
   </ItemGroup>

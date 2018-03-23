@@ -16,5 +16,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Models
         public string FileUrl { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LastModificationTime { get; set; }
+
+        public DateTime? PublishmentTime { get; set; }
     }
 }

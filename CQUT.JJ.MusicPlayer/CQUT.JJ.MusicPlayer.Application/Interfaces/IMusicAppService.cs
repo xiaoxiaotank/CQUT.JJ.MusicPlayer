@@ -19,7 +19,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        MusicModel Update(MusicModel model);
+        MusicModel UpdateBasic(MusicModel model);
 
         /// <summary>
         /// 删除音乐
@@ -32,6 +32,12 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// </summary>
         /// <returns></returns>
         IEnumerable<MusicModel> GetUnpublishedMusics();
+
+        /// <summary>
+        /// 获取已发布音乐
+        /// </summary>
+        /// <returns></returns>
+        IEnumerable<MusicModel> GetPublishedMusics();
 
         /// <summary>
         /// 通过id获取音乐

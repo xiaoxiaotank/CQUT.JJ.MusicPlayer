@@ -8,6 +8,9 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Music
 {
     public class MusicViewModel
     {
+        [JsonProperty("sId")]
+        public int SId { get; set; }
+
         [JsonProperty("id")]
         public int Id { get; set; }
 
@@ -27,7 +30,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Music
         public string AlbumName { get; set; }
 
         [JsonProperty("duration")]
-        public TimeSpan Duration { get; set; }
+        public string Duration { get; set; }
 
         [JsonProperty("fileUrl")]
         public string FileUrl { get; set; }
@@ -37,5 +40,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Music
 
         [JsonProperty("lastModificationTime")]
         public string LastModificationTime { get; set; }
+
+        [JsonProperty("publishmentTime")]
+        public string PublishmentTime { get; set; }
     }
 }

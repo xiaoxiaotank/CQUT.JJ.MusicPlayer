@@ -6,20 +6,14 @@
         filter: 'agNumberColumnFilter'
     },
     {
-        headerName: "姓名",
+        headerName: "专辑",
         field: "name",
         filter: 'agTextColumnFilter',
         cellClass: 'floatLeft',
     },
     {
-        headerName: "外文名",
-        field: "foreignName",
-        filter: 'agTextColumnFilter',
-        cellClass: 'floatLeft',
-    },
-    {
-        headerName: "国籍",
-        field: "nationality",
+        headerName: "歌唱家",
+        field: "singerName",
         filter: 'agTextColumnFilter',
         cellClass: 'floatLeft',
     },
@@ -83,8 +77,8 @@ var gridOptions = {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    $("#singerGrid").height(getContentHeight());
-    var eGridDiv = document.querySelector('#singerGrid');
+    $("#albumGrid").height(getContentHeight());
+    var eGridDiv = document.querySelector('#albumGrid');
     new agGrid.Grid(eGridDiv, gridOptions);
    
     $("#exportToExcel").on('click', function () {
@@ -97,8 +91,8 @@ document.addEventListener("DOMContentLoaded", function () {
             skipPinnedBottom: false,
             allColumns: false,          //如果为true，则所有列将按照它们在columnDefs中出现的顺序导出。否则，仅导出网格中当前显示的列，并按此顺序导出。
             onlySelected: false,        //只导出选定的行。
-            fileName: '已发布歌唱家清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
-            sheetName: 'MusicList'
+            fileName: '已发布专辑清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
+            sheetName: 'PublishedAlbumList'
         };
         gridOptions.api.exportDataAsExcel(params);
     })
@@ -132,7 +126,7 @@ async function GetRowData() {
     return await
         $.ajax({
             type: "get",
-            url: "/Admin/Singer/GetPublishedSingers",
+            url: "/Admin/Album/GetPublishedAlbums",
             success: function (data) {
                 return data;
             }
@@ -146,7 +140,7 @@ function getContextMenuItems(params) {
             action: function () {
                 $.ajax({
                     type: "post",
-                    url: "/Admin/Singer/Unpublish",
+                    url: "/Admin/Album/Unpublish",
                     data: { "id": params.node.data.id },
                     success: function (data) {
                         if (data.isSuccessed) {
