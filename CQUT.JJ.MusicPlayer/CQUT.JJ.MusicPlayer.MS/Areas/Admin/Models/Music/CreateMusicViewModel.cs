@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CQUT.JJ.MusicPlayer.MS.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Music
 
         public IEnumerable<SelectListItem> Singers { get; set; }
 
-        public IEnumerable<SelectListItem> Albums { get; set; }
+        public IEnumerable<SelectListItemEntity> Albums { get; set; }
     }
 }

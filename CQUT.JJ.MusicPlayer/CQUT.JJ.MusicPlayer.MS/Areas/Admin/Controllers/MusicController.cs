@@ -100,16 +100,20 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Value = s.Id.ToString(),
                 }),
                 Albums = _albumAppService.GetPublishedAlbums()?
-                .Select(s => new SelectListItem()
+                .Select(s => new SelectListItemEntity()
                 {
-                    Text = s.Name,
-                    Value = s.Id.ToString()
+                    Item = new SelectListItem()
+                    {
+                        Text = s.Name,
+                        Value = s.Id.ToString(),
+                    },
+                    ParentId = s.SingerId.ToString()
                 }),
             };
             if (model.Singers.Any())
                 model.Singers.First().Selected = true;
             if (model.Albums.Any())
-                model.Albums.First().Selected = true;
+                model.Albums.First().Item.Selected = true;
             return PartialView("_Create", model);
         }
 

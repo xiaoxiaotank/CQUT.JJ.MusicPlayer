@@ -6,7 +6,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences
 {
     public class GlobalConstants
     {
-        public const string MusicsRootPath = @"..\";
+        public const string MusicsRootPath = @"..\..\";
 
         public const string MusicsRootFileName = "MusicLibrary";
 

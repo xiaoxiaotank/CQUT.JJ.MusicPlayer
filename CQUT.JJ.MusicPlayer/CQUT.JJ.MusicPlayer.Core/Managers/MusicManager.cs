@@ -83,12 +83,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         private void ValidateForCreate(MusicModel model)
         {
-            var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == model.SingerId && !s.IsDeleted);
+            var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == model.SingerId && !s.IsDeleted && s.IsPublished);
             if (singer == null)
-                ThrowException("歌唱家不存在！");
-            var album = JMDbContext.Album.SingleOrDefault(a => a.Id == model.AlbumId && !a.IsDeleted);
+                ThrowException("歌唱家未发布或不存在！");
+            var album = JMDbContext.Album.SingleOrDefault(a => a.Id == model.AlbumId && !a.IsDeleted && a.IsPublished);
             if (album == null)
-                ThrowException("专辑不存在");
+                ThrowException("专辑未发布或不存在");
+            if (album.SingerId != singer.Id)
+                ThrowException("音乐家与专辑信息不匹配");
             if (string.IsNullOrWhiteSpace(model.Name))
                 ThrowException("音乐名不能为空！");
             if (model.Name.Length > 32)

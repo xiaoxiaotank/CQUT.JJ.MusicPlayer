@@ -23,13 +23,17 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.SingerId, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.DropDownListFor(model => model.SingerId, Model.Singers, new { @class = "form-control",id="singerId" })
+                            @Html.DropDownListFor(model => model.SingerId, Model.Singers, new { @class = "form-control",id="singer" })
                         </div>
                     </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.AlbumId, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.DropDownListFor(model => model.AlbumId, Model.Albums, new { @class = "form-control",id="albumId" })
+                            @foreach(var singer in Model.Singers)
+                            {
+                                @Html.DropDownListFor(model => model.AlbumId, Model.Albums.Where(a => a.ParentId == singer.Value).Select(m => m.Item)
+                                    , new { @class = "form-control album",id="album" })
+                            }
                         </div>
                     </div>
                 </div>

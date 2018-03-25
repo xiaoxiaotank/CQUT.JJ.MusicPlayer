@@ -1,2 +1,2 @@
 True
-pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/Asserts/Skins/ThemeSkins/DefaultWindowBackground.jpg
+C:/Users/Administrator/Source/Repos/CQUT.JJ.MusicPlayer/CQUT.JJ.MusicPlayer/CQUT.JJ.MusicPlayer.Client/Asserts/Skins/ThemeSkins/2.jpg
