@@ -99,3 +99,14 @@
     margin-left:10px;
     vertical-align:middle;
 }
+
+.tip {
+    padding:10px;
+    width: 100%;
+    text-align:right;
+}
+
+.tip-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+}

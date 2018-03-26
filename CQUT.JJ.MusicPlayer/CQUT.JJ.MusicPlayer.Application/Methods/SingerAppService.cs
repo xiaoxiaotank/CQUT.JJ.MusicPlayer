@@ -124,7 +124,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                         Nationality = s.Nationality,
                         CreationTime = s.CreationTime,
                         PublishmentTime = s.PublishmentTime
-                    });
+                    })
+                .Distinct();
         }
 
         public SingerModel GetSingerById(int id)

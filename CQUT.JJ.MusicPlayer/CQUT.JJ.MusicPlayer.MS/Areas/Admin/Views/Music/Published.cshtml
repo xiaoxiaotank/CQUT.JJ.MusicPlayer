@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "歌唱家-已发布管理";
+    ViewBag.Title = "音乐-已发布管理";
 }
 @section Styles{
-    <link href="~/css/admin/singer/published.css" rel="stylesheet" />
+    <link href="~/css/admin/music/published.css" rel="stylesheet" />
 }
 
 <section class="content-header">
@@ -13,13 +13,12 @@
     </h1>
 </section>
 <section class="content">
-    <div id="singerGrid" class="ag-theme-balham"></div>
-    <div class="tip tip-warning">提醒：下架歌唱家会将已发布专辑及其音乐一同下架</div>
+    <div id="musicGrid" class="ag-theme-balham"></div>
 </section>
 
 @section scripts{
     <script src="~/lib/ag-grid/js/zh-cn.js"></script>
     <script src="~/lib/ag-grid/js/ag-grid-enterprise.min.js"></script>
     <script src="~/lib/ag-grid/js/custom.js"></script>
-    <script src="~/js/admin/singer/published.js"></script>
+    <script src="~/js/admin/music/published.js"></script>
 }

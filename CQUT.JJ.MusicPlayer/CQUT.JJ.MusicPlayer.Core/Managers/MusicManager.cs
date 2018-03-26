@@ -48,6 +48,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             music.AlbumId = model.AlbumId;
             music.LastModificationTime = DateTime.Now;
 
+            Save();
+
             return music;
 
         }
@@ -56,16 +58,46 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         {
             ValidForDelete(id, out Music music);
             
-            music.IsDeleted = false;
+            music.IsDeleted = true;
             music.LastModificationTime
                 = music.DeletionTime
                 = DateTime.Now;
             Save();
         }
 
+        public Music Publish(int id)
+        {
+            var music = Find(id);
+            if (music.IsPublished)
+                ThrowException("音乐已发布，无需再次操作！");
+
+            music.IsPublished = true;
+            music.PublishmentTime
+                = music.LastModificationTime
+                = DateTime.Now;
+
+            Save();
+            return music;
+        }
+
+        public Music Unpublish(int id)
+        {
+            var music = Find(id);
+            if (!music.IsPublished)
+                ThrowException("音乐属于未发布状态，无需再次操作！");
+
+            music.IsPublished = false;
+            music.LastModificationTime = DateTime.Now;
+            music.PublishmentTime = null;
+
+            Save();
+            return music;
+        }
+
+
         public override Music Find(int id)
         {
-            var music = JMDbContext.Music.Include(m => new { m.Singer, m.Album })
+            var music = JMDbContext.Music.Include(m => m.Singer).Include(m => m.Album)
                 .SingleOrDefault(mu => mu.Id == id && !mu.IsDeleted);
             if (music == null)
                 ThrowException("音乐信息不存在！");

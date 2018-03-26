@@ -5,16 +5,17 @@
     <link href="~/css/admin/album/published.css" rel="stylesheet" />
 }
 
-<section class="content-header">
-    <h1>
-        @ViewBag.Title
-        <small>@ViewBag.Title</small>
-        <button id="exportToExcel" class="btn btn-success func-btn"><span class="fa fa-file-excel-o">&nbsp; 导出到Excel</span></button>
-    </h1>
-</section>
-<section class="content">
-    <div id="albumGrid" class="ag-theme-balham"></div>
-</section>
+    <section class="content-header">
+        <h1>
+            @ViewBag.Title
+            <small>@ViewBag.Title</small>
+            <button id="exportToExcel" class="btn btn-success func-btn"><span class="fa fa-file-excel-o">&nbsp; 导出到Excel</span></button>
+        </h1>
+    </section>
+    <section class="content">
+        <div id="albumGrid" class="ag-theme-balham"></div>
+        <div class="tip tip-warning">提醒：下架专辑会将专辑中已发布的音乐一同下架</div>
+    </section>
 
 @section scripts{
     <script src="~/lib/ag-grid/js/zh-cn.js"></script>

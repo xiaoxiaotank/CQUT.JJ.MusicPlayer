@@ -56,7 +56,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     AlbumName = s.Album.Name,
                     Duration = s.Duration,
                     FileUrl = s.FileUrl,
-                    CreationTime = s.CreationTime
+                    CreationTime = s.CreationTime,
+                    LastModificationTime = s.LastModificationTime
                 });
         }
 
@@ -155,6 +156,39 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     CreationTime = music.CreationTime,
                     LastModificationTime = music.LastModificationTime,                    
                 };
+        }
+
+        public MusicModel Publish(int id)
+        {
+            var music = _musicManager.Publish(id);
+            return new MusicModel()
+            {
+                Id = music.Id,
+                SingerId = music.SingerId,
+                AlbumId = music.AlbumId,
+                Name = music.Name,
+                SingerName = music.Singer.Name,
+                AlbumName = music.Album.Name,
+                CreationTime = music.CreationTime,
+                LastModificationTime = music.LastModificationTime,
+                PublishmentTime = music.PublishmentTime
+            };
+        }
+
+        public MusicModel Unpublish(int id)
+        {
+            var music = _musicManager.Unpublish(id);
+            return new MusicModel()
+            {
+                Id = music.Id,
+                SingerId = music.SingerId,
+                AlbumId = music.AlbumId,
+                Name = music.Name,
+                SingerName = music.Singer.Name,
+                AlbumName = music.Album.Name,
+                CreationTime = music.CreationTime,
+                LastModificationTime = music.LastModificationTime,
+            };
         }
 
     }

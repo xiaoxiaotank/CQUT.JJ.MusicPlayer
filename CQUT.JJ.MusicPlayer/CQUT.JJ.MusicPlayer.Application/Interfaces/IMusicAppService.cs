@@ -59,5 +59,19 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         IEnumerable<MusicModel> GetMusicsByAlbumId(int id);
+
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        MusicModel Publish(int id);
+
+        /// <summary>
+        /// 下架
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        MusicModel Unpublish(int id);
     }
 }

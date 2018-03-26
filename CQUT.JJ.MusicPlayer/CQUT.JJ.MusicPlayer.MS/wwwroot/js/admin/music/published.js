@@ -90,17 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#musicGrid").height(getContentHeight());
     var eGridDiv = document.querySelector('#musicGrid');
     new agGrid.Grid(eGridDiv, gridOptions);
-
-    $("#createMusic").on('click', function () {
-        $.ajax({
-            type: 'get',
-            url: '/Admin/Music/Create',
-            success: function (data) {
-                $("#modal").html(data);
-            }
-        })
-    })
-
+   
     $("#exportToExcel").on('click', function () {
         var params = {
             skipHeader: false,          //如果不希望第一行是列标题名称，则设置为true。
@@ -111,12 +101,11 @@ document.addEventListener("DOMContentLoaded", function () {
             skipPinnedBottom: false,
             allColumns: false,          //如果为true，则所有列将按照它们在columnDefs中出现的顺序导出。否则，仅导出网格中当前显示的列，并按此顺序导出。
             onlySelected: false,        //只导出选定的行。
-            fileName: '未发布乐曲清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
-            sheetName: 'UnpublishedMusicList'
+            fileName: '已发布乐曲清单',       //用作文件名的字符串。如果缺少，将使用文件名'export.xls'。
+            sheetName: 'PublishedMusicList'
         };
         gridOptions.api.exportDataAsExcel(params);
     })
- 
 });
 
 function timeComparator(filterLocalDateAtMidnight, cellValue) {
@@ -147,7 +136,7 @@ async function GetRowData() {
     return await
         $.ajax({
             type: "get",
-            url: "/Admin/Music/GetUnpublishedMusics",
+            url: "/Admin/Music/GetPublishedMusics",
             success: function (data) {
                 return data;
             }
@@ -157,11 +146,11 @@ async function GetRowData() {
 function getContextMenuItems(params) {
     var result = [
         {
-            name: '发布',
+            name: '下架',
             action: function () {
                 $.ajax({
                     type: "post",
-                    url: "/Admin/Music/Publish",
+                    url: "/Admin/Music/Unpublish",
                     data: { "id": params.node.data.id },
                     success: function (data) {
                         if (data.isSuccessed) {
@@ -183,35 +172,7 @@ function getContextMenuItems(params) {
                     }
                 })
             }
-        },
-        'separator',
-        {
-            name: '编辑基本信息',
-            action: function () {
-                $.ajax({
-                    type: "get",
-                    url: "/Admin/Music/UpdateBasic",
-                    data: { "id": params.node.data.id },
-                    success: function (data) {
-                        showAjaxGetRequestData(data);
-                    }
-                })
-            },
-            //cssClasses: ['redFont', 'bold']
-        },        
-        {
-            name: '删除',
-            action: function () {
-                $.ajax({
-                    type: "get",
-                    url: "/Admin/Music/Delete",
-                    data: { "id": params.node.data.id },
-                    success: function (data) {
-                        showAjaxGetRequestData(data);
-                    }
-                })
-            }
-        },
+        },      
         //加一个横线
         'separator',
         'copy'
@@ -220,57 +181,5 @@ function getContextMenuItems(params) {
     return result;
 }
 
-
-function afterCreateMusic(data) {
-    if (data.isSuccessed) {
-        success_prompt(data.message);
-        $("#my-modal").modal("hide");
-        data.jsonObject.value.sId = gridOptions.api.paginationGetRowCount() + 1;
-        gridOptions.api.updateRowData({ add: [data.jsonObject.value] });
-    } else {
-        fail_prompt(data.message);
-    }
-}
-
-function afterUpdateBasicMusic(data) {
-    if (data.isSuccessed) {
-        success_prompt(data.message);
-        $("#my-modal").modal("hide");
-        gridOptions.api.forEachNode(function (node) {
-            if (node.data.id === data.jsonObject.value.id) {
-                node.data.name = data.jsonObject.value.name;
-                node.data.singerId = data.jsonObject.value.singerId;
-                node.data.albumId = data.jsonObject.value.albumId;
-                node.data.singerName = data.jsonObject.value.singerName;
-                node.data.albumName = data.jsonObject.value.albumName;
-                node.data.lastModificationTime = data.jsonObject.value.lastModificationTime
-                gridOptions.api.updateRowData({ update: [node] });
-                return;
-            }
-        });
-    } else {
-        fail_prompt(data.message);
-    }
-}
-
-function afterDeleteMusic(data) {
-    $("#my-modal").modal("hide");
-    if (data.isSuccessed) {
-        success_prompt(data.message);
-        var sId = 0;
-        gridOptions.api.forEachNode(function (node) {
-            if (node.data.id === data.jsonObject.value.id) {
-                gridOptions.api.updateRowData({ remove: [node.data] });
-                sId = node.data.sId;
-            }
-            else if (sId !== 0) {
-                node.data.sId = sId++;
-                gridOptions.api.updateRowData({ update: [node] });
-            }
-        });
-    } else {
-        fail_prompt(data.message);
-    }
-}
 
 

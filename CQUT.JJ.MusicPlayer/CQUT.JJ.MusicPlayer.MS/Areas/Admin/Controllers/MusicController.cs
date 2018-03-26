@@ -41,6 +41,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult Published()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult GetUnpublishedMusics()
         {
             var model = _musicAppService.GetUnpublishedMusics()?
@@ -170,6 +176,125 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             if (file.SaveTo(fileName))
                 return fileName;
             throw new JMBasicException("文件上传失败");
+        }
+
+        #endregion
+
+        #region 更新基本信息
+
+        [HttpGet]
+        public IActionResult UpdateBasic(int id, UpdateBasicMusicViewModel model)
+        {
+            var music = _musicAppService.GetMusicById(id);
+            model = new UpdateBasicMusicViewModel()
+            {
+                Id = music.Id,
+                Name = music.Name,
+                Singers = _singerAppService.GetPublishedSingersHasAlbums()?
+                .Select(s => new SelectListItem()
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString(),
+                    Selected = music.SingerId == s.Id
+                }),
+                Albums = _albumAppService.GetPublishedAlbums()?
+                .Select(s => new SelectListItemEntity()
+                {
+                    Item = new SelectListItem()
+                    {
+                        Text = s.Name,
+                        Value = s.Id.ToString(),
+                        Selected = music.AlbumId == s.Id
+                    },
+                    ParentId = s.SingerId.ToString()
+                }),
+            };
+            return PartialView("_UpdateBasic", model);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateBasic(UpdateBasicMusicViewModel model)
+        {
+            if (int.TryParse(model.SingerId, out int singerId)
+                && int.TryParse(model.AlbumId,out int albumId))
+            {
+                var music = new MusicModel()
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                    SingerId = singerId,
+                    AlbumId = albumId
+                };
+                music = _musicAppService.UpdateBasic(music);
+                return Json(new JsonResultEntity()
+                {
+                    Message = "更新基本信息成功！",
+                    JsonObject = Json(new MusicViewModel()
+                    {
+                        Id = music.Id,
+                        SingerId = music.SingerId,
+                        AlbumId = music.AlbumId,
+                        Name = music.Name,
+                        SingerName = music.SingerName,
+                        AlbumName = music.AlbumName,
+                        LastModificationTime = music.LastModificationTime?.ToStandardDateOfChina()
+                    })
+                });
+            }
+            throw new JMBasicException("歌唱家或专辑不存在");
+        }
+
+        #endregion
+
+        #region 删除
+
+        [HttpGet]
+        public IActionResult Delete(int id, DeleteMusicViewModel model)
+        {
+            var music = _musicAppService.GetMusicById(id);
+            model = new DeleteMusicViewModel()
+            {
+                Id = music.Id,
+                Name = music.Name
+            };
+            return PartialView("_Delete", model);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(DeleteMusicViewModel model)
+        {
+            _musicAppService.Delete(model.Id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "删除成功",
+                JsonObject = Json(new MusicViewModel() { Id = model.Id })
+            });
+        }
+
+        #endregion
+
+        #region 发布和下架
+
+        [HttpPost]
+        public IActionResult Publish(int id)
+        {
+            _musicAppService.Publish(id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "发布成功",
+                JsonObject = Json(new { id })
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Unpublish(int id)
+        {
+            _musicAppService.Unpublish(id);
+            return Json(new JsonResultEntity()
+            {
+                Message = "下架成功",
+                JsonObject = Json(new { id })
+            });
         }
 
         #endregion

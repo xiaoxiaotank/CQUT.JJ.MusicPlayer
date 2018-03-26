@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,15 +78,36 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Singer Unpublish(int id)
         {
-            var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
-            if (singer == null)
-                ThrowException("歌唱家不存在！");
+            var singer = Find(id);
             if (!singer.IsPublished)
                 ThrowException("歌唱家属于未发布状态，无需再次操作！");
 
             singer.IsPublished = false;
             singer.LastModificationTime = DateTime.Now;
             singer.PublishmentTime = null;
+
+            //下架专辑
+            JMDbContext.Album
+                .Where(a => a.SingerId == singer.Id && a.IsPublished && !a.IsDeleted)
+                .ToList()
+                .ForEach(a =>
+                {
+                    a.IsPublished = false;
+                    a.LastModificationTime = DateTime.Now;
+                    a.PublishmentTime = null;
+                });
+
+            //下架音乐
+            JMDbContext.Music
+                .Where(m => m.SingerId == singer.Id && m.IsPublished && !m.IsDeleted)
+                .ToList()
+                .ForEach(m =>
+                {
+                    m.IsPublished = false;
+                    m.LastModificationTime = DateTime.Now;
+                    m.PublishmentTime = null;
+                });
+
 
             Save();
             return singer;

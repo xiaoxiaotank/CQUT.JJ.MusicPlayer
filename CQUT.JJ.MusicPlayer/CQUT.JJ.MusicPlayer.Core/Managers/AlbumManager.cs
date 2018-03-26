@@ -35,6 +35,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             ValidForUpdateBasic(model, out Album album);
 
             album.Name = model.Name;
+            album.SingerId = model.SingerId;
             album.LastModificationTime = DateTime.Now;
 
             Save();
@@ -77,6 +78,16 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             album.IsPublished = false;
             album.LastModificationTime = DateTime.Now;
             album.PublishmentTime = null;
+
+            JMDbContext.Music
+                .Where(m => m.AlbumId == album.Id && m.IsPublished && !m.IsDeleted)
+                .ToList()
+                .ForEach(m =>
+                {
+                    m.IsPublished = false;
+                    m.LastModificationTime = DateTime.Now;
+                    m.PublishmentTime = null;
+                });
 
             Save();
             return album;

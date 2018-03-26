@@ -8,9 +8,12 @@
 
     $("#singer").change(function () {
         $(".album").hide();
-        $(".album").attr("name", null);
+        $(".album").attr("id", null);
         var index = $("#singer>option:selected").index();
-        $(".album").eq(index).show();
+        var selectedAlbum = $(".album").eq(index);
+        selectedAlbum.show();
+        selectedAlbum.attr("id","selected")
+
     });
     $("#singer").change();
 
@@ -21,7 +24,7 @@
         data.append(file.name, file);
         data.append("name", $("#musicName").val());
         data.append("singerId", $("#singer").find("option:selected").val())
-        data.append("albumId", $("#album").find("option:selected").val())
+        data.append("albumId", $("#selected").find("option:selected").val())
         $.ajax({
             type: "POST",
             url: "/Admin/Music/Create",
