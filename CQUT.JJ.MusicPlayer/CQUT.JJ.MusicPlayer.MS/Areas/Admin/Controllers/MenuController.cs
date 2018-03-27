@@ -13,12 +13,16 @@ using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using CQUT.JJ.MusicPlayer.MS.Filters;
+using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class MenuController : Controller
     {
+        private const string Log_Source = "菜单管理";
+
         private readonly IMenuAppService _menuAppService;
         public MenuController(IMenuAppService sidebarAppService)
         {
@@ -29,6 +33,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize]
         public IActionResult Index()
         {
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问菜单管理页面"
+                    , userName
+                    , LogType.Info
+                    , Log_Source));
             return View();
         }
 
@@ -58,7 +67,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Create)]
         public IActionResult CreateMenuItem(int? parentId,CreateMenuItemViewModel model)
         {
-            if(parentId == null)
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 尝试菜单创建操作"
+                    , userName
+                    , LogType.Info
+                    , Log_Source));
+            if (parentId == null)
             {
                 model.ParentId = 0;
                 model.ParentHeader = string.Empty;
@@ -91,6 +105,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,                
             };
             _menuAppService.CreateMenuItem(menuItem);
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 成功完成菜单创建操作"
+                    , userName
+                    , LogType.Succeess
+                    , Log_Source));
             return Json(new JsonResultEntity() { Message = "添加成功！" });
         }
         #endregion
@@ -101,7 +120,16 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Rename)]
         public IActionResult RenameMenuItem(int id, string header)
         {
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 尝试执行菜单重命名操作"
+                    , userName
+                    , LogType.Info
+                    , Log_Source));
             _menuAppService.RenameMenuItem(id, header);
+            LogHelper.Log(new LogItemEntity($"{userName} 成功完成菜单重命名操作"
+                    , userName
+                    , LogType.Succeess
+                    , Log_Source));
             return Json(new JsonResultEntity() { Message = "重命名成功！" });
         } 
 
@@ -112,6 +140,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Delete)]
         public IActionResult DeleteMenuItem(int id, DeleteMenuItemViewModel model)
         {
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 尝试菜单删除操作"
+                    , userName
+                    , LogType.Info
+                    , Log_Source));
             var menuItem = _menuAppService.GetMenuItemById(id);
             if (menuItem != null)
             {
@@ -131,6 +164,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult DeleteMenuItem(DeleteMenuItemViewModel model)
         {
             _menuAppService.DeleteMenuItem(model.Id);
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 成功完成菜单删除操作"
+                    , userName
+                    , LogType.Succeess
+                    , Log_Source));
             return Json(new JsonResultEntity() { Message = "删除成功！" });
         }
         #endregion
@@ -140,6 +178,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Update)]
         public IActionResult UpdateMenuItem(int id, UpdateMenuItemViewModel model)
         {
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 尝试菜单更新基本信息操作"
+                    , userName
+                    , LogType.Info
+                    , Log_Source));
             var menuItem = _menuAppService.GetMenuItemById(id);
             if (menuItem != null)
             {
@@ -167,9 +210,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 RequiredAuthorizeCode = model.RequiredAuthorizeCode ?? string.Empty,
                 Priority = model.Priority,
             };
-
             menuItem.TargetUrl = GetValidUrl(model.TargetUrl);
             _menuAppService.UpdateMenuItem(menuItem);
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 成功完成菜单更新基本信息操作"
+                    , userName
+                    , LogType.Succeess
+                    , Log_Source));
             return Json(new JsonResultEntity() { Message = "更新成功！" });
         }
     
@@ -180,6 +227,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.MenuManage_Migrate)]
         public IActionResult MigrateMenuItem(int id, int? parentId, MigrateMenuItemViewModel model)
         {
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 尝试菜单迁移操作"
+                    , userName
+                    , LogType.Info
+                    , Log_Source));
             if (parentId == null)
                 parentId = 0;
             var menuItem = _menuAppService.GetMenuItemById(id);
@@ -213,6 +265,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult MigrateMenuItem(MigrateMenuItemViewModel model)
         {
             _menuAppService.MigrateMenuItem(model.Id, model.ParentId);
+            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} 成功完成菜单迁移操作"
+                    , userName
+                    , LogType.Succeess
+                    , Log_Source));
             return Json(new JsonResultEntity() { Message = "迁移成功！" });
         }
         #endregion

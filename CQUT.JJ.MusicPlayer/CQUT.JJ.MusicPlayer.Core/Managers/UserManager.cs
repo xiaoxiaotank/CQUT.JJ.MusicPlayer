@@ -152,8 +152,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <returns>用户id</returns>
         public bool IsSuperManager(int id,out User user)
         {
-            user = JMDbContext.User.SingleOrDefault(u => u.Id == id && u.IsAdmin && !u.IsDeleted);
-            return (user != null && user.UserName == "Admin");
+            user = JMDbContext.User.SingleOrDefault(u => u.Id == id && !u.IsDeleted);
+            return (user != null && user.IsAdmin && user.UserName == "Admin");
         }
 
         /// <summary>

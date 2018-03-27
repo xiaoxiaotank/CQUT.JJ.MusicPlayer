@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesktopEdition", "DesktopEd
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebEdition", "WebEdition", "{37DBFD87-53AF-4C4D-A05F-040ED20D8934}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQUT.JJ.MusicPlayer.WCFService", "CQUT.JJ.MusicPlayer.WCFService\CQUT.JJ.MusicPlayer.WCFService.csproj", "{1A1FDA9C-A28B-4F0E-A8CC-AF855DB384B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{8DE199C6-B19F-4EBB-99BE-84B30DB8D1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DE199C6-B19F-4EBB-99BE-84B30DB8D1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DE199C6-B19F-4EBB-99BE-84B30DB8D1E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A1FDA9C-A28B-4F0E-A8CC-AF855DB384B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A1FDA9C-A28B-4F0E-A8CC-AF855DB384B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A1FDA9C-A28B-4F0E-A8CC-AF855DB384B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A1FDA9C-A28B-4F0E-A8CC-AF855DB384B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{8DE199C6-B19F-4EBB-99BE-84B30DB8D1E7} = {2F8BAA27-0C53-480B-ABB2-DD98D65ECB8E}
 		{17E2BD9F-BD68-41F9-91B9-941AE711D1B4} = {13A9EC88-57B9-4250-8D7D-F700F3380608}
 		{37DBFD87-53AF-4C4D-A05F-040ED20D8934} = {13A9EC88-57B9-4250-8D7D-F700F3380608}
+		{1A1FDA9C-A28B-4F0E-A8CC-AF855DB384B0} = {2F8BAA27-0C53-480B-ABB2-DD98D65ECB8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F63DE969-D612-481D-BB95-1BBA50B4882E}

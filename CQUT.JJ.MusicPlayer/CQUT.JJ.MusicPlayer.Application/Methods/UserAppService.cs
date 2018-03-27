@@ -145,7 +145,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
         private UserModel Login(string userName,string password,bool isAdmin)
         {
             password = password.EncryptByMD5();
-            var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName) && !m.IsDeleted && m.IsAdmin == isAdmin);
+            var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName,StringComparison.Ordinal) && !m.IsDeleted && m.IsAdmin == isAdmin);
             if (user == null)
                 _userManager.ThrowException("用户不存在");
             else if(!user.Password.Equals(password))

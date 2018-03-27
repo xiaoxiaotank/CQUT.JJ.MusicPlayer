@@ -56,6 +56,34 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 = singer.DeletionTime
                 = DateTime.Now;
 
+            //删除专辑
+            JMDbContext.Album
+                .Where(a => a.SingerId == singer.Id && !a.IsDeleted)
+                .ToList()
+                .ForEach(a =>
+                {
+                    a.IsPublished = false;
+                    a.IsDeleted = true;
+                    a.DeletionTime 
+                        = a.LastModificationTime 
+                        = DateTime.Now;
+                    a.PublishmentTime = null;
+                });
+
+            //删除音乐
+            JMDbContext.Music
+                .Where(m => m.SingerId == singer.Id && !m.IsDeleted)
+                .ToList()
+                .ForEach(m =>
+                {
+                    m.IsPublished = false;
+                    m.IsDeleted = true;
+                    m.DeletionTime
+                        = m.LastModificationTime
+                        = DateTime.Now;
+                    m.PublishmentTime = null;
+                });
+
             Save();
         }
 

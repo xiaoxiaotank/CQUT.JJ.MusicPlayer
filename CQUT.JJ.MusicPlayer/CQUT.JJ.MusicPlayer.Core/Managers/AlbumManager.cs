@@ -51,6 +51,19 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 = album.DeletionTime
                 = DateTime.Now;
 
+            JMDbContext.Music
+                .Where(m => m.AlbumId == album.Id && !m.IsDeleted)
+                .ToList()
+                .ForEach(m =>
+                {
+                    m.IsPublished = false;
+                    m.IsDeleted = true;
+                    m.DeletionTime 
+                        = m.LastModificationTime 
+                        = DateTime.Now;
+                    m.PublishmentTime = null;
+                });
+
             Save();
         }
 

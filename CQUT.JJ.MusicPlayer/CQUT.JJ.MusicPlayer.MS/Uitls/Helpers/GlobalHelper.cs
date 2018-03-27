@@ -10,6 +10,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
 {
     public static class GlobalHelper
     {
+        public const string Unlogin_User_Name = "未登录用户";
+
         /// <summary>
         /// 获取当前登录用户
         /// </summary>

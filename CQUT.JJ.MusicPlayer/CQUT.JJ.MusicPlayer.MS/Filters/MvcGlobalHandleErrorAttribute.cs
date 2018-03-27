@@ -1,5 +1,7 @@
-﻿using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
+﻿using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.EntityFramework.Exceptions;
 using CQUT.JJ.MusicPlayer.MS.Entities;
+using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
 using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Filters
                 ex = originalException as JMBasicException;
             else
                 ex = new JMBasicException(originalException.Message);
+
+            var controller = context.RouteData.Values["controller"].ToString();
+            var action = context.RouteData.Values["action"].ToString();
+
+            var userName = context.HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
+            LogHelper.Log(new LogItemEntity($"{userName} {ex.Message}"
+                    , userName
+                    , LogType.Fail
+                    , $"{controller}.{action}"));
 
             //is ajax request
             if (context.HttpContext.Request.IsAjaxRequest())

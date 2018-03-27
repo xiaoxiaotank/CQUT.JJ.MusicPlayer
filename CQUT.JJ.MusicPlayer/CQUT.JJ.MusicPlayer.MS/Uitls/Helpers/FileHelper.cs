@@ -18,7 +18,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Helpers
                     .Parse(contentDisposition)
                     .FileName
                     .Trim('"');
-            return Path.Combine(GlobalConstants.MusicsRootPath, GlobalConstants.MusicsRootFileName, 
+            return Path.Combine(GlobalConstants.MusicsRootPath, GlobalConstants.MusicsRootDirectoryName, 
                 $"{singer.Id.ToString()}-{singer.Name}", album.Name, $"{DateTime.Now.ToString("yyyyMMddHHmmss")}-{fileName}");
         }
 
@@ -33,7 +33,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Helpers
                     fs.Flush();
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
