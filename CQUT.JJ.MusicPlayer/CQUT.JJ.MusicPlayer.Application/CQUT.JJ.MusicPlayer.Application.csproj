@@ -12,6 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.Core\CQUT.JJ.MusicPlayer.Core.csproj" />
-    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj" />
+    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFrameworkStandard\CQUT.JJ.MusicPlayer.EntityFramework.csproj" />
   </ItemGroup>
 </Project>

@@ -279,6 +279,10 @@
       <Project>{7147720e-ef36-4f4b-b510-cfcafe1fd555}</Project>
       <Name>CQUT.JJ.MusicPlayer.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.WCFService\CQUT.JJ.MusicPlayer.WCFService.csproj">
+      <Project>{1a1fda9c-a28b-4f0e-a8cc-af855db384b0}</Project>
+      <Name>CQUT.JJ.MusicPlayer.WCFService</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Asserts\Skins\CustomSkins\" />

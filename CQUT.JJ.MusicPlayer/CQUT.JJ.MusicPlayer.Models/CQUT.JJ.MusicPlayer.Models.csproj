@@ -33,6 +33,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,13 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseModel\MusicInfoModel.cs" />
+    <Compile Include="JM\Common\MusicModel.cs" />
     <Compile Include="MusicInfoOfPageModel.cs" />
-    <Compile Include="QMPlayInfoModel.cs" />
+    <Compile Include="QM\QMPlayInfoModel.cs" />
     <Compile Include="BaseModel\MusicPlayInfoModel.cs" />
-    <Compile Include="QMAlbumInfoModel.cs" />
+    <Compile Include="QM\QMAlbumInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkinModel.cs" />
-    <Compile Include="QMInfoModel.cs" />
+    <Compile Include="QM\QMInfoModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
