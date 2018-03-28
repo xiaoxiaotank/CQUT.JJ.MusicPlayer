@@ -185,6 +185,9 @@ function getContextMenuItems(params) {
                             obj.isDefault = !obj.isDefault;
                             gridOptions.api.redrawRows(params.node);
                         }
+                        else if (!data.isSuccessed) {
+                            fail_prompt(data.message);
+                        }
                     }
                 })
             }

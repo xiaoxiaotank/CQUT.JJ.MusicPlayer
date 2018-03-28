@@ -166,6 +166,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 设置默认
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Role_SetDefault)]
         public IActionResult ToggleSetDefault(int id)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -225,6 +226,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 授权
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Role_Authorize)]
         public IActionResult Authorize(int id, AuthorizeRoleViewModel model)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -237,6 +239,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Role_Authorize)]
         public IActionResult Authorize(AuthorizeRoleViewModel model)
         {
             _roleAppService.SetPermissions(model.Id, model.PermissionCodes);

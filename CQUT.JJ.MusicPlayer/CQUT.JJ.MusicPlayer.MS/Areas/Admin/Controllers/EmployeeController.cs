@@ -251,6 +251,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 授权
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Authorize)]
         public IActionResult Authorize(int id, AuthorizeEmployeeViewModel model)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -263,6 +264,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_Authorize)]
         public IActionResult Authorize(AuthorizeEmployeeViewModel model)
         {            
             _userAppService.SetPermissions(model.Id, model.PermissionCodes);
@@ -279,6 +281,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 设置角色
        
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_SetRole)]
         public IActionResult SetRoles(int id, SetRolesToEmployeeViewModel model)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -296,6 +299,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Employee_SetRole)]
         public IActionResult SetRoles(SetRolesToEmployeeViewModel model)
         {
             _userAppService.SetRolesByUserId(model.Id, model.RoleIds);

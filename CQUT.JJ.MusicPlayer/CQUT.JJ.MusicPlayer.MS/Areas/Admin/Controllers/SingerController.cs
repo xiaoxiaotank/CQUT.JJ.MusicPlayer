@@ -6,8 +6,10 @@ using CQUT.JJ.MusicPlayer.Application.Interfaces;
 using CQUT.JJ.MusicPlayer.Application.Methods;
 using CQUT.JJ.MusicPlayer.Core.Models;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Permissions;
 using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Singer;
 using CQUT.JJ.MusicPlayer.MS.Entities;
+using CQUT.JJ.MusicPlayer.MS.Filters;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
 using CQUT.JJ.MusicPlayer.MS.Utils.Helpers;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +91,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 创建
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Create)]
         public IActionResult Create()
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -100,6 +103,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Create)]
         public IActionResult Create(CreateSingerViewModel model)
         {
             var singer = new SingerModel()
@@ -133,6 +137,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 更新基本信息
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Update)]
         public IActionResult UpdateBasic(int id,UpdateBasicSingerViewModel model)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -152,6 +157,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Update)]
         public IActionResult UpdateBasic(UpdateBasicSingerViewModel model)
         {
             var singer = new SingerModel()
@@ -184,6 +190,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 删除
 
         [HttpGet]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Delete)]
         public IActionResult Delete(int id, DeleteSingerViewModel model)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -201,6 +208,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Delete)]
         public IActionResult Delete(DeleteSingerViewModel model)
         {
             _singerAppService.Delete(model.Id);
@@ -221,6 +229,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         #region 发布和下架
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Publish)]
         public IActionResult Publish(int id)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -241,6 +250,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Unpublish)]
         public IActionResult Unpublish(int id)
         {
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
