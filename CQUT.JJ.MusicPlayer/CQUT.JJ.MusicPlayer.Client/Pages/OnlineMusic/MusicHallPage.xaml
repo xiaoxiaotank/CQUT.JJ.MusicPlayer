@@ -16,9 +16,8 @@
             <Setter Property="HeaderPanelHorizontalAlignment" Value="Center" />
             <Setter Property="HeaderPanelVerticalAlignment" Value="Bottom" />
             <Setter Property="HeaderPanelHeight" Value="30" />
-            <Setter Property="IsShowContentPage" Value="False" />
+            <Setter Property="IsShowContentPage" Value="True" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Height" Value="35" />
             <Setter Property="HeaderPanelBackground" Value="{Binding TopFloorBackground}" />
             <!--由于TopBarBackground和ContentBackground都绑定了TopFloorBackground，
             所以如果需要让HeaderPanelBackground与TopBarBackground相同，就需要
@@ -47,7 +46,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <jm:JmTabControl x:Name="Tc">
-            <jm:JmWidgetTabItem Header="精选" IsSelected="True"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="精选" IsSelected="True">
+                <Button Width="100" Height="200">你好</Button>
+            </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="歌手"></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="排行"></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="电台" ></jm:JmWidgetTabItem>

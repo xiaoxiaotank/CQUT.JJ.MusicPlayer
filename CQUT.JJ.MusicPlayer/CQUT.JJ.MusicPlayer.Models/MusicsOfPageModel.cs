@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQUT.JJ.MusicPlayer.Models
 {
-    public class MusicInfoOfPageModel
+    public class MusicsOfPageModel
     {
         public List<MusicInfoModel> MusicInfoList { get; set; } = new List<MusicInfoModel>();
 

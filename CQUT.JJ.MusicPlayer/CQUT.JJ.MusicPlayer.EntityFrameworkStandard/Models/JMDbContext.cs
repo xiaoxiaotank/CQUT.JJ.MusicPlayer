@@ -22,8 +22,16 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 
         public JMDbContext(DbContextOptions options) : base(options) { }
 
+        public JMDbContext() : base() { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data source=.;Initial Catalog=JJMusicManage;Trusted_Connection=true");
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(e => e.CreationTime).HasColumnType("datetime");

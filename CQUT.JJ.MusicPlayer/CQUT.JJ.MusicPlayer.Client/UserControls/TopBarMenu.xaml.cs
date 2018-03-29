@@ -18,6 +18,9 @@ using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using System.Threading;
 using System.IO;
+using CQUT.JJ.MusicPlayer.Models.JM.Common;
+using CQUT.JJ.MusicPlayer.WCFService;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 
 namespace CQUT.JJ.MusicPlayer.Client.UserControls
 {
@@ -40,8 +43,10 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             InitializeComponent();
 
-            //数据请求事件
+            //QM数据请求事件
             MusicSearchInfoChangedUtil.QMRequestEvent += MusicSearchInfoChangedUtil_QMRequestEvent;
+            //JM数据请求事件
+            MusicSearchInfoChangedUtil.JMRequestEvent += MusicSearchInfoChangedUtil_JMRequestEvent;
             //后退按钮
             MusicPageSwitchedUtil.MusicPageEnablePreviousSwitchedEvent += MusicPageEnablePreviousSwitchedEvent;
             //前进按钮
@@ -72,17 +77,23 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     {
                         MusicPageChangedUtil.Invoke(_qmSearchPageName, true);                      
                     }
-                    else
+                    else 
                     {
-
+                        MusicPageChangedUtil.Invoke(_jmSearchPageName, true);
                     }
                 }
             }
         }
 
-        private void MusicSearchInfoChangedUtil_QMRequestEvent(object sender, MusicSearchInfoRequestArgs e)
+        private void MusicSearchInfoChangedUtil_QMRequestEvent(object sender, BaseMusicSearchInfoRequestArgs e)
         {
             GetQMusics(e.TargetPageNumber);
+        }
+
+
+        private void MusicSearchInfoChangedUtil_JMRequestEvent(object sender, MusicSearchInfoRequestArgs e)
+        {
+            GetJMusics(e.Type, e.TargetPageNumber,e.Size);
         }
 
 
@@ -119,6 +130,23 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
+        private void GetJMusics(MusicSearchType type,int page,int size)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    var musicInfoOfPageModel = GetJMusicInfoOfPageModel(type, _lastSearchKey, page,size);
+                    if (musicInfoOfPageModel == null) return;
+                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, page);
+                }
+                catch (Exception ex)
+                {
+                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(null, page, false, ex.Message);
+                }
+            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
         private void SaveSearchRecords(string searchKey)
         {
             var searchRocords = new List<string>() { searchKey };
@@ -132,9 +160,9 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             LoadCmbSearchItems();
         }
 
-        private MusicInfoOfPageModel GetQMusicInfoOfPageModel(int currentPageNumber,string searchKey)
+        private MusicsOfPageModel GetQMusicInfoOfPageModel(int currentPageNumber,string searchKey)
         {           
-            var musicInfoOfPageModel = new MusicInfoOfPageModel() { CurrentPageNumber = currentPageNumber };            
+            var musicInfoOfPageModel = new MusicsOfPageModel() { CurrentPageNumber = currentPageNumber };            
             var url = $"https://y.qq.com/portal/search.html#page={currentPageNumber}&searchid=1&remoteplace=txt.yqq.top&t=song&w={searchKey}";
 
             try
@@ -196,6 +224,21 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             {
                 throw new Exception("服务器崩溃了 --!");
             }
+        }
+
+        /// <summary>
+        /// 获取某一页的歌曲类型搜索结果
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="searchKey"></param>
+        /// <param name="currentPageNumber"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private MusicsOfPageModel GetJMusicInfoOfPageModel(MusicSearchType type, string searchKey, int currentPageNumber, int size)
+        {
+            IMusicSearchService musicSearchService = new MusicSearchService();
+            var result = musicSearchService.Search(type,searchKey, currentPageNumber, size);
+            return new MusicsOfPageModel();
         }
 
         private HtmlDocument GetHtmlDocument(string url, TimeSpan outTime, Func<string, bool> isScriptCompleted = null)

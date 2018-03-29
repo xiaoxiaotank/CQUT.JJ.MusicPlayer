@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.Models.DataContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,7 +13,14 @@ namespace CQUT.JJ.MusicPlayer.WCFService
     [ServiceContract]
     public interface IMusicSearchService
     {
+        /// <summary>
+        /// 搜索
+        /// </summary>
+        /// <param name="type">搜索类型</param>
+        /// <param name="page">页码</param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         [OperationContract]
-        void SerachMusic(string key);
+        IEnumerable<MusicInfo> Search(MusicSearchType type, string key, int page, int size = 20);
     }
 }

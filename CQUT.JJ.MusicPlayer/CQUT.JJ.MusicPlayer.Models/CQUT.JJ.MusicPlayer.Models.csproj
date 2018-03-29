@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseModel\MusicInfoModel.cs" />
+    <Compile Include="DataContracts\MusicInfo.cs" />
+    <Compile Include="JM\Common\AlbumModel.cs" />
     <Compile Include="JM\Common\MusicModel.cs" />
-    <Compile Include="MusicInfoOfPageModel.cs" />
+    <Compile Include="MusicsOfPageModel.cs" />
     <Compile Include="QM\QMPlayInfoModel.cs" />
     <Compile Include="BaseModel\MusicPlayInfoModel.cs" />
     <Compile Include="QM\QMAlbumInfoModel.cs" />
@@ -53,5 +55,6 @@
     <Compile Include="SkinModel.cs" />
     <Compile Include="QM\QMInfoModel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
