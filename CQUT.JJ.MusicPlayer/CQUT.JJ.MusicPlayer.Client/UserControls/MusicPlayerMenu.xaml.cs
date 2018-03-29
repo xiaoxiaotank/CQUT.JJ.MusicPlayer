@@ -81,6 +81,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
             MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
+            MusicPlayStateChangedUtil.JMusicPlayStateChangedEvent += JMusicPlayStateChanged;
             _timer.Tick += Timer_Tick;
             _timer.Interval = TimeSpan.FromSeconds(0.1);
 
@@ -90,7 +91,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             SetBindingAboutMusicList();
         }
 
-        
+     
 
         #region Events
 
@@ -99,7 +100,49 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             InitVolumeState();
             InitMusicInfo();
-        }  
+        }
+
+        private void JMusicPlayStateChanged(object sender, MusicPlayStateChangedArgs e)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                //进行播放并且是属于（当前无播放源、不是同一首歌、播放失败）之一的情况 
+                if (e.IsToPlay && e.IsNeedRefresh
+                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.FileUri) || _isCurrentPlayingMusicOpenFailed))
+                {
+                    _isPlaying = false;
+                    PlayNewMusic(e.MusicInfo.FileUri);
+                    _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
+                    _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
+                    /////////////////////////TODO 封面图
+                    _musicPlayerMenuViewModel.PhotoUri =  _defaultPhotoUri;
+                    _musicSourceType = MusicSourceType.JM;
+
+                    if (_musicPlayListViewModel?.MusicPlayList != null)
+                    {
+                        var music = _musicPlayListViewModel.MusicPlayList.SingleOrDefault(m => m.Id.Equals(e.MusicInfo.Id));
+                        if (music == null)
+                        {
+                            var newMusic = new MusicOfPlayListViewModel()
+                            {
+                                Id = e.MusicInfo.Id.ToString(),
+                                Name = e.MusicInfo.Name,
+                                SingerName = e.MusicInfo.SingerName,
+                                TimeDuration = e.MusicInfo.Duration.GetMinuteAndSecondPart()
+                            };
+                            _musicPlayListViewModel.MusicPlayList.Add(newMusic);
+                            LvMusicPlayList.SelectedItem = newMusic;
+                        }
+                        else
+                            LvMusicPlayList.SelectedItem = music;
+                    }
+                }
+                else
+                    ChangePlayState();
+            }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
+        }
+
+
 
         private void QMusicPlayStateChanged(object sender, QMusicPlayStateChangedArgs e)
         {           
@@ -164,7 +207,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             StopTimer();
             _mediaPlayer.Position = TimeSpan.FromSeconds(0);
             ChangePlayState();
-            MusicPlaySwitchedUtil.InvokeFromQM(GetMusicPlayMode(), true);
+            MusicPlaySwitchedUtil.Invoke(GetMusicPlayMode(), true);
         }
 
         private void BtnVolume_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -204,14 +247,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             if (_musicSourceType.Equals(MusicSourceType.JM))
             {
-                if(_mediaPlayer.Source == null)
+                if (_mediaPlayer.Source == null)
                 {
                     PlayNewMusic(new Uri(@"好想再爱你.mp3", UriKind.Relative));
                     _musicPlayerMenuViewModel.MusicName = "好想再爱你";
                     _musicPlayerMenuViewModel.SingerName = "潘广益";
                     _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
                     _musicSourceType = MusicSourceType.JM;
-                }               
+                }
+                else
+                    MusicPlayStateChangedUtil.InvokeFromJM(null, !_isPlaying, false);
             }
             else if (_musicSourceType == MusicSourceType.QM)           
                 MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying,false);               
@@ -408,7 +453,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             var musicPlayMode = GetMusicPlayMode();
             if (musicPlayMode.Equals(MusicPlayMode.Single))
                 musicPlayMode = MusicPlayMode.List;
-            MusicPlaySwitchedUtil.InvokeFromQM(musicPlayMode, isDescending);
+            MusicPlaySwitchedUtil.Invoke(musicPlayMode, isDescending);
         }
 
 

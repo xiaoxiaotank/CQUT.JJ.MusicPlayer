@@ -21,6 +21,8 @@ using System.IO;
 using CQUT.JJ.MusicPlayer.Models.JM.Common;
 using CQUT.JJ.MusicPlayer.WCFService;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
+using CQUT.JJ.MusicPlayer.Models.DataContracts;
 
 namespace CQUT.JJ.MusicPlayer.Client.UserControls
 {
@@ -130,7 +132,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private void GetJMusics(MusicSearchType type,int page,int size)
+        private void GetJMusics(SearchType type,int page,int size)
         {
             Task.Factory.StartNew(() =>
             {
@@ -160,9 +162,9 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             LoadCmbSearchItems();
         }
 
-        private MusicsOfPageModel GetQMusicInfoOfPageModel(int currentPageNumber,string searchKey)
+        private QMusicsOfPageModel GetQMusicInfoOfPageModel(int currentPageNumber,string searchKey)
         {           
-            var musicInfoOfPageModel = new MusicsOfPageModel() { CurrentPageNumber = currentPageNumber };            
+            var musicInfoOfPageModel = new QMusicsOfPageModel() { CurrentPageNumber = currentPageNumber };            
             var url = $"https://y.qq.com/portal/search.html#page={currentPageNumber}&searchid=1&remoteplace=txt.yqq.top&t=song&w={searchKey}";
 
             try
@@ -234,11 +236,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// <param name="currentPageNumber"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private MusicsOfPageModel GetJMusicInfoOfPageModel(MusicSearchType type, string searchKey, int currentPageNumber, int size)
+        private PageResult GetJMusicInfoOfPageModel(SearchType type, string searchKey, int currentPageNumber, int size)
         {
-            IMusicSearchService musicSearchService = new MusicSearchService();
+            ISearchService musicSearchService = new SearchService();
             var result = musicSearchService.Search(type,searchKey, currentPageNumber, size);
-            return new MusicsOfPageModel();
+            return result;
         }
 
         private HtmlDocument GetHtmlDocument(string url, TimeSpan outTime, Func<string, bool> isScriptCompleted = null)

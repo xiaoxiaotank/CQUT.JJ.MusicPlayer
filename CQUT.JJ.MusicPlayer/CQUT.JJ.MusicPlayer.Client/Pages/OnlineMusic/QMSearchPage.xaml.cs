@@ -59,7 +59,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (_musicListViewModel == null)
                 MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
             //音乐播放切换
-            MusicPlaySwitchedUtil.QMusicPlaySwitchedEvent += QMusicSwitched;       
+            MusicPlaySwitchedUtil.MusicPlaySwitchedEvent += QMusicSwitched;       
         }
 
         #region Events
@@ -169,7 +169,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MusicSearchInfoChangedUtil_QMSearchChangedEvent(object sender, MusicSearchInfoChangedArgs e)
+        private void MusicSearchInfoChangedUtil_QMSearchChangedEvent(object sender, QMusicSearchInfoChangedArgs e)
         {
             if (e.IsSuccessed)
             {

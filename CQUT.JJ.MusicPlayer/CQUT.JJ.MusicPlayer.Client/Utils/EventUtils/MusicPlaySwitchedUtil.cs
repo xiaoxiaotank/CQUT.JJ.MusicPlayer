@@ -9,17 +9,17 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
 {
     public class MusicPlaySwitchedUtil
     {
-        public static EventHandler<MusicPlaySwitchedEventArgs> QMusicPlaySwitchedEvent;
+        public static EventHandler<MusicPlaySwitchedEventArgs> MusicPlaySwitchedEvent;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="musicPlayMode"></param>
         /// <param name="isDescending">true 降序 false 升序</param>
-        public static void InvokeFromQM(MusicPlayMode musicPlayMode, bool isDescending)
+        public static void Invoke(MusicPlayMode musicPlayMode, bool isDescending)
         {
             var e = new MusicPlaySwitchedEventArgs(musicPlayMode, isDescending);
-            QMusicPlaySwitchedEvent?.Invoke(null, e);
+            MusicPlaySwitchedEvent?.Invoke(null, e);
         }
     }
 

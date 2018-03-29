@@ -108,7 +108,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         {
             var durationString = APIClass.GetMusicDurationString(fileName);
             if(int.TryParse(durationString,out int durationInt))
-                return TimeSpan.FromMilliseconds(durationInt);
+                return TimeSpan.FromMilliseconds(durationInt).Subtract(TimeSpan.FromSeconds(4));
             throw new JMBasicException("音乐文件无效!");
         }
 

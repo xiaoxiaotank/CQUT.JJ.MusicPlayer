@@ -68,7 +68,7 @@
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
                                     <Grid>
-                                        <TextBlock Text="{Binding Name}" />
+                                        <TextBlock Text="{Binding MusicName}" />
                                         <StackPanel x:Name="SpOptions" Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent" Visibility="Hidden">
                                             <StackPanel.Resources>
                                                 <Style TargetType="jm:JmTransparentButton">
@@ -110,7 +110,7 @@
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
                                     <Border>
-                                        <TextBlock Foreground="Silver" Text="{Binding TimeDuration}" />
+                                        <TextBlock Foreground="Silver" Text="{Binding DurationDescription}" />
                                     </Border>
                                 </ItemContainerTemplate>
                             </GridViewColumn.CellTemplate>

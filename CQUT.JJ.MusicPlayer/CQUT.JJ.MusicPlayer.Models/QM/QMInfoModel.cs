@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CQUT.JJ.MusicPlayer.Models
 {
-    public class QMInfoModel : MusicInfoModel
+    public class QMInfoModel : BaseQMusicInfoModel
     {
         public string Id { get; set; }      
 

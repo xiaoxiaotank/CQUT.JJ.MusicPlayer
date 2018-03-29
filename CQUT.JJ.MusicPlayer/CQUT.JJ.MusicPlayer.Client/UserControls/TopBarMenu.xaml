@@ -24,8 +24,8 @@
                 <TextBlock FontSize="14">音乐源</TextBlock>
                 <Rectangle Fill="Silver" Opacity="0.2" Width="1" />
             </StackPanel>
-            <RadioButton x:Name="RdQM" Grid.Column="1" IsChecked="True">QM</RadioButton>
-            <RadioButton x:Name="RdJM" Grid.Column="2">JM</RadioButton>
+            <RadioButton x:Name="RdJM" Grid.Column="2" IsChecked="True">JM</RadioButton>
+            <RadioButton x:Name="RdQM" Grid.Column="1">QM</RadioButton>
         </Grid>
         
         <Style TargetType="jm:JmTransparentButton">

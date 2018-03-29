@@ -43,18 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseModel\MusicInfoModel.cs" />
+    <Compile Include="QM\BaseModel\BaseQMusicInfoModel.cs" />
     <Compile Include="DataContracts\MusicInfo.cs" />
+    <Compile Include="DataContracts\Search\MusicSearchPageResult.cs" />
+    <Compile Include="DataContracts\PageResult.cs" />
     <Compile Include="JM\Common\AlbumModel.cs" />
     <Compile Include="JM\Common\MusicModel.cs" />
-    <Compile Include="MusicsOfPageModel.cs" />
+    <Compile Include="QM\QMusicsOfPageModel.cs" />
     <Compile Include="QM\QMPlayInfoModel.cs" />
-    <Compile Include="BaseModel\MusicPlayInfoModel.cs" />
+    <Compile Include="QM\BaseModel\BaseQMusicPlayInfoModel.cs" />
     <Compile Include="QM\QMAlbumInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkinModel.cs" />
     <Compile Include="QM\QMInfoModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFrameworkStandard\CQUT.JJ.MusicPlayer.EntityFramework.csproj">
+      <Project>{27fc590f-82d9-4022-aec4-6de5af844bd1}</Project>
+      <Name>CQUT.JJ.MusicPlayer.EntityFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

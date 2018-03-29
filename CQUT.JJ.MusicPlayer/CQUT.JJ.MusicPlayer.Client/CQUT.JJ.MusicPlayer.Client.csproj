@@ -203,7 +203,9 @@
     <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="Utils\StringFormatUtil.cs" />
+    <Compile Include="Utils\TimeUtil.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MusicInfoViewModel.cs" />
     <Compile Include="ViewModels\MusicPlayerMenuViewModel.cs" />
     <Compile Include="ViewModels\MusicPlayerMenu\MusicPlayListViewModel.cs" />
     <Compile Include="ViewModels\QMInfoViewModel.cs" />

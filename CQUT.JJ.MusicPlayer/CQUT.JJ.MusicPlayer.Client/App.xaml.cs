@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Models;
+using CQUT.JJ.MusicPlayer.Models.JM.Common;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,7 +30,11 @@ namespace CQUT.JJ.MusicPlayer.Client
         /// </summary>
         public IEnumerable<QMInfoModel> CurrentQMPlayingMusics { get; set; }
 
+        public IEnumerable<MusicModel> CurrentPlayingMusics { get; set; }
+
         public string CurrentQMPlayingMusicId { get; set; }
+
+        public int CurrentPlayingMusicId { get; set; }
 
         /// <summary>
         /// 正在播放的歌曲是否在当前页面
