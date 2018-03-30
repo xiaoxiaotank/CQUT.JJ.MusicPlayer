@@ -68,6 +68,9 @@
     <Compile Include="Controls\JmListView.xaml.cs">
       <DependentUpon>JmListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JMMessageBox.xaml.cs">
+      <DependentUpon>JMMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmRoundButton.xaml.cs">
       <DependentUpon>JmRoundButton.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,9 @@
     <Compile Include="Converters\RadiusToMarginConverters.cs" />
     <Compile Include="Converters\RoundRadiusConverters.cs" />
     <Compile Include="Converters\ThicknessToDoubleConverter.cs" />
+    <Compile Include="Enums\JMMessageBox\JMMessageBoxButtonType.cs" />
+    <Compile Include="Enums\JMMessageBox\JMMessageBoxIconType.cs" />
+    <Compile Include="Enums\JMMessageBox\JMMessageBoxResultType.cs" />
     <Compile Include="Helpers\AeroEffctHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -146,6 +152,10 @@
     <Page Include="Controls\JmListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\JMMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\JmRoundButton.xaml">
       <SubType>Designer</SubType>
@@ -211,6 +221,10 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
+    <Resource Include="Asserts\Images\JMMessageBox\Info.png" />
+    <Resource Include="Asserts\Images\JMMessageBox\Error.png" />
+    <Resource Include="Asserts\Images\JMMessageBox\Success.png" />
+    <Resource Include="Asserts\Images\JMMessageBox\Warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

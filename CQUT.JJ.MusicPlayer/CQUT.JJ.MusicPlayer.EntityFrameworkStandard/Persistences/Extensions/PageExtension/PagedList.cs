@@ -19,7 +19,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Extensions.PageExtens
         {
             PageNumber = pageNumber;
             PageSize = pageNumber;
-            PageCount = PageCount;
+            PageCount = pageCount;
             TotalItemCount = totalItemCount;
             AddRange(items);
         }

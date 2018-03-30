@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
 {
+    /// <summary>
+    /// 例如搜索等页面不需要用户导航栏中的TabItem,引发该事件
+    /// </summary>
     public class NonNavPageDisplayedUtil
     {
         public static EventHandler<EventArgs> NonNavPageDisplayedEvent;

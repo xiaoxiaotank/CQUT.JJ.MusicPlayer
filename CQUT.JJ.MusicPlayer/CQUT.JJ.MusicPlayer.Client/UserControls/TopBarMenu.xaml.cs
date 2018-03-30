@@ -64,6 +64,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void MusicPageEnableNextSwitchedEvent(object sender, MusicPageSwitchedEventArgs e) => BtnNextPage.IsEnabled = e.CanSwitch;
 
+        /// <summary>
+        /// 点击搜索按钮->切换页面->页面中请求数据->获取数据->传送到页面->展示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CmbSearch_SearchBtnClick(object sender, RoutedEventArgs e)
         {           
             if(FindResource("MusicSource") is Grid musicSourceGrid)
@@ -146,7 +151,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 {
                     MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(null, page, false, ex.Message);
                 }
-            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+            });
         }
 
         private void SaveSearchRecords(string searchKey)

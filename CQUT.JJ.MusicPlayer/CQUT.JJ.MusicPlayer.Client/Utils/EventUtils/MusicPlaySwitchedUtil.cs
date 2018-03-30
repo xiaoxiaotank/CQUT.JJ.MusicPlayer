@@ -15,10 +15,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
         /// 
         /// </summary>
         /// <param name="musicPlayMode"></param>
-        /// <param name="isDescending">true 降序 false 升序</param>
-        public static void Invoke(MusicPlayMode musicPlayMode, bool isDescending)
+        /// <param name="isDown">true 向下 false 向上</param>
+        public static void Invoke(MusicPlayMode musicPlayMode, bool isDown)
         {
-            var e = new MusicPlaySwitchedEventArgs(musicPlayMode, isDescending);
+            var e = new MusicPlaySwitchedEventArgs(musicPlayMode, isDown);
             MusicPlaySwitchedEvent?.Invoke(null, e);
         }
     }

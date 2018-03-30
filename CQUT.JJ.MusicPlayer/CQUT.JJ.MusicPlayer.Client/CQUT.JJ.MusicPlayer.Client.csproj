@@ -163,8 +163,8 @@
     <Compile Include="Pages\OnlineMusic\Singer2018Page.xaml.cs">
       <DependentUpon>Singer2018Page.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Skin\TabletopLyricsBubblePage.xaml.cs">
-      <DependentUpon>TabletopLyricsBubblePage.xaml</DependentUpon>
+    <Compile Include="Pages\Skin\TableTopLyricsBubblePage.xaml.cs">
+      <DependentUpon>TableTopLyricsBubblePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Skin\ThemeSkinPage.xaml.cs">
       <DependentUpon>ThemeSkinPage.xaml</DependentUpon>
@@ -268,7 +268,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Skin\TabletopLyricsBubblePage.xaml">
+    <Page Include="Pages\Skin\TableTopLyricsBubblePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -364,7 +364,7 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
-    <Content Include="好想再爱你.mp3" />
+    <Content Include="Asserts\Musics\好想再爱你.mp3" />
     <Resource Include="JM.ico" />
     <Resource Include="Asserts\Icons\JM.ico" />
     <Resource Include="Asserts\Skins\ThemeSkins\1.jpg" />

@@ -18,9 +18,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
     /// <summary>
     /// TabletopLyricsBubblePage.xaml 的交互逻辑
     /// </summary>
-    public partial class TabletopLyricsBubblePage : Page
+    public partial class TableTopLyricsBubblePage : Page
     {
-        public TabletopLyricsBubblePage()
+        public TableTopLyricsBubblePage()
         {
             InitializeComponent();
         }

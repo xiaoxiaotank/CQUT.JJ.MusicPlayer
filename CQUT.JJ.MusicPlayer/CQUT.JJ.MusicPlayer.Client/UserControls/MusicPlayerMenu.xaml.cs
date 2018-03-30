@@ -5,6 +5,7 @@ using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Client.ViewModels.MusicPlayerMenu;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
+using CQUT.JJ.MusicPlayer.Controls.Enums.JMMessageBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,85 +31,101 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
     /// </summary>
     public partial class MusicPlayerMenu : UserControl
     {
+        #region 变量
+
+        #region 字段
+
         /// <summary>
         /// 定时更新歌曲进度
         /// </summary>
-        private static readonly DispatcherTimer _timer = new DispatcherTimer();
-
+        private static readonly DispatcherTimer _timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(0.1) };
         /// <summary>
         /// 默认照片Uri
         /// </summary>
         private static readonly Uri _defaultPhotoUri = new Uri("/Asserts/Images/DefaultMusicHeader.png", UriKind.Relative);
-
         /// <summary>
-        /// 是否静音
+        /// 默认歌曲路径
         /// </summary>
-        private static bool _isMute = false;
-
+        private static readonly Uri _defaultMusicUri = new Uri("Asserts/Musics/好想再爱你.mp3", UriKind.Relative);
         /// <summary>
-        /// 非静音时音量
+        /// 非静音时音量，用来记录静音前的音量，以便于恢复
         /// </summary>
         private static double _notMuteVolume = 0;
-
         /// <summary>
         /// 播放器
         /// </summary>
         private static MediaPlayer _mediaPlayer = new MediaPlayer() { Volume = 1 };
-
         /// <summary>
         /// 是否正在播放
         /// </summary>
         private static bool _isPlaying = false;
-
         /// <summary>
         /// 当前播放歌曲打开是否失败
         /// </summary>
-        private static bool _isCurrentPlayingMusicOpenFailed = false;
-
+        private static bool _isOpenFailedOfCurrentPlayingMusic = false;
         /// <summary>
         /// 音乐源类型
         /// </summary>
         private static MusicSourceType _musicSourceType = MusicSourceType.JM;
-
+        /// <summary>
+        /// 播放菜单ViewModel
+        /// </summary>
         private static MusicPlayerMenuViewModel _musicPlayerMenuViewModel = new MusicPlayerMenuViewModel() { PhotoUri = _defaultPhotoUri };
-
+        /// <summary>
+        /// 音乐播放列表ViewModel
+        /// </summary>
         private static MusicPlayListViewModel _musicPlayListViewModel = new MusicPlayListViewModel();
 
         private static TaskScheduler _syncTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+        #endregion
+
+        #endregion
+
+
+        #region 构造函数
+
         public MusicPlayerMenu()
         {
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
+
             MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
             MusicPlayStateChangedUtil.JMusicPlayStateChangedEvent += JMusicPlayStateChanged;
+
             _timer.Tick += Timer_Tick;
-            _timer.Interval = TimeSpan.FromSeconds(0.1);
 
             InitializeComponent();
 
-            SetBindingAboutMediaPlayer();
-            SetBindingAboutMusicList();
-        }
+            SetBindingOfMediaPlayer();
+            SetBindingOfMusicList();
+        } 
 
-     
+        #endregion
+
+
 
         #region Events
-
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitVolumeState();
-            InitMusicInfo();
+            InitMusicMenuInfo();
         }
 
+        /// <summary>
+        /// 音乐播放状态发生改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void JMusicPlayStateChanged(object sender, MusicPlayStateChangedArgs e)
         {
             Task.Factory.StartNew(() =>
             {
                 //进行播放并且是属于（当前无播放源、不是同一首歌、播放失败）之一的情况 
                 if (e.IsToPlay && e.IsNeedRefresh
-                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.FileUri) || _isCurrentPlayingMusicOpenFailed))
+                    && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.FileUri) || _isOpenFailedOfCurrentPlayingMusic))
                 {
                     _isPlaying = false;
                     PlayNewMusic(e.MusicInfo.FileUri);
@@ -150,7 +167,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             {
                 //进行播放并且是属于（当前无播放源、不是同一首歌、播放失败）之一的情况 
                 if (e.IsToPlay && e.IsNeedRefresh 
-                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri) || _isCurrentPlayingMusicOpenFailed))
+                && (_mediaPlayer.Source == null || !_mediaPlayer.Source.Equals(e.MusicInfo.Uri) || _isOpenFailedOfCurrentPlayingMusic))
                 {
                     _isPlaying = false;
                     PlayNewMusic(e.MusicInfo.Uri);
@@ -186,7 +203,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void Timer_Tick(object sender, EventArgs e)
         {
             MusicProgressSlider.Value = _mediaPlayer.Position.TotalSeconds;
-            //MessageBox.Show($"{_mediaPlayer.DownloadProgress * 100}%");
         }
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
@@ -194,14 +210,26 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             MusicPlayStateChangedUtil.InvokeFromQM(null, true, false);
             MusicProgressSlider.Maximum = _mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
             SliderVolume.Maximum = _mediaPlayer.Volume;
-            _isCurrentPlayingMusicOpenFailed = false;
+            _isOpenFailedOfCurrentPlayingMusic = false;
         }
 
+        /// <summary>
+        /// 歌曲播放失败
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
-            _isCurrentPlayingMusicOpenFailed = true;
+            _isOpenFailedOfCurrentPlayingMusic = true;
+            MusicPlayStateChangedUtil.InvokeFromJM(null, false, false);
+            JMMessageBox.Show("歌曲失效", "因歌曲文件失效导致播放失败，请欣赏其他歌曲", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
         }
 
+        /// <summary>
+        /// 歌曲播放结束事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MediaPlayer_MediaEnded(object sender, EventArgs e)
         {
             StopTimer();
@@ -210,14 +238,24 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             MusicPlaySwitchedUtil.Invoke(GetMusicPlayMode(), true);
         }
 
+        /// <summary>
+        /// 打开音量菜单事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnVolume_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             PopVolume.IsOpen = !PopVolume.IsOpen;
         }
 
+        /// <summary>
+        /// 点击Pop中音量按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPopVolume_Click(object sender, RoutedEventArgs e)
         {
-            if (!_isMute)
+            if (!_mediaPlayer.IsMuted)
                 ChangeVolumeToMute();
             else
             {
@@ -226,6 +264,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }
         }
 
+        /// <summary>
+        /// 音量改变事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SliderVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (SliderVolume.Value == 0)
@@ -233,23 +276,34 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 ChangeVolumeToMute();
                 return;
             }
-            else if (_isMute)
+            else if (_mediaPlayer.IsMuted)
                 ChangeVolumeToNotMute();
+
             _notMuteVolume = SliderVolume.Value;
         }
 
+        /// <summary>
+        /// 我喜欢图标点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnILove_Click(object sender, RoutedEventArgs e)
         {
             ChangeILoveState();
         }
 
+        /// <summary>
+        /// 播放按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPlay_Click(object sender, RoutedEventArgs e)
         {
             if (_musicSourceType.Equals(MusicSourceType.JM))
             {
                 if (_mediaPlayer.Source == null)
                 {
-                    PlayNewMusic(new Uri(@"好想再爱你.mp3", UriKind.Relative));
+                    PlayNewMusic(_defaultMusicUri);
                     _musicPlayerMenuViewModel.MusicName = "好想再爱你";
                     _musicPlayerMenuViewModel.SingerName = "潘广益";
                     _musicPlayerMenuViewModel.PhotoUri = _defaultPhotoUri;
@@ -262,21 +316,41 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 MusicPlayStateChangedUtil.InvokeFromQM(null, !_isPlaying,false);               
         }
 
+        /// <summary>
+        /// 上一首
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPreviousMusic_Click(object sender, RoutedEventArgs e)
         {
             SwitchMusic(false);
         }
 
+        /// <summary>
+        /// 下一首
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnNextMusic_Click(object sender, RoutedEventArgs e)
         {
             SwitchMusic(true);
         }
 
+        /// <summary>
+        /// 打开播放模式菜单左击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMusicPlayMode_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             PopMusicPlayMode.IsOpen = !PopMusicPlayMode.IsOpen;
         }
 
+        /// <summary>
+        /// 在选择播放模式按钮时左击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectMusicPlayMode_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (e.OriginalSource is JmButton btn)
@@ -291,32 +365,37 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }
         }
 
+        /// <summary>
+        /// 播单按钮左击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMusicPlayList_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             PopMusicPlayList.IsOpen = !PopMusicPlayList.IsOpen;
         }
 
         /// <summary>
-        /// 歌曲列表中的播放按钮
+        /// 歌曲列表中的播放按钮点击事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void BtnListPlay_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
         #endregion
 
         #region 辅助方法
-        private void InitMusicInfo()
-        {
-            DataContext = _musicPlayerMenuViewModel;
-            _musicPlayerMenuViewModel.MusicName = "听我想听的歌";
-            _musicPlayerMenuViewModel.SingerName = "JM音乐";
-        }
 
-        private void SetBindingAboutMediaPlayer()
+        #region 初始化和绑定
+
+        /// <summary>
+        /// 设置播放器的绑定元素
+        /// </summary>
+        private void SetBindingOfMediaPlayer()
         {
+            //播放位置
             var musicProgressBinding = new Binding()
             {
                 Source = _mediaPlayer,
@@ -326,6 +405,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             };
             MusicProgressSlider.SetBinding(Slider.ValueProperty, musicProgressBinding);
 
+            //音量
             var musicVolumeBingding = new Binding()
             {
                 Source = _mediaPlayer,
@@ -335,13 +415,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             SliderVolume.SetBinding(Slider.ValueProperty, musicVolumeBingding);
         }
 
-        private void SetBindingAboutMusicList()
+        /// <summary>
+        /// 设置播放列表绑定
+        /// </summary>
+        private void SetBindingOfMusicList()
         {
             LvMusicPlayList.ItemsSource = _musicPlayListViewModel.MusicPlayList;
             var musicTotalCountOfmusicListBinding = new Binding()
             {
                 Source = _musicPlayListViewModel,
-                Path = new PropertyPath("MusicTotalCount"),
+                Path = new PropertyPath(nameof(_musicPlayListViewModel.MusicTotalCount)),
                 Mode = BindingMode.OneWay
             };
             TbMusicTotalCount.SetBinding(TextBlock.TextProperty, musicTotalCountOfmusicListBinding);
@@ -353,29 +436,46 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         private void InitVolumeState()
         {
-            _isMute = SliderVolume.Value == 0d;
-            if (!_isMute)
+            _mediaPlayer.IsMuted = SliderVolume.Value == 0d;
+            if (!_mediaPlayer.IsMuted)
                 _notMuteVolume = SliderVolume.Value;
             else
                 _notMuteVolume = SliderVolume.Maximum;
         }
 
+        /// <summary>
+        /// 初始化音乐菜单信息
+        /// </summary>
+        private void InitMusicMenuInfo()
+        {
+            DataContext = _musicPlayerMenuViewModel;
+            _musicPlayerMenuViewModel.MusicName = "听我想听的歌";
+            _musicPlayerMenuViewModel.SingerName = "JM音乐";
+        } 
+
+        #endregion
+
+        /// <summary>
+        /// 播放新音乐
+        /// </summary>
+        /// <param name="uri"></param>
         private void PlayNewMusic(Uri uri)
         {
-            if (_isCurrentPlayingMusicOpenFailed)
+            if (_isOpenFailedOfCurrentPlayingMusic)
                 _mediaPlayer.Close();
             _mediaPlayer.Open(uri);
         }
 
+        #region 改变状态
+
         /// <summary>
-        /// 将音量改为静音
+        /// 将音量置为静音
         /// </summary>
         private void ChangeVolumeToMute()
         {
             TbVolume.Text = "\ue609";
             SliderVolume.Value = 0;
             _mediaPlayer.IsMuted = true;
-            _isMute = true;
         }
 
         /// <summary>
@@ -385,15 +485,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             TbVolume.Text = "\ue60b";
             _mediaPlayer.IsMuted = false;
-            _isMute = false;
         }
 
+        /// <summary>
+        /// 改变“喜欢”图标的状态
+        /// </summary>
         private void ChangeILoveState()
         {
-            if(_mediaPlayer.HasAudio 
-                && _musicSourceType == MusicSourceType.JM)
+            if (_mediaPlayer.HasAudio && _musicSourceType == MusicSourceType.JM)
             {
-                if(TbILove.Text.Equals("\ue60e"))
+                if (TbILove.Text.Equals("\ue60e"))
                 {
                     TbILove.Text = "\ue603";
                     BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
@@ -410,17 +511,12 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }
         }
 
-        private void ChangeToCancelILove()
-        {
-            TbILove.Text = "\ue60e";
-            BtnILove.Foreground = new SolidColorBrush(Colors.SkyBlue);
-            BtnILove.FontSize -= 2;
-            BtnILove.ToolTip = "我喜欢";
-        }
-
+        /// <summary>
+        /// 改变播放状态
+        /// </summary>
         private void ChangePlayState()
-        {                       
-            if (_isCurrentPlayingMusicOpenFailed || _isPlaying)
+        {
+            if (_isOpenFailedOfCurrentPlayingMusic || _isPlaying)
             {
                 _timer.Stop();
                 _mediaPlayer.Pause();
@@ -435,25 +531,38 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 TbPlay.Text = "\ue606";
             }
 
-        }
+        } 
 
+        #endregion
+
+        /// <summary>
+        /// 停止计时器
+        /// </summary>
         private void StopTimer()
         {
             Timer_Tick(_timer, null);
             _timer.Stop();
         }
 
+        /// <summary>
+        /// 获取播放模式
+        /// </summary>
+        /// <returns></returns>
         private MusicPlayMode GetMusicPlayMode()
         {
             return BtnMusicPlayMode.Tag as MusicPlayMode? ?? MusicPlayMode.Random;
         }
 
-        private void SwitchMusic(bool isDescending)
+        /// <summary>
+        /// 切歌
+        /// </summary>
+        /// <param name="isDown">是否向下切换</param>
+        private void SwitchMusic(bool isDown)
         {
             var musicPlayMode = GetMusicPlayMode();
             if (musicPlayMode.Equals(MusicPlayMode.Single))
                 musicPlayMode = MusicPlayMode.List;
-            MusicPlaySwitchedUtil.Invoke(musicPlayMode, isDescending);
+            MusicPlaySwitchedUtil.Invoke(musicPlayMode, isDown);
         }
 
 

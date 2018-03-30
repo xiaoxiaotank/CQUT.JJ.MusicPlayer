@@ -72,50 +72,54 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private void JMSearchChangedEvent(object sender, MusicSearchInfoChangedArgs e)
         {
-            if (e.IsSuccessed)
+            Task.Factory.StartNew(() =>
             {
-                _musicListViewModel = new List<MusicInfoViewModel>();
-
-                switch (e.PageResult.ResultType)
+                if (e.IsSuccessed)
                 {
-                    case SearchType.Song:
-                        var songs = (MusicSearchPageResult)e.PageResult;
-                        songs.Results?.ToList().ForEach(r =>
-                        {
-                            _musicListViewModel.Add(new MusicInfoViewModel
+                    _musicListViewModel = new List<MusicInfoViewModel>();
+
+                    switch (e.PageResult.ResultType)
+                    {
+                        case SearchType.Song:
+                            var songs = (MusicSearchPageResult)e.PageResult;
+                            songs.Results?.ToList().ForEach(r =>
                             {
-                                Id = r.Id,
-                                SingerId = r.SingerId,
-                                AlbumId = r.AlbumId,
-                                MusicName = r.Name,
-                                SingerName = r.SingerName,
-                                AlbumName = r.AlbumName,
-                                Duration = r.Duration,
-                                DurationDescription = r.Duration.GetMinuteAndSecondPart(),
-                                FileUrl = r.FileUrl
+                                _musicListViewModel.Add(new MusicInfoViewModel
+                                {
+                                    Id = r.Id,
+                                    SingerId = r.SingerId,
+                                    AlbumId = r.AlbumId,
+                                    MusicName = r.Name,
+                                    SingerName = r.SingerName,
+                                    AlbumName = r.AlbumName,
+                                    Duration = r.Duration,
+                                    DurationDescription = r.Duration.GetMinuteAndSecondPart(),
+                                    FileUrl = r.FileUrl
+                                });
                             });
-                        });
-                        break;
+                            break;
+                    }
+                    MusicList.ItemsSource = _musicListViewModel;
+                    InitPageNumber(e.PageResult.PageCount, e.PageResult.PageNumber);
+
+                    TbError.Visibility = Visibility.Collapsed;
+                    GdSong.Visibility = Visibility.Visible;
                 }
-                MusicList.ItemsSource = _musicListViewModel;
-                InitPageNumber(e.PageResult.PageCount, e.PageResult.PageNumber);
+                else
+                {
+                    TbError.Text = e.ErrorInfo;
+                    GdSong.Visibility = Visibility.Collapsed;
+                    TbError.Visibility = Visibility.Visible;
+                }
 
-                TbError.Visibility = Visibility.Collapsed;
-                GdSong.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                TbError.Text = e.ErrorInfo;
-                GdSong.Visibility = Visibility.Collapsed;
-                TbError.Visibility = Visibility.Visible;
-            }
-
-            Waiting.Visibility = Visibility.Collapsed;
-            SpPageNumber.IsEnabled = true;
-            if(_musicListViewModel.Any())
-                MusicList.ScrollIntoView(_musicListViewModel[0]);
-            if (JMApp.CurrentPlayingMusicsInfo != null)
-                JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
+                Waiting.Visibility = Visibility.Collapsed;
+                SpPageNumber.IsEnabled = true;
+                if (_musicListViewModel.Any())
+                    MusicList.ScrollIntoView(_musicListViewModel[0]);
+                if (JMApp.CurrentPlayingMusicsInfo != null)
+                    JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
+            }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
+           
         }
 
         private void JMusicPlayStateChanged(object sender, MusicPlayStateChangedArgs e)
