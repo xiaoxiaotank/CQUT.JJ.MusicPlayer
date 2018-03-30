@@ -31,9 +31,9 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
     /// </summary>
     public partial class TopBarMenu : UserControl
     {
-        private static readonly string _qmSearchPageName = "OnlineMusic/QMSearchPage.xaml";
+        private static readonly string _qmSearchPageName = "OnlineMusic/Search/QMSearchPage.xaml";
 
-        private static readonly string _jmSearchPageName = "OnlineMusic/JMSearchPage.xaml";
+        private static readonly string _jmSearchPageName = "OnlineMusic/Search/MusicSearchPage.xaml";
 
         private static readonly string _searchRecordsPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SearchRecords.bat");
 

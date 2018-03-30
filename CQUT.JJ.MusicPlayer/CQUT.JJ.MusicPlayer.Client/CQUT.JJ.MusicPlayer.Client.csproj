@@ -145,8 +145,8 @@
     <Compile Include="Pages\OnlineMusic\AdreamSoundPage.xaml.cs">
       <DependentUpon>AdreamSoundPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\OnlineMusic\JMSearchPage.xaml.cs">
-      <DependentUpon>JMSearchPage.xaml</DependentUpon>
+    <Compile Include="Pages\Common\MusicListPage.xaml.cs">
+      <DependentUpon>MusicListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OnlineMusic\MusicHallPage.xaml.cs">
       <DependentUpon>MusicHallPage.xaml</DependentUpon>
@@ -157,7 +157,10 @@
     <Compile Include="Pages\OnlineMusic\RadioPage.xaml.cs">
       <DependentUpon>RadioPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\OnlineMusic\QMSearchPage.xaml.cs">
+    <Compile Include="Pages\OnlineMusic\Search\MusicSearchPage.xaml.cs">
+      <DependentUpon>MusicSearchPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\Search\QMSearchPage.xaml.cs">
       <DependentUpon>QMSearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OnlineMusic\Singer2018Page.xaml.cs">
@@ -244,7 +247,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\OnlineMusic\JMSearchPage.xaml">
+    <Page Include="Pages\Common\MusicListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -260,7 +263,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\OnlineMusic\QMSearchPage.xaml">
+    <Page Include="Pages\OnlineMusic\Search\MusicSearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\Search\QMSearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
