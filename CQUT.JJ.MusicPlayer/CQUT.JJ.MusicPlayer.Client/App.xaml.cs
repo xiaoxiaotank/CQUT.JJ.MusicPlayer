@@ -15,7 +15,7 @@ namespace CQUT.JJ.MusicPlayer.Client
     /// </summary>
     public partial class App : Application
     {
-       
+        public static UserModel User = null;
     }
 
     public static class JMApp

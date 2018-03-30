@@ -64,6 +64,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
             }
         }
 
+        /// <summary>
+        /// 按行读文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static IEnumerable<string> ReadFromFileByLine(string path)
         {
             using (var fs = File.OpenRead(path))
@@ -76,5 +81,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
                 }
             }
         }
+
+        //public static bool DownloadMusics()
     }
 }

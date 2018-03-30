@@ -43,10 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\Common\UserInfo.cs" />
+    <Compile Include="JM\Common\UserModel.cs" />
     <Compile Include="QM\BaseModel\BaseQMusicInfoModel.cs" />
-    <Compile Include="DataContracts\MusicInfo.cs" />
+    <Compile Include="DataContracts\Common\MusicInfo.cs" />
     <Compile Include="DataContracts\Search\MusicSearchPageResult.cs" />
-    <Compile Include="DataContracts\PageResult.cs" />
+    <Compile Include="DataContracts\Common\PageResult.cs" />
     <Compile Include="JM\Common\AlbumModel.cs" />
     <Compile Include="JM\Common\MusicModel.cs" />
     <Compile Include="QM\QMusicsOfPageModel.cs" />

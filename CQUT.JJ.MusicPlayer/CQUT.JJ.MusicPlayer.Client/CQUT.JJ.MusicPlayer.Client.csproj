@@ -115,6 +115,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.15\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -207,11 +210,15 @@
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="Utils\StringFormatUtil.cs" />
     <Compile Include="Utils\TimeUtil.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\MusicInfoViewModel.cs" />
-    <Compile Include="ViewModels\MusicPlayerMenuViewModel.cs" />
+    <Compile Include="ViewModels\Common\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Common\MusicInfoViewModel.cs" />
+    <Compile Include="ViewModels\Common\MusicPlayerMenuViewModel.cs" />
     <Compile Include="ViewModels\MusicPlayerMenu\MusicPlayListViewModel.cs" />
-    <Compile Include="ViewModels\QMInfoViewModel.cs" />
+    <Compile Include="ViewModels\Common\QMInfoViewModel.cs" />
+    <Compile Include="ViewModels\UserHeader\UserHeaderViewModel.cs" />
+    <Compile Include="Windows\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SkinManagerWindow.xaml.cs">
       <DependentUpon>SkinManagerWindow.xaml</DependentUpon>
     </Compile>
@@ -295,6 +302,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\LoginStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\MusicPlayerMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -308,6 +319,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\UserMusicNavigtion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -336,6 +351,7 @@
     </EmbeddedResource>
     <Resource Include="Asserts\Fonts\ExampleDemo\iconfont.ttf" />
     <Resource Include="Asserts\Fonts\iconfont.ttf" />
+    <Resource Include="Asserts\Fonts\Login\iconfont.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -371,6 +387,13 @@
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />
     <Content Include="Asserts\Fonts\ExampleDemo\demo_unicode.html" />
+    <Resource Include="Asserts\Images\Login\Background.gif" />
+    <Resource Include="Asserts\Images\Login\CheckboxTickHighlight.png" />
+    <Resource Include="Asserts\Images\Login\CheckboxTickNormal.png" />
+    <Resource Include="Asserts\Images\Login\CheckboxTickPushed.png" />
+    <Resource Include="Asserts\Images\Login\CornerRightHover.png" />
+    <Resource Include="Asserts\Images\Login\CornerRightNormalBreath.png" />
+    <Resource Include="Asserts\Images\Login\CornerRightNormalDown.png" />
     <Content Include="Asserts\Musics\好想再爱你.mp3" />
     <Resource Include="JM.ico" />
     <Resource Include="Asserts\Icons\JM.ico" />

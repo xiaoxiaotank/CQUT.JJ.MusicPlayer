@@ -33,6 +33,17 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
            
         }
 
+        /// <summary>
+        /// 将字符串路径转为图像路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="uriKind"></param>
+        /// <returns></returns>
+        public static ImageSource ToImageSource(this string path,UriKind uriKind = UriKind.Relative)
+        {
+            return new BitmapImage(new Uri(path, uriKind));
+        }
+
         /// <summary>  
         /// 获得指定元素的父元素  
         /// </summary>  
