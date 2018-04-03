@@ -22,12 +22,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         //TODO  增加操作人
         public Music Create(MusicModel model)
         {
+            ValidAdminByUserId(model.CreatorId);
             ValidateForCreate(model);
 
             var music = new Music()
             {
                 SingerId = model.SingerId,
                 AlbumId = model.AlbumId,
+                CreatorId = model.CreatorId,
                 Name = model.Name,
                 CreationTime = DateTime.Now,
                 IsDeleted = false,
@@ -41,11 +43,13 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Music UpdateBasic(MusicModel model)
         {
+            ValidAdminByUserId((int)model.MenderId);
             ValidateForUpdateBasic(model,out Music music);
 
             music.Name = model.Name;
             music.SingerId = model.SingerId;
             music.AlbumId = model.AlbumId;
+            music.MenderId = model.MenderId;
             music.LastModificationTime = DateTime.Now;
 
             Save();
@@ -65,13 +69,15 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             Save();
         }
 
-        public Music Publish(int id)
+        public Music Publish(int id,int userId)
         {
+            ValidAdminByUserId(userId);
             var music = Find(id);
             if (music.IsPublished)
                 ThrowException("音乐已发布，无需再次操作！");
 
             music.IsPublished = true;
+            music.PublisherId = userId;
             music.PublishmentTime
                 = music.LastModificationTime
                 = DateTime.Now;
@@ -80,12 +86,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return music;
         }
 
-        public Music Unpublish(int id)
+        public Music Unpublish(int id,int userId)
         {
+            ValidAdminByUserId(userId);
             var music = Find(id);
             if (!music.IsPublished)
                 ThrowException("音乐属于未发布状态，无需再次操作！");
 
+            music.UnpublisherId = userId;
             music.IsPublished = false;
             music.LastModificationTime = DateTime.Now;
             music.PublishmentTime = null;

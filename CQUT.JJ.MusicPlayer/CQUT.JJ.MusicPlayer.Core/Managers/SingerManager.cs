@@ -16,10 +16,12 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Singer Create(SingerModel model)
         {
+            ValidAdminByUserId(model.CreatorId);
             ValidForCreate(model);
 
             var singer = new Singer()
             {
+                CreatorId = model.CreatorId,
                 Name = model.Name,
                 ForeignName = model.ForeignName,
                 Nationality = model.Nationality,
@@ -37,8 +39,10 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <returns></returns>
         public Singer UpdateBasic(SingerModel model)
         {
+            ValidAdminByUserId((int)model.MenderId);
             ValidForUpdateBasic(model,out Singer singer);
 
+            singer.MenderId = model.MenderId;
             singer.ForeignName = model.ForeignName;
             singer.Nationality = model.Nationality;
             singer.LastModificationTime = DateTime.Now;
@@ -87,8 +91,9 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             Save();
         }
 
-        public Singer Publish(int id)
+        public Singer Publish(int id,int userId)
         {
+            ValidAdminByUserId(userId);
             var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
             if (singer == null)
                 ThrowException("歌唱家不存在！");
@@ -96,6 +101,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ThrowException("歌唱家已发布，无需再次操作！");
 
             singer.IsPublished = true;
+            singer.PublisherId = userId;
             singer.PublishmentTime 
                 = singer.LastModificationTime
                 = DateTime.Now;
@@ -104,12 +110,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return singer;
         }
 
-        public Singer Unpublish(int id)
+        public Singer Unpublish(int id,int userId)
         {
+            ValidAdminByUserId(userId);
             var singer = Find(id);
             if (!singer.IsPublished)
                 ThrowException("歌唱家属于未发布状态，无需再次操作！");
 
+            singer.UnpublisherId = userId;
             singer.IsPublished = false;
             singer.LastModificationTime = DateTime.Now;
             singer.PublishmentTime = null;
@@ -120,6 +128,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 .ToList()
                 .ForEach(a =>
                 {
+                    a.UnpublisherId = userId;
                     a.IsPublished = false;
                     a.LastModificationTime = DateTime.Now;
                     a.PublishmentTime = null;
@@ -131,6 +140,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 .ToList()
                 .ForEach(m =>
                 {
+                    m.UnpublisherId = userId;
                     m.IsPublished = false;
                     m.LastModificationTime = DateTime.Now;
                     m.PublishmentTime = null;

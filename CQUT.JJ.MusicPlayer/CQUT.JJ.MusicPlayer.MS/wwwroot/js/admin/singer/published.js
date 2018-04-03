@@ -24,6 +24,12 @@
         cellClass: 'floatLeft',
     },
     {
+        headerName: "发布者",
+        field: "publisherName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
         headerName: "创建日期",
         field: "creationTime",
         filter: 'agDateColumnFilter',

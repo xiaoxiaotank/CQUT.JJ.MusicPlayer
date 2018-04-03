@@ -14,8 +14,25 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Singer
         [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("creatorId")]
+        public int CreatorId { get; set; }
+        [JsonProperty("menderId")]
+        public int? MenderId { get; set; }
+        [JsonProperty("publisherId")]
+        public int PublisherId { get; set; }
+        [JsonProperty("unpublisherId")]
+        public int? UnpublisherId { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
+        [JsonProperty("creatorName")]
+        public string CreatorName { get; set; }
+        [JsonProperty("menderName")]
+        public string MenderName { get; set; }
+        [JsonProperty("publisherName")]
+        public string PublisherName { get; set; }
+        [JsonProperty("unpublisherName")]
+        public string UnpublisherName { get; set; }
 
         [JsonProperty("foreignName")]
         public string ForeignName { get; set; }

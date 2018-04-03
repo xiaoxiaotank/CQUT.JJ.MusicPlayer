@@ -73,9 +73,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Id = m.Id,
                     SingerId = m.SingerId,
                     AlbumId = m.AlbumId,
+                    CreatorId = m.CreatorId,
+                    MenderId = m.MenderId,
+                    UnpublisherId = m.UnpublisherId,
                     Name = m.Name,
                     SingerName = m.SingerName,
                     AlbumName = m.AlbumName,
+                    CreatorName = m.CreatorName,
+                    UnpublisherName = m.UnpublisherName,
+                    MenderName = m.MenderName,
                     Duration = m.Duration.GetMinutesAndSeconds(),
                     FileUrl = m.FileUrl,
                     CreationTime = m.CreationTime.ToStandardDateOfChina(),
@@ -96,9 +102,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Id = m.Id,
                     SingerId = m.SingerId,
                     AlbumId = m.AlbumId,
+                    PublisherId = m.PublisherId,
                     Name = m.Name,
                     SingerName = m.SingerName,
                     AlbumName = m.AlbumName,
+                    PublisherName = m.PublisherName,
                     Duration = m.Duration.GetMinutesAndSeconds(),
                     FileUrl = m.FileUrl,
                     CreationTime = m.CreationTime.ToStandardDateOfChina(),
@@ -158,6 +166,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Name = model.Name,
                     SingerId = singerId,
                     AlbumId = albumId,
+                    CreatorId = HttpContext.Session.GetCurrentUserId(),
                     FileUrl = SaveMusicFile(model.File,singerId,albumId)
                 };
                 music = _musicAppService.Create(music);
@@ -174,9 +183,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                         Id = music.Id,
                         SingerId = music.SingerId,
                         AlbumId = music.AlbumId,
+                        CreatorId = music.CreatorId,
                         Name = music.Name,
                         SingerName = music.SingerName,
                         AlbumName = music.AlbumName,
+                        CreatorName = music.CreatorName,
                         FileUrl = music.FileUrl,
                         Duration = music.Duration.GetMinutesAndSeconds(),
                         CreationTime = music.CreationTime.ToStandardDateOfChina(),
@@ -257,7 +268,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     Id = model.Id,
                     Name = model.Name,
                     SingerId = singerId,
-                    AlbumId = albumId
+                    AlbumId = albumId,
+                    MenderId = HttpContext.Session.GetCurrentUserId()
                 };
                 music = _musicAppService.UpdateBasic(music);
                 var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
@@ -273,9 +285,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                         Id = music.Id,
                         SingerId = music.SingerId,
                         AlbumId = music.AlbumId,
+                        MenderId = music.MenderId,
                         Name = music.Name,
                         SingerName = music.SingerName,
                         AlbumName = music.AlbumName,
+                        MenderName = music.MenderName,
                         LastModificationTime = music.LastModificationTime?.ToStandardDateOfChina()
                     })
                 });
@@ -335,7 +349,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     , userName
                     , LogType.Info
                     , Log_Source));
-            _musicAppService.Publish(id);
+            _musicAppService.Publish(id, HttpContext.Session.GetCurrentUserId());
             LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐发布操作"
                    , userName
                    , LogType.Succeess
@@ -356,7 +370,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     , userName
                     , LogType.Info
                     , Log_Source));
-            _musicAppService.Unpublish(id);
+            _musicAppService.Unpublish(id, HttpContext.Session.GetCurrentUserId());
             LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐下架操作"
                     , userName
                     , LogType.Succeess

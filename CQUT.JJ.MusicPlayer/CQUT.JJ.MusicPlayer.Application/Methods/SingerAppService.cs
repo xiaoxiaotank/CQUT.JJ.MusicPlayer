@@ -27,6 +27,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return new SingerModel()
             {
                 Id = singer.Id,
+                CreatorId = singer.CreatorId,
+                CreatorName = singer.Creator.NickName,
                 Name = singer.Name,
                 ForeignName = singer.ForeignName,
                 Nationality = singer.Nationality,
@@ -39,13 +41,15 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             _singerManager.Delete(id);
         }
 
-        public SingerModel Publish(int id)
+        public SingerModel Publish(int id, int userId)
         {
-            var singer = _singerManager.Publish(id);
+            var singer = _singerManager.Publish(id,userId);
             return new SingerModel()
             {
                 Id = singer.Id,
+                PublisherId = (int)singer.PublisherId,
                 Name = singer.Name,
+                PublisherName = singer.Publisher.UserName,
                 ForeignName = singer.ForeignName,
                 Nationality = singer.Nationality,
                 CreationTime = singer.CreationTime,
@@ -54,12 +58,14 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             };
         }
 
-        public SingerModel Unpublish(int id)
+        public SingerModel Unpublish(int id, int userId)
         {
-            var singer = _singerManager.Unpublish(id);
+            var singer = _singerManager.Unpublish(id,userId);
             return new SingerModel()
             {
                 Id = singer.Id,
+                UnpublisherId = singer.UnpublisherId,
+                UnpublisherName = singer.Unpublisher.UserName,
                 Name = singer.Name,
                 ForeignName = singer.ForeignName,
                 Nationality = singer.Nationality,
@@ -74,7 +80,9 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return new SingerModel()
             {
                 Id = singer.Id,
+                MenderId = singer.Mender.Id,
                 Name = singer.Name,
+                MenderName = singer.Mender.UserName,
                 ForeignName = singer.ForeignName,
                 Nationality = singer.Nationality,
                 CreationTime = singer.CreationTime,
@@ -88,7 +96,13 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 .Select(r => new SingerModel()
                 {
                     Id = r.Id,
+                    CreatorId = r.CreatorId,
+                    MenderId = (int)r.MenderId,
+                    UnpublisherId = (int)r.UnpublisherId,
                     Name = r.Name,
+                    CreatorName = r.Creator.UserName,
+                    MenderName = r.Mender.UserName,
+                    UnpublisherName = r.Unpublisher.UserName,
                     ForeignName = r.ForeignName,
                     Nationality = r.Nationality,
                     CreationTime = r.CreationTime,
@@ -102,6 +116,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 .Select(r => new SingerModel()
                 {
                     Id = r.Id,
+                    PublisherId = (int)r.PublisherId,
+                    PublisherName = r.Publisher.UserName,
                     Name = r.Name,
                     ForeignName = r.ForeignName,
                     Nationality = r.Nationality,

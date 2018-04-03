@@ -64,14 +64,16 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// 发布
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        MusicModel Publish(int id);
+        MusicModel Publish(int id,int userId);
 
         /// <summary>
         /// 下架
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        MusicModel Unpublish(int id);
+        MusicModel Unpublish(int id,int userId);
     }
 }

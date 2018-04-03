@@ -24,6 +24,11 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
             return user;
         }
 
+        public static int GetCurrentUserId(this ISession session)
+        {
+            return GetCurrentUser(session).Id;
+        }
+
         public static void SaveCurrentUser(this ISession session, UserModel user)
         {
             var jsonValue = JsonConvert.SerializeObject(user);

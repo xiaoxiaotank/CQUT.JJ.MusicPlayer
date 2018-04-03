@@ -28,6 +28,12 @@
         field: "duration",
     },
     {
+        headerName: "发布者",
+        field: "publisherName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
         headerName: "创建日期",
         field: "creationTime",
         filter: 'agDateColumnFilter',
@@ -36,8 +42,8 @@
         }
     },
     {
-        headerName: "最近修改日期",
-        field: "lastModificationTime",
+        headerName: "发布日期",
+        field: "publishmentTime",
         filter: 'agDateColumnFilter',
         filterParams: {
             comparator: timeComparator()

@@ -16,11 +16,13 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Album Create(AlbumModel model)
         {
+            ValidAdminByUserId(model.CreatorId);
             ValidForCreate(model);
 
             var album = new Album()
             {
                 SingerId = model.SingerId,
+                CreatorId = model.CreatorId,
                 Name = model.Name,
                 IsPublished = false,
                 IsDeleted = false,
@@ -32,10 +34,12 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Album UpdateBasic(AlbumModel model)
         {
+            ValidAdminByUserId(model.MenderId);
             ValidForUpdateBasic(model, out Album album);
 
             album.Name = model.Name;
             album.SingerId = model.SingerId;
+            album.MenderId = model.MenderId;
             album.LastModificationTime = DateTime.Now;
 
             Save();
@@ -67,13 +71,15 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             Save();
         }
 
-        public Album Publish(int id)
+        public Album Publish(int id,int userId)
         {
+            ValidAdminByUserId(userId);
             var album = Find(id);
             if (album.IsPublished)
-                ThrowException("专辑已发布，无需再次操作！");
+                ThrowException("专辑已发布，无需再次操作！");            
 
             album.IsPublished = true;
+            album.PublisherId = userId;
             album.PublishmentTime
                 = album.LastModificationTime
                 = DateTime.Now;
@@ -82,13 +88,15 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return album;
         }
 
-        public Album Unpublish(int id)
+        public Album Unpublish(int id,int userId)
         {
+            ValidAdminByUserId(userId);
             var album = Find(id);
             if (!album.IsPublished)
                 ThrowException("专辑属于未发布状态，无需再次操作！");
 
             album.IsPublished = false;
+            album.UnpublisherId = userId;
             album.LastModificationTime = DateTime.Now;
             album.PublishmentTime = null;
 
@@ -97,6 +105,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 .ToList()
                 .ForEach(m =>
                 {
+                    m.UnpublisherId = userId;
                     m.IsPublished = false;
                     m.LastModificationTime = DateTime.Now;
                     m.PublishmentTime = null;
@@ -139,6 +148,6 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             album = Find(id);
             if (album.IsPublished)
                 ThrowException("专辑已发布，请撤销后进行该操作!");
-        }
+        }       
     }
 }

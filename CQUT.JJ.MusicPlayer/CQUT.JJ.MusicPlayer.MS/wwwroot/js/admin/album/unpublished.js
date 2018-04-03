@@ -18,6 +18,24 @@
         cellClass: 'floatLeft',
     },
     {
+        headerName: "创建者",
+        field: "creatorName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
+        headerName: "修改者",
+        field: "menderName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
+        headerName: "下架者",
+        field: "unpublisherName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
         headerName: "创建日期",
         field: "creationTime",
         filter: 'agDateColumnFilter',
@@ -229,6 +247,7 @@ function afterUpdateBasicAlbum(data) {
             if (node.data.id === data.jsonObject.value.id) {
                 node.data.name = data.jsonObject.value.name;
                 node.data.singerName = data.jsonObject.value.singerName;
+                node.data.menderName = data.jsonObject.value.menderName;
                 node.data.lastModificationTime = data.jsonObject.value.lastModificationTime
                 gridOptions.api.updateRowData({ update: [node] });
                 return;

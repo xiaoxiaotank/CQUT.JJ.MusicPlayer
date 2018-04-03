@@ -8,11 +8,16 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public Music()
         {
             MusicAttach = new HashSet<MusicAttach>();
+            UserLike = new HashSet<UserLike>();
         }
 
         public int Id { get; set; }
         public int SingerId { get; set; }
         public int AlbumId { get; set; }
+        public int CreatorId { get; set; }
+        public int? MenderId { get; set; }
+        public int? PublisherId { get; set; }
+        public int? UnpublisherId { get; set; }
         public string Name { get; set; }
         public TimeSpan Duration { get; set; }
         public string FileUrl { get; set; }
@@ -24,7 +29,12 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public DateTime? DeletionTime { get; set; }
 
         public Album Album { get; set; }
+        public User Creator { get; set; }
+        public User Mender { get; set; }
+        public User Publisher { get; set; }
         public Singer Singer { get; set; }
+        public User Unpublisher { get; set; }
         public ICollection<MusicAttach> MusicAttach { get; set; }
+        public ICollection<UserLike> UserLike { get; set; }
     }
 }

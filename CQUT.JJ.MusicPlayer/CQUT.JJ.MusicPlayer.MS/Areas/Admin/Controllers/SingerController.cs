@@ -60,7 +60,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 {
                     SId = ++i,
                     Id = s.Id,
+                    CreatorId = s.CreatorId,
+                    MenderId = s.MenderId,
+                    UnpublisherId = s.UnpublisherId,
                     Name = s.Name,
+                    CreatorName = s.CreatorName,
+                    MenderName = s.MenderName,
+                    UnpublisherName = s.UnpublisherName,
                     ForeignName = s.ForeignName,
                     Nationality = s.Nationality,
                     CreationTime = s.CreationTime.ToStandardDateOfChina(),
@@ -79,7 +85,9 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 {
                     SId = ++i,
                     Id = s.Id,
+                    PublisherId = s.PublisherId,
                     Name = s.Name,
+                    PublisherName = s.PublisherName,
                     ForeignName = s.ForeignName,
                     Nationality = s.Nationality,
                     CreationTime = s.CreationTime.ToStandardDateOfChina(),
@@ -110,7 +118,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             {
                 Name = model.Name.Trim(),
                 ForeignName = model.ForeignName,
-                Nationality = model.Nationality
+                Nationality = model.Nationality,
+                CreatorId = HttpContext.Session.GetCurrentUserId()
             };
             singer = _singerAppService.Create(singer);
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -124,7 +133,9 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 JsonObject = Json(new SingerViewModel()
                 {
                     Id = singer.Id,
+                    CreatorId = singer.CreatorId,
                     Name = singer.Name,
+                    CreatorName = singer.CreatorName,
                     ForeignName = singer.ForeignName,
                     Nationality = singer.Nationality,
                     CreationTime = singer.CreationTime.ToStandardDateOfChina(),
@@ -165,6 +176,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 Id = model.Id,
                 ForeignName = model.ForeignName,
                 Nationality = model.Nationality,
+                MenderId = HttpContext.Session.GetCurrentUserId(),
             };
             singer = _singerAppService.UpdateBasic(singer);
             var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -178,6 +190,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 JsonObject = Json(new SingerViewModel()
                 {
                     Id = singer.Id,
+                    MenderId = singer.MenderId,
+                    MenderName = singer.MenderName,
                     ForeignName = singer.ForeignName,
                     Nationality = singer.Nationality,
                     LastModificationTime = singer.LastModificationTime?.ToStandardDateOfChina()
@@ -237,7 +251,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     , userName
                     , LogType.Info
                     , Log_Source));
-            _singerAppService.Publish(id);
+            _singerAppService.Publish(id, HttpContext.Session.GetCurrentUserId());
             LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌唱家发布操作"
                    , userName
                    , LogType.Succeess
@@ -258,7 +272,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     , userName
                     , LogType.Info
                     , Log_Source));
-            _singerAppService.Unpublish(id);
+            _singerAppService.Unpublish(id, HttpContext.Session.GetCurrentUserId());
             LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌歌唱家下架操作"
                    , userName
                    , LogType.Succeess

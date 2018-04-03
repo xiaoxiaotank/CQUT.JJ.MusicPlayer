@@ -72,5 +72,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         {
             throw new JMBasicException(message, httpStatusCode);
         }
+
+        public void ValidAdminByUserId(int? id)
+        {
+            if(id == null)
+                ThrowException("操作人员不存在！");
+            var user = _ctx.User.SingleOrDefault(u => u.Id == id && u.IsAdmin && !u.IsDeleted);
+            if (user == null)
+                ThrowException("操作人员不存在！");
+        }
     }
 }

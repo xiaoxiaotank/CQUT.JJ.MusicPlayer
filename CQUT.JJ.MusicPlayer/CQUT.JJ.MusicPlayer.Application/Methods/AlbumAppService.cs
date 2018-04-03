@@ -27,6 +27,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             {
                 Id = album.Id,
                 SingerId = album.SingerId,
+                CreatorId = album.CreatorId,
+                CreatorName = album.Creator.NickName,
                 Name = album.Name,
                 SingerName = album.Singer.Name,               
                 CreationTime = album.CreationTime
@@ -59,6 +61,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                {
                    Id = r.Id,
                    SingerId = r.SingerId,
+                   PublisherId = (int)r.PublisherId,
+                   PublisherName = r.Publisher.UserName,
                    Name = r.Name,
                    SingerName = r.Singer.Name,
                    CreationTime = r.CreationTime,
@@ -73,21 +77,29 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
               {
                   Id = r.Id,
                   SingerId = r.SingerId,
+                  CreatorId = r.CreatorId,
+                  MenderId = (int)r.MenderId,
+                  UnpublisherId = (int)r.UnpublisherId,
                   Name = r.Name,
+                  CreatorName = r.Creator.UserName,
+                  MenderName = r.Mender.UserName,
+                  UnpublisherName = r.Unpublisher.UserName,
                   SingerName = r.Singer.Name,
                   CreationTime = r.CreationTime,
                   LastModificationTime = r.LastModificationTime
               });
         }
 
-        public AlbumModel Publish(int id)
+        public AlbumModel Publish(int id, int userId)
         {
-            var album = _albumManager.Publish(id);
+            var album = _albumManager.Publish(id,userId);
             return new AlbumModel()
             {
                 Id = album.Id,
                 SingerId = album.SingerId,
+                PublisherId = (int)album.PublisherId,
                 Name = album.Name,
+                PublisherName = album.Publisher.UserName,
                 SingerName = album.Singer.Name,
                 CreationTime = album.CreationTime,
                 LastModificationTime = album.LastModificationTime,
@@ -95,13 +107,15 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             };
         }
 
-        public AlbumModel Unpublish(int id)
+        public AlbumModel Unpublish(int id,int userId)
         {
-            var album = _albumManager.Unpublish(id);
+            var album = _albumManager.Unpublish(id, userId);
             return new AlbumModel()
             {
                 Id = album.Id,
                 SingerId = album.SingerId,
+                UnpublisherId = (int)album.UnpublisherId,
+                UnpublisherName = album.Unpublisher.UserName,
                 Name = album.Name,
                 SingerName = album.Singer.Name,
                 CreationTime = album.CreationTime,
@@ -116,7 +130,9 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             {
                 Id = album.Id,
                 SingerId = album.SingerId,
+                MenderId = album.Mender.Id,
                 Name = album.Name,
+                MenderName = album.Mender.UserName,
                 SingerName = album.Singer.Name,
                 CreationTime = album.CreationTime,
                 LastModificationTime = album.LastModificationTime,

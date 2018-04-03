@@ -31,15 +31,17 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// 发布
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        SingerModel Publish(int id);
+        SingerModel Publish(int id,int userId);
 
         /// <summary>
         /// 下架
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        SingerModel Unpublish(int id);
+        SingerModel Unpublish(int id,int userId);
 
         /// <summary>
         /// 获取未发布歌唱家信息

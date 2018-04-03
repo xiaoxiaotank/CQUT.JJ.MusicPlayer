@@ -24,6 +24,24 @@
         cellClass: 'floatLeft',
     },
     {
+        headerName: "创建者",
+        field: "creatorName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
+        headerName: "修改者",
+        field: "menderName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
+        headerName: "下架者",
+        field: "unpublisherName",
+        filter: 'agTextColumnFilter',
+        cellClass: 'floatLeft',
+    },
+    {
         headerName: "创建日期",
         field: "creationTime",
         filter: 'agDateColumnFilter',
@@ -233,6 +251,8 @@ function afterUpdateBasicSinger(data) {
         $("#my-modal").modal("hide");
         gridOptions.api.forEachNode(function (node) {
             if (node.data.id === data.jsonObject.value.id) {
+                node.data.menderId = data.jsonObject.value.menderId;
+                node.data.menderName = data.jsonObject.value.menderName;
                 node.data.foreignName = data.jsonObject.value.foreignName;
                 node.data.nationality = data.jsonObject.value.nationality;
                 node.data.lastModificationTime = data.jsonObject.value.lastModificationTime

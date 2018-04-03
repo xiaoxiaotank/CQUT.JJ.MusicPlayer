@@ -64,7 +64,13 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     SId = ++i,
                     Id = s.Id,
                     SingerId = s.SingerId,
+                    CreatorId = s.CreatorId,
+                    MenderId = s.MenderId,
+                    UnpublisherId = s.UnpublisherId,
                     Name = s.Name,
+                    CreatorName = s.CreatorName,
+                    MenderName = s.MenderName,
+                    UnpublisherName = s.UnpublisherName,
                     SingerName = s.SingerName,
                     CreationTime = s.CreationTime.ToStandardDateOfChina(),
                     LastModificationTime = s.LastModificationTime?.ToStandardDateOfChina()
@@ -83,8 +89,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     SId = ++i,
                     Id = s.Id,
                     SingerId = s.SingerId,
+                    PublisherId = s.PublisherId,
                     Name = s.Name,
                     SingerName = s.SingerName,
+                    PublisherName = s.PublisherName,
                     CreationTime = s.CreationTime.ToStandardDateOfChina(),
                     PublishmentTime = s.PublishmentTime?.ToStandardDateOfChina()
                 });
@@ -125,7 +133,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 var album = new AlbumModel()
                 {
                     Name = model.Name.Trim(),
-                    SingerId = singerId
+                    SingerId = singerId,
+                    CreatorId = HttpContext.Session.GetCurrentUserId()
                 };
                 album = _albumAppService.Create(album);
                 var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -140,8 +149,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     {
                         Id = album.Id,
                         SingerId = album.SingerId,
+                        CreatorId = album.CreatorId,
                         Name = album.Name,
                         SingerName = album.SingerName,
+                        CreatorName = album.CreatorName,
                         CreationTime = album.CreationTime.ToStandardDateOfChina(),
                     })
                 });
@@ -190,7 +201,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 {
                     Id = model.Id,
                     Name = model.Name.Trim(),
-                    SingerId = singerId
+                    SingerId = singerId,
+                    MenderId = HttpContext.Session.GetCurrentUserId()
                 };
                 album = _albumAppService.UpdateBasic(album);
                 var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
@@ -205,8 +217,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     {
                         Id = album.Id,
                         SingerId = album.SingerId,
+                        MenderId = album.MenderId,
                         Name = album.Name,
                         SingerName = album.SingerName,
+                        MenderName = album.MenderName,
                         LastModificationTime = album.LastModificationTime?.ToStandardDateOfChina()
                     })
                 });
@@ -266,7 +280,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     , userName
                     , LogType.Info
                     , Log_Source));
-            _albumAppService.Publish(id);
+            _albumAppService.Publish(id, HttpContext.Session.GetCurrentUserId());
             LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑发布操作"
                     , userName
                     , LogType.Succeess
@@ -287,7 +301,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     , userName
                     , LogType.Info
                     , Log_Source));
-            _albumAppService.Unpublish(id);
+            _albumAppService.Unpublish(id, HttpContext.Session.GetCurrentUserId());
             LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑下架操作"
                     , userName
                     , LogType.Succeess
@@ -300,5 +314,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         }
 
         #endregion
+
+    
     }
 }

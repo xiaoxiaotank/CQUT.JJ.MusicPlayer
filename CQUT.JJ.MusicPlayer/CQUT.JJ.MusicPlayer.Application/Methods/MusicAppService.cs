@@ -28,6 +28,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 Id = music.Id,
                 SingerId = music.SingerId,
                 AlbumId = music.AlbumId,
+                CreatorId = music.CreatorId,
+                CreatorName = music.Creator.UserName,
                 Name = music.Name,
                 SingerName = music.Singer.Name,
                 AlbumName = music.Album.Name,
@@ -51,9 +53,15 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     Id = s.Id,
                     SingerId = s.SingerId,
                     AlbumId = s.AlbumId,
+                    CreatorId = s.CreatorId,
+                    MenderId = s.MenderId,
+                    UnpublisherId = s.UnpublisherId,
                     Name = s.Name,
                     SingerName = s.Singer.Name,
                     AlbumName = s.Album.Name,
+                    CreatorName = s.Creator.UserName,
+                    MenderName = s.Mender.UserName,
+                    UnpublisherName = s.Unpublisher.UserName,
                     Duration = s.Duration,
                     FileUrl = s.FileUrl,
                     CreationTime = s.CreationTime,
@@ -71,6 +79,8 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     Id = s.Id,
                     SingerId = s.SingerId,
                     AlbumId = s.AlbumId,
+                    PublisherId = (int)s.PublisherId,
+                    PublisherName = s.Publisher.UserName,
                     Name = s.Name,
                     SingerName = s.Singer.Name,
                     AlbumName = s.Album.Name,
@@ -148,9 +158,11 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                     Id = music.Id,
                     SingerId = music.SingerId,
                     AlbumId = music.AlbumId,
+                    MenderId = music.Mender.Id,
                     Name = music.Name,
                     SingerName = music.Singer.Name,
                     AlbumName = music.Album.Name,
+                    MenderName = music.Mender.UserName,
                     Duration = music.Duration,
                     FileUrl = music.FileUrl,
                     CreationTime = music.CreationTime,
@@ -158,15 +170,17 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 };
         }
 
-        public MusicModel Publish(int id)
+        public MusicModel Publish(int id, int userId)
         {
-            var music = _musicManager.Publish(id);
+            var music = _musicManager.Publish(id,userId);
             return new MusicModel()
             {
                 Id = music.Id,
                 SingerId = music.SingerId,
                 AlbumId = music.AlbumId,
+                PublisherId = (int)music.PublisherId,
                 Name = music.Name,
+                PublisherName = music.Publisher.UserName,
                 SingerName = music.Singer.Name,
                 AlbumName = music.Album.Name,
                 CreationTime = music.CreationTime,
@@ -175,14 +189,16 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             };
         }
 
-        public MusicModel Unpublish(int id)
+        public MusicModel Unpublish(int id, int userId)
         {
-            var music = _musicManager.Unpublish(id);
+            var music = _musicManager.Unpublish(id,userId);
             return new MusicModel()
             {
                 Id = music.Id,
                 SingerId = music.SingerId,
                 AlbumId = music.AlbumId,
+                UnpublisherId = music.UnpublisherId,
+                UnpublisherName = music.Unpublisher.UserName,
                 Name = music.Name,
                 SingerName = music.Singer.Name,
                 AlbumName = music.Album.Name,
