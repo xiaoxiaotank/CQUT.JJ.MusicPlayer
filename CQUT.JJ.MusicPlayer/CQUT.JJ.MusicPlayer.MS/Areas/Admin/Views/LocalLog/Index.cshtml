@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "日志";
+}
+@section Styles{
+    <link href="~/css/admin/localLogController/index.css" rel="stylesheet" />
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+        <small>@ViewBag.Title</small>
+    </h1>
+</section>
+<section class="content">
+    <div id="logGrid" class="ag-theme-balham"></div>
+</section>
+
+
+<div id="modal"></div>
+
+@section scripts{
+    <script src="~/lib/ag-grid/js/zh-cn.js"></script>
+    <script src="~/lib/ag-grid/js/ag-grid-enterprise.min.js"></script>
+    <script src="~/lib/ag-grid/js/custom.js"></script>
+    <script src="~/js/admin/localLogController/index.js"></script>
+}

@@ -12,7 +12,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences
 
         public const string LogRootPath = @"..\..\";
 
-        public const string LogRootDirectoryName = "LogFiles";
+        public const string LogRootDirectoryName = "Log";
 
         public static readonly string[] Music_File_Suffix = { ".mp3" };
 

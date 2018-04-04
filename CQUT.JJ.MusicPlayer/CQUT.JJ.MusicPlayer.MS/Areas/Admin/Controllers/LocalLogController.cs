@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Extensions;
-using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.Log;
+using CQUT.JJ.MusicPlayer.MS.Areas.Admin.Models.LocalLog;
 using CQUT.JJ.MusicPlayer.MS.Uitls.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class LogController : Controller
+    public class LocalLogController : Controller
     {
         [HttpGet]
         public IActionResult Index()

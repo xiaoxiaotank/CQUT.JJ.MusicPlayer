@@ -1,0 +1,22 @@
+﻿body {
+}
+
+.log-success {
+    background-color: #dff0d8 !important;
+    color: #3c763d;
+}
+
+.log-fail {
+    background-color: #f2dede !important;
+    color: #a94442;
+}
+
+.log-warning {
+    background-color: #fcf8e3 !important;
+    color: #8a6d3b;
+}
+
+.log-info {
+    background-color: #d9edf7 !important;
+    color: #31708f;
+}
