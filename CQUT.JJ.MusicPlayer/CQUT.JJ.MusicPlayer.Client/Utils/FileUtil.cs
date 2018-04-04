@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CQUT.JJ.MusicPlayer.Client.Utils
@@ -82,6 +83,23 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
             }
         }
 
-        //public static bool DownloadMusics()
+        /// <summary>
+        /// 音乐下载
+        /// </summary>
+        /// <param name="addressUrl"></param>
+        /// <param name="localName"></param>
+        public static async Task DownLoadMusicsAsync(Uri fileUri, string musicName,string singerName)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                //Thread.Sleep(10000);
+                var addressUri = fileUri;
+                if (!addressUri.IsAbsoluteUri)
+                    addressUri = new Uri(Path.GetFullPath(fileUri.OriginalString),UriKind.Absolute);
+                WebClient webClient = new WebClient();
+                Directory.CreateDirectory("./Download");
+                webClient.DownloadFileAsync(addressUri, $"./Download/{singerName}-{musicName}");
+            });
+        }
     }
 }

@@ -167,7 +167,7 @@
                 <jm:JmTransparentButton x:Name="BtnILove" ToolTip="我喜欢" Padding="0 2 0 0" Click="BtnILike_Click">
                     <TextBlock x:Name="TbILike" Text="&#xe60e;" />
                 </jm:JmTransparentButton>
-                <jm:JmTransparentButton x:Name="BtnDownloadMusic" ToolTip="下载该歌曲" Margin="12 0" FontSize="19">
+                <jm:JmTransparentButton x:Name="BtnDownloadMusic" ToolTip="下载该歌曲" Margin="12 0" FontSize="19" Click="BtnDownloadMusic_Click">
                     <TextBlock Text="&#xe612;" />
                 </jm:JmTransparentButton>
                 <jm:JmTransparentButton x:Name="BtnMore" ToolTip="更多" FontSize="20">

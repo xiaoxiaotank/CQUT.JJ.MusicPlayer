@@ -139,6 +139,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
                     /////////////////////////TODO 封面图
                     _musicPlayerMenuViewModel.PhotoUri =  _defaultPhotoUri;
+                    _musicPlayerMenuViewModel.FileUri = e.MusicInfo.FileUri;
                     _musicSourceType = MusicSourceType.JM;
                     InitILikeState();
 
@@ -414,6 +415,20 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             PopMusicPlayList.IsOpen = !PopMusicPlayList.IsOpen;
         }
 
+        private async void BtnDownloadMusic_Click(object sender, RoutedEventArgs e)
+        {
+            if(_mediaPlayer.HasAudio && _musicSourceType == MusicSourceType.JM)
+            {
+                var uri = _musicPlayerMenuViewModel.FileUri;
+                var musicName = _musicPlayerMenuViewModel.MusicName + System.IO.Path.GetExtension(uri.OriginalString);
+                var singerName = _musicPlayerMenuViewModel.SingerName;
+                await FileUtil.DownLoadMusicsAsync(uri, musicName, singerName);
+                JMMessageBox.Show("歌曲下载", $"{musicName}下载成功", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Success);
+            }
+            else
+                JMMessageBox.Show("下载音乐文件出错", "不支持下载", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+        }
+
         /// <summary>
         /// 歌曲列表中的播放按钮点击事件
         /// </summary>
@@ -628,5 +643,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
 
         #endregion
+
+  
     }
 }

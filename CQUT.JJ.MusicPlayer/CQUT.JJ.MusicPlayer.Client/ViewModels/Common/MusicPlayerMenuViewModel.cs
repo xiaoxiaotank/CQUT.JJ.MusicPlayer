@@ -15,6 +15,8 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
 
         public int Id { get; set; }
 
+        public Uri FileUri { get; set; }
+
         public string MusicName
         {
             get { return _musicName; }
