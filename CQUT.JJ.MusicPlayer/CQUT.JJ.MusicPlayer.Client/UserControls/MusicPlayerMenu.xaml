@@ -164,8 +164,8 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
-                <jm:JmTransparentButton x:Name="BtnILove" ToolTip="我喜欢" Padding="0 2 0 0" Click="BtnILove_Click">
-                    <TextBlock x:Name="TbILove" Text="&#xe60e;" />
+                <jm:JmTransparentButton x:Name="BtnILove" ToolTip="我喜欢" Padding="0 2 0 0" Click="BtnILike_Click">
+                    <TextBlock x:Name="TbILike" Text="&#xe60e;" />
                 </jm:JmTransparentButton>
                 <jm:JmTransparentButton x:Name="BtnDownloadMusic" ToolTip="下载该歌曲" Margin="12 0" FontSize="19">
                     <TextBlock Text="&#xe612;" />

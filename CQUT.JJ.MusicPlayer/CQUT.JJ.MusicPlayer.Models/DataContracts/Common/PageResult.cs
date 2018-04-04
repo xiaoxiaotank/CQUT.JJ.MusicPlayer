@@ -15,7 +15,7 @@ namespace CQUT.JJ.MusicPlayer.Models.DataContracts
         [DataMember]
         public IEnumerable<object> Results { get; set; }
 
-        public SearchType ResultType { get; set; }
+        public MusicRequestType ResultType { get; set; }
 
         [DataMember]
         public int PageCount { get; set; }

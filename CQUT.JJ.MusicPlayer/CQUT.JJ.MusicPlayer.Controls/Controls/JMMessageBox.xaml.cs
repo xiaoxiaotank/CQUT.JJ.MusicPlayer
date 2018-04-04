@@ -40,7 +40,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         #endregion
 
         #region Constructor
-        public JMMessageBox()
+        private JMMessageBox()
         {
             InitializeComponent();
             this.DataContext = _jmMessageBoxViewModel;

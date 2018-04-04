@@ -22,7 +22,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
         public static void InvokeFromQMRequest(int targetPageNumber = 1) 
             => QMRequestEvent?.Invoke(null, new BaseMusicSearchInfoRequestArgs(targetPageNumber));
 
-        public static void InvokeFromJMRequest(SearchType type,int targetPageNumber = 1, int size = 20)
+        public static void InvokeFromJMRequest(MusicRequestType type,int targetPageNumber = 1, int size = 20)
             => JMRequestEvent?.Invoke(null, new MusicSearchInfoRequestArgs(type,targetPageNumber,size));
 
         public static void InvokeFromQMSearchChanged(QMusicsOfPageModel musicInfoOfPageModels, int targetPageNumber, bool isSuccessed = true,string errorInfo = null)
@@ -69,11 +69,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.EventUtils
 
     public class MusicSearchInfoRequestArgs : BaseMusicSearchInfoRequestArgs
     {
-        public SearchType Type { get; set; }
+        public MusicRequestType Type { get; set; }
 
         public int Size { get; set; }
 
-        public MusicSearchInfoRequestArgs(SearchType type,int targetPageNumber,int size = 20) : base(targetPageNumber)
+        public MusicSearchInfoRequestArgs(MusicRequestType type,int targetPageNumber,int size = 20) : base(targetPageNumber)
         {
             Type = type;
             Size = size;

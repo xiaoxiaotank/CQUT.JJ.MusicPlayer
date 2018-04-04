@@ -137,7 +137,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private void GetJMusics(SearchType type,int page,int size)
+        private void GetJMusics(MusicRequestType type,int page,int size)
         {
             Task.Factory.StartNew(() =>
             {
@@ -241,7 +241,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// <param name="currentPageNumber"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private PageResult GetJMusicInfoOfPageModel(SearchType type, string searchKey, int currentPageNumber, int size)
+        private PageResult GetJMusicInfoOfPageModel(MusicRequestType type, string searchKey, int currentPageNumber, int size)
         {
             ISearchService musicSearchService = new SearchService();
             var result = musicSearchService.Search(type,searchKey, currentPageNumber, size);

@@ -74,10 +74,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         public Music Publish(int id,int userId)
         {
             _userManager.ValidAdminByUserId(userId);
-            var music = Find(id);
-            if (music.IsPublished)
-                ThrowException("音乐已发布，无需再次操作！");
-
+            ValidForPubish(id, out Music music);
+           
             music.IsPublished = true;
             music.PublisherId = userId;
             music.PublishmentTime
@@ -86,7 +84,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
             Save();
             return music;
-        }
+        }     
 
         public Music Unpublish(int id,int userId)
         {
@@ -164,6 +162,17 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             music = Find(id);
             if (music.IsPublished)
                 ThrowException("音乐作品已发布，请撤销后进行该操作");
+        }
+
+        private void ValidForPubish(int id, out Music music)
+        {
+            music = Find(id);
+            if (music.IsPublished)
+                ThrowException("音乐已发布，无需再次操作！");
+            if (!music.Album.IsPublished)
+                ThrowException("该音乐所属专辑尚未发布，请发布专辑后再次尝试");
+            if (!music.Singer.IsPublished)
+                ThrowException("该音乐所属歌唱家尚未发布，请发布歌唱家后再次尝试");
         }
 
     }

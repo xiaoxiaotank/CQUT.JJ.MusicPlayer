@@ -80,7 +80,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
                     switch (e.PageResult.ResultType)
                     {
-                        case SearchType.Song:
+                        case MusicRequestType.Song:
                             var songs = (MusicSearchPageResult)e.PageResult;
                             songs.Results?.ToList().ForEach(r =>
                             {
@@ -142,7 +142,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             GdSong.Visibility = Visibility.Collapsed;
             NonNavPageDisplayedUtil.Invoke();
 
-            MusicSearchInfoChangedUtil.InvokeFromJMRequest(SearchType.Song, 1);
+            MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song, 1);
         }
 
 

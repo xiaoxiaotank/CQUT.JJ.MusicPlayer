@@ -44,25 +44,25 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             };
         }
 
-        public PageResult Search(SearchType type, string key, int page, int size = 20)
+        public PageResult Search(MusicRequestType type, string key, int page, int size = 20)
         {
             PageResult result = null;
             switch (type)
             {
-                case SearchType.Song:
+                case MusicRequestType.Song:
                     result = SearchSong(key, page, size);
                     break;
-                case SearchType.Album:
+                case MusicRequestType.Album:
                     break;
-                case SearchType.PlayList:
+                case MusicRequestType.PlayList:
                     break;
-                case SearchType.MV:
+                case MusicRequestType.MV:
                     break;
-                case SearchType.Lyric:
+                case MusicRequestType.Lyric:
                     break;
-                case SearchType.Singer:
+                case MusicRequestType.Singer:
                     break;
-                case SearchType.User:
+                case MusicRequestType.User:
                     break;
             }
             return result;
@@ -100,7 +100,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
                     p.AlbumName = _ctx.Album.SingleOrDefault(s => s.Id == p.AlbumId && s.IsPublished && !s.IsDeleted)?.Name;
                     return p;
                 }),
-                ResultType = SearchType.Song
+                ResultType = MusicRequestType.Song
             };
             return result;
         }

@@ -13,6 +13,8 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels
         private string _singerName = string.Empty;
         private Uri _photoUri;
 
+        public int Id { get; set; }
+
         public string MusicName
         {
             get { return _musicName; }

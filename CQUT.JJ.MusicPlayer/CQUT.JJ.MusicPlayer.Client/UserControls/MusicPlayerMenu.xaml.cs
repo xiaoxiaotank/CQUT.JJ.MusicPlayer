@@ -6,6 +6,8 @@ using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Client.ViewModels.MusicPlayerMenu;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using CQUT.JJ.MusicPlayer.Controls.Enums.JMMessageBox;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.WCFService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +37,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         #region 字段
 
+        private readonly IMusicService _musicService;
         /// <summary>
         /// 定时更新歌曲进度
         /// </summary>
@@ -87,6 +90,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         public MusicPlayerMenu()
         {
+            _musicService = new MusicService();
+
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
             _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
@@ -129,11 +134,13 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 {
                     _isPlaying = false;
                     PlayNewMusic(e.MusicInfo.FileUri);
+                    _musicPlayerMenuViewModel.Id = e.MusicInfo.Id;
                     _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
                     _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
                     /////////////////////////TODO 封面图
                     _musicPlayerMenuViewModel.PhotoUri =  _defaultPhotoUri;
                     _musicSourceType = MusicSourceType.JM;
+                    InitILikeState();
 
                     if (_musicPlayListViewModel?.MusicPlayList != null)
                     {
@@ -160,7 +167,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         }
 
 
-
+        /// <summary>
+        /// QM播放
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void QMusicPlayStateChanged(object sender, QMusicPlayStateChangedArgs e)
         {           
             Task.Factory.StartNew(() =>
@@ -171,10 +182,12 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 {
                     _isPlaying = false;
                     PlayNewMusic(e.MusicInfo.Uri);
+                    _musicPlayerMenuViewModel.Id = 0;
                     _musicPlayerMenuViewModel.MusicName = e.MusicInfo.Name;
                     _musicPlayerMenuViewModel.SingerName = e.MusicInfo.SingerName;
                     _musicPlayerMenuViewModel.PhotoUri = e.MusicInfo.PhotoUri ?? _defaultPhotoUri;                   
                     _musicSourceType = MusicSourceType.QM;
+                    InitILikeState();
 
                     if (_musicPlayListViewModel?.MusicPlayList != null)
                     {
@@ -207,7 +220,10 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void MediaPlayer_MediaOpened(object sender, EventArgs e)
         {
-            MusicPlayStateChangedUtil.InvokeFromQM(null, true, false);
+            if (_musicSourceType == MusicSourceType.JM)
+                MusicPlayStateChangedUtil.InvokeFromJM(null, true, false);
+            else
+                MusicPlayStateChangedUtil.InvokeFromQM(null, true, false);
             MusicProgressSlider.Maximum = _mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
             SliderVolume.Maximum = _mediaPlayer.Volume;
             _isOpenFailedOfCurrentPlayingMusic = false;
@@ -221,7 +237,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void MediaPlayer_MediaFailed(object sender, ExceptionEventArgs e)
         {
             _isOpenFailedOfCurrentPlayingMusic = true;
-            MusicPlayStateChangedUtil.InvokeFromJM(null, false, false);
+            //为了同步播放按钮的状态
+            if(_musicSourceType == MusicSourceType.JM)
+                MusicPlayStateChangedUtil.InvokeFromJM(null, false, false);
+            else
+                MusicPlayStateChangedUtil.InvokeFromQM(null, false, false);
             JMMessageBox.Show("歌曲失效", "因歌曲文件失效导致播放失败，请欣赏其他歌曲", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
         }
 
@@ -287,9 +307,28 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BtnILove_Click(object sender, RoutedEventArgs e)
+        private void BtnILike_Click(object sender, RoutedEventArgs e)
         {
-            ChangeILoveState();
+            try
+            {
+                if (_mediaPlayer.HasAudio && _musicSourceType == MusicSourceType.JM)
+                {
+                    var user = App.User;
+                    if (user != null)
+                    {
+                        _musicService.ToggleUserLike(user.Id, _musicPlayerMenuViewModel.Id,MusicRequestType.Song);
+                        ChangeILikeState();
+                    }
+                    else
+                        JMMessageBox.Show("添加我喜欢出错", "请先登录", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+                }
+                else
+                    JMMessageBox.Show("添加我喜欢出错", "无播放音乐或该音乐类型不支持", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+            }
+            catch(Exception ex)
+            {
+                JMMessageBox.Show("添加我喜欢出错",ex.Message, JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+            }
         }
 
         /// <summary>
@@ -490,24 +529,44 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// <summary>
         /// 改变“喜欢”图标的状态
         /// </summary>
-        private void ChangeILoveState()
+        private void ChangeILikeState()
         {
-            if (_mediaPlayer.HasAudio && _musicSourceType == MusicSourceType.JM)
+            if (TbILike.Text.Equals("\ue60e"))
             {
-                if (TbILove.Text.Equals("\ue60e"))
-                {
-                    TbILove.Text = "\ue603";
-                    BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
-                    BtnILove.FontSize += 2;
-                    BtnILove.ToolTip = "取消喜欢";
-                }
-                else
-                {
-                    TbILove.Text = "\ue60e";
-                    BtnILove.Foreground = new SolidColorBrush(Colors.Silver);
-                    BtnILove.FontSize -= 2;
-                    BtnILove.ToolTip = "我喜欢";
-                }
+                TbILike.Text = "\ue603";
+                BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
+                BtnILove.FontSize += 2;
+                BtnILove.ToolTip = "取消喜欢";
+            }
+            else
+            {
+                TbILike.Text = "\ue60e";
+                BtnILove.Foreground = new SolidColorBrush(Colors.Silver);
+                BtnILove.FontSize -= 2;
+                BtnILove.ToolTip = "我喜欢";
+            }
+        }
+
+        /// <summary>
+        /// 初始化我喜欢图标
+        /// </summary>
+        private void InitILikeState()
+        {
+            if(App.User != null
+                && _musicService.IsUserLike(App.User.Id, _musicPlayerMenuViewModel.Id, MusicRequestType.Song)
+                && TbILike.Text.Equals("\ue60e"))
+            {
+                TbILike.Text = "\ue603";
+                BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
+                BtnILove.FontSize += 2;
+                BtnILove.ToolTip = "取消喜欢";
+            }
+            else if (TbILike.Text.Equals("\ue603"))
+            {
+                TbILike.Text = "\ue60e";
+                BtnILove.Foreground = new SolidColorBrush(Colors.Silver);
+                BtnILove.FontSize -= 2;
+                BtnILove.ToolTip = "我喜欢";
             }
         }
 
@@ -532,6 +591,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }
 
         } 
+
 
         #endregion
 

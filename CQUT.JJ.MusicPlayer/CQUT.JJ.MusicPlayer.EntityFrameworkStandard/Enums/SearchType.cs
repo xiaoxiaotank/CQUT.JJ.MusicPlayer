@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CQUT.JJ.MusicPlayer.EntityFramework.Enums
 {
-    public enum SearchType
+    public enum MusicRequestType
     {
         [Description("单曲")]
         Song,
