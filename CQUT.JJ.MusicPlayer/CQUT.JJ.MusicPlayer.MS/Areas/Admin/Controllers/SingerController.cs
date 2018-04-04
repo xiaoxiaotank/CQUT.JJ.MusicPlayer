@@ -19,8 +19,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
     [Area("Admin")]
     public class SingerController : Controller
     {
-        private const string Log_Source = "歌唱家管理";
-
         private readonly ISingerAppService _singerAppService;
 
         public SingerController(ISingerAppService singerAppService)
@@ -31,22 +29,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Unpublished()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问歌唱家未发布管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
         [HttpGet]
         public IActionResult Published()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问歌唱家已发布管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
@@ -102,11 +90,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Create)]
         public IActionResult Create()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试歌唱家创建操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return PartialView("_Create",new CreateSingerViewModel());
         }
 
@@ -122,11 +105,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 CreatorId = HttpContext.Session.GetCurrentUserId()
             };
             singer = _singerAppService.Create(singer);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌唱家创建操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "添加歌唱家成功！",
@@ -151,11 +129,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Update)]
         public IActionResult UpdateBasic(int id,UpdateBasicSingerViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试歌唱家更新基本信息操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var singer = _singerAppService.GetSingerById(id);
             model = new UpdateBasicSingerViewModel()
             {
@@ -179,11 +152,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 MenderId = HttpContext.Session.GetCurrentUserId(),
             };
             singer = _singerAppService.UpdateBasic(singer);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌唱家更新基本信息操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "更新基本信息成功！",
@@ -207,11 +175,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Delete)]
         public IActionResult Delete(int id, DeleteSingerViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试歌唱家删除操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var singer = _singerAppService.GetSingerById(id);
             model = new DeleteSingerViewModel()
             {
@@ -226,11 +189,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult Delete(DeleteSingerViewModel model)
         {
             _singerAppService.Delete(model.Id);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌唱家删除操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "删除成功",
@@ -246,16 +204,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Publish)]
         public IActionResult Publish(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试歌唱家发布操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _singerAppService.Publish(id, HttpContext.Session.GetCurrentUserId());
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌唱家发布操作"
-                   , userName
-                   , LogType.Succeess
-                   , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "发布成功",
@@ -267,16 +216,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Singer_Unpublish)]
         public IActionResult Unpublish(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试歌唱家下架操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _singerAppService.Unpublish(id, HttpContext.Session.GetCurrentUserId());
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成歌歌唱家下架操作"
-                   , userName
-                   , LogType.Succeess
-                   , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "下架成功",

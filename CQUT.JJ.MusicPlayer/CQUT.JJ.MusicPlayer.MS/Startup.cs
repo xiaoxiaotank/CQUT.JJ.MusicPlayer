@@ -65,7 +65,8 @@ namespace CQUT.JJ.MusicPlayer.MS
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(MvcGlobalHandleErrorAttribute)); // by type
-                options.Filters.Add(new MvcGlobalHandleErrorAttribute()); // an instance    
+                //options.Filters.Add(new MvcGlobalHandleErrorAttribute()); // an instance    
+                options.Filters.Add(new MvcActionAttribute());
             });
         }
 

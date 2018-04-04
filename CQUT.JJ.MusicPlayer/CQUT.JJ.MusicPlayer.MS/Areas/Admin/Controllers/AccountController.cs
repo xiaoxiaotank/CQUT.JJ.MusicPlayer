@@ -23,8 +23,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
     [Area("Admin")]
     public class AccountController : Controller
     {
-        private const string Log_Source = "员工登录";
-
         private readonly IUserAppService _userAppService;
 
         public AccountController(IUserAppService userAppService)
@@ -50,10 +48,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         {
             if (HttpContext.Request.IsAjaxRequest())
             {
-                LogHelper.Log(new LogItemEntity($"{model.UserName} 请求登录操作"
-                    , model.UserName
-                    , LogType.Info
-                    , Log_Source));
                 var user = new UserModel();
                 try
                 {
@@ -61,10 +55,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
                     if (user != null)
                     {
-                        LogHelper.Log(new LogItemEntity($"{user.UserName} 登录成功"
-                            , user.UserName
-                            , LogType.Succeess
-                            , Log_Source));
                         HttpContext.Session.SaveCurrentUser(user);
 
                         if (model.IsRememberMe)
@@ -88,10 +78,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 }
                 catch (JMBasicException ex)
                 {
-                    LogHelper.Log(new LogItemEntity($"{user.UserName} {ex.Message}"
-                        , user.UserName
-                        , LogType.Fail
-                        , Log_Source));
                     HttpContext.Session.SaveCurrentUser(user);
                     return Json(new JsonResultEntity() { IsSuccessed = false,Message = ex.Message });
                 }
@@ -109,11 +95,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         {
             var user = GlobalHelper.GetCurrentUser(HttpContext.Session);
             HttpContext.Session.Remove("User");
-            LogHelper.Log(new LogItemEntity($"{user.UserName} 注销成功"
-                            , user.UserName
-                            , LogType.Succeess
-                            , Log_Source));
-            HttpContext.Session.SaveCurrentUser(user);
+
             return RedirectToAction("Login");
         }
     }

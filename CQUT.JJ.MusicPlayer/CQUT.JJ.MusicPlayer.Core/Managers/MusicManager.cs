@@ -14,15 +14,16 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class MusicManager : BaseManager<Music>
     {
-        public MusicManager(JMDbContext ctx) : base(ctx)
+        private readonly UserManager _userManager;
+        public MusicManager(JMDbContext ctx, UserManager userManager) : base(ctx)
         {
-            
+            _userManager = userManager;
         }
 
         //TODO  增加操作人
         public Music Create(MusicModel model)
         {
-            ValidAdminByUserId(model.CreatorId);
+            _userManager.ValidAdminByUserId(model.CreatorId);
             ValidateForCreate(model);
 
             var music = new Music()
@@ -43,7 +44,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Music UpdateBasic(MusicModel model)
         {
-            ValidAdminByUserId((int)model.MenderId);
+            _userManager.ValidAdminByUserId((int)model.MenderId);
             ValidateForUpdateBasic(model,out Music music);
 
             music.Name = model.Name;
@@ -63,6 +64,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             ValidForDelete(id, out Music music);
             
             music.IsDeleted = true;
+            music.IsPublished = false;
             music.LastModificationTime
                 = music.DeletionTime
                 = DateTime.Now;
@@ -71,7 +73,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Music Publish(int id,int userId)
         {
-            ValidAdminByUserId(userId);
+            _userManager.ValidAdminByUserId(userId);
             var music = Find(id);
             if (music.IsPublished)
                 ThrowException("音乐已发布，无需再次操作！");
@@ -88,7 +90,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Music Unpublish(int id,int userId)
         {
-            ValidAdminByUserId(userId);
+            _userManager.ValidAdminByUserId(userId);
             var music = Find(id);
             if (!music.IsPublished)
                 ThrowException("音乐属于未发布状态，无需再次操作！");

@@ -30,10 +30,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Filters
             var action = context.RouteData.Values["action"].ToString();
 
             var userName = context.HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} {ex.Message}"
+            Task.Factory.StartNew(() => LogHelper.Log(new LogItemEntity($"{userName} {ex.Message}"
                     , userName
                     , LogType.Fail
-                    , $"{controller}.{action}"));
+                    , $"{controller}.{action}")));
 
             //is ajax request
             if (context.HttpContext.Request.IsAjaxRequest())

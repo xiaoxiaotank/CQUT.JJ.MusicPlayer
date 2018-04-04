@@ -20,8 +20,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
     [Area("Admin")]
     public class RoleController : Controller
     {
-        private const string Log_Source = "角色管理";
-
         private readonly IRoleAppService _roleAppService;
 
         public RoleController(IRoleAppService roleAppService)
@@ -33,11 +31,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Role)]
         public IActionResult Index()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问角色管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
@@ -75,11 +68,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Create)]
         public IActionResult Create()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试角色创建操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return PartialView("_Create");
         }
 
@@ -93,11 +81,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 IsDefault = model.IsDefault
             };
             role = _roleAppService.CreateRole(role, model.PermissionCodes);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成角色创建操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "添加角色成功",
@@ -118,11 +101,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Update)]
         public IActionResult Update(int id, UpdateRoleViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试角色更新基本信息操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var role = _roleAppService.GetRoleById(id);
             model = new UpdateRoleViewModel
             {
@@ -144,11 +122,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 IsDefault = model.IsDefault
             };
             role = _roleAppService.UpdateRole(role);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成角色更新基本信息操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "修改角色基本信息成功！",
@@ -169,16 +142,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_SetDefault)]
         public IActionResult ToggleSetDefault(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试角色设置默认操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _roleAppService.ToggleSetDefault(id);
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成角色设置默认操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return Json(new JsonResultEntity() { Message = "切换默认角色成功！" });
         }
 
@@ -190,11 +154,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Delete)]
         public IActionResult Delete(int id, DeleteRoleViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试角色删除操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var role = _roleAppService.GetRoleById(id);
             model = new DeleteRoleViewModel
             {
@@ -209,11 +168,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult Delete(DeleteRoleViewModel model)
         {
             _roleAppService.DeleteRoleById(model.Id);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成角色删除操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "删除角色成功！",
@@ -229,11 +183,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Role_Authorize)]
         public IActionResult Authorize(int id, AuthorizeRoleViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试角色授权操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             model = new AuthorizeRoleViewModel() { Id = id };
             return View("_Authorize", model);
         }
@@ -243,11 +192,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult Authorize(AuthorizeRoleViewModel model)
         {
             _roleAppService.SetPermissions(model.Id, model.PermissionCodes);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成角色授权操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "设置权限成功！",

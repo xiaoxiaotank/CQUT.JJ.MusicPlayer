@@ -20,8 +20,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
     [Area("Admin")]
     public class AlbumController : Controller
     {
-        private const string Log_Source = "专辑管理";
-
         private readonly IAlbumAppService _albumAppService;
         private readonly ISingerAppService _singerAppService;
 
@@ -34,22 +32,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Unpublished()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问专辑未发布管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
         [HttpGet]
         public IActionResult Published()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问专辑已发布管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
@@ -105,11 +93,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Album_Create)]
         public IActionResult Create()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试专辑创建操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var model = new CreateAlbumViewModel()
             {
                 Singers = _singerAppService.GetPublishedSingers()?
@@ -137,11 +120,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     CreatorId = HttpContext.Session.GetCurrentUserId()
                 };
                 album = _albumAppService.Create(album);
-                var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-                LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑创建操作"
-                        , userName
-                        , LogType.Succeess
-                        , Log_Source));
                 return Json(new JsonResultEntity()
                 {
                     Message = "添加专辑成功！",
@@ -170,11 +148,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Album_Update)]
         public IActionResult UpdateBasic(int id, UpdateBasicAlbumViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试专辑更新基本信息操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var album = _albumAppService.GetAlbumById(id);
             model = new UpdateBasicAlbumViewModel()
             {
@@ -205,11 +178,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     MenderId = HttpContext.Session.GetCurrentUserId()
                 };
                 album = _albumAppService.UpdateBasic(album);
-                var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-                LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑更新基本信息操作"
-                        , userName
-                        , LogType.Succeess
-                        , Log_Source));
                 return Json(new JsonResultEntity()
                 {
                     Message = "更新基本信息成功！",
@@ -236,11 +204,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Album_Delete)]
         public IActionResult Delete(int id, DeleteAlbumViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试专辑删除操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var singer = _albumAppService.GetAlbumById(id);
             model = new DeleteAlbumViewModel()
             {
@@ -255,11 +218,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult Delete(DeleteAlbumViewModel model)
         {
             _albumAppService.Delete(model.Id);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑删除操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "删除成功",
@@ -275,16 +233,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Album_Publish)]
         public IActionResult Publish(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试专辑发布操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _albumAppService.Publish(id, HttpContext.Session.GetCurrentUserId());
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑发布操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "发布成功",
@@ -296,16 +245,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Album_Unpublish)]
         public IActionResult Unpublish(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试专辑下架操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _albumAppService.Unpublish(id, HttpContext.Session.GetCurrentUserId());
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成专辑下架操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "下架成功",

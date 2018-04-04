@@ -1,5 +1,8 @@
 ﻿using CQUT.JJ.MusicPlayer.Core.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -36,6 +39,32 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
         }
 
         /// <summary>
+        /// 获取Controller特性
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="attributeType"></param>
+        /// <param name="inherit"></param>
+        /// <returns></returns>
+        public static object[] GetControllerAttributesByContext(this ActionContext context, Type attributeType,bool inherit = true)
+        {
+            var attributes = (context.ActionDescriptor as ControllerActionDescriptor).MethodInfo.GetCustomAttributes(attributeType, inherit);
+            return attributes;
+        }
+
+        /// <summary>
+        /// 获取Action特性
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="attributeType"></param>
+        /// <param name="inherit"></param>
+        /// <returns></returns>
+        public static object[] GetActionAttributesByContext(this ActionContext context,Type attributeType,bool inherit = true)
+        {
+            var attributes = (context.ActionDescriptor as ControllerActionDescriptor).MethodInfo.GetCustomAttributes(attributeType, inherit);
+            return attributes;
+        }
+
+        /// <summary>
         /// 判断是否为ajax请求
         /// </summary>
         /// <param name="request"></param>
@@ -46,6 +75,10 @@ namespace CQUT.JJ.MusicPlayer.MS.Utils.Helpers
             return (header != null && header == "XMLHttpRequest") ? true : false;
         }
 
+        /// <summary>
+        /// 获取国家键值对列表
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<KeyValuePair<string,string>> GetNationalities()
         {
             return new List<KeyValuePair<string, string>>()

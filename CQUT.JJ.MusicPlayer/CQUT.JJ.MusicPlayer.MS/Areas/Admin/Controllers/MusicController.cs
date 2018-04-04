@@ -25,8 +25,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
     [Area("Admin")]   
     public class MusicController : Controller
     {
-        private const string Log_Source = "音乐管理";
-
         private readonly IMusicAppService _musicAppService;
         private readonly ISingerAppService _singerAppService;
         private readonly IAlbumAppService _albumAppService;
@@ -42,22 +40,12 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Unpublished()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问音乐未发布管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
         [HttpGet]
         public IActionResult Published()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试访问音乐已发布管理页面"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             return View();
         }
 
@@ -121,11 +109,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Music_Create)]
         public IActionResult Create()
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试音乐创建操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var model = new CreateMusicViewModel()
             {
                 Singers = _singerAppService.GetPublishedSingersHasAlbums()?
@@ -170,11 +153,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     FileUrl = SaveMusicFile(model.File,singerId,albumId)
                 };
                 music = _musicAppService.Create(music);
-                var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-                LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐创建操作"
-                        , userName
-                        , LogType.Succeess
-                        , Log_Source));
                 return Json(new JsonResultEntity()
                 {
                     Message = "添加音乐成功！",
@@ -224,11 +202,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Music_Update)]
         public IActionResult UpdateBasic(int id, UpdateBasicMusicViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试音乐更新基本信息操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var music = _musicAppService.GetMusicById(id);
             model = new UpdateBasicMusicViewModel()
             {
@@ -272,11 +245,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                     MenderId = HttpContext.Session.GetCurrentUserId()
                 };
                 music = _musicAppService.UpdateBasic(music);
-                var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-                LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐更新基本信息操作"
-                        , userName
-                        , LogType.Succeess
-                        , Log_Source));
                 return Json(new JsonResultEntity()
                 {
                     Message = "更新基本信息成功！",
@@ -305,11 +273,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Music_Delete)]
         public IActionResult Delete(int id, DeleteMusicViewModel model)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试音乐删除操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             var music = _musicAppService.GetMusicById(id);
             model = new DeleteMusicViewModel()
             {
@@ -324,11 +287,6 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         public IActionResult Delete(DeleteMusicViewModel model)
         {
             _musicAppService.Delete(model.Id);
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐删除操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "删除成功",
@@ -344,16 +302,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Music_Publish)]
         public IActionResult Publish(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试音乐发布操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _musicAppService.Publish(id, HttpContext.Session.GetCurrentUserId());
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐发布操作"
-                   , userName
-                   , LogType.Succeess
-                   , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "发布成功",
@@ -365,16 +314,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         [MvcAuthorize(PermissionCode = PermissionCodes.Music_Unpublish)]
         public IActionResult Unpublish(int id)
         {
-            var userName = HttpContext.Session.GetCurrentUser()?.UserName ?? Utils.Helpers.GlobalHelper.Unlogin_User_Name;
-            LogHelper.Log(new LogItemEntity($"{userName} 尝试音乐下架操作"
-                    , userName
-                    , LogType.Info
-                    , Log_Source));
             _musicAppService.Unpublish(id, HttpContext.Session.GetCurrentUserId());
-            LogHelper.Log(new LogItemEntity($"{userName} 成功完成音乐下架操作"
-                    , userName
-                    , LogType.Succeess
-                    , Log_Source));
             return Json(new JsonResultEntity()
             {
                 Message = "下架成功",

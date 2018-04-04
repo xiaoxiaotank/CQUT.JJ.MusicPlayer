@@ -104,7 +104,7 @@ async function GetRowData() {
     return await
         $.ajax({
             type: "get",
-            url: "/Admin/Log/GetLogs",
+            url: "/Admin/LocalLog/GetLogs",
             success: function (data) {
                 return data;
             }

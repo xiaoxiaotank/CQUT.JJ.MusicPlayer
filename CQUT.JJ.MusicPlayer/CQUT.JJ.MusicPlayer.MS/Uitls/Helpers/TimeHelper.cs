@@ -34,7 +34,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Helpers
         /// <returns></returns>
         public static string ToStandardDateTimeOfChina(this DateTime dateTime)
         {
-            return ((DateTime)dateTime).ToString("yyyy年MM月dd日 HH:mm:ss");
+            return ((DateTime)dateTime).ToString("yyyy年MM月dd日 HH : mm : ss");
         }
     }
 }

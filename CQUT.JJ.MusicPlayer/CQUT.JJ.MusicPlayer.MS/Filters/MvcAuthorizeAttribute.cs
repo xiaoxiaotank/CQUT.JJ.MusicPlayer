@@ -24,14 +24,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Filters
 
             var controller = context.RouteData.Values["controller"].ToString();
             var action = context.RouteData.Values["action"].ToString();
+            var area = context.RouteData.Values["area"]?.ToString();
 
             //用户没有登录
             if (user == null)
             {
-                LogHelper.Log(new LogItemEntity($"{GlobalHelper.Unlogin_User_Name} 未被授权，已被阻止"
+                Task.Factory.StartNew(() => LogHelper.Log(new LogItemEntity($"{GlobalHelper.Unlogin_User_Name} 未被授权，已被阻止"
                         , GlobalHelper.Unlogin_User_Name
                         , LogType.Warning
-                        , $"{controller}.{action}"));
+                        , $"{area}.{controller}.{action}")));
                 var returnUrl = "/Admin/Account/Login";
 
                 context.Result = context.HttpContext.Request.IsAjaxRequest() ?

@@ -233,6 +233,18 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         }
 
         /// <summary>
+        /// 用来验证是否为管理员账户
+        /// </summary>
+        /// <param name="id"></param>
+        public void ValidAdminByUserId(int? id)
+        {
+            if (id == null)
+                ThrowException("操作人员不存在！");
+            var user = JMDbContext.User.SingleOrDefault(u => u.Id == id && u.IsAdmin && !u.IsDeleted);
+            if (user == null)
+                ThrowException("操作人员不存在！");
+        }
+        /// <summary>
         /// 验证邮箱是否有效并且不重复
         /// </summary>
         /// <param name="emailAddress"></param>

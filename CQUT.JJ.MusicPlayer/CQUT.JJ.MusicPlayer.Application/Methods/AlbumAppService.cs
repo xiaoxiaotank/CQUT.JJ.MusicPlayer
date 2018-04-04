@@ -27,7 +27,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             {
                 Id = album.Id,
                 SingerId = album.SingerId,
-                CreatorId = album.CreatorId,
+                CreatorId = album.Creator.Id,
                 CreatorName = album.Creator.NickName,
                 Name = album.Name,
                 SingerName = album.Singer.Name,               
@@ -46,7 +46,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             return new AlbumModel()
             {
                 Id = album.Id,
-                SingerId = album.SingerId,
+                SingerId = album.Singer.Id,
                 Name = album.Name,
                 SingerName = album.Singer.Name,
                 CreationTime = album.CreationTime,
@@ -61,10 +61,10 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                {
                    Id = r.Id,
                    SingerId = r.SingerId,
-                   PublisherId = (int)r.PublisherId,
-                   PublisherName = r.Publisher.UserName,
+                   PublisherId = (int)r.Publisher.Id,                  
                    Name = r.Name,
                    SingerName = r.Singer.Name,
+                   PublisherName = r.Publisher.UserName,
                    CreationTime = r.CreationTime,
                    PublishmentTime = r.PublishmentTime
                });
@@ -76,15 +76,15 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
               .Select(r => new AlbumModel()
               {
                   Id = r.Id,
-                  SingerId = r.SingerId,
+                  SingerId = r.Singer.Id,
                   CreatorId = r.CreatorId,
                   MenderId = (int)r.MenderId,
                   UnpublisherId = (int)r.UnpublisherId,
                   Name = r.Name,
+                  SingerName = r.Singer.Name,
                   CreatorName = r.Creator.UserName,
                   MenderName = r.Mender.UserName,
                   UnpublisherName = r.Unpublisher.UserName,
-                  SingerName = r.Singer.Name,
                   CreationTime = r.CreationTime,
                   LastModificationTime = r.LastModificationTime
               });

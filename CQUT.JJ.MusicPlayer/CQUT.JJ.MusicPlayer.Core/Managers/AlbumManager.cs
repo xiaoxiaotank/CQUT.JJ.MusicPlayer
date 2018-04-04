@@ -10,13 +10,17 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class AlbumManager : BaseManager<Album>
     {
-        public AlbumManager(JMDbContext ctx) : base(ctx)
+        private readonly UserManager _userManager;
+        private readonly MusicManager _musicManager;
+        public AlbumManager(JMDbContext ctx,UserManager userManager, MusicManager musicManager) : base(ctx)
         {
+            _userManager = userManager;
+            _musicManager = musicManager;
         }
 
         public Album Create(AlbumModel model)
         {
-            ValidAdminByUserId(model.CreatorId);
+            _userManager.ValidAdminByUserId(model.CreatorId);
             ValidForCreate(model);
 
             var album = new Album()
@@ -34,7 +38,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Album UpdateBasic(AlbumModel model)
         {
-            ValidAdminByUserId(model.MenderId);
+            _userManager.ValidAdminByUserId(model.MenderId);
             ValidForUpdateBasic(model, out Album album);
 
             album.Name = model.Name;
@@ -58,22 +62,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             JMDbContext.Music
                 .Where(m => m.AlbumId == album.Id && !m.IsDeleted)
                 .ToList()
-                .ForEach(m =>
-                {
-                    m.IsPublished = false;
-                    m.IsDeleted = true;
-                    m.DeletionTime 
-                        = m.LastModificationTime 
-                        = DateTime.Now;
-                    m.PublishmentTime = null;
-                });
+                .ForEach(m => _musicManager.Delete(m.Id));
 
             Save();
         }
 
         public Album Publish(int id,int userId)
         {
-            ValidAdminByUserId(userId);
+            _userManager.ValidAdminByUserId(userId);
             var album = Find(id);
             if (album.IsPublished)
                 ThrowException("专辑已发布，无需再次操作！");            
@@ -90,7 +86,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Album Unpublish(int id,int userId)
         {
-            ValidAdminByUserId(userId);
+            _userManager.ValidAdminByUserId(userId);
             var album = Find(id);
             if (!album.IsPublished)
                 ThrowException("专辑属于未发布状态，无需再次操作！");
@@ -103,13 +99,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             JMDbContext.Music
                 .Where(m => m.AlbumId == album.Id && m.IsPublished && !m.IsDeleted)
                 .ToList()
-                .ForEach(m =>
-                {
-                    m.UnpublisherId = userId;
-                    m.IsPublished = false;
-                    m.LastModificationTime = DateTime.Now;
-                    m.PublishmentTime = null;
-                });
+                .ForEach(m => _musicManager.Unpublish(m.Id,userId));
 
             Save();
             return album;

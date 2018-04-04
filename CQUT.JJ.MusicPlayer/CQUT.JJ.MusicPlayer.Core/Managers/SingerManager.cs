@@ -10,13 +10,20 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class SingerManager : BaseManager<Singer>
     {
-        public SingerManager(JMDbContext ctx) : base(ctx)
+        private readonly UserManager _userManager;
+        private readonly AlbumManager _albumManager;
+        private readonly MusicManager _musicManager;
+
+        public SingerManager(JMDbContext ctx, UserManager userManager,AlbumManager albumManager,MusicManager musicManager) : base(ctx)
         {
+            _userManager = userManager;
+            _albumManager = albumManager;
+            _musicManager = musicManager;
         }
 
         public Singer Create(SingerModel model)
         {
-            ValidAdminByUserId(model.CreatorId);
+            _userManager.ValidAdminByUserId(model.CreatorId);
             ValidForCreate(model);
 
             var singer = new Singer()
@@ -39,7 +46,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         /// <returns></returns>
         public Singer UpdateBasic(SingerModel model)
         {
-            ValidAdminByUserId((int)model.MenderId);
+            _userManager.ValidAdminByUserId((int)model.MenderId);
             ValidForUpdateBasic(model,out Singer singer);
 
             singer.MenderId = model.MenderId;
@@ -64,36 +71,20 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             JMDbContext.Album
                 .Where(a => a.SingerId == singer.Id && !a.IsDeleted)
                 .ToList()
-                .ForEach(a =>
-                {
-                    a.IsPublished = false;
-                    a.IsDeleted = true;
-                    a.DeletionTime 
-                        = a.LastModificationTime 
-                        = DateTime.Now;
-                    a.PublishmentTime = null;
-                });
+                .ForEach(a => _albumManager.Delete(a.Id));
 
             //删除音乐
             JMDbContext.Music
                 .Where(m => m.SingerId == singer.Id && !m.IsDeleted)
                 .ToList()
-                .ForEach(m =>
-                {
-                    m.IsPublished = false;
-                    m.IsDeleted = true;
-                    m.DeletionTime
-                        = m.LastModificationTime
-                        = DateTime.Now;
-                    m.PublishmentTime = null;
-                });
+                .ForEach(m => _musicManager.Delete(m.Id));
 
             Save();
         }
 
         public Singer Publish(int id,int userId)
         {
-            ValidAdminByUserId(userId);
+            _userManager.ValidAdminByUserId(userId);
             var singer = JMDbContext.Singer.SingleOrDefault(s => s.Id == id && !s.IsDeleted);
             if (singer == null)
                 ThrowException("歌唱家不存在！");
@@ -112,7 +103,7 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 
         public Singer Unpublish(int id,int userId)
         {
-            ValidAdminByUserId(userId);
+            _userManager.ValidAdminByUserId(userId);
             var singer = Find(id);
             if (!singer.IsPublished)
                 ThrowException("歌唱家属于未发布状态，无需再次操作！");
@@ -126,25 +117,13 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             JMDbContext.Album
                 .Where(a => a.SingerId == singer.Id && a.IsPublished && !a.IsDeleted)
                 .ToList()
-                .ForEach(a =>
-                {
-                    a.UnpublisherId = userId;
-                    a.IsPublished = false;
-                    a.LastModificationTime = DateTime.Now;
-                    a.PublishmentTime = null;
-                });
+                .ForEach(a => _albumManager.Unpublish(a.Id,userId));
 
             //下架音乐
             JMDbContext.Music
                 .Where(m => m.SingerId == singer.Id && m.IsPublished && !m.IsDeleted)
                 .ToList()
-                .ForEach(m =>
-                {
-                    m.UnpublisherId = userId;
-                    m.IsPublished = false;
-                    m.LastModificationTime = DateTime.Now;
-                    m.PublishmentTime = null;
-                });
+                .ForEach(m => _musicManager.Unpublish(m.Id,userId));
 
 
             Save();
