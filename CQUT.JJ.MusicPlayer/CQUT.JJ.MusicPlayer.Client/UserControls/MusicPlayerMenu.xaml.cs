@@ -99,13 +99,15 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             MusicPlayStateChangedUtil.QMusicPlayStateChangedEvent += QMusicPlayStateChanged;
             MusicPlayStateChangedUtil.JMusicPlayStateChangedEvent += JMusicPlayStateChanged;
 
+            UserStateChangedUtil.UserStateChangedEvent += UserStateChanged;
+
             _timer.Tick += Timer_Tick;
 
             InitializeComponent();
 
             SetBindingOfMediaPlayer();
             SetBindingOfMusicList();
-        } 
+        }
 
         #endregion
 
@@ -213,6 +215,17 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     ChangePlayState();
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
+
+        /// <summary>
+        /// 用户登录事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UserStateChanged(object sender, EventArgs e)
+        {
+            InitILikeState();
+        }
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -567,7 +580,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         private void InitILikeState()
         {
-            if(App.User != null
+            if( App.User != null
                 && _musicService.IsUserLike(App.User.Id, _musicPlayerMenuViewModel.Id, MusicRequestType.Song)
                 && TbILike.Text.Equals("\ue60e"))
             {

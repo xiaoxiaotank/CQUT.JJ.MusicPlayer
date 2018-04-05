@@ -246,18 +246,33 @@ namespace CQUT.JJ.MusicPlayer.Client
             }
             else
             {
-                var skinInfo = File.ReadAllLines(JmSkinChangedUtil.SkinConfigFilePath);
-                var isImageBrush = Convert.ToBoolean(skinInfo[0]);
-                Brush background = null;
-                if (isImageBrush)
+                try
                 {
-                    background = new Uri(skinInfo[1], UriKind.Absolute).ToImageBrush();
-                    if (background == null) return;
-                    _isBackgroundOfImage = true;
+                    var skinInfo = File.ReadAllLines(JmSkinChangedUtil.SkinConfigFilePath);
+                    var isImageBrush = Convert.ToBoolean(skinInfo[0]);
+                    Brush background = null;
+                    if (isImageBrush)
+                    {
+                        var imagePath = System.IO.Path.GetFullPath(skinInfo[1]);
+                        if (!File.Exists(imagePath))
+                            imagePath = JmSkinChangedUtil.DefaultImageSkinPath;
+                        background = new Uri(imagePath, UriKind.RelativeOrAbsolute).ToImageBrush();
+                        if (background == null) return;
+                        _isBackgroundOfImage = true;
+
+                    }
+                    else
+                        background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(skinInfo[1]));
+                    JmSkinChangedUtil.Invoke(new SkinModel(background, skinInfo[1], isImageBrush));
                 }
-                else
-                    background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(skinInfo[1]));
-                JmSkinChangedUtil.Invoke(new SkinModel(background, skinInfo[1], isImageBrush));
+                catch
+                {
+                    var skinModel = new SkinModel(
+                        JmSkinChangedUtil.DefaultImageSkinArgs.Background
+                        , JmSkinChangedUtil.DefaultImageSkinPath
+                        , JmSkinChangedUtil.DefaultImageSkinArgs.IsImageBrush);
+                    JmSkinChangedUtil.Invoke(skinModel);
+                }
             }
         }
         #endregion

@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Controls.Controls;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
 using CQUT.JJ.MusicPlayer.Models.JM.Common;
 using CQUT.JJ.MusicPlayer.WCFService;
 using System;
@@ -45,6 +46,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Windows
                     NickName = user.NickName,
                     ProfilePhotoPath = user.ProfilePhotoPath
                 };
+                UserStateChangedUtil.Invoke();
                 Close();
             }
         }

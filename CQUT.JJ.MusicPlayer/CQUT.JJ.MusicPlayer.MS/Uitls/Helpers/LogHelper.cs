@@ -21,6 +21,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Helpers
 
         private static readonly string _logPath = Path.Combine(Log_FullDirectory, "Log.xml");
 
+        private static readonly Object _obj = new object();
+
         /// <summary>
         /// 记录日志
         /// </summary>
@@ -29,20 +31,23 @@ namespace CQUT.JJ.MusicPlayer.MS.Uitls.Helpers
         {
             XElement xmlRoot = null;
             Directory.CreateDirectory(Log_FullDirectory);
-            if (!File.Exists(_logPath))
-                xmlRoot = CreateXML().Element(Log_Root_Element);
-            if(xmlRoot == null)
-                xmlRoot = GetLogRootElement();
+            lock (_obj)
+            {
+                if (!File.Exists(_logPath))
+                    xmlRoot = CreateXML().Element(Log_Root_Element);
+                if (xmlRoot == null)
+                    xmlRoot = GetLogRootElement();
 
-            var log = new XElement(Log_Item_Element,
-                new XElement(nameof(logEntity.Message), logEntity.Message)
-                , new XElement(nameof(logEntity.DateTime), logEntity.DateTime.ToStandardDateTimeOfChina())
-                , new XElement(nameof(logEntity.UserName), logEntity.UserName)
-                , new XElement(nameof(logEntity.Source), logEntity.Source)
-                , new XElement(nameof(logEntity.Type), Enum.GetName(typeof(LogType),logEntity.Type))
-                );
-            xmlRoot.Add(log);
-            xmlRoot.Save(_logPath);
+                var log = new XElement(Log_Item_Element,
+                    new XElement(nameof(logEntity.Message), logEntity.Message)
+                    , new XElement(nameof(logEntity.DateTime), logEntity.DateTime.ToStandardDateTimeOfChina())
+                    , new XElement(nameof(logEntity.UserName), logEntity.UserName)
+                    , new XElement(nameof(logEntity.Source), logEntity.Source)
+                    , new XElement(nameof(logEntity.Type), Enum.GetName(typeof(LogType), logEntity.Type))
+                    );
+                xmlRoot.Add(log);
+                xmlRoot.Save(_logPath);
+            }            
         }
 
         public static IEnumerable<LogItemEntity> GetLogs()
