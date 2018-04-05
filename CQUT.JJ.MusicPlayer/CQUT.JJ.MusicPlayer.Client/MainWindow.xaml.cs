@@ -237,6 +237,7 @@ namespace CQUT.JJ.MusicPlayer.Client
         {
             if (!File.Exists(JmSkinChangedUtil.SkinConfigFilePath))
             {
+                Directory.CreateDirectory(System.IO.Path.GetDirectoryName(JmSkinChangedUtil.SkinConfigFilePath));
                 File.Create(JmSkinChangedUtil.SkinConfigFilePath).Close();
                 var skinModel = new SkinModel(
                     JmSkinChangedUtil.DefaultImageSkinArgs.Background
