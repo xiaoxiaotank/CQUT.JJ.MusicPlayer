@@ -39,7 +39,7 @@
             <MenuItem Header="退出" Click="JmWindow_Close" />
         </ContextMenu>
     </jm:JmWindow.Resources>
-    
+
     <jm:JmWindow.ToolBarMenuItems>
         <jm:JmTransparentButton>
             <TextBlock Text="&#xe668;" FontFamily="{StaticResource JM}" RenderTransformOrigin="0.5 0.5"
@@ -49,7 +49,7 @@
                 </TextBlock.RenderTransform>
             </TextBlock>
         </jm:JmTransparentButton>
-        <jm:JmTransparentButton>
+        <jm:JmTransparentButton x:Name="BtnMainMenu" Click="BtnMainMenu_Click">
             <TextBlock Text="&#xe6a9;" FontFamily="{StaticResource JM}" FontSize="20" ToolTip="主菜单" />
         </jm:JmTransparentButton>
         <jm:JmTransparentButton x:Name="BtnSkin" Click="BtnSkin_Click">
@@ -81,6 +81,14 @@
     </jm:JmWindow.BottomBarContent>
     <Grid>
         <Frame x:Name="FMusicPage" NavigationUIVisibility="Hidden"/>
+        
+        <Popup x:Name="PART_Popup" PlacementTarget="{Binding ElementName=BtnMainMenu}" AllowsTransparency="true" 
+               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom"
+               MinHeight="100" Width="260">
+            <Border x:Name="Border" BorderThickness="0" Background="White">
+                
+            </Border>
+        </Popup>
     </Grid>
     
 </jm:JmWindow>

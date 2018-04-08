@@ -75,8 +75,6 @@ namespace CQUT.JJ.MusicPlayer.Client
             InitializeSkin();
         }
 
-     
-
         private void MusicPagePreviousSwitched(object sender, EventArgs e)
         {
             if (FMusicPage.NavigationService.CanGoBack)
@@ -109,6 +107,11 @@ namespace CQUT.JJ.MusicPlayer.Client
                 Owner = this
             };
             skinWin.ShowDialog();
+        }
+
+        private void BtnMainMenu_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void JmSkinChanged(object sender, SkinChangedArgs e)
@@ -260,10 +263,11 @@ namespace CQUT.JJ.MusicPlayer.Client
                 JmSkinChangedUtil.Invoke(new SkinModel(background, skinInfo[1], isImageBrush));
             }
         }
+
+
         #endregion
 
-       
-  
+
     }
 
 }
