@@ -124,7 +124,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 //不是当前页
                 else if (!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
                 {
-                    var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusics.ToList();
+                    var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusics?.ToList();
+                    if (currentPlayingMusicList == null) return;
                     var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
                     if (currentPlayingObjIndex >= 0)
                     {

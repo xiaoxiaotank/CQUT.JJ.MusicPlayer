@@ -23,6 +23,7 @@ using CQUT.JJ.MusicPlayer.WCFService;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
 using CQUT.JJ.MusicPlayer.Models.DataContracts;
+using System.Web;
 
 namespace CQUT.JJ.MusicPlayer.Client.UserControls
 {
@@ -169,7 +170,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private QMusicsOfPageModel GetQMusicInfoOfPageModel(int currentPageNumber,string searchKey)
         {           
-            var musicInfoOfPageModel = new QMusicsOfPageModel() { CurrentPageNumber = currentPageNumber };            
+            var musicInfoOfPageModel = new QMusicsOfPageModel() { CurrentPageNumber = currentPageNumber };      
+            searchKey = HttpUtility.UrlEncode(searchKey);
             var url = $"https://y.qq.com/portal/search.html#page={currentPageNumber}&searchid=1&remoteplace=txt.yqq.top&t=song&w={searchKey}";
 
             try
@@ -227,7 +229,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
                 return musicInfoOfPageModel;
             }
-            catch
+            catch(Exception ex)
             {
                 throw new Exception("服务器崩溃了 --!");
             }
@@ -254,7 +256,9 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             {
                 var htmlWeb = new HtmlWeb()
                 {
-                    BrowserTimeout = outTime
+                    BrowserTimeout = outTime,
+                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+                    CaptureRedirect = true
                 };
                 return isScriptCompleted == null ? 
                     htmlWeb.LoadFromBrowser(url) : htmlWeb.LoadFromBrowser(url, isScriptCompleted);

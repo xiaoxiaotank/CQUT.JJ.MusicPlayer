@@ -40,6 +40,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Skin
             SliderSkinOpacity.Value = 0;
         }
 
+        /// <summary>
+        /// 切换页面
+        /// </summary>
+        /// <param name="selectedPage"></param>
+        /// <param name="pageName"></param>
+        /// <param name="dataType"></param>
         private void HandoffPage(TabItem selectedPage, string pageName, ThemeSkinType dataType)
         {
             var frame = selectedPage.Content as Frame;

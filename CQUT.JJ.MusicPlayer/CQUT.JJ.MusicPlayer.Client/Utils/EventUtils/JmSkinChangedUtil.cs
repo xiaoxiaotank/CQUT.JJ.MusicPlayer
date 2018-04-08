@@ -11,7 +11,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
 {
     public static class JmSkinChangedUtil
     {
-        public static readonly string SkinConfigFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs/SkinConfig.bat");
+        public static readonly string SkinConfigFilePath = "Configs/SkinConfig.bat";
 
         public static event EventHandler<SkinChangedArgs> SkinChangedEvent;
 
