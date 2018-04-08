@@ -81,12 +81,20 @@
     </jm:JmWindow.BottomBarContent>
     <Grid>
         <Frame x:Name="FMusicPage" NavigationUIVisibility="Hidden"/>
-        
-        <Popup x:Name="PART_Popup" PlacementTarget="{Binding ElementName=BtnMainMenu}" AllowsTransparency="true" 
+
+        <Popup x:Name="PopMainMenu" PlacementTarget="{Binding ElementName=BtnMainMenu}"
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom"
-               MinHeight="100" Width="260">
-            <Border x:Name="Border" BorderThickness="0" Background="White">
-                
+               MinHeight="100" Width="260" HorizontalOffset="-160" VerticalOffset="-10">
+            <Border x:Name="Border" BorderThickness="0" BorderBrush="Red" Background="White">
+                <Menu Background="White" BorderBrush="#30CDC5BF" BorderThickness="0 0 1 0">
+                    <Menu.Resources>
+                        <Style TargetType="jm:JmMenuItem">
+                            <Setter Property="Width" Value="260" />
+                            <Setter Property="Height" Value="30" />
+                        </Style>
+                    </Menu.Resources>
+                    <jm:JmMenuItem Header="123"></jm:JmMenuItem>
+                </Menu>
             </Border>
         </Popup>
     </Grid>

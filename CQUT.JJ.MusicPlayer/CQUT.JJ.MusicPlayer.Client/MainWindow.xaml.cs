@@ -111,7 +111,7 @@ namespace CQUT.JJ.MusicPlayer.Client
 
         private void BtnMainMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            PopMainMenu.IsOpen = !PopMainMenu.IsOpen;
         }
 
         private void JmSkinChanged(object sender, SkinChangedArgs e)
@@ -281,9 +281,8 @@ namespace CQUT.JJ.MusicPlayer.Client
         }
 
 
+
         #endregion
-
-
     }
 
 }

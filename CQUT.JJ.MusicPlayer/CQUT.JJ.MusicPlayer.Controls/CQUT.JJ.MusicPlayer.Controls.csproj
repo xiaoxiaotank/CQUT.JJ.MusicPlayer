@@ -68,6 +68,9 @@
     <Compile Include="Controls\JmListView.xaml.cs">
       <DependentUpon>JmListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmMenuItem.xaml.cs">
+      <DependentUpon>JmMenuItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JMMessageBox.xaml.cs">
       <DependentUpon>JMMessageBox.xaml</DependentUpon>
     </Compile>
@@ -152,6 +155,10 @@
     <Page Include="Controls\JmListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\JmMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\JMMessageBox.xaml">
       <SubType>Designer</SubType>
