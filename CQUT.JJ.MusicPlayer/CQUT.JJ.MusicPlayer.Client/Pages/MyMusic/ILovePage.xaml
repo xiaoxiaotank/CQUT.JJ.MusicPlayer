@@ -4,11 +4,116 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.MyMusic"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
       Title="ILovePage">
 
-    <Grid>
-        
+    <Page.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style TargetType="jm:JmTabControl">
+            <Setter Property="HeaderPanelHorizontalAlignment" Value="Left" />
+            <Setter Property="HeaderPanelVerticalAlignment" Value="Bottom" />
+            <Setter Property="HeaderPanelHeight" Value="30" />
+            <Setter Property="IsShowContentPage" Value="True" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HeaderPanelBackground" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style TargetType="jm:JmWidgetTabItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="0 0 20 0" />
+            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl},Path=HeaderPanelHeight}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="10 0 0 0" />
+            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#30FFFFFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="jm:JmTransparentButton">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Silver" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="5,0" />
+        </Style>
+
+
+    </Page.Resources>
+
+    <Grid x:Name="Gd">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label x:Name="TbILove" Grid.Row="0" Padding="30 0 0 0" VerticalAlignment="Center" FontSize="24" Foreground="White">我喜欢</Label>
+        <jm:JmTabControl x:Name="Tc" Grid.Row="1" Padding="30 0 0 0" Background="#30000000">
+            <jm:JmWidgetTabItem Name="TbSong" IsSelected="True">
+                <jm:JmWidgetTabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="歌曲"/>
+                        <TextBlock x:Name="SongCount" Text="0" />
+                    </StackPanel>
+                </jm:JmWidgetTabItem.Header>
+                <Frame x:Name="FSong" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" 
+                       Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl, AncestorLevel=1},Path=ActualHeight}" 
+                       Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl, AncestorLevel=1},Path=ActualWidth}"
+                       Loaded="FSong_Loaded" />
+            </jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Name="TbMusicList">
+                <jm:JmWidgetTabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="歌单"/>
+                        <TextBlock x:Name="MusicListCount" Text="0" />
+                    </StackPanel>
+                </jm:JmWidgetTabItem.Header>
+            </jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Name="TbAlbum">
+                <jm:JmWidgetTabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="专辑"/>
+                        <TextBlock x:Name="AlbumCount" Text="0" />
+                    </StackPanel>
+                </jm:JmWidgetTabItem.Header>
+            </jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Name="TbRadio">
+                <jm:JmWidgetTabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="主播电台"/>
+                        <TextBlock x:Name="RadioCount" Text="0" />
+                    </StackPanel>
+                </jm:JmWidgetTabItem.Header>
+            </jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Name="TbMv3" Header="MV3">
+
+            </jm:JmWidgetTabItem>
+        </jm:JmTabControl>
+
+
     </Grid>
 </Page>

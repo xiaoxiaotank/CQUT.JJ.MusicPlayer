@@ -42,6 +42,6 @@
                        Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=Foreground}" 
                        FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=FontSize}"/>首
         </TextBlock>
-        <Frame Grid.Row="2" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" Loaded="Frame_Loaded" Background="#30000000" />
+        <Frame Padding="30 0 0 0" Grid.Row="2" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" Loaded="Frame_Loaded" Background="#30000000" />
     </Grid>
 </Page>

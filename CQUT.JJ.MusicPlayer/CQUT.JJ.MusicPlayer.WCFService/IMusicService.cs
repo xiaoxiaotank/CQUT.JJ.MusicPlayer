@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.Models.DataContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,15 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         /// </summary>
         /// <param name=""></param>
         /// <returns></returns>
+        [OperationContract]
         bool IsUserLike(int userId,int objId, MusicRequestType type);
+
+        /// <summary>
+        /// 通过userId获取喜欢的音乐
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        IEnumerable<MusicInfo> GetLoveMusicsByUserId(int userId);
     }
 }

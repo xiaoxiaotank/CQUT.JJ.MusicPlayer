@@ -43,6 +43,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
                 })
                 .ToList();
             MusicList.ItemsSource = _musicListViewModel;
+            LocalCount.Text = (_musicListViewModel?.Count ?? 0).ToString();
         }
     }
 }

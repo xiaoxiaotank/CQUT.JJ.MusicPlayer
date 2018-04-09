@@ -7,6 +7,8 @@ using System.Text;
 using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
+using CQUT.JJ.MusicPlayer.Models.DataContracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace CQUT.JJ.MusicPlayer.WCFService
 {
@@ -34,6 +36,27 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         public bool IsUserLike(int userId, int objId, MusicRequestType type)
         {
             return _userLikeManager.Find(userId, objId, type) != null;
+        }
+
+        public IEnumerable<MusicInfo> GetLoveMusicsByUserId(int userId)
+        {
+            var result = from u in _ctx.UserLike.Where(u => u.UserId == userId && u.MusicId != null)
+                         join m in _ctx.Music.Include(m => m.Singer).Include(m => m.Album).Where(m => m.IsPublished && !m.IsDeleted)
+                         on u.MusicId equals m.Id into mu
+                         from music in mu.DefaultIfEmpty()
+                         select new MusicInfo()
+                         {
+                             Id = music.Id,
+                             SingerId = music.Singer.Id,
+                             AlbumId = music.AlbumId,
+                             Name = music.Name,
+                             SingerName = music.Singer.Name,
+                             AlbumName = music.Album.Name,
+                             FileUrl = music.FileUrl,
+                             Duration = music.Duration
+                         };
+
+            return result;
         }
     }
 }

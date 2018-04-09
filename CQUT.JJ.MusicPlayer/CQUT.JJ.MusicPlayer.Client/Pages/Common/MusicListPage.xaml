@@ -41,7 +41,7 @@
             </Grid.RowDefinitions>
             <StackPanel>
             </StackPanel>
-            <Border Name="ListTemplate" Margin="30,0,0,0">
+            <Border Name="ListTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.2*" />
@@ -55,7 +55,7 @@
                     <Grid Name="ColTimeDuration" Grid.Column="3" />
                 </Grid>
             </Border>
-            <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False" Grid.Row="1" Margin="{Binding ElementName=ListTemplate,Path=Margin}"
+            <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False" Grid.Row="1"
                            Style="{StaticResource DefaultJmListViewStyle}">
                 <jm:JmListView.ItemContainerStyle>
                     <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
