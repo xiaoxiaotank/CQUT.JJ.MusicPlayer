@@ -4,11 +4,142 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.MyMusic"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="LocalAndDownloadPage">
+      Title="LocalAndDownloadPage" Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <GridLength x:Key="H2LabelWidth">100</GridLength>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style TargetType="jm:JmTabControl">
+            <Setter Property="HeaderPanelHorizontalAlignment" Value="Left" />
+            <Setter Property="HeaderPanelVerticalAlignment" Value="Bottom" />
+            <Setter Property="HeaderPanelHeight" Value="30" />
+            <Setter Property="IsShowContentPage" Value="True" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HeaderPanelBackground" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style TargetType="jm:JmWidgetTabItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="0 0 20 0" />
+            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl},Path=HeaderPanelHeight}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="10 0 0 0" />
+            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#30FFFFFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="jm:JmTransparentButton">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Silver" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="5,0" />
+        </Style>
+
+
+    </Page.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Margin="30 0 0 0" VerticalAlignment="Center" FontSize="24" Foreground="White">本地和下载</Label>
+        <jm:JmTabControl x:Name="Tc" Grid.Row="1" Margin="30 0 0 0">
+            <jm:JmWidgetTabItem Name="TbLocal" IsSelected="True">
+                <jm:JmWidgetTabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="本地歌曲"/>
+                        <TextBlock x:Name="LocalCount" Text="0" />
+                    </StackPanel>
+                </jm:JmWidgetTabItem.Header>
+                <Grid x:Name="GdSong">
+                    <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False"
+                           Style="{StaticResource DefaultJmListViewStyle}">
+                        <jm:JmListView.ItemContainerStyle>
+                            <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
+                                <Setter Property="IsActivated" Value="{Binding IsActivated}" />
+                            </Style>
+                        </jm:JmListView.ItemContainerStyle>
+                        <jm:JmListView.View>
+                            <GridView x:Name="GvMusicList" ColumnHeaderContainerStyle="{StaticResource DefaultGridViewColumnHeaderStyle}"
+                              AllowsColumnReorder="False">
+                                <GridViewColumn Header="歌曲" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page, AncestorLevel=1},Path=ActualWidth}">
+                                    <GridViewColumn.CellTemplate>
+                                        <ItemContainerTemplate>
+                                            <Grid>
+                                                <TextBlock Text="{Binding MusicName}" />
+                                                <StackPanel x:Name="SpOptions" Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent" Visibility="Hidden">
+                                                    <StackPanel.Resources>
+                                                        <Style TargetType="jm:JmTransparentButton">
+                                                            <Setter Property="FontSize" Value="20" />
+                                                            <Setter Property="Foreground" Value="Silver" />
+                                                            <Setter Property="Margin" Value="2,0" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Foreground" Value="SkyBlue" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Resources>
+                                                    <jm:JmTransparentButton x:Name="BtnPlay" Tag="{Binding Id}">
+                                                        <TextBlock Text="&#xe774;" FontFamily="{StaticResource JM}" />
+                                                    </jm:JmTransparentButton>
+                                                </StackPanel>
+                                            </Grid>
+                                            <ItemContainerTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" TargetName="SpOptions" />
+                                                </Trigger>
+                                            </ItemContainerTemplate.Triggers>
+                                        </ItemContainerTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </jm:JmListView.View>
+                    </jm:JmListView>
+                </Grid>
+
+
+            </jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Name="TbDownloading">
+                <jm:JmWidgetTabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="正在下载"/>
+                        <TextBlock x:Name="DownloadingCount" Text="0" />
+                    </StackPanel>
+                </jm:JmWidgetTabItem.Header>
+            </jm:JmWidgetTabItem>
+        </jm:JmTabControl>
+
         
     </Grid>
 </Page>

@@ -49,13 +49,14 @@
             <jm:JmWidgetTabItem Header="精选" IsSelected="True">
                 <Button Width="100" Height="200">你好</Button>
             </jm:JmWidgetTabItem>
-            <jm:JmWidgetTabItem Header="歌手"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="歌手">
+                <Button Width="100" Height="200">你坏</Button>
+            </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="排行"></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="电台" ></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="分类歌单" ></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="有声" ></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="数字专辑"></jm:JmWidgetTabItem>
         </jm:JmTabControl>
-        <Frame Grid.Row="1" x:Name="FPage" NavigationUIVisibility="Hidden" />
     </Grid>
 </Page>
