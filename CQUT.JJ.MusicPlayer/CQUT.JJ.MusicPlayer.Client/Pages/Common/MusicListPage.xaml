@@ -86,10 +86,10 @@
                                             <jm:JmTransparentButton x:Name="BtnPlay" Click="BtnPlay_Click"  Tag="{Binding Id}">
                                                 <TextBlock Text="&#xe774;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
-                                            <jm:JmTransparentButton x:Name="BtnAddTo">
+                                            <jm:JmTransparentButton x:Name="BtnAddTo" Tag="{Binding Id}">
                                                 <TextBlock Text="&#xe693;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
-                                            <jm:JmTransparentButton x:Name="BtnDownload">
+                                            <jm:JmTransparentButton x:Name="BtnDownload" Click="BtnDownload_Click" Tag="{Binding Id}">
                                                 <TextBlock Text="&#xe612;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
                                             <jm:JmTransparentButton x:Name="BtnMore">

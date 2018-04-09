@@ -114,6 +114,11 @@ namespace CQUT.JJ.MusicPlayer.Client
             PopMainMenu.IsOpen = !PopMainMenu.IsOpen;
         }
 
+        private void MenuSetting_Click(object sender, RoutedEventArgs e)
+        {
+            MusicPageChangedUtil.Invoke(ConstantsUtil.Main_Setting_Page_Name);
+        }
+
         private void JmSkinChanged(object sender, SkinChangedArgs e)
         {
             if (e.IsImageBrush)
@@ -283,6 +288,8 @@ namespace CQUT.JJ.MusicPlayer.Client
 
 
         #endregion
+
+
     }
 
 }

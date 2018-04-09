@@ -59,6 +59,9 @@
   <ItemGroup>
     <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />
+    <Compile Include="Controls\JmBubbleMessageBox.xaml.cs">
+      <DependentUpon>JmBubbleMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmButton.xaml.cs">
       <DependentUpon>JmButton.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,7 @@
     <Compile Include="Converters\RadiusToMarginConverters.cs" />
     <Compile Include="Converters\RoundRadiusConverters.cs" />
     <Compile Include="Converters\ThicknessToDoubleConverter.cs" />
+    <Compile Include="Enums\JmBubbleMessageBox\JmBubbleMessageBoxType.cs" />
     <Compile Include="Enums\JMMessageBox\JMMessageBoxButtonType.cs" />
     <Compile Include="Enums\JMMessageBox\JMMessageBoxIconType.cs" />
     <Compile Include="Enums\JMMessageBox\JMMessageBoxResultType.cs" />
@@ -144,6 +148,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Controls\JmBubbleMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\JmButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

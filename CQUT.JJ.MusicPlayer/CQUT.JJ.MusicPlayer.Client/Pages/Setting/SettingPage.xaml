@@ -1,0 +1,138 @@
+﻿<Page x:Class="CQUT.JJ.MusicPlayer.Client.Pages.Setting.SettingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.Setting"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" 
+      Title="SettingPage" Background="#10000000" Loaded="Page_Loaded">
+    <Page.Resources>
+        <GridLength x:Key="H2LabelWidth">100</GridLength>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        
+        <Style TargetType="jm:JmTabControl">
+            <Setter Property="HeaderPanelHorizontalAlignment" Value="Left" />
+            <Setter Property="HeaderPanelVerticalAlignment" Value="Bottom" />
+            <Setter Property="HeaderPanelHeight" Value="30" />
+            <Setter Property="IsShowContentPage" Value="True" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HeaderPanelBackground" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style TargetType="jm:JmWidgetTabItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="0 0 20 0" />
+            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl},Path=HeaderPanelHeight}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="jm:JmScrollViewer" BasedOn="{StaticResource JMScrollViewerStyle}">
+            <Setter Property="ThumbBackground" Value="#40FFFFFF" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ThumbVisibility" Value="Visible" />
+            <Setter Property="ThumbMouseOverBackground" Value="#60FFFFFF" />
+            <Setter Property="Padding" Value="30 0 0 0" />
+            <Setter Property="Background" Value="#30000000" />
+        </Style>
+
+        <Style x:Key="H1Label" TargetType="Label">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Margin" Value="0 40 0 15" />
+        </Style>
+
+        <Style x:Key="H2Label" TargetType="Label">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="Silver" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0 5" />
+        </Style>
+
+        <Style x:Key="LabelGridStyle" TargetType="Grid">
+            <Setter Property="Margin" Value="0 15" />
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="10 0 0 0" />
+            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#30FFFFFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="CaretBrush" Value="White" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Margin="30 0 0 0" VerticalAlignment="Center" FontSize="24" Foreground="White">设置</Label>
+        <jm:JmTabControl x:Name="Tc" Grid.Row="1" Margin="30 0 0 0">
+            <jm:JmWidgetTabItem Name="TbNormal" Header="常规设置" IsSelected="True"/>
+            <jm:JmWidgetTabItem Name="TbDownload" Header="下载与缓存"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="桌面歌词"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="歌词面板" ></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="快捷键" ></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="音效插件" ></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="网络设置"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="音频设备"></jm:JmWidgetTabItem>
+        </jm:JmTabControl>
+        <jm:JmScrollViewer Grid.Row="2">
+            <StackPanel>
+                <Label Name="LbNormal" Style="{StaticResource H1Label}" Content="{Binding ElementName=TbNormal, Path=Header}" />
+                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Silver" Opacity="0.5" />
+                <Label Name="LbDownload" Style="{StaticResource H1Label}" Content="{Binding ElementName=TbDownload, Path=Header}"></Label>
+                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Silver" Opacity="0.5" />
+                <Grid Style="{StaticResource LabelGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource H2LabelWidth}" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Content="下载目录" Style="{StaticResource H2Label}" />
+                    <TextBlock Grid.Column="1" Text="默认将下载的歌曲保存在此文件中" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                        <TextBox Name="TxtDownloadPath" Width="400" PreviewTextInput="TxtDownloadPath_PreviewTextInput"
+                                 DataObject.Pasting="TxtDownloadPath_Pasting"
+                                 PreviewKeyDown="TxtDownloadPath_PreviewKeyDown"
+                                 InputMethod.IsInputMethodEnabled="False"/>
+                        <Button x:Name="BtnChangeDownloadPath" Click="BtnChangeDownloadPath_Click">更改目录</Button>
+                        <Button x:Name="BtnOpenDownloadDir" Click="BtnOpenDownloadDir_Click">打开文件夹</Button>
+                    </StackPanel>
+                </Grid>
+                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Silver" Opacity="0.5" />
+            </StackPanel>
+        </jm:JmScrollViewer>
+    </Grid>
+</Page>

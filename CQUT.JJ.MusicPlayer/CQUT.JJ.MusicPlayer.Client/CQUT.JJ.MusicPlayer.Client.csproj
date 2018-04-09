@@ -173,6 +173,9 @@
     <Compile Include="Pages\OnlineMusic\Singer2018Page.xaml.cs">
       <DependentUpon>Singer2018Page.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Setting\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Skin\TableTopLyricsBubblePage.xaml.cs">
       <DependentUpon>TableTopLyricsBubblePage.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,9 @@
       <DependentUpon>UserMusicNavigtion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommonUtil.cs" />
+    <Compile Include="Utils\Configs\SettingConstants.cs" />
+    <Compile Include="Utils\Configs\SettingUtil.cs" />
+    <Compile Include="Utils\ConstantsUtil.cs" />
     <Compile Include="Utils\Enums\MusicPlayMode.cs" />
     <Compile Include="Utils\Enums\MusicSourceType.cs" />
     <Compile Include="Utils\EventUtils\JmSkinChangedUtil.cs" />
@@ -284,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\OnlineMusic\Singer2018Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Setting\SettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

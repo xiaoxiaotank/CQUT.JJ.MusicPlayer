@@ -86,14 +86,17 @@
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom"
                MinHeight="100" Width="260" HorizontalOffset="-160" VerticalOffset="-10">
             <Border x:Name="Border" BorderThickness="0" BorderBrush="Red" Background="White">
-                <Menu Background="White" BorderBrush="#30CDC5BF" BorderThickness="0 0 1 0">
+                <Menu Name="MainMenu" Background="White" BorderBrush="#30CDC5BF" BorderThickness="0 0 1 0">
                     <Menu.Resources>
                         <Style TargetType="jm:JmMenuItem">
                             <Setter Property="Width" Value="260" />
                             <Setter Property="Height" Value="30" />
+                            <Setter Property="Icon" Value="" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="#444444" />
                         </Style>
                     </Menu.Resources>
-                    <jm:JmMenuItem Header="123"></jm:JmMenuItem>
+                    <jm:JmMenuItem Name="MenuSetting" Header="设置"  Click="MenuSetting_Click" />
                 </Menu>
             </Border>
         </Popup>

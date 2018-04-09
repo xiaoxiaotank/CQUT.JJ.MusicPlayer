@@ -14,6 +14,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
 
         public static event EventHandler<PageChangedEventArgs> PageChangedEvent;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageName">Pages下页面路径，含扩展名</param>
+        /// <param name="isRefresh"></param>
         public static void Invoke(string pageName,bool isRefresh = false)
         {
             if (pageName.Contains(_pageExtension))

@@ -3,6 +3,8 @@ using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
+using CQUT.JJ.MusicPlayer.Controls.Enums.JmBubbleMessageBox;
+using CQUT.JJ.MusicPlayer.Controls.Enums.JMMessageBox;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.Models;
 using CQUT.JJ.MusicPlayer.Models.DataContracts;
@@ -144,7 +146,6 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
             MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song, 1);
         }
-
 
 
         #region 页码Helper
@@ -452,6 +453,31 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     };
                 }
             }
+        }
+
+
+        /// <summary>
+        /// 下载按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void BtnDownload_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is JmTransparentButton btn && btn.Content is TextBlock tb)
+            {
+                var id = btn.Tag;
+                if (id != null)
+                {
+                    var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
+                    var uri = new Uri(musicViewModel.FileUrl,UriKind.Relative);
+                    var musicName = musicViewModel.MusicName + System.IO.Path.GetExtension(musicViewModel.FileUrl);
+                    var singerName = musicViewModel.SingerName;
+                    await FileUtil.DownLoadMusicsAsync(uri, musicName, singerName);
+                    JmBubbleMessageBox.Show($"{musicName}下载成功",JmBubbleMessageBoxType.Success);
+                    return;
+                }
+            }
+            JmBubbleMessageBox.Show($"歌曲下载失败!", JmBubbleMessageBoxType.Error);
         }
 
         /// <summary>

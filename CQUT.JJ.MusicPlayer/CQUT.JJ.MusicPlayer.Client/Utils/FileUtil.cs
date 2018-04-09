@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils.Configs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -90,16 +91,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         /// <param name="localName"></param>
         public static async Task DownLoadMusicsAsync(Uri fileUri, string musicName,string singerName)
         {
-            await Task.Factory.StartNew(() =>
-            {
-                //Thread.Sleep(10000);
-                var addressUri = fileUri;
-                if (!addressUri.IsAbsoluteUri)
-                    addressUri = new Uri(Path.GetFullPath(fileUri.OriginalString),UriKind.Absolute);
-                WebClient webClient = new WebClient();
-                Directory.CreateDirectory("./Download");
-                webClient.DownloadFileAsync(addressUri, $"./Download/{singerName}-{musicName}");
-            });
+            //Thread.Sleep(10000);
+            var addressUri = fileUri;
+            if (!addressUri.IsAbsoluteUri)
+                addressUri = new Uri(Path.GetFullPath(fileUri.OriginalString),UriKind.Absolute);
+            WebClient webClient = new WebClient();
+            var downloadPath = await SettingUtil.GetDowloadPathAsync();
+            Directory.CreateDirectory(Path.GetDirectoryName(downloadPath));
+            webClient.DownloadFileAsync(addressUri, Path.Combine(downloadPath,$"{singerName}-{ musicName}"));
         }
     }
 }
