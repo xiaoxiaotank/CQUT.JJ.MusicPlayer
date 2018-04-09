@@ -4,11 +4,44 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.MyMusic"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-      Title="PlayHistoryPage">
+      Title="PlayHistoryPage" Background="#10000000" Loaded="Page_Loaded">
+
+    <Page.Resources>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="10 0 0 0" />
+            <Setter Property="Foreground" Value="White" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#30FFFFFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Page.Resources>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Margin="30 0 0 0" VerticalAlignment="Center" FontSize="24" Foreground="White">播放历史</TextBlock>
+        <TextBlock x:Name="Tb" Grid.Row="1" Margin="30 0 0 0" Foreground="Silver" FontSize="14">
+           共<TextBlock x:Name="TbSongCount" 
+                       Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=Foreground}" 
+                       FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=FontSize}"/>首
+        </TextBlock>
+        <Frame Grid.Row="2" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" Loaded="Frame_Loaded" Background="#30000000" />
     </Grid>
 </Page>

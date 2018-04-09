@@ -201,8 +201,10 @@
       <DependentUpon>UserMusicNavigtion.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\CommonUtil.cs" />
-    <Compile Include="Utils\Configs\SettingConstants.cs" />
-    <Compile Include="Utils\Configs\SettingUtil.cs" />
+    <Compile Include="Utils\Configs\HistoryPlayList\HistoryPlayItemEntity.cs" />
+    <Compile Include="Utils\Configs\HistoryPlayList\HistoryPlayListUtil.cs" />
+    <Compile Include="Utils\Configs\Setting\SettingConstants.cs" />
+    <Compile Include="Utils\Configs\Setting\SettingUtil.cs" />
     <Compile Include="Utils\ConstantsUtil.cs" />
     <Compile Include="Utils\Enums\MusicPlayMode.cs" />
     <Compile Include="Utils\Enums\MusicSourceType.cs" />

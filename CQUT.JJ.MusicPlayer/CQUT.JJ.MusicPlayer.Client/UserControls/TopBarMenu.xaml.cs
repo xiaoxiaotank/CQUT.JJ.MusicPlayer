@@ -83,12 +83,13 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
                     if (qmSource.IsChecked == true)
                     {
-                        MusicPageChangedUtil.Invoke(_qmSearchPageName, true);                      
+                        MusicPageChangedUtil.Invoke(_qmSearchPageName, true);
                     }
                     else 
                     {
-                        MusicPageChangedUtil.Invoke(_jmSearchPageName, true);
+                        MusicPageChangedUtil.Invoke(_jmSearchPageName, true);                        
                     }
+                    NonNavPageDisplayedUtil.Invoke();
                 }
             }
         }

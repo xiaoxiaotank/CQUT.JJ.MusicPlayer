@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils.Configs.HistoryPlayList;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.Models.DataContracts;
+using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +28,44 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
         public PlayHistoryPage()
         {
             InitializeComponent();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void Frame_Loaded(object sender, RoutedEventArgs e)
+        {
+            var musics = await GetHistoryMusics();
+            TbSongCount.Text = (musics.Results?.Count() ?? 0).ToString();
+            MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musics, 1);
+        }
+
+        private async Task<MusicSearchPageResult> GetHistoryMusics()
+        {
+            var result = await Task.Factory.StartNew(() =>
+            {
+                return new MusicSearchPageResult()
+                {
+                    PageCount = 1,
+                    PageNumber = 1,
+                    ResultType = MusicRequestType.Song,
+                    Results = HistoryPlayListUtil.GetHistoryPlayList()?.Select(e => new MusicInfo()
+                    {
+                        Id = e.MusicId,
+                        SingerId = e.SingerId,
+                        AlbumId = e.AlbumId,
+                        Name = e.MusicName,
+                        SingerName = e.SingerName,
+                        AlbumName = e.AlbumName,
+                        FileUrl = e.MusicFileUri.OriginalString,
+                        Duration = e.Duration
+                    }),
+                    
+                };
+            });
+            return result;
         }
     }
 }

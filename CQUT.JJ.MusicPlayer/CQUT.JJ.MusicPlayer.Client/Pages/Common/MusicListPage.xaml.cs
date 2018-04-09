@@ -141,10 +141,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             Waiting.Visibility = Visibility.Visible;
             TbError.Visibility = Visibility.Collapsed;
-            GdSong.Visibility = Visibility.Collapsed;
-            NonNavPageDisplayedUtil.Invoke();
-
-            MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song, 1);
+            GdSong.Visibility = Visibility.Collapsed; 
         }
 
 
@@ -372,7 +369,17 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         {
                             ChangeMusicPlayState(nextPlayingObj, tb);
                             ChangeMusicActivatedState(nextPlayingObj);
-                            JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusicId = nextPlayingObj.Id;
+                            JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = new MusicModel()
+                            {
+                                Id = nextPlayingObj.Id,
+                                SingerId = nextPlayingObj.SingerId,
+                                AlbumId = nextPlayingObj.AlbumId,
+                                Name = nextPlayingObj.MusicName,
+                                SingerName = nextPlayingObj.SingerName,
+                                AlbumName = nextPlayingObj.AlbumName,
+                                FileUri = new Uri(nextPlayingObj.FileUrl, UriKind.Relative),
+                                Duration = nextPlayingObj.Duration
+                            };
                             MusicList.ScrollIntoView(nextPlayingObj);
                         }
                     }
@@ -380,7 +387,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 //不是当前页
                 else if (!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
                 {
-                    var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusics.ToList();
+                    var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.PlayingListMusics.ToList();
                     var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
                     if (currentPlayingObjIndex >= 0)
                     {
@@ -415,7 +422,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             DurationDescription = nextPlayingObj.Duration.GetMinuteAndSecondPart(),
                             FileUrl = nextPlayingObj.FileUrl
                         }, null);
-                        JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusicId = nextPlayingObj.Id;
+                        JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = nextPlayingObj;
                     }
                 }
             }
@@ -439,7 +446,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
                     JMApp.CurrentPlayingMusicsInfo = new CurrentPlayingMusicsInfo()
                     {
-                        CurrentPlayingMusics = _musicListViewModel.Select(m => new MusicModel()
+                        PlayingListMusics = _musicListViewModel.Select(m => new MusicModel()
                         {
                             Id = m.Id,
                             Name = m.MusicName,
@@ -449,8 +456,22 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             FileUrl = m.FileUrl
                         }),
                         IsCurrentPlayingPage = true,
-                        CurrentPlayingMusicId = musicViewModel.Id
                     };
+
+                    if (JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic?.Id.Equals(id) != true)
+                    {
+                        JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = new MusicModel()
+                        {
+                            Id = musicViewModel.Id,
+                            SingerId = musicViewModel.SingerId,
+                            AlbumId = musicViewModel.AlbumId,
+                            Name = musicViewModel.MusicName,
+                            SingerName = musicViewModel.SingerName,
+                            AlbumName = musicViewModel.AlbumName,
+                            FileUri = new Uri(musicViewModel.FileUrl, UriKind.Relative),
+                            Duration = musicViewModel.Duration
+                        };
+                    }
                 }
             }
         }
@@ -557,9 +578,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// </summary>
         private void RemoveCurrentPlayingMusicActivatedState()
         {
-            if (JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusicId != null && _musicListViewModel != null)
+            if (JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusic?.Id != null && _musicListViewModel != null)
             {
-                var currentItem = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusicId));
+                var currentItem = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic.Id));
                 if (currentItem != null)
                     currentItem.IsActivated = false;
             }

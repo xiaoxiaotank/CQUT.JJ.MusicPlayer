@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +29,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            FMusicListPage.Source = new Uri("../../Common/MusicListPage.xaml", UriKind.Relative);
+            var list = new MusicListPage();
+            FMusicListPage.Content = list;           
+            MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song, 1);
         }
+
     }
 }
