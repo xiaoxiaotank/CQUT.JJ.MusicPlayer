@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
+using CQUT.JJ.MusicPlayer.Controls.Enums.JmBubbleMessageBox;
 using CQUT.JJ.MusicPlayer.Models.JM.Common;
 using CQUT.JJ.MusicPlayer.WCFService;
 using System;
@@ -32,23 +33,35 @@ namespace CQUT.JJ.MusicPlayer.Client.Windows
             _userService = new UserService();
         }
 
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        private async void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
+            BtnLogin.IsEnabled = false;
             var userName = TbUserName.Text.Trim();
             var password = Pwd.Password.Trim();
-            var user = _userService.Login(userName, password);
-            if(user != null)
+            try
             {
-                App.User = new UserModel()
+                var user = await Task.Factory.StartNew(() =>
                 {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    NickName = user.NickName,
-                    ProfilePhotoPath = user.ProfilePhotoPath
-                };
-                UserStateChangedUtil.Invoke();
-                Close();
+                    return _userService.Login(userName, password);
+                });
+                if (user != null)
+                {
+                    App.User = new UserModel()
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        NickName = user.NickName,
+                        ProfilePhotoPath = user.ProfilePhotoPath
+                    };
+                    UserStateChangedUtil.Invoke();
+                    Close();
+                }
             }
+            catch(Exception ex)
+            {
+                BtnLogin.IsEnabled = true;
+                JmBubbleMessageBox.Show(ex.Message,JmBubbleMessageBoxType.Error);
+            }     
         }
     }
 }

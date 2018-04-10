@@ -83,6 +83,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                             Tag = list.Id
                         };
                         tabItem.MouseUp += UserMusicListSelectionChanged;
+                        tabItem.ContextMenu = GetContextMenu();
                         SpUserMusicList.Children.Add(tabItem);
                     }
                 });
@@ -119,8 +120,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             
         }
 
-
-
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
             var temp = SpUserMusicList.Children;
@@ -145,7 +144,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             {
                 SpUserMusicList.Children.Add(item);
             }
-            Sviewer.JmScrollToControl(tabItem);
+            Sviewer.JmScrollToElement(SpICreate);
         }
 
         private void TabItem_EditBoxLostFocus(object sender, RoutedEventArgs e)
@@ -161,6 +160,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 userMusicListInfo = _userMusicListService.Create(userMusicListInfo);
                 tabItem.Tag = userMusicListInfo.Id;
                 tabItem.MouseUp += UserMusicListSelectionChanged;
+                tabItem.ContextMenu = GetContextMenu();
                 SetSelectedTabItem(tabItem);
                 MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
             }
@@ -211,6 +211,17 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             if (_selectedTabItem != null)
                 _selectedTabItem.IsSelected = false;
             _selectedTabItem = tabItem;
+        }
+
+
+        private ContextMenu GetContextMenu()
+        {
+            return FindResource("ContextMenu") as ContextMenu;
+        }
+
+        private void CtxPlay_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

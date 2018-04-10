@@ -67,6 +67,9 @@
     <Compile Include="Controls\JmButton.xaml.cs">
       <DependentUpon>JmButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JmContextMenu.xaml.cs">
+      <DependentUpon>JmContextMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\JmDataGrid.xaml.cs">
       <DependentUpon>JmDataGrid.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\JmButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\JmContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

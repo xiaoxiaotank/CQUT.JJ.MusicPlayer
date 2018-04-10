@@ -71,8 +71,6 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
         public void ThrowException(string message,HttpStatusCode httpStatusCode = HttpStatusCode.BadRequest)
         {
             throw new JMBasicException(message, httpStatusCode);
-        }
-
-        
+        }   
     }
 }

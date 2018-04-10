@@ -11,7 +11,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
 {
     public static class ControlUtil
     {
-        public static void JmScrollToControl(this JmScrollViewer scrollViewer,Control control)
+        public static void JmScrollToElement(this JmScrollViewer scrollViewer,FrameworkElement control)
         {
             // 获取要定位之前 ScrollViewer 目前的滚动位置
             var currentScrollPosition = scrollViewer.VerticalOffset;
