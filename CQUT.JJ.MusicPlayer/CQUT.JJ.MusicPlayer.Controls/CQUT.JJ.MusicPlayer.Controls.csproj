@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\LostFocusCommand.cs" />
     <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
     <Compile Include="ControlHelpers\JmTabItemHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />

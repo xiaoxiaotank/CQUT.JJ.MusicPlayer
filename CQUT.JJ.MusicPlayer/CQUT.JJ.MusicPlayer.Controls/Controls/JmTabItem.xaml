@@ -41,7 +41,11 @@
                              HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"  
                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                              VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                             Width="{TemplateBinding ActualWidth}" LostFocus="EditBox_LostFocus" Loaded="EditBox_Loaded" />
+                             Width="{TemplateBinding ActualWidth}" LostFocus="EditBox_LostFocus" Loaded="EditBox_Loaded">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding LostFocusCommand}" Key="Enter" CommandParameter="{Binding ElementName=TxtContent}" />
+                        </TextBox.InputBindings>
+                    </TextBox>
                     <ContentPresenter x:Name="Content" ContentSource="Header" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
                 </StackPanel>
             </Border>
@@ -70,6 +74,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template" Value="{StaticResource DefaultJmTabItemTemplate}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     </Style>
 
     <Style TargetType="local:JmTabItem" BasedOn="{StaticResource DefaultJmTabItemStyle}" />

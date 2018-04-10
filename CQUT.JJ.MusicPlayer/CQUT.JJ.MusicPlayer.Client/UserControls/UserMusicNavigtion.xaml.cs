@@ -103,9 +103,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             if (sender is JmTabItem originalSource && !originalSource.Equals(_selectedTabItem))
             {
-                if(_selectedTabItem != null)
-                    _selectedTabItem.IsSelected = false;
-                _selectedTabItem = originalSource;
+                SetSelectedTabItem(originalSource);
                 ChangePage();
             }
         }
@@ -115,9 +113,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             if(sender is JmTabItem originalSource && !originalSource.Equals(_selectedTabItem))
             {
-                if (_selectedTabItem != null)
-                    _selectedTabItem.IsSelected = false;
-                _selectedTabItem = originalSource;
+                SetSelectedTabItem(originalSource);
                 MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
             }
             
@@ -165,9 +161,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 userMusicListInfo = _userMusicListService.Create(userMusicListInfo);
                 tabItem.Tag = userMusicListInfo.Id;
                 tabItem.MouseUp += UserMusicListSelectionChanged;
+                SetSelectedTabItem(tabItem);
+                MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
             }
         }
 
+        /// <summary>
+        /// 创建新的歌单名
+        /// </summary>
+        /// <param name="temp"></param>
+        /// <returns></returns>
         private string CreateNewMusicListName(UIElementCollection temp)
         {
             var i = 1;            
@@ -189,11 +192,25 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             }           
         }
 
+        /// <summary>
+        /// 更改页面
+        /// </summary>
         private void ChangePage()
         {
             if(_selectedTabItem != null)
                 MusicPageChangedUtil.Invoke($@"{_selectedTabItem.PageOfColumnName}/{ _selectedTabItem.PageName}");
         }
 
+        /// <summary>
+        /// 设置选中的TabItem
+        /// </summary>
+        /// <param name="tabItem"></param>
+        private void SetSelectedTabItem(JmTabItem tabItem)
+        {
+            tabItem.IsSelected = true;
+            if (_selectedTabItem != null)
+                _selectedTabItem.IsSelected = false;
+            _selectedTabItem = tabItem;
+        }
     }
 }
