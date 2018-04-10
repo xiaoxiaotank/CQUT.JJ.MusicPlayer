@@ -31,16 +31,6 @@
     <Duration>04:23</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>4</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName> 斯琴高丽的伤心</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114700-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
-    <Duration>04:06</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>5</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -48,6 +38,26 @@
     <SingerName>罗志祥</SingerName>
     <AlbumName>美丽的误会</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114706-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
+    <Duration>04:06</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>10</MusicId>
+    <SingerId>2</SingerId>
+    <AlbumId>2</AlbumId>
+    <MusicName>虐心</MusicName>
+    <SingerName>陈奕迅</SingerName>
+    <AlbumName>陈奕迅的专辑</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\2-陈奕迅\陈奕迅的专辑\20180410203258-徐良 - 虐心.mp3</MusicFileUri>
+    <Duration>04:16</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>4</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName> 斯琴高丽的伤心</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114700-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
     <Duration>04:06</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>

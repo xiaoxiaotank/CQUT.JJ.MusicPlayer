@@ -9,6 +9,6 @@
       Title="ListeningTestListPage">
 
     <Grid>
-        
+        <Frame x:Name="FSong" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" />
     </Grid>
 </Page>

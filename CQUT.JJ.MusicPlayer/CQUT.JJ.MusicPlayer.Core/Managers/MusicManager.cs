@@ -135,6 +135,8 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
                 ThrowException("音乐名不能为空！");
             if (model.Name.Length > 32)
                 ThrowException("音乐名不能超过32个字符！");
+            if(JMDbContext.Music.Any(m => m.Name == model.Name && m.SingerId == model.SingerId && !m.IsDeleted))
+                ThrowException("该歌唱家已存在相同名字的音乐");
             if (!File.Exists(model.FileUrl))
                 ThrowException("音乐文件不存在");
             if (!model.FileUrl.IsEffectiveMusicFile())

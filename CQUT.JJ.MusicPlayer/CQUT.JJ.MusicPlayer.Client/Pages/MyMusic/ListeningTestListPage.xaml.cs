@@ -1,4 +1,8 @@
-﻿using System;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.Models.DataContracts;
+using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +26,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
     {
         public ListeningTestListPage()
         {
+            PageLoadedUtil.MusicListPageLoadedEvent += PageLoadedUtil_MusicListPageLoadedEvent;
             InitializeComponent();
+        }
+
+        private void PageLoadedUtil_MusicListPageLoadedEvent(object sender, EventArgs e)
+        {
+            if(IsVisible)
+                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(null, 1);
         }
     }
 }

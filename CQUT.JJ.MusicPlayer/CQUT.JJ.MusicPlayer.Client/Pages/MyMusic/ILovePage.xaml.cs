@@ -1,5 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.Client.Windows;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
 using CQUT.JJ.MusicPlayer.WCFService;
@@ -30,27 +31,36 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
         public ILovePage()
         {
             _musicService = new MusicService();
+            PageLoadedUtil.MusicListPageLoadedEvent += PageLoadedUtil_MusicListPageLoadedEvent;
             InitializeComponent();
+        }
+
+        private void PageLoadedUtil_MusicListPageLoadedEvent(object sender, EventArgs e)
+        {
+            if (IsVisible)
+            {
+                if (App.User != null)
+                {
+                    var musicInfoOfPageModel = new MusicSearchPageResult()
+                    {
+                        PageCount = 1,
+                        PageNumber = 1,
+                        ResultType = MusicRequestType.Song,
+                        Results = _musicService.GetLoveMusicsByUserId(App.User.Id).Reverse()
+                    };
+                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, 1);
+                    SongCount.Text = (musicInfoOfPageModel?.Results.Count() ?? 0).ToString();
+                }
+                else
+                {
+                    new LoginWindow().ShowDialog();
+                }
+            }
         }
 
         private void FSong_Loaded(object sender, RoutedEventArgs e)
         {
-            if(App.User != null)
-            {
-                var musicInfoOfPageModel = new MusicSearchPageResult()
-                {
-                    PageCount = 1,
-                    PageNumber = 1,
-                    ResultType = MusicRequestType.Song,
-                    Results = _musicService.GetLoveMusicsByUserId(App.User.Id)
-                };
-                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, 1);
-                SongCount.Text = (musicInfoOfPageModel?.Results.Count() ?? 0).ToString();
-            }
-            else
-            {
-                FSong.Content = "请登录";
-            }
+           
         }
     }
 }

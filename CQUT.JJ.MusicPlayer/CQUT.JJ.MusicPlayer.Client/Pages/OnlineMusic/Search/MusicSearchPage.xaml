@@ -15,6 +15,6 @@
     <Grid>
         <Rectangle Fill="{Binding TopFloorBackground}" 
                    Opacity="{Binding TopBarBackgroundOpacity, Converter={StaticResource ColorOpacityConverter}}" />
-        <Frame Padding="30 0 0 0" x:Name="FMusicListPage" NavigationUIVisibility="Hidden"/>
+        <Frame Source="/Pages/Common/MusicListPage.xaml" Padding="30 0 0 0" x:Name="FMusicListPage" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Page>

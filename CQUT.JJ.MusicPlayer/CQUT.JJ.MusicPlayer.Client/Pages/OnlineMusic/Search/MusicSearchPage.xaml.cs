@@ -24,14 +24,19 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search
     {
         public MusicSearchPage()
         {
+            PageLoadedUtil.MusicListPageLoadedEvent += PageLoadedUtil_MusicListPageLoadedEvent;
             InitializeComponent();
+        }
+
+        private void PageLoadedUtil_MusicListPageLoadedEvent(object sender, EventArgs e)
+        {
+            if(this.IsVisible)
+                MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song, 1);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var list = new MusicListPage();
-            FMusicListPage.Content = list;           
-            MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song, 1);
+                    
         }
 
     }

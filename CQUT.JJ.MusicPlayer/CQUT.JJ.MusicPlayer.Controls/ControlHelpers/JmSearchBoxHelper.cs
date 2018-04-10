@@ -47,6 +47,7 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
         private void SearchBtn_Click(object sender, RoutedEventArgs e)
         {
             _templateParent.RaiseEvent(new RoutedEventArgs(JmSearchBox.SearchBtnClickEvent));
+            _templateParent.IsDropDownOpen = false;
         }
         
     }

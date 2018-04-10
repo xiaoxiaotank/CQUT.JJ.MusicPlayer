@@ -27,7 +27,19 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
     {
         public PlayHistoryPage()
         {
+            PageLoadedUtil.MusicListPageLoadedEvent += PageLoadedUtil_MusicListPageLoadedEvent;
             InitializeComponent();
+        }
+
+        private async void PageLoadedUtil_MusicListPageLoadedEvent(object sender, EventArgs e)
+        {
+            if(this.IsVisible)
+            {
+                var musics = await GetHistoryMusics();
+                TbSongCount.Text = (musics.Results?.Count() ?? 0).ToString();
+                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musics, 1);
+            }
+                 
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -35,11 +47,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
 
         }
 
-        private async void Frame_Loaded(object sender, RoutedEventArgs e)
+        private void Frame_Loaded(object sender, RoutedEventArgs e)
         {
-            var musics = await GetHistoryMusics();
-            TbSongCount.Text = (musics.Results?.Count() ?? 0).ToString();
-            MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musics, 1);
+            
+           
         }
 
         private async Task<MusicSearchPageResult> GetHistoryMusics()

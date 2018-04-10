@@ -82,10 +82,20 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (e.IsSuccessed)
                 {
                     _musicListViewModel = new List<MusicInfoViewModel>();
+                    if(e.PageResult?.ResultType == null)
+                    {
+                        TipNonMusicInfo();
+                        return;
+                    }
                     switch (e.PageResult.ResultType)
                     {
                         case MusicRequestType.Song:
                             var songs = (MusicSearchPageResult)e.PageResult;
+                            if (songs.Results?.Any() != true)
+                            {
+                                TipNonMusicInfo();
+                                return;
+                            }
                             songs.Results?.ToList().ForEach(r =>
                             {
                                 var model = new MusicInfoViewModel
@@ -112,7 +122,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     InitPageNumber(e.PageResult.PageCount, e.PageResult.PageNumber);
 
                     TbError.Visibility = Visibility.Collapsed;
-                    GdSong.Visibility = Visibility.Visible;
+                    GdSong.Visibility = Visibility.Visible;                    
                 }
                 else
                 {
@@ -121,7 +131,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     TbError.Visibility = Visibility.Visible;
                 }
 
-                Waiting.Visibility = Visibility.Collapsed;
+                TbInfo.Visibility 
+                    = Waiting.Visibility
+                    = Visibility.Collapsed;
                 SpPageNumber.IsEnabled = true;
                 if (_musicListViewModel.Any())
                     MusicList.ScrollIntoView(_musicListViewModel[0]);
@@ -131,9 +143,24 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
            
         }
 
+        /// <summary>
+        /// 展示无音乐资源时的提示
+        /// </summary>
+        private void TipNonMusicInfo()
+        {
+            if (IsVisible)
+            {
+                TbError.Visibility
+                               = GdSong.Visibility
+                               = Waiting.Visibility
+                               = Visibility.Collapsed;
+                TbInfo.Visibility = Visibility.Visible;
+            }           
+        }
+
         private void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)
         {
-            if(MusicList.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
+            if (MusicList.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
             {
                 var currentPlayingMusic = _musicListViewModel.SingleOrDefault(m => m.Id == JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusic?.Id);
                 if (MusicList.ItemContainerGenerator.ContainerFromItem(currentPlayingMusic) is JmListViewItem lvi
@@ -163,7 +190,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             Waiting.Visibility = Visibility.Visible;
             TbError.Visibility = Visibility.Collapsed;
-            GdSong.Visibility = Visibility.Collapsed; 
+            GdSong.Visibility = Visibility.Collapsed;
+
+            PageLoadedUtil.InvokeFromMusicListPageLoaded();
         }
 
 
@@ -498,6 +527,36 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         };
                     }
                 }
+            }
+        }
+
+
+
+        /// <summary>
+        /// 左击歌手名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TbSinger_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if(sender is TextBlock tb)
+            {
+                var singerId = Convert.ToInt32(tb.Tag);
+                MessageBox.Show(singerId.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 左击专辑名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TbAlbum_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is TextBlock tb)
+            {
+                var albumId = Convert.ToInt32(tb.Tag);
+                MessageBox.Show(albumId.ToString());
             }
         }
 
