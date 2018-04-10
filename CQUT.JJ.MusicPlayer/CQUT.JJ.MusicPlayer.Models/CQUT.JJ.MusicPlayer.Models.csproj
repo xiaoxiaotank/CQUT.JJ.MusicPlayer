@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContracts\Common\UserInfo.cs" />
+    <Compile Include="DataContracts\Common\UserMusicListInfo.cs" />
     <Compile Include="JM\Common\UserModel.cs" />
     <Compile Include="QM\BaseModel\BaseQMusicInfoModel.cs" />
     <Compile Include="DataContracts\Common\MusicInfo.cs" />

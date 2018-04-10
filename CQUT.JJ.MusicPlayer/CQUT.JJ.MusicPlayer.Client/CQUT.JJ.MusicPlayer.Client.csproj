@@ -188,6 +188,9 @@
     <Compile Include="Pages\Skin\ThemeSkin\PurityPage.xaml.cs">
       <DependentUpon>PurityPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\UserMusicList\UserMusicList.xaml.cs">
+      <DependentUpon>UserMusicList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MusicPlayerMenu.xaml.cs">
       <DependentUpon>MusicPlayerMenu.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,7 @@
     <Compile Include="Utils\Configs\Setting\SettingConstants.cs" />
     <Compile Include="Utils\Configs\Setting\SettingUtil.cs" />
     <Compile Include="Utils\ConstantsUtil.cs" />
+    <Compile Include="Utils\ControlUtil.cs" />
     <Compile Include="Utils\Enums\MusicPlayMode.cs" />
     <Compile Include="Utils\Enums\MusicSourceType.cs" />
     <Compile Include="Utils\EventUtils\JmSkinChangedUtil.cs" />
@@ -312,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Skin\ThemeSkin\PurityPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\UserMusicList\UserMusicList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

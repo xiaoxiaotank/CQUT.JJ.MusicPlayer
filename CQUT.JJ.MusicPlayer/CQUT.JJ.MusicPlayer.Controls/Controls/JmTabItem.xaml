@@ -1,4 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    x:Class="CQUT.JJ.MusicPlayer.Controls.ControlHelpers.JmTabItemHelper"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls">
 
@@ -36,11 +37,24 @@
                     CornerRadius="{TemplateBinding CornerRadius}">
                 <StackPanel Orientation="Horizontal">
                     <ContentPresenter ContentSource="Icon" Margin="{TemplateBinding IconMargin}" />
+                    <TextBox x:Name="TxtContent" Visibility="Collapsed" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Header, Mode=TwoWay}" 
+                             HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"  
+                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                             VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                             Width="{TemplateBinding ActualWidth}" LostFocus="EditBox_LostFocus" Loaded="EditBox_Loaded" />
                     <ContentPresenter x:Name="Content" ContentSource="Header" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
                 </StackPanel>
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
+            <Trigger Property="Editable" Value="True">
+                <Setter TargetName="TxtContent" Property="Visibility" Value="Visible" />
+                <Setter TargetName="Content" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="Editable" Value="False">
+                <Setter TargetName="TxtContent" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="Content" Property="Visibility" Value="Visible" />
+            </Trigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Background" TargetName="Bd" Value="{StaticResource TabItemDisabledBackground}"/>
                 <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource TabItemDisabledBorderBrush}"/>

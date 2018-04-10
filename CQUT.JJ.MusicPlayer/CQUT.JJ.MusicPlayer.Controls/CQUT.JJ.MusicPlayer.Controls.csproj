@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlHelpers\JmSearchBoxHelper.cs" />
+    <Compile Include="ControlHelpers\JmTabItemHelper.cs" />
     <Compile Include="ControlHelpers\JmWindowHelper.cs" />
     <Compile Include="Controls\JmBubbleMessageBox.xaml.cs">
       <DependentUpon>JmBubbleMessageBox.xaml</DependentUpon>

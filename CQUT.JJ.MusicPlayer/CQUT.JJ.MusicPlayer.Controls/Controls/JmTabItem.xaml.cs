@@ -75,10 +75,29 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         }
 
         public static readonly DependencyProperty PageOfColumnNameProperty =
-            DependencyProperty.Register("PageOfColumnName", typeof(string), _ownerType, new PropertyMetadata(string.Empty)); 
+            DependencyProperty.Register("PageOfColumnName", typeof(string), _ownerType, new PropertyMetadata(string.Empty));
         #endregion
 
+        #region 是否可编辑
 
+        public bool Editable
+        {
+            get { return (bool)GetValue(EditableProperty); }
+            set { SetValue(EditableProperty, value); }
+        }
+
+        public static readonly DependencyProperty EditableProperty =
+            DependencyProperty.Register("Editable", typeof(bool), _ownerType, new PropertyMetadata(false));
+        #endregion
+
+        public event RoutedEventHandler EditBoxLostFocus
+        {
+            add { AddHandler(EditBoxLostFocusEvent, value); }
+            remove { RemoveHandler(EditBoxLostFocusEvent, value); }
+        }
+
+        public static readonly RoutedEvent EditBoxLostFocusEvent =
+            EventManager.RegisterRoutedEvent(nameof(EditBoxLostFocus), RoutingStrategy.Bubble, typeof(RoutedEventArgs), _ownerType);
 
         static JmTabItem()
         {
@@ -90,6 +109,11 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             if(!IsSelected)
                 IsSelected = true;
             base.OnPreviewMouseUp(e);
+        }
+
+        public void InvokeEditBoxLostFocusEvent()
+        {
+
         }
     }
 }

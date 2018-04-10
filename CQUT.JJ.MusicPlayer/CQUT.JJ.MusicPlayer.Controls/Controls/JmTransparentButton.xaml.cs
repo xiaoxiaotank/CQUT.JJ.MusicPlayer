@@ -33,6 +33,19 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), _ownerType, new PropertyMetadata(new CornerRadius(0)));
         #endregion
 
+        #region 鼠标悬浮时背景色
+
+        public Brush HighlightedBackground
+        {
+            get { return (Brush)GetValue(HighlightedBackgroundProperty); }
+            set { SetValue(HighlightedBackgroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty HighlightedBackgroundProperty =
+            DependencyProperty.Register(nameof(HighlightedBackground), typeof(Brush), _ownerType, new PropertyMetadata(new SolidColorBrush(Colors.SkyBlue)));
+
+        #endregion
+
 
         static JmTransparentButton()
         {

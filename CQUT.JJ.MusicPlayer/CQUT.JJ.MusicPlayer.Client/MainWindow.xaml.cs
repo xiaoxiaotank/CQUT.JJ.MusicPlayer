@@ -98,6 +98,12 @@ namespace CQUT.JJ.MusicPlayer.Client
             DataContext = _mainWinViewModel;
         }
 
+        private void JmWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (PopMainMenu.IsOpen)
+                PopMainMenu.IsOpen = false;
+        }
+
         private void BtnSkin_Click(object sender, RoutedEventArgs e)
         {
             var skinWinWidth = Width * 0.7;
@@ -216,7 +222,18 @@ namespace CQUT.JJ.MusicPlayer.Client
             if (IsShowInTaskBar)
                 NotifyIcon.Dispose();
             System.Environment.Exit(System.Environment.ExitCode);
-        } 
+        }
+
+        private void BtnMainMenu_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (PopMainMenu.IsOpen)
+                PopMainMenu.IsOpen = false;
+        }
+
+        private void PopMainMenu_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PopMainMenu.IsOpen = false;
+        }
         #endregion
 
 
@@ -287,8 +304,12 @@ namespace CQUT.JJ.MusicPlayer.Client
 
 
 
-        #endregion
 
+
+
+
+
+        #endregion
 
     }
 

@@ -23,7 +23,7 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="CornerRadius" Value="2" />
-            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontSize" Value="12.5" />
             <Setter Property="Padding" Value="2,5" />
             <Setter Property="IconMargin" Value="10 0" />
             <Setter Property="Margin" Value="0 3" />
@@ -37,6 +37,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
         <Style TargetType="jm:JmScrollViewer" BasedOn="{StaticResource JMScrollViewerStyle}">
             <Setter Property="ThumbBackground" Value="#40FFFFFF" />
             <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
@@ -48,11 +49,13 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        
     </UserControl.Resources>
-    <jm:JmScrollViewer>
-        <StackPanel Margin="23 0">
+    <jm:JmScrollViewer x:Name="Sviewer">
+        <StackPanel x:Name="Sp" Margin="23 0 5 0">
             <Label Padding="0" Margin="12 0 0 10">在线音乐</Label>
-            <jm:JmTabItem x:Name="TiMusicHall" Header="音乐馆" MouseUp="TabItem_SelectionChanged"
+            <jm:JmTabItem  x:Name="TiMusicHall" Header="音乐馆" MouseUp="TabItem_SelectionChanged"
                       PageName="MusicHallPage.xaml" PageOfColumnName="OnlineMusic">
                 <jm:JmTabItem.Icon>
                     <TextBlock Text="&#xe700;" />
@@ -85,8 +88,8 @@
             
 
             <Label>我的音乐</Label>
-            <jm:JmTabItem Header="我喜欢" MouseUp="TabItem_SelectionChanged"
-                      PageName="ILovePage.xaml" PageOfColumnName="MyMusic">
+            <jm:JmTabItem Name="TabILike" Header="我喜欢" MouseUp="TabItem_SelectionChanged"
+                      PageName="ILovePage.xaml" PageOfColumnName="MyMusic" Visibility="Collapsed">
                 <jm:JmTabItem.Icon>
                     <TextBlock Text="&#xe60e;" FontSize="15" />
                 </jm:JmTabItem.Icon>
@@ -111,31 +114,26 @@
             </jm:JmTabItem>
 
 
-            <Label>我创建的歌单</Label>
-            <jm:JmTabItem Header="我喜欢" MouseUp="TabItem_SelectionChanged"
-                      PageName="ILovePage.xaml" PageOfColumnName="MyMusic">
-                <jm:JmTabItem.Icon>
-                    <TextBlock Text="&#xe60e;" FontSize="15" />
-                </jm:JmTabItem.Icon>
-            </jm:JmTabItem>
-            <jm:JmTabItem Header="本地和下载" MouseUp="TabItem_SelectionChanged"
-                      PageName="LocalAndDownloadPage.xaml" PageOfColumnName="MyMusic">
-                <jm:JmTabItem.Icon>
-                    <TextBlock Text="&#xe622;" />
-                </jm:JmTabItem.Icon>
-            </jm:JmTabItem>
-            <jm:JmTabItem Header="播放历史" MouseUp="TabItem_SelectionChanged"
-                      PageName="PlayHistoryPage.xaml" PageOfColumnName="MyMusic">
-                <jm:JmTabItem.Icon>
-                    <TextBlock Text="&#xe64f;" />
-                </jm:JmTabItem.Icon>
-            </jm:JmTabItem>
-            <jm:JmTabItem Header="试听列表" MouseUp="TabItem_SelectionChanged"
-                      PageName="ListeningTestListPage.xaml" PageOfColumnName="MyMusic">
-                <jm:JmTabItem.Icon>
-                    <TextBlock Text="&#xe640;" FontSize="15" />
-                </jm:JmTabItem.Icon>
-            </jm:JmTabItem>
+            <StackPanel x:Name="SpICreate" Visibility="Collapsed">
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="jm:JmTransparentButton">
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="32" />
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="LbICreate" Grid.Column="0">我创建的歌单</Label>
+                    <jm:JmTransparentButton x:Name="BtnCreate" Grid.Column="1" Margin="{Binding ElementName=LbICreate, Path=Margin}"
+                                            Click="BtnCreate_Click">
+                        <TextBlock Text="&#xe6df;" Margin="0 -2 0 0" FontSize="16" Foreground="Silver" FontFamily="{StaticResource JM}" ToolTip="新建歌单" />
+                    </jm:JmTransparentButton>
+                </Grid>
+                <TextBlock x:Name="TbLoading" Margin="10 0 0 0" Text="加载中..." FontSize="12" Visibility="Collapsed" />
+                <StackPanel x:Name="SpUserMusicList" Visibility="Collapsed" />
+            </StackPanel>
         </StackPanel>
     </jm:JmScrollViewer>
     

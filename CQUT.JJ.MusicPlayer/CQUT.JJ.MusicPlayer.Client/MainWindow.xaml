@@ -7,13 +7,16 @@
         xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
         xmlns:uc="clr-namespace:CQUT.JJ.MusicPlayer.Client.UserControls"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Loaded="JmWindow_Loaded" Closing="JmWindow_Closing">
+        WindowStartupLocation="CenterScreen" 
+             Loaded="JmWindow_Loaded" 
+             Closing="JmWindow_Closing" 
+             MouseLeftButtonUp="JmWindow_MouseLeftButtonUp">
     <jm:JmWindow.Style>
         <Style TargetType="jm:JmWindow">
             <Setter Property="Title" Value="JJ Music" />
             <Setter Property="MinWidth" Value="1010" />
             <Setter Property="MinHeight" Value="692" />
-            <Setter Property="Width" Value="1010" />
+            <Setter Property="Width" Value="1060" />
             <Setter Property="Height" Value="690" />
             <Setter Property="TopBarBackground" Value="{Binding TopFloorBackground}" />
             <Setter Property="LeftBarBackground" Value="{Binding TopFloorBackground}" />
@@ -31,6 +34,7 @@
             <Setter Property="IsOpenAreo" Value="True" />
             <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
             <Setter Property="IsShowInTaskBar" Value="True" />
+            <Setter Property="Focusable" Value="True" />
         </Style>
     </jm:JmWindow.Style>
 
@@ -49,7 +53,7 @@
                 </TextBlock.RenderTransform>
             </TextBlock>
         </jm:JmTransparentButton>
-        <jm:JmTransparentButton x:Name="BtnMainMenu" Click="BtnMainMenu_Click">
+        <jm:JmTransparentButton x:Name="BtnMainMenu" Click="BtnMainMenu_Click" LostFocus="BtnMainMenu_LostFocus">
             <TextBlock Text="&#xe6a9;" FontFamily="{StaticResource JM}" FontSize="20" ToolTip="主菜单" />
         </jm:JmTransparentButton>
         <jm:JmTransparentButton x:Name="BtnSkin" Click="BtnSkin_Click">
@@ -80,9 +84,9 @@
         <uc:MusicPlayerMenu />
     </jm:JmWindow.BottomBarContent>
     <Grid>
-        <Frame x:Name="FMusicPage" NavigationUIVisibility="Hidden"/>
-
-        <Popup x:Name="PopMainMenu" PlacementTarget="{Binding ElementName=BtnMainMenu}"
+        <Frame x:Name="FMusicPage" NavigationUIVisibility="Hidden" />
+        
+        <Popup x:Name="PopMainMenu" PlacementTarget="{Binding ElementName=BtnMainMenu}" PreviewMouseLeftButtonUp="PopMainMenu_MouseLeftButtonUp"
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom"
                MinHeight="100" Width="260" HorizontalOffset="-160" VerticalOffset="-10">
             <Border x:Name="Border" BorderThickness="0" BorderBrush="Red" Background="White">
