@@ -29,7 +29,8 @@ namespace CQUT.JJ.MusicPlayer.WCFService
                 {
                     Id = u.Id,
                     UserId = u.UserId,
-                    Name = u.Name
+                    Name = u.Name,
+                    CreationTime = u.CreationTime
                 });
             return result;
         }

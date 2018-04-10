@@ -19,5 +19,8 @@ namespace CQUT.JJ.MusicPlayer.Models.DataContracts.Common
 
         [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
+        public DateTime CreationTime { get; set; }
     }
 }

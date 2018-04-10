@@ -35,10 +35,15 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.Configs.HistoryPlayList
                 if (xmlRoot == null)
                     xmlRoot = GetLogRootElement();
 
-                if (xmlRoot.Elements().Any(e => e.Element(nameof(entity.MusicId))?.Value == entity.MusicId.ToString()))
-                    return;
-
-                var log = new XElement(History_Item_Element,
+                var element = xmlRoot.Elements().SingleOrDefault(e => e.Element(nameof(entity.MusicId))?.Value == entity.MusicId.ToString());
+                if (element != null)
+                {
+                    element.Remove();
+                    xmlRoot.Add(element);
+                }
+                else
+                {
+                    var log = new XElement(History_Item_Element,
                     new XElement(nameof(entity.MusicId), entity.MusicId)
                     , new XElement(nameof(entity.SingerId), entity.SingerId)
                     , new XElement(nameof(entity.AlbumId), entity.AlbumId)
@@ -46,9 +51,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils.Configs.HistoryPlayList
                     , new XElement(nameof(entity.SingerName), entity.SingerName)
                     , new XElement(nameof(entity.AlbumName), entity.AlbumName)
                     , new XElement(nameof(entity.MusicFileUri), entity.MusicFileUri.OriginalString)
-                    , new XElement(nameof(entity.Duration),entity.Duration.GetMinuteAndSecondPart())
+                    , new XElement(nameof(entity.Duration), entity.Duration.GetMinuteAndSecondPart())
                     );
-                xmlRoot.Add(log);
+                    xmlRoot.Add(log);
+                }
                 xmlRoot.Save(_historyPath);
             }
         }

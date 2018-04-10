@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -50,6 +51,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// </summary>
         private static KeyValuePair<int, TextBlock> _currentPlayingTbObject;
 
+        private static bool _isPlaying = false;
+
         private readonly ISearchService _searchService;
 
         public MusicListPage()
@@ -79,14 +82,13 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (e.IsSuccessed)
                 {
                     _musicListViewModel = new List<MusicInfoViewModel>();
-
                     switch (e.PageResult.ResultType)
                     {
                         case MusicRequestType.Song:
                             var songs = (MusicSearchPageResult)e.PageResult;
                             songs.Results?.ToList().ForEach(r =>
                             {
-                                _musicListViewModel.Add(new MusicInfoViewModel
+                                var model = new MusicInfoViewModel
                                 {
                                     Id = r.Id,
                                     SingerId = r.SingerId,
@@ -97,11 +99,16 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                                     Duration = r.Duration,
                                     DurationDescription = r.Duration.GetMinuteAndSecondPart(),
                                     FileUrl = r.FileUrl
-                                });
+                                };
+                                _musicListViewModel.Add(model);
                             });
                             break;
+                        default:
+                            return;
                     }
                     MusicList.ItemsSource = _musicListViewModel;
+                    MusicList.ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
+                    
                     InitPageNumber(e.PageResult.PageCount, e.PageResult.PageNumber);
 
                     TbError.Visibility = Visibility.Collapsed;
@@ -124,10 +131,25 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
            
         }
 
+        private void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)
+        {
+            if(MusicList.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
+            {
+                var currentPlayingMusic = _musicListViewModel.SingleOrDefault(m => m.Id == JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusic?.Id);
+                if (MusicList.ItemContainerGenerator.ContainerFromItem(currentPlayingMusic) is JmListViewItem lvi
+                    && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
+                {
+                    ChangeMusicPlayBtnState(tb, _isPlaying);
+                    ChangeMusicActivatedState(currentPlayingMusic);
+                }
+            }
+        }
+
         private void JMusicPlayStateChanged(object sender, MusicPlayStateChangedArgs e)
         {
             Task.Factory.StartNew(() =>
             {
+                _isPlaying = e.IsToPlay;
                 ChangeMusicPlayBtnState(_nextPlayingTbObject.Value, e.IsToPlay);
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
@@ -388,7 +410,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 else if (!JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && JMApp.CurrentPlayingMusicsInfo != null)
                 {
                     var currentPlayingMusicList = JMApp.CurrentPlayingMusicsInfo.PlayingListMusics.ToList();
-                    var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo.CurrentQMPlayingMusicId));
+                    var currentPlayingObjIndex = currentPlayingMusicList.FindIndex(m => m.Id.Equals(JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusic?.Id));
                     if (currentPlayingObjIndex >= 0)
                     {
                         int nextPlayingObjIndex = currentPlayingObjIndex;
@@ -406,7 +428,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                                 if (nextPlayingObjIndex >= currentPlayingMusicList.Count || nextPlayingObjIndex < 0) return;
                                 break;
                             case MusicPlayMode.Random:
-                                nextPlayingObjIndex = new Random().Next(0, currentPlayingMusicList.Count);
+                                do
+                                {
+                                    nextPlayingObjIndex = new Random().Next(0, currentPlayingMusicList.Count);
+                                } while (nextPlayingObjIndex == currentPlayingObjIndex && currentPlayingMusicList.Count > 1);
                                 break;
                             case MusicPlayMode.Single:
                                 break;

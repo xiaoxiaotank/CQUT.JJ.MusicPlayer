@@ -65,7 +65,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 TbLoading.Visibility = Visibility.Visible;
                 var userMusicList = await Task.Factory.StartNew(() =>
                 {
-                    return _userMusicListService.GetUserMusicListByUserId(App.User.Id);
+                    return _userMusicListService.GetUserMusicListByUserId(App.User.Id)
+                        .OrderByDescending(u => u.CreationTime);
                 });
 
                 Dispatcher.Invoke(() => 

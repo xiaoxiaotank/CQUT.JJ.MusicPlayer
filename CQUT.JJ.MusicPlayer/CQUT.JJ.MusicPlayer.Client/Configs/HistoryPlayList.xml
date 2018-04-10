@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HistoryPlayList>
   <HistoryPlayItem>
-    <MusicId>4</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName> 斯琴高丽的伤心</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114700-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
-    <Duration>04:06</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>9</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -29,5 +19,35 @@
     <AlbumName>美丽的误会</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114647-夏天Alex - 心里下着雨.mp3</MusicFileUri>
     <Duration>03:22</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>6</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>我想我需要时间</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114711-终极一班 - 我想我需要时间.mp3</MusicFileUri>
+    <Duration>04:23</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>4</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName> 斯琴高丽的伤心</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114700-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
+    <Duration>04:06</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>5</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>斯琴高丽的伤心</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114706-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
+    <Duration>04:06</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>
