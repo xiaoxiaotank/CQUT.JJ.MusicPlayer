@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
       xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       mc:Ignorable="d" 
@@ -60,6 +61,12 @@
             <Setter Property="Margin" Value="0 0 5 0" />
             <Setter Property="FontSize" Value="15" />
             <Setter Property="Foreground" Value="Silver" />
+        </Style>
+
+        <sys:Double x:Key="LineHeight">40</sys:Double>
+        
+        <Style x:Key="ListViewItemStyle" TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
+            <Setter Property="Height" Value="{StaticResource LineHeight}" />
         </Style>
     </Page.Resources>
 
@@ -134,11 +141,12 @@
                     <Grid Name="ColTimeDuration" Grid.Column="3" />
                 </Grid>
             </Border>
-            <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False" Grid.Row="1"
+            <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False" Grid.Row="1" SelectionMode="Single"
                            Style="{StaticResource DefaultJmListViewStyle}" SelectionChanged="MusicList_SelectionChanged">
                 <jm:JmListView.ItemContainerStyle>
-                    <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
+                    <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource ListViewItemStyle}">
                         <Setter Property="IsActivated" Value="{Binding IsActivated}" />
+                        <Setter Property="Padding" Value="0" />
                     </Style>
                 </jm:JmListView.ItemContainerStyle>
                 <jm:JmListView.View>
@@ -147,9 +155,9 @@
                         <GridViewColumn Header="歌曲" Width="{Binding ElementName=ColName,Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
-                                    <Grid>
-                                        <TextBlock Text="{Binding MusicName}" />
-                                        <StackPanel x:Name="SpOptions" Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent" Visibility="Hidden">
+                                    <Grid Mouse.MouseEnter="Grid_MouseEnter" Mouse.MouseLeave="Grid_MouseLeave" Height="{StaticResource LineHeight}" Background="Transparent">
+                                        <TextBlock  Text="{Binding MusicName}" VerticalAlignment="Center" />
+                                        <StackPanel VerticalAlignment="Center" x:Name="SpOptions" Orientation="Horizontal" HorizontalAlignment="Right" Background="Transparent" Visibility="Hidden">
                                             <StackPanel.Resources>
                                                 <Style TargetType="jm:JmTransparentButton">
                                                     <Setter Property="FontSize" Value="20" />
@@ -176,39 +184,41 @@
                                             </jm:JmTransparentButton>
                                         </StackPanel>
                                     </Grid>
-                                    <ItemContainerTemplate.Triggers>
+                                    <!--<ItemContainerTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Visibility" Value="Visible" TargetName="SpOptions" />
                                         </Trigger>
-                                    </ItemContainerTemplate.Triggers>
+                                    </ItemContainerTemplate.Triggers>-->
                                 </ItemContainerTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="歌手" Width="{Binding ElementName=ColSingerName,Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
-                                    <WrapPanel>
-                                        <WrapPanel.Resources>
-                                            <Style TargetType="TextBlock">
+                                    <Grid Height="{StaticResource LineHeight}" Background="Transparent" Mouse.MouseEnter="Grid_MouseEnter" Mouse.MouseLeave="Grid_MouseLeave">
+                                        <Grid.Resources>
+                                            <Style TargetType="TextBlock">  
                                                 <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                    <Trigger Property="TextBlock.IsMouseOver" Value="true">
                                                         <Setter Property="Cursor" Value="Hand" />
                                                         <Setter Property="Foreground" Value="SkyBlue" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </WrapPanel.Resources>
-                                        <TextBlock x:Name="TbSinger" Tag="{Binding SingerId}" Text="{Binding SingerName}"
+                                        </Grid.Resources>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="TbSinger" Tag="{Binding SingerId}" Text="{Binding SingerName}" VerticalAlignment="Center"
                                                    MouseLeftButtonUp="TbSinger_MouseLeftButtonUp"/>
-                                    </WrapPanel>
+                                        </StackPanel>
+                                    </Grid>
                                 </ItemContainerTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="专辑" Width="{Binding ElementName=ColAlbumName,Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
-                                    <WrapPanel>
-                                        <WrapPanel.Resources>
+                                    <Grid Background="Transparent" Height="{StaticResource LineHeight}" Mouse.MouseEnter="Grid_MouseEnter" Mouse.MouseLeave="Grid_MouseLeave">
+                                        <Grid.Resources>
                                             <Style TargetType="TextBlock">
                                                 <Style.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="true">
@@ -217,19 +227,23 @@
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </WrapPanel.Resources>
-                                        <TextBlock x:Name="TbAlbum" Tag="{Binding AlbumId}" Text="{Binding AlbumName}"
+                                        </Grid.Resources>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="TbAlbum" Tag="{Binding AlbumId}" Text="{Binding AlbumName}" VerticalAlignment="Center"
                                                    MouseLeftButtonUp="TbAlbum_MouseLeftButtonUp"/>
-                                    </WrapPanel>
+                                        </StackPanel>
+                                    </Grid>
                                 </ItemContainerTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="时长" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
-                                    <Border>
-                                        <TextBlock Foreground="Silver" Text="{Binding DurationDescription}" />
-                                    </Border>
+                                    <Grid Mouse.MouseEnter="Grid_MouseEnter" Mouse.MouseLeave="Grid_MouseLeave" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}" Height="{StaticResource LineHeight}">
+                                        <Border>
+                                            <TextBlock Foreground="Silver" Text="{Binding DurationDescription}"  VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
                                 </ItemContainerTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

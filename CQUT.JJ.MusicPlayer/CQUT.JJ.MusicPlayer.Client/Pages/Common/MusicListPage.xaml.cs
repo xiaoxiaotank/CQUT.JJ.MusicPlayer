@@ -176,6 +176,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 {                   
                     ChangeMusicPlayBtnState(tb, _isToPlay);
                     ChangeMusicActivatedState(currentPlayingMusic);
+                    JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = true;
                 }
             }
         }
@@ -565,12 +566,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     var uri = new Uri(musicViewModel.FileUrl,UriKind.Relative);
                     var musicName = musicViewModel.MusicName + System.IO.Path.GetExtension(musicViewModel.FileUrl);
                     var singerName = musicViewModel.SingerName;
-                    await FileUtil.DownLoadMusicsAsync(uri, musicName, singerName);
-                    JmBubbleMessageBox.Show($"{musicName}下载成功",JmBubbleMessageBoxType.Success);
-                    return;
+                    await FileUtil.DownLoadMusicsAsync(uri, musicName, singerName);              
                 }
             }
-            JmBubbleMessageBox.Show($"歌曲下载失败!", JmBubbleMessageBoxType.Error);
         }
 
         /// <summary>
@@ -679,7 +677,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             {
                 if (MusicList.ItemContainerGenerator.ContainerFromItem(nextMusic) is JmListViewItem lvi
                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
-                {
+                {                    
                     PlayMusic(nextMusic.Id, tb);
                 }
             }
@@ -688,6 +686,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         private void PlayMusic(int id,TextBlock tb)
         {
             var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
+            if(MusicList.ItemContainerGenerator.ContainerFromItem(musicViewModel) is JmListViewItem viewItem)
+            {
+                viewItem.IsSelected = true;
+            }
             ChangeMusicActivatedState(musicViewModel);
             ChangeMusicPlayState(musicViewModel, tb);
 
@@ -759,10 +761,14 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 {
                     if (view.ItemContainerGenerator.ContainerFromItem(item) is JmListViewItem lastViewItem)
                     {
-                            var sps = lastViewItem.GetAllChildObject<StackPanel>();
-                            var sp = sps.SingleOrDefault(s => s.Name == "SpOptions");
-                            if (sp != null)
-                                sp.Visibility = Visibility.Collapsed;
+                        var sps = lastViewItem.GetAllChildObject<StackPanel>();
+                        var sp = sps.SingleOrDefault(s => s.Name == "SpOptions");
+                        if (sp != null)
+                        {
+                            sp.Visibility = Visibility.Hidden;
+                            var column = lastViewItem.FindVisualChild<GridViewRowPresenter>().Columns[0];
+                            
+                        }                                
                     }
                 }
                 if (view.ItemContainerGenerator.ContainerFromItem(view.SelectedItem) is JmListViewItem viewItem)
@@ -770,10 +776,35 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     var sps = viewItem.GetAllChildObject<StackPanel>();
                     var sp = sps.SingleOrDefault(s => s.Name == "SpOptions");
                     if (sp != null)
-                        sp.Visibility = Visibility.Visible;
+                        sp.Visibility = Visibility.Visible;                    
                 }
             }
             
+        }
+
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if(sender is Panel panel 
+                && panel.TemplatedParent is ContentPresenter content
+                && content.Parent is GridViewRowPresenter gridViewRow
+                && gridViewRow.TemplatedParent is JmListViewItem viewItem)
+            {
+                var sp = viewItem.GetAllChildObject<StackPanel>().SingleOrDefault(s => s.Name == "SpOptions"); ;
+                sp.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is Panel panel
+                && panel.TemplatedParent is ContentPresenter content
+                && content.Parent is GridViewRowPresenter gridViewRow
+                && gridViewRow.TemplatedParent is JmListViewItem viewItem)
+            {
+                if (MusicList.SelectedItem == viewItem.Content) return;
+                var sp = viewItem.GetAllChildObject<StackPanel>().SingleOrDefault(s => s.Name == "SpOptions"); ;
+                sp.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

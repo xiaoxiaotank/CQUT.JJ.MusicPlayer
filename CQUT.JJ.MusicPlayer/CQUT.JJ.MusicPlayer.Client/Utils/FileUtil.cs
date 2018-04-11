@@ -1,4 +1,6 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils.Configs;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
+using CQUT.JJ.MusicPlayer.Controls.Enums.JmBubbleMessageBox;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -91,14 +93,32 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         /// <param name="localName"></param>
         public static async Task DownLoadMusicsAsync(Uri fileUri, string musicName,string singerName)
         {
-            //Thread.Sleep(10000);
-            var addressUri = fileUri;
-            if (!addressUri.IsAbsoluteUri)
-                addressUri = new Uri(Path.GetFullPath(fileUri.OriginalString),UriKind.Absolute);
-            WebClient webClient = new WebClient();
-            var downloadPath = await SettingUtil.GetDowloadPathAsync();
-            Directory.CreateDirectory(Path.GetDirectoryName(downloadPath));
-            webClient.DownloadFileAsync(addressUri, Path.Combine(downloadPath,$"{singerName}-{ musicName}"));
+            try
+            {
+                //Thread.Sleep(10000);
+                var addressUri = fileUri;
+                if (!addressUri.IsAbsoluteUri)
+                    addressUri = new Uri(Path.GetFullPath(fileUri.OriginalString), UriKind.Absolute);
+                WebClient webClient = new WebClient();
+                var downloadPath = await SettingUtil.GetDowloadPathAsync();
+                Directory.CreateDirectory(downloadPath);
+                webClient.DownloadFileAsync(addressUri, Path.Combine(downloadPath, $"{singerName}-{ musicName}"));
+                webClient.DownloadFileCompleted += WebClient_DownloadFileCompleted;
+            }
+            catch
+            {
+                throw new Exception($"{musicName}下载失败");
+            }
+        }
+
+        private static void WebClient_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if(e.Cancelled)
+                JmBubbleMessageBox.Show($"下载被取消", JmBubbleMessageBoxType.Warning);
+            else if (e.Error == null)
+                JmBubbleMessageBox.Show($"下载成功", JmBubbleMessageBoxType.Success);
+            else if(e.Error != null)
+                JmBubbleMessageBox.Show($"下载失败", JmBubbleMessageBoxType.Success);
         }
     }
 }
