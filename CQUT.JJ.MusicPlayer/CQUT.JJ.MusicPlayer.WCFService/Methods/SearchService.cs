@@ -26,12 +26,12 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             _ctx = new JMDbContext();
         }
 
-        public MusicInfo GetMusicInfoById(int id)
+        public MusicContract GetMusicInfoById(int id)
         {
             var music = _ctx.Music.Include(m => m.Singer).Include(m => m.Album).SingleOrDefault(s => s.Id == id && s.IsPublished && !s.IsDeleted);
             if (music == null) return null;
 
-            return new MusicInfo()
+            return new MusicContract()
             {
                 Id = music.Id,
                 SingerId = music.SingerId,
@@ -81,7 +81,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         {
             var pagedList = _ctx.Music
                 .Where(m => m.Name.Contains(key) && !m.IsDeleted && m.IsPublished)
-                .Select(m => new MusicInfo()
+                .Select(m => new MusicContract()
                 {
                     Id = m.Id,
                     SingerId = m.SingerId,

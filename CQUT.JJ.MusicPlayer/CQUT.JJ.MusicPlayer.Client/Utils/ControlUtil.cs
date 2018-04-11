@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace CQUT.JJ.MusicPlayer.Client.Utils
 {
@@ -20,6 +21,19 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
             // 计算出目标位置并滚动
             var targetPosition = control.TransformToVisual(scrollViewer).Transform(point);
             scrollViewer.ScrollToVerticalOffset(targetPosition.Y);
+        }
+
+        public static Frame ParentFrame(this Page page)
+        {
+            Frame pageFrame = null;
+            var currParent = VisualTreeHelper.GetParent(page);
+            while (currParent != null && pageFrame == null)
+            {
+                pageFrame = currParent as Frame;
+                currParent = VisualTreeHelper.GetParent(currParent);
+            }
+
+            return pageFrame;
         }
     }
 }

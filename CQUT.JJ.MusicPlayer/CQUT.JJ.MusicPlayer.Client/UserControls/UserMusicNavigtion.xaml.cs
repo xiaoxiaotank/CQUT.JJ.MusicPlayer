@@ -153,7 +153,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             if(sender is JmTabItem tabItem)
             {
                 tabItem.Editable = false;
-                var userMusicListInfo = new UserMusicListInfo()
+                var userMusicListInfo = new UserMusicListContract()
                 {
                     UserId = App.User.Id,
                     Name = tabItem.Header.ToString()

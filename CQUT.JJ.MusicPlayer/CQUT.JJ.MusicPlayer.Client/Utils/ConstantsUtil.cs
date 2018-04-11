@@ -11,5 +11,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         public const string APP_Directory = "pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/";
 
         public const string Main_Setting_Page_Name = "Setting/SettingPage.xaml";
+
+        public const string DefaultProfilePhotoPath = "/Asserts/Images/DefaultUserHeader.png";
     }
 }

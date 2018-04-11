@@ -106,12 +106,14 @@
     <Compile Include="Interfaces\IUserMusicListService.cs" />
     <Compile Include="Interfaces\IMusicService.cs" />
     <Compile Include="Interfaces\ISearchService.cs" />
+    <Compile Include="Interfaces\ISingerService.cs" />
     <Compile Include="Methods\UserMusicListService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Methods\MusicService.cs" />
     <Compile Include="Methods\SearchService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Methods\UserService.cs" />
+    <Compile Include="Methods\SingerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

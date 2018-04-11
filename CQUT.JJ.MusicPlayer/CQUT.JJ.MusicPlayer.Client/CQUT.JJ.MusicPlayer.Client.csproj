@@ -137,6 +137,9 @@
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
     <Compile Include="Converters\VolumeToPercentConverter.cs" />
+    <Compile Include="Pages\Common\SingerInfoPage.xaml.cs">
+      <DependentUpon>SingerInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyMusic\ILovePage.xaml.cs">
       <DependentUpon>ILovePage.xaml</DependentUpon>
     </Compile>
@@ -229,8 +232,9 @@
     <Compile Include="Utils\StringFormatUtil.cs" />
     <Compile Include="Utils\TimeUtil.cs" />
     <Compile Include="ViewModels\Common\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\Common\MusicInfoViewModel.cs" />
+    <Compile Include="ViewModels\Common\MusicViewModel.cs" />
     <Compile Include="ViewModels\Common\MusicPlayerMenuViewModel.cs" />
+    <Compile Include="ViewModels\Common\SingerViewModel.cs" />
     <Compile Include="ViewModels\MusicPlayerMenu\MusicPlayListViewModel.cs" />
     <Compile Include="ViewModels\Common\QMInfoViewModel.cs" />
     <Compile Include="ViewModels\UserHeader\UserHeaderViewModel.cs" />
@@ -252,6 +256,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\Common\SingerInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MyMusic\ILovePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

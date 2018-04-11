@@ -62,7 +62,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
                     PageCount = 1,
                     PageNumber = 1,
                     ResultType = MusicRequestType.Song,
-                    Results = HistoryPlayListUtil.GetHistoryPlayList()?.Select(e => new MusicInfo()
+                    Results = HistoryPlayListUtil.GetHistoryPlayList()?.Select(e => new MusicContract()
                     {
                         Id = e.MusicId,
                         SingerId = e.SingerId,

@@ -13,6 +13,6 @@ namespace CQUT.JJ.MusicPlayer.WCFService
     public interface IUserService
     {
         [OperationContract]
-        UserInfo Login(string userName, string password);
+        UserContract Login(string userName, string password);
     }
 }

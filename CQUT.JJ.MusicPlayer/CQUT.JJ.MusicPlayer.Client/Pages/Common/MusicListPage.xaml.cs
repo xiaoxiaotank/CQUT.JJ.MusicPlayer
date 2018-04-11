@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+﻿using CQUT.JJ.MusicPlayer.Client.Pages.Common;
+using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
@@ -35,7 +36,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
     /// </summary>
     public partial class MusicListPage : Page
     {
-        private static List<MusicInfoViewModel> _musicListViewModel = null;
+        private static List<MusicViewModel> _musicListViewModel = null;
 
         private static int _currentPageNumber = 1;
 
@@ -81,7 +82,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             {
                 if (e.IsSuccessed)
                 {
-                    _musicListViewModel = new List<MusicInfoViewModel>();
+                    _musicListViewModel = new List<MusicViewModel>();
                     if(e.PageResult?.ResultType == null)
                     {
                         TipNonMusicInfo();
@@ -98,7 +99,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             }
                             songs.Results?.ToList().ForEach(r =>
                             {
-                                var model = new MusicInfoViewModel
+                                var model = new MusicViewModel
                                 {
                                     Id = r.Id,
                                     SingerId = r.SingerId,
@@ -467,7 +468,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         }
 
                         var nextPlayingObj = currentPlayingMusicList[nextPlayingObjIndex];
-                        ChangeMusicPlayState(new MusicInfoViewModel()
+                        ChangeMusicPlayState(new MusicViewModel()
                         {
                             Id = nextPlayingObj.Id,
                             MusicName = nextPlayingObj.Name,
@@ -542,7 +543,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if(sender is TextBlock tb)
             {
                 var singerId = Convert.ToInt32(tb.Tag);
-                MessageBox.Show(singerId.ToString());
+                var singerInfoPage = new SingerInfoPage(singerId);
+
+                var parentFrame = this.ParentFrame();
+                NavigationService.GetNavigationService(parentFrame).Navigate(singerInfoPage);
             }
         }
 
@@ -603,7 +607,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// </summary>
         /// <param name="musicViewModel"></param>
         /// <param name="tb"></param>
-        private void ChangeMusicPlayState(MusicInfoViewModel model, TextBlock tb)
+        private void ChangeMusicPlayState(MusicViewModel model, TextBlock tb)
         {
             if (model != null)
             {
@@ -650,7 +654,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// 更改激活状态
         /// </summary>
         /// <param name="lvi"></param>
-        private void ChangeMusicActivatedState(MusicInfoViewModel model)
+        private void ChangeMusicActivatedState(MusicViewModel model)
         {
             RemoveCurrentPlayingMusicActivatedState();
             if (model != null)

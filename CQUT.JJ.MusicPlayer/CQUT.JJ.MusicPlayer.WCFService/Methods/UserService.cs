@@ -22,7 +22,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             _userManager = new UserManager(_ctx);
         }
 
-        public UserInfo Login(string userName, string password)
+        public UserContract Login(string userName, string password)
         {
             password = password.EncryptByMD5();
             var user = _ctx.User.SingleOrDefault(m => m.UserName.Equals(userName, StringComparison.Ordinal) && !m.IsDeleted && !m.IsAdmin);
@@ -31,7 +31,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             else if (!user.Password.Equals(password))
                 _userManager.ThrowException("用户名或密码错误");
 
-            return new UserInfo()
+            return new UserContract()
             {
                 Id = user.Id,
                 UserName = user.UserName,

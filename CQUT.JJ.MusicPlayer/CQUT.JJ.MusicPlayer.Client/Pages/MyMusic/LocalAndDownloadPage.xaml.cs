@@ -24,7 +24,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
     /// </summary>
     public partial class LocalAndDownloadPage : Page
     {
-        private static List<MusicInfoViewModel> _musicListViewModel = null;
+        private static List<MusicViewModel> _musicListViewModel = null;
 
         public LocalAndDownloadPage()
         {
@@ -36,7 +36,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
             var downloadPath = await SettingUtil.GetDowloadPathAsync();
             _musicListViewModel = Directory.GetFiles(downloadPath)
                 .Where(m => GlobalConstants.Music_File_Suffix.Contains(System.IO.Path.GetExtension(m)))
-                .Select(m => new MusicInfoViewModel()
+                .Select(m => new MusicViewModel()
                 {
                     MusicName = System.IO.Path.GetFileNameWithoutExtension(m),
                     FileUrl = m

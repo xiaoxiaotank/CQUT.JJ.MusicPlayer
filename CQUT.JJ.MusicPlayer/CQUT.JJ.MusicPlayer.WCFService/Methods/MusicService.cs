@@ -38,13 +38,13 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             return _userLikeManager.Find(userId, objId, type) != null;
         }
 
-        public IEnumerable<MusicInfo> GetLoveMusicsByUserId(int userId)
+        public IEnumerable<MusicContract> GetLoveMusicsByUserId(int userId)
         {
             var result = from u in _ctx.UserLike.Where(u => u.UserId == userId && u.MusicId != null)
                          join m in _ctx.Music.Include(m => m.Singer).Include(m => m.Album).Where(m => m.IsPublished && !m.IsDeleted)
                          on u.MusicId equals m.Id into mu
                          from music in mu.DefaultIfEmpty()
-                         select new MusicInfo()
+                         select new MusicContract()
                          {
                              Id = music.Id,
                              SingerId = music.Singer.Id,

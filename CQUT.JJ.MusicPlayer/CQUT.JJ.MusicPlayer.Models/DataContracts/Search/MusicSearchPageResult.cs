@@ -12,6 +12,6 @@ namespace CQUT.JJ.MusicPlayer.Models.DataContracts.Search
     public class MusicSearchPageResult : PageResult
     {
         [DataMember]
-        public new IEnumerable<MusicInfo> Results { get; set; }
+        public new IEnumerable<MusicContract> Results { get; set; }
     }
 }

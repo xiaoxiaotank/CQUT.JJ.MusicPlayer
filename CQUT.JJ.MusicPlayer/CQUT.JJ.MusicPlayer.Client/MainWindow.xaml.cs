@@ -157,7 +157,9 @@ namespace CQUT.JJ.MusicPlayer.Client
         private void MusicPageChanged(object sender, PageChangedEventArgs e)
         {
             //需要刷新界面并且当前指向为同一页，因为如果不是同一页，由于刚刚赋值，刷新后就会又变成了旧值
-            if (e.IsRefresh && e.PageSource.OriginalString.Contains(FMusicPage.Source.OriginalString))
+            if (e.IsRefresh 
+                && FMusicPage.Source?.OriginalString != null 
+                && e.PageSource.OriginalString.Contains(FMusicPage.Source.OriginalString))
                 FMusicPage.NavigationService.Refresh();
             else
                 FMusicPage.Source = e.PageSource;

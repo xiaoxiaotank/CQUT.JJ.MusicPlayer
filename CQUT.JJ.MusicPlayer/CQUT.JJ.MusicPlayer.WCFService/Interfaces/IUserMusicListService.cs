@@ -17,7 +17,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         /// <param name="userId"></param>
         /// <returns></returns>
         [OperationContract]
-        IEnumerable<UserMusicListInfo> GetUserMusicListByUserId(int userId);
+        IEnumerable<UserMusicListContract> GetUserMusicListByUserId(int userId);
 
         /// <summary>
         /// 创建用户歌单
@@ -25,6 +25,6 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         /// <param name="userMusicList"></param>
         /// <returns></returns>
         [OperationContract]
-        UserMusicListInfo Create(UserMusicListInfo userMusicList);
+        UserMusicListContract Create(UserMusicListContract userMusicList);
     }
 }

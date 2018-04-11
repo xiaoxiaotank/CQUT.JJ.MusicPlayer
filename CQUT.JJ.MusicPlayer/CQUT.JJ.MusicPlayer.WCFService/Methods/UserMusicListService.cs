@@ -22,10 +22,10 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             _userMusicListManager = new UserMusicListManager(_ctx);
         }
 
-        public IEnumerable<UserMusicListInfo> GetUserMusicListByUserId(int userId)
+        public IEnumerable<UserMusicListContract> GetUserMusicListByUserId(int userId)
         {
             var result = _ctx.UserMusicList.Where(u => u.UserId == userId && !u.IsDeleted)?
-                .Select(u => new UserMusicListInfo()
+                .Select(u => new UserMusicListContract()
                 {
                     Id = u.Id,
                     UserId = u.UserId,
@@ -35,7 +35,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             return result;
         }
 
-        public UserMusicListInfo Create(UserMusicListInfo userMusicList)
+        public UserMusicListContract Create(UserMusicListContract userMusicList)
         {
             var model = new UserMusicList()
             {

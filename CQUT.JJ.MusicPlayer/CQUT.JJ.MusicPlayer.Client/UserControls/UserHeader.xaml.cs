@@ -25,8 +25,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
     /// </summary>
     public partial class UserHeader : UserControl
     {
-        private const string _defaultProfilePhotoPath = "/Asserts/Images/DefaultUserHeader.png";
-
         private UserHeaderViewModel _userHeaderViewModel = null;
 
         public UserHeader()
@@ -37,7 +35,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             _userHeaderViewModel = new UserHeaderViewModel()
             {
                 NickName = "请登录",
-                ProfilePhotoPath = _defaultProfilePhotoPath.ToImageSource(),
+                ProfilePhotoPath = ConstantsUtil.DefaultProfilePhotoPath.ToImageSource(),
             };
             DataContext = _userHeaderViewModel;
         }
@@ -66,7 +64,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                             _userHeaderViewModel.Id = App.User.Id;
                             _userHeaderViewModel.NickName = App.User.NickName;
                             _userHeaderViewModel.ProfilePhotoPath = (string.IsNullOrWhiteSpace(App.User.ProfilePhotoPath) || !File.Exists(App.User.ProfilePhotoPath) ?
-                                _defaultProfilePhotoPath : App.User.ProfilePhotoPath)
+                                ConstantsUtil.DefaultProfilePhotoPath : App.User.ProfilePhotoPath)
                                 .ToImageSource();
                             BtnLevelTip.Visibility = Visibility.Visible;
                         }
