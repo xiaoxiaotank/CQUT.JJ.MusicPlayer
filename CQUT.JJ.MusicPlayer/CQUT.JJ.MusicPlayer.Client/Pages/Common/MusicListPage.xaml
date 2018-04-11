@@ -24,6 +24,27 @@
             <Setter Property="Margin" Value="5,0" />
         </Style>
 
+        <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="0 10 10 10" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Padding" Value="13 0" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="DarkSlateGray" />
+            <Setter Property="FontSize" Value="12" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#15FFFFFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="IconStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource JM}" />
+            <Setter Property="Margin" Value="0 0 5 0" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="Silver" />
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -41,7 +62,25 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-            <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BtnPlayAll" Click="BtnPlayAll_Click">
+                    <WrapPanel>
+                        <TextBlock Text="&#xe774;" Style="{StaticResource IconStyle}" />
+                        <TextBlock Text="播放全部" />
+                    </WrapPanel>
+                </Button>
+                <Button x:Name="BtnDowload" Click="BtnDowload_Click">
+                    <WrapPanel>
+                        <TextBlock Text="&#xe612;" Style="{StaticResource IconStyle}" />
+                        <TextBlock Text="下载" />
+                    </WrapPanel>
+                </Button>
+                <Button x:Name="BtnBatchOperation" Click="BtnBatchOperation_Click">
+                    <WrapPanel>
+                        <TextBlock Text="&#xe751;" Style="{StaticResource IconStyle}" />
+                        <TextBlock Text="批量操作" />
+                    </WrapPanel>
+                </Button>
             </StackPanel>
             <Border Name="ListTemplate">
                 <Grid>

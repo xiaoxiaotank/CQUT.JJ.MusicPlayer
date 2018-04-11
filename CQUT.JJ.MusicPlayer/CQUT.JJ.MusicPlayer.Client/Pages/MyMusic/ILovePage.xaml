@@ -109,7 +109,7 @@
                     </StackPanel>
                 </jm:JmWidgetTabItem.Header>
             </jm:JmWidgetTabItem>
-            <jm:JmWidgetTabItem Name="TbMv3" Header="MV3">
+            <jm:JmWidgetTabItem Name="TbMv" Header="MV">
 
             </jm:JmWidgetTabItem>
         </jm:JmTabControl>

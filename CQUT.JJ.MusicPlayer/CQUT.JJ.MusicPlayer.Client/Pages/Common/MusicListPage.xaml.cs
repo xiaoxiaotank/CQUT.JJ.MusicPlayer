@@ -52,7 +52,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// </summary>
         private static KeyValuePair<int, TextBlock> _currentPlayingTbObject;
 
-        private static bool _isPlaying = false;
+        private static bool _isToPlay = false;
 
         private readonly ISearchService _searchService;
 
@@ -167,7 +167,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (MusicList.ItemContainerGenerator.ContainerFromItem(currentPlayingMusic) is JmListViewItem lvi
                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
                 {
-                    ChangeMusicPlayBtnState(tb, _isPlaying);
+                    ChangeMusicPlayBtnState(tb, _isToPlay);
                     ChangeMusicActivatedState(currentPlayingMusic);
                 }
             }
@@ -177,7 +177,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             Task.Factory.StartNew(() =>
             {
-                _isPlaying = e.IsToPlay;
+                _isToPlay = e.IsToPlay;
                 ChangeMusicPlayBtnState(_nextPlayingTbObject.Value, e.IsToPlay);
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
         }
@@ -492,44 +492,29 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             if (sender is JmTransparentButton btn && btn.Content is TextBlock tb)
             {
-                var id = btn.Tag;
-                if (id != null)
+                var id = Convert.ToInt32(btn.Tag);
+                PlayMusic(id, tb);
+            }
+        }
+
+        /// <summary>
+        /// 播放全部
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnPlayAll_Click(object sender, RoutedEventArgs e)
+        {
+            var nextMusic = _musicListViewModel?.First();
+            if (nextMusic != null)
+            {
+                if (MusicList.ItemContainerGenerator.ContainerFromItem(nextMusic) is JmListViewItem lvi
+                    && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
                 {
-                    var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
-                    ChangeMusicActivatedState(musicViewModel);
-                    ChangeMusicPlayState(musicViewModel, tb);
-
-                    JMApp.CurrentPlayingMusicsInfo = new CurrentPlayingMusicsInfo()
-                    {
-                        PlayingListMusics = _musicListViewModel.Select(m => new MusicModel()
-                        {
-                            Id = m.Id,
-                            Name = m.MusicName,
-                            SingerName = m.SingerName,
-                            AlbumName = m.AlbumName,
-                            Duration = m.Duration,
-                            FileUrl = m.FileUrl
-                        }),
-                        IsCurrentPlayingPage = true,
-                    };
-
-                    if (JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic?.Id.Equals(id) != true)
-                    {
-                        JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = new MusicModel()
-                        {
-                            Id = musicViewModel.Id,
-                            SingerId = musicViewModel.SingerId,
-                            AlbumId = musicViewModel.AlbumId,
-                            Name = musicViewModel.MusicName,
-                            SingerName = musicViewModel.SingerName,
-                            AlbumName = musicViewModel.AlbumName,
-                            FileUri = new Uri(musicViewModel.FileUrl, UriKind.Relative),
-                            Duration = musicViewModel.Duration
-                        };
-                    }
+                    PlayMusic(nextMusic.Id, tb);
                 }
             }
         }
+
 
 
 
@@ -674,5 +659,51 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             }
         }
 
+     
+        private void BtnDowload_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnBatchOperation_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PlayMusic(int id,TextBlock tb)
+        {
+            var musicViewModel = _musicListViewModel.SingleOrDefault(m => m.Id.Equals(id));
+            ChangeMusicActivatedState(musicViewModel);
+            ChangeMusicPlayState(musicViewModel, tb);
+
+            JMApp.CurrentPlayingMusicsInfo = new CurrentPlayingMusicsInfo()
+            {
+                PlayingListMusics = _musicListViewModel.Select(m => new MusicModel()
+                {
+                    Id = m.Id,
+                    Name = m.MusicName,
+                    SingerName = m.SingerName,
+                    AlbumName = m.AlbumName,
+                    Duration = m.Duration,
+                    FileUrl = m.FileUrl
+                }),
+                IsCurrentPlayingPage = true,
+            };
+
+            if (JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic?.Id.Equals(id) != true)
+            {
+                JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = new MusicModel()
+                {
+                    Id = musicViewModel.Id,
+                    SingerId = musicViewModel.SingerId,
+                    AlbumId = musicViewModel.AlbumId,
+                    Name = musicViewModel.MusicName,
+                    SingerName = musicViewModel.SingerName,
+                    AlbumName = musicViewModel.AlbumName,
+                    FileUri = new Uri(musicViewModel.FileUrl, UriKind.Relative),
+                    Duration = musicViewModel.Duration
+                };
+            }
+        }
     }
 }
