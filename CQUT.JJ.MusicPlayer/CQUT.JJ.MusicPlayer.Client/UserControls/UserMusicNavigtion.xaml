@@ -20,12 +20,30 @@
                 </Style>
             </jm:JmContextMenu.Resources>
             <jm:JmMenuItem Name="CtxPlay" Header="播放" Click="CtxPlay_Click" />
-            <jm:JmMenuItem Name="CtxDelete" Header="删除" Click="CtxPlay_Click" />
-            <jm:JmMenuItem Name="CtxRename" Header="重命名" Click="CtxPlay_Click" />
+            <jm:JmMenuItem Name="CtxDelete" Header="删除" Click="CtxDelete_Click" />
+            <jm:JmMenuItem Name="CtxRename" Header="重命名" Click="CtxRename_Click" />
             <Separator Margin="-25 0 0 0" Opacity="0.5" />
-            <jm:JmMenuItem Name="CtxImport" Header="导入外部歌单" Click="CtxPlay_Click" />
-            <jm:JmMenuItem Name="CtxSynchronize" Header="同步所有歌单" Click="CtxPlay_Click" />
-            <jm:JmMenuItem Name="CtxRecover" Header="恢复歌单" Click="CtxPlay_Click" />
+            <jm:JmMenuItem Name="CtxImport" Header="导入外部歌单"/>
+            <jm:JmMenuItem Name="CtxSynchronize" Header="同步所有歌单" />
+            <jm:JmMenuItem Name="CtxRecover" Header="恢复歌单" />
+        </jm:JmContextMenu>
+
+        <jm:JmContextMenu x:Key="ILikeContextMenu" Background="White" Width="165">
+            <jm:JmContextMenu.Resources>
+                <Style TargetType="jm:JmMenuItem">
+                    <Setter Property="Width" Value="260" />
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="Icon" Value="" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Foreground" Value="#444444" />
+                    <Setter Property="Margin" Value="0 5 0 0" />
+                </Style>
+            </jm:JmContextMenu.Resources>
+            <jm:JmMenuItem Header="播放" Click="CtxPlay_Click" />
+            <Separator Margin="-25 0 0 0" Opacity="0.5" />
+            <jm:JmMenuItem Header="导入外部歌单"/>
+            <jm:JmMenuItem Header="同步所有歌单" />
+            <jm:JmMenuItem Header="恢复歌单" />
         </jm:JmContextMenu>
 
         <Style TargetType="Label">
@@ -108,7 +126,7 @@
             
 
             <Label>我的音乐</Label>
-            <jm:JmTabItem Name="TabILike" Header="我喜欢" MouseUp="TabItem_SelectionChanged"
+            <jm:JmTabItem Name="TabILike" Header="我喜欢" ContextMenu="{StaticResource ILikeContextMenu}" MouseUp="TabItem_SelectionChanged"
                       PageName="ILovePage.xaml" PageOfColumnName="MyMusic" Visibility="Collapsed">
                 <jm:JmTabItem.Icon>
                     <TextBlock Text="&#xe60e;" FontSize="15" />

@@ -215,6 +215,7 @@
     <Compile Include="Utils\ControlUtil.cs" />
     <Compile Include="Utils\Enums\MusicPlayMode.cs" />
     <Compile Include="Utils\Enums\MusicSourceType.cs" />
+    <Compile Include="Utils\EventUtils\ContextMenuStartPlayMusicUtil.cs" />
     <Compile Include="Utils\EventUtils\JmSkinChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\JmSkinOpacityChangedUtil.cs" />
     <Compile Include="Utils\EventUtils\MusicListPageLoadedUtil.cs" />

@@ -41,7 +41,7 @@
                              HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"  
                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                              VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                             Width="{TemplateBinding ActualWidth}" LostFocus="EditBox_LostFocus" Loaded="EditBox_Loaded">
+                             Width="{TemplateBinding ActualWidth}" LostFocus="EditBox_LostFocus" Loaded="EditBox_Loaded" IsVisibleChanged="EditBox_IsVisibleChanged">
                         <TextBox.InputBindings>
                             <KeyBinding Command="{Binding LostFocusCommand}" Key="Enter" CommandParameter="{Binding ElementName=TxtContent}" />
                         </TextBox.InputBindings>

@@ -69,10 +69,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 MusicPlayStateChangedUtil.JMusicPlayStateChangedEvent += JMusicPlayStateChanged;
             //音乐播放切换
             MusicPlaySwitchedUtil.MusicPlaySwitchedEvent += MusicSwitched;
+            //右键菜单点击开始播放时事件
+            ContextMenuStartPlayMusicUtil.ContextMenuStartPlayMusicEvent += ContextMenuStartPlayMusicEvent;
         }
 
-     
-
+      
 
         #region 事件Handler
 
@@ -143,6 +144,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
            
         }
+
+        private void ContextMenuStartPlayMusicEvent(object sender, EventArgs e)
+        {
+            StartPlayMusic();
+        }
+
 
         /// <summary>
         /// 展示无音乐资源时的提示
@@ -504,15 +511,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// <param name="e"></param>
         private void BtnPlayAll_Click(object sender, RoutedEventArgs e)
         {
-            var nextMusic = _musicListViewModel?.First();
-            if (nextMusic != null)
-            {
-                if (MusicList.ItemContainerGenerator.ContainerFromItem(nextMusic) is JmListViewItem lvi
-                    && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
-                {
-                    PlayMusic(nextMusic.Id, tb);
-                }
-            }
+            StartPlayMusic();
         }
 
 
@@ -668,6 +667,22 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         private void BtnBatchOperation_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// 开始播放音乐  可以供外部调用
+        /// </summary>
+        public void StartPlayMusic()
+        {
+            var nextMusic = _musicListViewModel?.First();
+            if (nextMusic != null)
+            {
+                if (MusicList.ItemContainerGenerator.ContainerFromItem(nextMusic) is JmListViewItem lvi
+                    && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
+                {
+                    PlayMusic(nextMusic.Id, tb);
+                }
+            }
         }
 
         private void PlayMusic(int id,TextBlock tb)

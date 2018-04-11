@@ -47,5 +47,14 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             return userMusicList;
         }
 
+        public void Update(int id, string name)
+        {
+            _userMusicListManager.Update(id, name);
+        }
+
+        public void Delete(int id)
+        {
+            _userMusicListManager.Delete(id);
+        }
     }
 }

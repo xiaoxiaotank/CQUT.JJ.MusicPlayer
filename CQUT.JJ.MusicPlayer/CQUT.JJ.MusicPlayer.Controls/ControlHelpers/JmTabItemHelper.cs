@@ -31,14 +31,22 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
             var txtBox = sender as TextBox;
             //设置此处以使得Command有效
             txtBox.DataContext = this;
-            txtBox.Focus();
-            txtBox.SelectAll();
         }
 
         public void EditBox_LostFocus(object sender, RoutedEventArgs e)
         {
             var templateParent = (sender as TextBox).TemplatedParent as JmTabItem;
             templateParent.RaiseEvent(new RoutedEventArgs(JmTabItem.EditBoxLostFocusEvent));
+        }
+
+        private void EditBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var txtBox = sender as TextBox;
+            if (txtBox.IsVisible)
+            {
+                txtBox.Focus();
+                txtBox.SelectAll();
+            }
         }
     }
 

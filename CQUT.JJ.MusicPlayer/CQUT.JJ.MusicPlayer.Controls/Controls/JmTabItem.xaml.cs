@@ -83,13 +83,18 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
         public bool Editable
         {
             get { return (bool)GetValue(EditableProperty); }
-            set { SetValue(EditableProperty, value); }
+            set
+            {
+                SetValue(EditableProperty, value);
+                RaiseEvent(new RoutedEventArgs(EditableChangedEvent));
+            }
         }
 
         public static readonly DependencyProperty EditableProperty =
-            DependencyProperty.Register("Editable", typeof(bool), _ownerType, new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(Editable), typeof(bool), _ownerType, new PropertyMetadata(false));
         #endregion
 
+        #region 编辑框丢失焦点事件
         public event RoutedEventHandler EditBoxLostFocus
         {
             add { AddHandler(EditBoxLostFocusEvent, value); }
@@ -98,6 +103,18 @@ namespace CQUT.JJ.MusicPlayer.Controls.Controls
 
         public static readonly RoutedEvent EditBoxLostFocusEvent =
             EventManager.RegisterRoutedEvent(nameof(EditBoxLostFocus), RoutingStrategy.Bubble, typeof(RoutedEventArgs), _ownerType);
+        #endregion
+
+        #region 可编辑状态改变事件
+        public event RoutedEventHandler EditableChanged
+        {
+            add { AddHandler(EditableChangedEvent, value); }
+            remove { RemoveHandler(EditableChangedEvent, value); }
+        }
+
+        public static readonly RoutedEvent EditableChangedEvent =
+            EventManager.RegisterRoutedEvent(nameof(EditableChanged), RoutingStrategy.Bubble, typeof(RoutedEventArgs), _ownerType); 
+        #endregion
 
         static JmTabItem()
         {

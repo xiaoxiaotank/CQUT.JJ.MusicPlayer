@@ -26,5 +26,20 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         /// <returns></returns>
         [OperationContract]
         UserMusicListContract Create(UserMusicListContract userMusicList);
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        [OperationContract]
+        void Update(int id, string name);
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        [OperationContract]
+        void Delete(int id);
     }
 }

@@ -83,6 +83,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                             },
                             Tag = list.Id
                         };
+                        tabItem.EditBoxLostFocus += TabItem_EditBoxLostFocus;
                         tabItem.MouseUp += UserMusicListSelectionChanged;
                         tabItem.ContextMenu = GetContextMenu();
                         SpUserMusicList.Children.Add(tabItem);
@@ -153,17 +154,26 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             if(sender is JmTabItem tabItem)
             {
                 tabItem.Editable = false;
-                var userMusicListInfo = new UserMusicListContract()
+                var name = tabItem.Header.ToString();
+                if (tabItem.Tag == null)
                 {
-                    UserId = App.User.Id,
-                    Name = tabItem.Header.ToString()
-                };
-                userMusicListInfo = _userMusicListService.Create(userMusicListInfo);
-                tabItem.Tag = userMusicListInfo.Id;
-                tabItem.MouseUp += UserMusicListSelectionChanged;
-                tabItem.ContextMenu = GetContextMenu();
-                SetSelectedTabItem(tabItem);
-                MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
+                    var userMusicListInfo = new UserMusicListContract()
+                    {
+                        UserId = App.User.Id,
+                        Name = name
+                    };
+                    userMusicListInfo = _userMusicListService.Create(userMusicListInfo);
+                    tabItem.Tag = userMusicListInfo.Id;
+                    tabItem.MouseUp += UserMusicListSelectionChanged;
+                    tabItem.ContextMenu = GetContextMenu();
+                    SetSelectedTabItem(tabItem);
+                    MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
+                }                   
+                else
+                {
+                    var id = Convert.ToInt32(tabItem.Tag);
+                    _userMusicListService.Update(id, name);
+                }                
             }
         }
 
@@ -222,7 +232,27 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         private void CtxPlay_Click(object sender, RoutedEventArgs e)
         {
+            ContextMenuStartPlayMusicUtil.Invoke();
+        }
 
+        private void CtxDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (((sender as JmMenuItem)?.Parent as JmContextMenu)?.PlacementTarget is JmTabItem parent)
+            {
+                var id = Convert.ToInt32(parent.Tag);
+                _userMusicListService.Delete(id);
+                parent.Visibility = Visibility.Collapsed;
+            }
+            
+        }
+
+        private void CtxRename_Click(object sender, RoutedEventArgs e)
+        {
+            if (((sender as JmMenuItem)?.Parent as JmContextMenu)?.PlacementTarget is JmTabItem parent)
+            {
+                var id = Convert.ToInt32(parent.Tag);
+                parent.Editable = true;
+            }
         }
     }
 }
