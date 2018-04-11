@@ -173,7 +173,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 var currentPlayingMusic = _musicListViewModel.SingleOrDefault(m => m.Id == JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusic?.Id);
                 if (MusicList.ItemContainerGenerator.ContainerFromItem(currentPlayingMusic) is JmListViewItem lvi
                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
-                {
+                {                   
                     ChangeMusicPlayBtnState(tb, _isToPlay);
                     ChangeMusicActivatedState(currentPlayingMusic);
                 }
@@ -719,6 +719,61 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     Duration = musicViewModel.Duration
                 };
             }
+        }
+
+        private void CtxPlayNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CtxPlay_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuPlayQueue_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuILike_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuTestListeningList_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnAddTo_Click(object sender, RoutedEventArgs e)
+        {
+            PopAddTo.IsOpen = !PopAddTo.IsOpen;
+        }
+
+        private void MusicList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(sender is JmListView view)
+            {
+                foreach (var item in e.RemovedItems)
+                {
+                    if (view.ItemContainerGenerator.ContainerFromItem(item) is JmListViewItem lastViewItem)
+                    {
+                            var sps = lastViewItem.GetAllChildObject<StackPanel>();
+                            var sp = sps.SingleOrDefault(s => s.Name == "SpOptions");
+                            if (sp != null)
+                                sp.Visibility = Visibility.Collapsed;
+                    }
+                }
+                if (view.ItemContainerGenerator.ContainerFromItem(view.SelectedItem) is JmListViewItem viewItem)
+                {
+                    var sps = viewItem.GetAllChildObject<StackPanel>();
+                    var sp = sps.SingleOrDefault(s => s.Name == "SpOptions");
+                    if (sp != null)
+                        sp.Visibility = Visibility.Visible;
+                }
+            }
+            
         }
     }
 }

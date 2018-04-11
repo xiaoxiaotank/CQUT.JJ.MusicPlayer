@@ -13,6 +13,22 @@
     <Page.Resources>
         <converter:RemoveIdenticalColorSuperpositionEffectOpacityConverter x:Key="ColorOpacityConverter" />
 
+        <jm:JmContextMenu x:Key="ContextMenu" Background="White" Width="165">
+            <jm:JmContextMenu.Resources>
+                <Style TargetType="jm:JmMenuItem">
+                    <Setter Property="Width" Value="260" />
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="Icon" Value="" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Foreground" Value="#444444" />
+                    <Setter Property="Margin" Value="0 5 0 0" />
+                </Style>
+            </jm:JmContextMenu.Resources>
+            <jm:JmMenuItem Name="CtxPlay" Header="播放" Click="CtxPlay_Click" />
+            <jm:JmMenuItem Name="CtxPlayNext" Header="下一首播放" Click="CtxPlayNext_Click" />
+            <jm:JmMenuItem Name="CtxDelete" Header="删除" />
+        </jm:JmContextMenu>
+       
         <Style TargetType="jm:JmTransparentButton">
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="Silver" />
@@ -57,11 +73,33 @@
         <TextBlock x:Name="TbInfo" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"
                    Foreground="Silver" FontSize="56">还没有歌曲哦，快去寻找吧</TextBlock>
         <Grid x:Name="GdSong" Visibility="Collapsed">
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
+
+            <Popup x:Name="PopAddTo" PlacementTarget="{Binding ElementName=BtnAddTo}" Placement="Mouse" VerticalOffset="-15" IsOpen="False">
+                <Menu x:Name="MenuAddTo" Background="White" Width="165">
+                    <Menu.Resources>
+                        <Style TargetType="jm:JmMenuItem">
+                            <Setter Property="Width" Value="260" />
+                            <Setter Property="Height" Value="30" />
+                            <Setter Property="Icon" Value="" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="#444444" />
+                            <Setter Property="Margin" Value="0 5 0 0" />
+                        </Style>
+                    </Menu.Resources>
+                    <jm:JmMenuItem Name="MenuPlayQueue" Header="播放队列" Click="MenuPlayQueue_Click" />
+                    <Separator />
+                    <jm:JmMenuItem Name="MenuILike" Header="我喜欢" Click="MenuILike_Click" />
+                    <jm:JmMenuItem Name="MenuTestListeningList" Header="试听列表" Click="MenuTestListeningList_Click" />
+                </Menu>
+            </Popup>
+
+
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="BtnPlayAll" Click="BtnPlayAll_Click">
                     <WrapPanel>
@@ -97,7 +135,7 @@
                 </Grid>
             </Border>
             <jm:JmListView x:Name="MusicList" VirtualizingPanel.IsVirtualizing="False" Grid.Row="1"
-                           Style="{StaticResource DefaultJmListViewStyle}">
+                           Style="{StaticResource DefaultJmListViewStyle}" SelectionChanged="MusicList_SelectionChanged">
                 <jm:JmListView.ItemContainerStyle>
                     <Style TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
                         <Setter Property="IsActivated" Value="{Binding IsActivated}" />
@@ -127,7 +165,7 @@
                                             <jm:JmTransparentButton x:Name="BtnPlay" Click="BtnPlay_Click"  Tag="{Binding Id}">
                                                 <TextBlock Text="&#xe774;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
-                                            <jm:JmTransparentButton x:Name="BtnAddTo" Tag="{Binding Id}">
+                                            <jm:JmTransparentButton x:Name="BtnAddTo" Tag="{Binding Id}" Click="BtnAddTo_Click">
                                                 <TextBlock Text="&#xe693;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
                                             <jm:JmTransparentButton x:Name="BtnDownload" Click="BtnDownload_Click" Tag="{Binding Id}">
