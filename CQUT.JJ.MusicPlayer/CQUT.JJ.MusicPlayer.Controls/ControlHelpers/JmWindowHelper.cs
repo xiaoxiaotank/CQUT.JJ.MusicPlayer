@@ -43,7 +43,15 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
 
         private void JmWindow_Move(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if(e.ClickCount == 2)
+            {
+                var jmWindow = (sender as FrameworkElement).TemplatedParent as JmWindow;
+                if (jmWindow.WindowState == WindowState.Maximized)
+                    jmWindow.WindowState = WindowState.Normal;
+                else
+                    jmWindow.WindowState = WindowState.Maximized;
+            }
+            else if (e.LeftButton == MouseButtonState.Pressed)
                 ((sender as FrameworkElement).TemplatedParent as JmWindow).DragMove();
         }
 
