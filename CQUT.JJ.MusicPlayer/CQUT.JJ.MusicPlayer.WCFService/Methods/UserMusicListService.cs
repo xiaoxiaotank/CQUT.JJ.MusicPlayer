@@ -79,5 +79,17 @@ namespace CQUT.JJ.MusicPlayer.WCFService
                 Name = userMusicList.Name
             };
         }
+
+        public bool IsExistOfUserMusicList(int musicListId, int objId, MusicRequestType type)
+        {
+            switch (type)
+            {
+                case MusicRequestType.Song:
+                    return _ctx.UserMusicListMusic.Any(l => l.MusicId == objId && l.MusicListId == musicListId);
+                default:
+                    return false;
+            }
+            
+        }
     }
 }

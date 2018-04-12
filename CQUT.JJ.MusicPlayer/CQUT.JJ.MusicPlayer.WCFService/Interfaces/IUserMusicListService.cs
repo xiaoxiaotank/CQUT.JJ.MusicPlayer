@@ -50,7 +50,24 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         [OperationContract]
         void Delete(int id);
 
+        /// <summary>
+        /// 添加到用户歌单
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="objId"></param>
+        /// <param name="musicListId"></param>
+        /// <param name="type"></param>
         [OperationContract]
         void AddToUserMusicList(int userId, int objId, int musicListId, MusicRequestType type);
+
+        /// <summary>
+        /// 是否存在于歌单中
+        /// </summary>
+        /// <param name="musicListId"></param>
+        /// <param name="objId"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [OperationContract]
+        bool IsExistOfUserMusicList(int musicListId, int objId, MusicRequestType type);
     }
 }

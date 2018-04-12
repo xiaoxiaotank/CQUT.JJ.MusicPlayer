@@ -58,7 +58,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private readonly ISearchService _searchService;
 
-        private List<JmMenuItem> _userMusicList = null;
+        private List<JmMenuItem> _userMusicList = new List<JmMenuItem>();
 
         public MusicListPage()
         {
@@ -796,18 +796,21 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         #region 初始化菜单项
 
                         var userMusicList = UserMusicNavigtion.UserMusicListService.GetUserMusicListByUserId(App.User.Id).ToList();
-                        _userMusicList = userMusicList.Select(u =>
+                        foreach (var item in userMusicList)
                         {
+                            if (UserMusicNavigtion.UserMusicListService.IsExistOfUserMusicList(item.Id, viewModel.Id, MusicRequestType.Song))
+                                continue;
+
                             var result = new JmMenuItem()
                             {
-                                Header = u.Name,
-                                Tag = new { u.Id, u.UserId,MusicId = viewModel.Id },
+                                Header = item.Name,
+                                Tag = new { item.Id, item.UserId, MusicId = viewModel.Id },
                             };
                             result.Click += UserMusicList_Click;
                             menu.Items.Add(result);
-                            return result;
-                        }).ToList();
-
+                            _userMusicList.Add(result);
+                        }
+                      
                         #endregion
 
                         if (MusicList.ItemContainerGenerator.ContainerFromItem(viewModel) is JmListViewItem viewItem)
