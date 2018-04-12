@@ -163,9 +163,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (IsVisible)
             {
                 TbError.Visibility
-                               = GdSong.Visibility
-                               = Waiting.Visibility
-                               = Visibility.Collapsed;
+                    = GdSong.Visibility
+                    = Waiting.Visibility
+                    = Visibility.Collapsed;
                 TbInfo.Visibility = Visibility.Visible;
             }           
         }
@@ -672,9 +672,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         }
 
         /// <summary>
-        /// 开始播放音乐  可以供外部调用
+        /// 开始播放音乐
         /// </summary>
-        public void StartPlayMusic()
+        private void StartPlayMusic()
         {
             var nextMusic = _musicListViewModel?.First();
             if (nextMusic != null)
@@ -795,7 +795,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     {
                         #region 初始化菜单项
 
-                        var userMusicList = UserMusicNavigtion.UserMusicListService.GetUserMusicListByUserId(App.User.Id).ToList();
+                        var userMusicList = UserMusicNavigtion.UserMusicListService.GetUserMusicListByUserId(App.User.Id).Reverse().ToList();
                         foreach (var item in userMusicList)
                         {
                             if (UserMusicNavigtion.UserMusicListService.IsExistOfUserMusicList(item.Id, viewModel.Id, MusicRequestType.Song))

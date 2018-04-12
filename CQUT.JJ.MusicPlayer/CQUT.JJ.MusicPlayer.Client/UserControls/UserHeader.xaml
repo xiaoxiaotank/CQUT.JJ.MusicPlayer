@@ -22,7 +22,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel>
-        <jm:JmRoundButton Name="BtnProfile" Click="BtnProfile_Click">
+        <jm:JmRoundButton Name="BtnProfile" MouseEnter="BtnProfile_MouseEnter" MouseLeave="BtnProfile_MouseLeave" Click="BtnProfile_Click">
             <Image Name="ImgProfile" Source="{Binding ProfilePhotoPath}" />
         </jm:JmRoundButton>
         <jm:JmTransparentButton x:Name="BtnNickName" Margin="0 10" Click="BtnNickName_Click" >
@@ -31,5 +31,92 @@
         <jm:JmTransparentButton x:Name="BtnLevelTip" Visibility="Hidden">
             <TextBlock>JM等级加速中</TextBlock>
         </jm:JmTransparentButton>
+        <Popup x:Name="PopUserInfo" PlacementTarget="{Binding ElementName=BtnProfile}" AllowsTransparency="True"
+               MouseLeave="BtnProfile_MouseLeave">
+            <Border Background="White" Width="310">
+                <Border.Resources>
+                    <Style TargetType="Separator">
+                        <Setter Property="Opacity" Value="0.2" />
+                    </Style>
+                </Border.Resources>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="100" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="100" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="50" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="TbNickName" VerticalAlignment="Bottom" Text="你好" 
+                                   FontSize="18" FontWeight="Medium"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                            <StackPanel.Resources>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                                </Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                                    <Setter Property="VerticalContentAlignment" Value="Bottom" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="2 0 15 0" />
+                                    <Setter Property="Foreground" Value="Gray" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock x:Name="TbMusicListCount" Text="0" />
+                            <Label Content="歌单" />
+                            <TextBlock x:Name="TbFollowCount" Text="0" />
+                            <Label Content="关注" />
+                            <TextBlock x:Name="TbFansCount" Text="0" />
+                            <Label Content="粉丝" />
+                        </StackPanel>
+                    </Grid>
+                    <Separator Grid.Row="1" />
+                    <Grid Grid.Row="2">
+                        
+                    </Grid>
+                    <Separator Grid.Row="3" />
+                    <Grid Grid.Row="4">
+
+                    </Grid>
+                    <Separator Grid.Row="5" />
+                    <Grid Grid.Row="6" Margin="15 10">
+                        <Grid.Resources>
+                            <Style TargetType="jm:JmTransparentButton">
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="Hand" />
+                                        <Setter Property="Foreground" Value="LightGreen" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <jm:JmTransparentButton>
+                            个人主页
+                        </jm:JmTransparentButton>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Opacity="0.2" />
+                        </StackPanel>
+                        <jm:JmTransparentButton x:Name="BtnLogout" Grid.Column="2" Click="BtnLogout_Click">
+                            注销
+                        </jm:JmTransparentButton>
+                    </Grid>
+                    
+                </Grid>
+            </Border>
+        </Popup>
     </StackPanel>
 </UserControl>
