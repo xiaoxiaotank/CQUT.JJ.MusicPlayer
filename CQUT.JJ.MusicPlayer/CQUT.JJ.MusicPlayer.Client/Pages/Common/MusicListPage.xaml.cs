@@ -1,8 +1,10 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Pages.Common;
+using CQUT.JJ.MusicPlayer.Client.UserControls;
 using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
+using CQUT.JJ.MusicPlayer.Client.ViewModels.MusicPlayerMenu;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using CQUT.JJ.MusicPlayer.Controls.Enums.JmBubbleMessageBox;
 using CQUT.JJ.MusicPlayer.Controls.Enums.JMMessageBox;
@@ -56,6 +58,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private readonly ISearchService _searchService;
 
+        private List<JmMenuItem> _userMusicList = null;
+
         public MusicListPage()
         {
             InitializeComponent();
@@ -71,9 +75,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             MusicPlaySwitchedUtil.MusicPlaySwitchedEvent += MusicSwitched;
             //右键菜单点击开始播放时事件
             ContextMenuStartPlayMusicUtil.ContextMenuStartPlayMusicEvent += ContextMenuStartPlayMusicEvent;
+
         }
 
-      
 
         #region 事件Handler
 
@@ -735,12 +739,40 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private void MenuPlayQueue_Click(object sender, RoutedEventArgs e)
         {
+            var viewModel = GetMusicViewModeByMenuObject(sender);
+            if (viewModel != null)
+            {
+                if (MusicPlayerMenu.MusicPlayListViewModel?.MusicPlayList?.Any(m => m.Id == viewModel.Id.ToString()) == true)
+                    return;
 
+                MusicPlayerMenu.MusicPlayListViewModel.MusicPlayList.Add(new MusicOfPlayListViewModel()
+                {
+                    Id = viewModel.Id.ToString(),
+                    Name = viewModel.MusicName,
+                    SingerName = viewModel.SingerName,
+                    TimeDuration = viewModel.DurationDescription
+                });
+            }
+            
+        }
+
+        private MusicViewModel GetMusicViewModeByMenuObject(object sender)
+        {
+            if (sender is JmMenuItem menuItem
+                && menuItem.TemplatedParent is ContentPresenter content
+                && content.Content is MusicViewModel viewModel)
+                return viewModel;
+            return null;
         }
 
         private void MenuILike_Click(object sender, RoutedEventArgs e)
         {
-
+            var viewModel = GetMusicViewModeByMenuObject(sender);
+            if (viewModel != null)
+            {
+                
+                MusicPlayerMenu.MusicPlayerMenuUserControl.ToggleUserLike(viewModel.Id, MusicRequestType.Song,true);
+            }
         }
 
         private void MenuTestListeningList_Click(object sender, RoutedEventArgs e)
@@ -750,7 +782,44 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         private void BtnAddTo_Click(object sender, RoutedEventArgs e)
         {
-            PopAddTo.IsOpen = !PopAddTo.IsOpen;
+            if(sender is JmTransparentButton btn && btn.Parent is StackPanel sp)
+            {
+                if(sp.FindName("MenuAddTo") is Menu menu)
+                {
+                    _userMusicList?.ForEach(item => menu.Items.Remove(item));
+                    if (App.User != null)
+                    {
+                        var userMusicList = UserMusicNavigtion.UserMusicListService.GetUserMusicListByUserId(App.User.Id).ToList();
+                        _userMusicList = userMusicList.Select(u =>
+                        {
+                            var result = new JmMenuItem()
+                            {
+                                Header = u.Name,
+                                Tag = new { u.Id, u.UserId },
+                            };
+                            menu.Items.Add(result);
+                            return result;
+                        }).ToList();
+                    }
+               
+                }
+                var popup = sp.FindName("PopAddTo") as Popup;
+                if(App.User != null
+                    && popup.TemplatedParent is ContentPresenter content
+                    && content.Content is MusicViewModel viewModel)
+                {
+                    if (MusicList.ItemContainerGenerator.ContainerFromItem(viewModel) is JmListViewItem viewItem)
+                    {
+                        viewItem.IsSelected = true;
+                    }
+                    if (MusicPlayerMenu.MusicService.IsUserLike(App.User.Id, viewModel.Id, MusicRequestType.Song))
+                    {
+                        (popup.FindName("MenuILike") as JmMenuItem).IsEnabled = false;
+                    }
+                }
+                
+                popup.IsOpen = !popup.IsOpen;
+            }
         }
 
         private void MusicList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -804,6 +873,26 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (MusicList.SelectedItem == viewItem.Content) return;
                 var sp = viewItem.GetAllChildObject<StackPanel>().SingleOrDefault(s => s.Name == "SpOptions"); ;
                 sp.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void PopAddTo_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if(sender is Popup popup)
+            {
+                if (e.Source is Menu menu)
+                    return;
+
+                popup.IsOpen = false;
+            }
+        }
+
+        private void BtnAddTo_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is JmTransparentButton btn && btn.Parent is StackPanel sp)
+            {
+                var popup = sp.FindName("PopAddTo") as Popup;
+                popup.IsOpen = false;
             }
         }
     }

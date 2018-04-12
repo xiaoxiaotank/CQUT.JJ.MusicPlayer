@@ -37,7 +37,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
 
         #region 字段
 
-        private readonly IMusicService _musicService;
+        public static readonly IMusicService MusicService;
         /// <summary>
         /// 定时更新歌曲进度
         /// </summary>
@@ -77,20 +77,36 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// <summary>
         /// 音乐播放列表ViewModel
         /// </summary>
-        private static MusicPlayListViewModel _musicPlayListViewModel = new MusicPlayListViewModel();
+        public static MusicPlayListViewModel MusicPlayListViewModel = new MusicPlayListViewModel();
 
         private static TaskScheduler _syncTaskScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
         #endregion
+
+        private static MusicPlayerMenu _musicPlayerMenu = null;
+
+        public static MusicPlayerMenu MusicPlayerMenuUserControl
+        {
+            get
+            {
+                if (_musicPlayerMenu == null)
+                    _musicPlayerMenu = new MusicPlayerMenu();
+                return _musicPlayerMenu;
+            }
+        }
 
         #endregion
 
 
         #region 构造函数
 
-        public MusicPlayerMenu()
+        static MusicPlayerMenu()
         {
-            _musicService = new MusicService();
+            MusicService = new MusicService();
+        }
+
+        private MusicPlayerMenu()
+        {
 
             _mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
             _mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
@@ -110,7 +126,6 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         }
 
         #endregion
-
 
 
         #region Events
@@ -145,9 +160,9 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _musicSourceType = MusicSourceType.JM;
                     InitILikeState();
 
-                    if (_musicPlayListViewModel?.MusicPlayList != null)
+                    if (MusicPlayListViewModel?.MusicPlayList != null)
                     {
-                        var music = _musicPlayListViewModel.MusicPlayList.SingleOrDefault(m => m.Id.Equals(e.MusicInfo.Id));
+                        var music = MusicPlayListViewModel.MusicPlayList.SingleOrDefault(m => m.Id.Equals(e.MusicInfo.Id));
                         if (music == null)
                         {
                             var newMusic = new MusicOfPlayListViewModel()
@@ -157,7 +172,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                                 SingerName = e.MusicInfo.SingerName,
                                 TimeDuration = e.MusicInfo.Duration.GetMinuteAndSecondPart()
                             };
-                            _musicPlayListViewModel.MusicPlayList.Add(newMusic);
+                            MusicPlayListViewModel.MusicPlayList.Add(newMusic);
                             LvMusicPlayList.SelectedItem = newMusic;
                         }
                         else
@@ -192,9 +207,9 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     _musicSourceType = MusicSourceType.QM;
                     InitILikeState();
 
-                    if (_musicPlayListViewModel?.MusicPlayList != null)
+                    if (MusicPlayListViewModel?.MusicPlayList != null)
                     {
-                        var music = _musicPlayListViewModel.MusicPlayList.SingleOrDefault(m => m.Id.Equals(e.MusicInfo.Id));
+                        var music = MusicPlayListViewModel.MusicPlayList.SingleOrDefault(m => m.Id.Equals(e.MusicInfo.Id));
                         if (music == null)
                         {
                             var newMusic = new MusicOfPlayListViewModel()
@@ -204,7 +219,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                                 SingerName = e.MusicInfo.SingerName,
                                 TimeDuration = e.MusicInfo.TimeDuration
                             };
-                            _musicPlayListViewModel.MusicPlayList.Add(newMusic);
+                            MusicPlayListViewModel.MusicPlayList.Add(newMusic);
                             LvMusicPlayList.SelectedItem = newMusic;
                         }
                         else
@@ -325,24 +340,66 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         {
             try
             {
-                if (_mediaPlayer.HasAudio && _musicSourceType == MusicSourceType.JM)
+                if (_mediaPlayer.HasAudio)
                 {
-                    var user = App.User;
-                    if (user != null)
-                    {
-                        _musicService.ToggleUserLike(user.Id, _musicPlayerMenuViewModel.Id,MusicRequestType.Song);
-                        ChangeILikeState();
-                    }
-                    else
-                        JMMessageBox.Show("添加我喜欢出错", "请先登录", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+                    ToggleUserLike(_musicPlayerMenuViewModel.Id, MusicRequestType.Song);                   
                 }
                 else
-                    JMMessageBox.Show("添加我喜欢出错", "无播放音乐或该音乐类型不支持", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+                    JMMessageBox.Show("添加我喜欢出错", "不存在播放音乐", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
             }
             catch(Exception ex)
             {
                 JMMessageBox.Show("添加我喜欢出错",ex.Message, JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="musicId"></param>
+        /// <param name="type"></param>
+        /// <param name="isToAdd">false 删除  true添加  null toggle</param>
+        /// <returns></returns>
+        public bool ToggleUserLike(int musicId,MusicRequestType type,bool? isToAdd = null)
+        {
+            if (_musicSourceType == MusicSourceType.JM)
+            {
+                var user = App.User;
+                if (user != null)
+                {
+                    switch (isToAdd)
+                    {
+                        case true:
+                            if (!MusicService.IsUserLike(user.Id, musicId, type))
+                            {
+                                MusicService.ToggleUserLike(user.Id, musicId, type);
+                            }
+                            else
+                                return true;
+                            break;
+                        case false:
+                            if(MusicService.IsUserLike(user.Id, musicId, type))
+                            {
+                                MusicService.ToggleUserLike(user.Id, musicId, type);
+                            }
+                            else
+                                return true;
+                            break;
+                        case null:
+                            MusicService.ToggleUserLike(user.Id, musicId, type);
+                            break;
+                    }
+                    if(_musicPlayerMenuViewModel.Id == musicId)
+                        ChangeILikeState();
+                    return true;
+                }
+                else
+                    JMMessageBox.Show("添加我喜欢出错", "请先登录", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+            }
+            else
+                JMMessageBox.Show("添加我喜欢出错", "该音乐类型不支持", JMMessageBoxButtonType.OK, JMMessageBoxIconType.Error);
+
+            return false;
         }
 
         /// <summary>
@@ -487,11 +544,11 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         private void SetBindingOfMusicList()
         {
-            LvMusicPlayList.ItemsSource = _musicPlayListViewModel.MusicPlayList;
+            LvMusicPlayList.ItemsSource = MusicPlayListViewModel.MusicPlayList;
             var musicTotalCountOfmusicListBinding = new Binding()
             {
-                Source = _musicPlayListViewModel,
-                Path = new PropertyPath(nameof(_musicPlayListViewModel.MusicTotalCount)),
+                Source = MusicPlayListViewModel,
+                Path = new PropertyPath(nameof(MusicPlayListViewModel.MusicTotalCount)),
                 Mode = BindingMode.OneWay
             };
             TbMusicTotalCount.SetBinding(TextBlock.TextProperty, musicTotalCountOfmusicListBinding);
@@ -581,14 +638,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         private void InitILikeState()
         {
             if( App.User != null
-                && _musicService.IsUserLike(App.User.Id, _musicPlayerMenuViewModel.Id, MusicRequestType.Song)
-                && TbILike.Text.Equals("\ue60e"))
+                && MusicService.IsUserLike(App.User.Id, _musicPlayerMenuViewModel.Id, MusicRequestType.Song))
             {
-                TbILike.Text = "\ue603";
-                BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
-                BtnILove.FontSize += 2;
-                BtnILove.ToolTip = "取消喜欢";
-            }
+                if (TbILike.Text.Equals("\ue60e"))
+                {
+                    TbILike.Text = "\ue603";
+                    BtnILove.Foreground = new SolidColorBrush(Color.FromRgb(255, 106, 106));
+                    BtnILove.FontSize += 2;
+                    BtnILove.ToolTip = "取消喜欢";
+                }
+            }           
             else if (TbILike.Text.Equals("\ue603"))
             {
                 TbILike.Text = "\ue60e";

@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+﻿using CQUT.JJ.MusicPlayer.Client.UserControls;
+using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels;
 using CQUT.JJ.MusicPlayer.Client.Windows;
@@ -71,6 +72,7 @@ namespace CQUT.JJ.MusicPlayer.Client
             JmSkinOpacityChangedUtil.SkinOpacityChangedEvent += JmSkinOpacityChanged;
 
             InitializeComponent();
+            this.BottomBarContent = MusicPlayerMenu.MusicPlayerMenuUserControl;
             InitializeTaskBarIcon();
             InitializeSkin();
         }

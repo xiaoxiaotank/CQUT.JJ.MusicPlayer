@@ -62,11 +62,20 @@
             <Setter Property="FontSize" Value="15" />
             <Setter Property="Foreground" Value="Silver" />
         </Style>
-
-        <sys:Double x:Key="LineHeight">40</sys:Double>
         
         <Style x:Key="ListViewItemStyle" TargetType="jm:JmListViewItem" BasedOn="{StaticResource DefaultJmListViewItemStyle}">
-            <Setter Property="Height" Value="{StaticResource LineHeight}" />
+            
+        </Style>
+
+        <Style TargetType="jm:JmScrollViewer">
+            <Setter Property="ThumbBackground" Value="Silver" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ThumbMouseOverBackground" Value="#60FFFFFF" />
+            <Setter Property="UpArrowVisibility" Value="Collapsed" />
+            <Setter Property="DownArrowVisibility" Value="Collapsed" />
+            <Setter Property="ScrollBarBackground" Value="White" />
+            <Setter Property="ThumbWidth" Value="12" />
+            <Setter Property="ThumbCornerRadius" Value="6" />
         </Style>
     </Page.Resources>
 
@@ -86,26 +95,6 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="60" />
             </Grid.RowDefinitions>
-
-            <Popup x:Name="PopAddTo" PlacementTarget="{Binding ElementName=BtnAddTo}" Placement="Mouse" VerticalOffset="-15" IsOpen="False">
-                <Menu x:Name="MenuAddTo" Background="White" Width="165">
-                    <Menu.Resources>
-                        <Style TargetType="jm:JmMenuItem">
-                            <Setter Property="Width" Value="260" />
-                            <Setter Property="Height" Value="30" />
-                            <Setter Property="Icon" Value="" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                            <Setter Property="Foreground" Value="#444444" />
-                            <Setter Property="Margin" Value="0 5 0 0" />
-                        </Style>
-                    </Menu.Resources>
-                    <jm:JmMenuItem Name="MenuPlayQueue" Header="播放队列" Click="MenuPlayQueue_Click" />
-                    <Separator />
-                    <jm:JmMenuItem Name="MenuILike" Header="我喜欢" Click="MenuILike_Click" />
-                    <jm:JmMenuItem Name="MenuTestListeningList" Header="试听列表" Click="MenuTestListeningList_Click" />
-                </Menu>
-            </Popup>
-
 
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="BtnPlayAll" Click="BtnPlayAll_Click">
@@ -173,7 +162,8 @@
                                             <jm:JmTransparentButton x:Name="BtnPlay" Click="BtnPlay_Click"  Tag="{Binding Id}">
                                                 <TextBlock Text="&#xe774;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
-                                            <jm:JmTransparentButton x:Name="BtnAddTo" Tag="{Binding Id}" Click="BtnAddTo_Click">
+                                            <jm:JmTransparentButton x:Name="BtnAddTo" Tag="{Binding Id}" Click="BtnAddTo_Click" ToolTip="添加到"
+                                                                    LostFocus="BtnAddTo_LostFocus">
                                                 <TextBlock Text="&#xe693;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
                                             <jm:JmTransparentButton x:Name="BtnDownload" Click="BtnDownload_Click" Tag="{Binding Id}">
@@ -182,6 +172,27 @@
                                             <jm:JmTransparentButton x:Name="BtnMore">
                                                 <TextBlock Text="&#xe62f;" FontFamily="{StaticResource JM}" />
                                             </jm:JmTransparentButton>
+                                            <Popup x:Name="PopAddTo" PlacementTarget="{Binding ElementName=BtnAddTo}" Placement="Mouse" VerticalOffset="-15" IsOpen="False"
+                                                   PreviewMouseUp="PopAddTo_PreviewMouseUp" AllowsTransparency="True">
+                                                <jm:JmScrollViewer MaxHeight="300">
+                                                    <Menu x:Name="MenuAddTo" Background="White" Width="165">
+                                                        <Menu.Resources>
+                                                            <Style TargetType="jm:JmMenuItem">
+                                                                <Setter Property="Width" Value="260" />
+                                                                <Setter Property="Height" Value="30" />
+                                                                <Setter Property="Icon" Value="" />
+                                                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                                <Setter Property="Foreground" Value="#444444" />
+                                                                <Setter Property="Margin" Value="0 5 0 0" />
+                                                            </Style>
+                                                        </Menu.Resources>
+                                                        <jm:JmMenuItem Name="MenuPlayQueue" Header="播放队列" Click="MenuPlayQueue_Click" />
+                                                        <Separator />
+                                                        <jm:JmMenuItem Name="MenuILike" Header="我喜欢" Click="MenuILike_Click" />
+                                                        <jm:JmMenuItem Name="MenuTestListeningList" Header="试听列表" Click="MenuTestListeningList_Click" />
+                                                    </Menu>
+                                                </jm:JmScrollViewer>
+                                            </Popup>
                                         </StackPanel>
                                     </Grid>
                                     <!--<ItemContainerTemplate.Triggers>
@@ -239,7 +250,7 @@
                         <GridViewColumn Header="时长" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <ItemContainerTemplate>
-                                    <Grid Mouse.MouseEnter="Grid_MouseEnter" Mouse.MouseLeave="Grid_MouseLeave" Width="{Binding ElementName=ColTimeDuration,Path=ActualWidth}" Height="{StaticResource LineHeight}">
+                                    <Grid Mouse.MouseEnter="Grid_MouseEnter" Mouse.MouseLeave="Grid_MouseLeave" Background="Transparent" Height="{StaticResource LineHeight}">
                                         <Border>
                                             <TextBlock Foreground="Silver" Text="{Binding DurationDescription}"  VerticalAlignment="Center"/>
                                         </Border>

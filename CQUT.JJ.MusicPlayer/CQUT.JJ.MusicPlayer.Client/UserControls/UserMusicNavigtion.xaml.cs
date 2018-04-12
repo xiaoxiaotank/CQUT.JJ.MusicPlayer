@@ -28,11 +28,16 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
     {
         private static JmTabItem _selectedTabItem = null;
 
-        private readonly IUserMusicListService _userMusicListService;
+        public static readonly IUserMusicListService UserMusicListService;
+
+        static UserMusicNavigtion()
+        {
+            UserMusicListService = new UserMusicListService();
+        }
 
         public UserMusicNavigtion()
         {
-            _userMusicListService = new UserMusicListService();
+           
 
             InitializeComponent();
             NonNavPageDisplayedUtil.NonNavPageDisplayedEvent += NonNavPageDisplayed;
@@ -65,7 +70,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 TbLoading.Visibility = Visibility.Visible;
                 var userMusicList = await Task.Factory.StartNew(() =>
                 {
-                    return _userMusicListService.GetUserMusicListByUserId(App.User.Id)
+                    return UserMusicListService.GetUserMusicListByUserId(App.User.Id)
                         .OrderByDescending(u => u.CreationTime);
                 });
 
@@ -162,7 +167,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                         UserId = App.User.Id,
                         Name = name
                     };
-                    userMusicListInfo = _userMusicListService.Create(userMusicListInfo);
+                    userMusicListInfo = UserMusicListService.Create(userMusicListInfo);
                     tabItem.Tag = userMusicListInfo.Id;
                     tabItem.MouseUp += UserMusicListSelectionChanged;
                     tabItem.ContextMenu = GetContextMenu();
@@ -172,7 +177,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 else
                 {
                     var id = Convert.ToInt32(tabItem.Tag);
-                    _userMusicListService.Update(id, name);
+                    UserMusicListService.Update(id, name);
                 }                
             }
         }
@@ -240,7 +245,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             if (((sender as JmMenuItem)?.Parent as JmContextMenu)?.PlacementTarget is JmTabItem parent)
             {
                 var id = Convert.ToInt32(parent.Tag);
-                _userMusicListService.Delete(id);
+                UserMusicListService.Delete(id);
                 parent.Visibility = Visibility.Collapsed;
             }
             

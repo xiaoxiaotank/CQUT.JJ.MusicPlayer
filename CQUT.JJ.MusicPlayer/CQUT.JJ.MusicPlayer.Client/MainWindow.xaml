@@ -80,9 +80,9 @@
     <jm:JmWindow.TopBarContent>
         <uc:TopBarMenu />
     </jm:JmWindow.TopBarContent>
-    <jm:JmWindow.BottomBarContent>
+    <!--<jm:JmWindow.BottomBarContent>
         <uc:MusicPlayerMenu />
-    </jm:JmWindow.BottomBarContent>
+    </jm:JmWindow.BottomBarContent>-->
     <Grid>
         <Frame x:Name="FMusicPage" NavigationUIVisibility="Hidden" />
         

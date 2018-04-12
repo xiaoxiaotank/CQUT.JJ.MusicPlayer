@@ -1,8 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Styles">
 
+    <sys:Double x:Key="LineHeight">40</sys:Double>
+    
     <Style x:Key="DefaultGridViewColumnHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -41,6 +44,7 @@
         <Setter Property="BorderBrush" Value="#50C0C0C0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="0" />
+        <Setter Property="Height" Value="{StaticResource LineHeight}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="jm:JmListViewItem">
