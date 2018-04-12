@@ -175,7 +175,7 @@
                                             <Popup x:Name="PopAddTo" PlacementTarget="{Binding ElementName=BtnAddTo}" Placement="Mouse" VerticalOffset="-15" IsOpen="False"
                                                    PreviewMouseUp="PopAddTo_PreviewMouseUp" AllowsTransparency="True">
                                                 <jm:JmScrollViewer MaxHeight="450">
-                                                    <Menu x:Name="MenuAddTo" Background="White" Width="165" dro>
+                                                    <Menu x:Name="MenuAddTo" Background="White" Width="165">
                                                         <Menu.Resources>
                                                             <Style TargetType="jm:JmMenuItem">
                                                                 <Setter Property="Width" Value="260" />
