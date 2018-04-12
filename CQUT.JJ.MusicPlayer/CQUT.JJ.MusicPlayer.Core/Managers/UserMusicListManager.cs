@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.EntityFramework.Models;
+﻿using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
+using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,14 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
 {
     public class UserMusicListManager : BaseManager<UserMusicList>
     {
-        public UserMusicListManager(JMDbContext ctx) : base(ctx)
+        private readonly UserManager _userManager;
+
+        private readonly MusicManager _musicManager;
+
+        public UserMusicListManager(JMDbContext ctx,UserManager userManager,MusicManager musicManager) : base(ctx)
         {
+            _userManager = userManager;
+            _musicManager = musicManager;
         }
 
         /// <summary>
@@ -56,6 +63,34 @@ namespace CQUT.JJ.MusicPlayer.Core.Managers
             return null;
         }
 
+        public void AddToUserMusicList(int userId,int objId,int userMusicListId,MusicRequestType type)
+        {
+            var user = _userManager.Find(userId);
+            if (user == null || user.IsAdmin)
+                ThrowException("用户不存在");
+
+            UserMusicList list = JMDbContext.UserMusicList.SingleOrDefault(u => u.Id == userMusicListId && u.UserId == userId && !u.IsDeleted);
+            if (list == null)
+                ThrowException("未找到该用户的歌单");
+
+            switch (type)
+            {
+                case MusicRequestType.Song:
+                    var music = _musicManager.Find(objId);
+                    if (music == null || !music.IsPublished)
+                        ThrowException("歌曲不存在");
+                    var listMusic = new UserMusicListMusic()
+                    {
+                        MusicId = music.Id,
+                        MusicListId = list.Id
+                    };
+                    JMDbContext.UserMusicListMusic.Add(listMusic);
+                    break;
+                default:
+                    return;
+            }
+            Save();
+        }
 
         private void ValidateForCreate(UserMusicList model)
         {

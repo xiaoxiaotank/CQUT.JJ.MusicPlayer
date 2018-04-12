@@ -784,41 +784,64 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         {
             if(sender is JmTransparentButton btn && btn.Parent is StackPanel sp)
             {
-                if(sp.FindName("MenuAddTo") is Menu menu)
+                var popup = sp.FindName("PopAddTo") as Popup;
+               
+                if (sp.FindName("MenuAddTo") is Menu menu)
                 {
                     _userMusicList?.ForEach(item => menu.Items.Remove(item));
-                    if (App.User != null)
+                    if (App.User != null 
+                        && popup.TemplatedParent is ContentPresenter content
+                        && content.Content is MusicViewModel viewModel)
                     {
+                        #region 初始化菜单项
+
                         var userMusicList = UserMusicNavigtion.UserMusicListService.GetUserMusicListByUserId(App.User.Id).ToList();
                         _userMusicList = userMusicList.Select(u =>
                         {
                             var result = new JmMenuItem()
                             {
                                 Header = u.Name,
-                                Tag = new { u.Id, u.UserId },
+                                Tag = new { u.Id, u.UserId,MusicId = viewModel.Id },
                             };
+                            result.Click += UserMusicList_Click;
                             menu.Items.Add(result);
                             return result;
                         }).ToList();
+
+                        #endregion
+
+                        if (MusicList.ItemContainerGenerator.ContainerFromItem(viewModel) is JmListViewItem viewItem)
+                        {
+                            viewItem.IsSelected = true;
+                        }
+                        if (MusicPlayerMenu.MusicService.IsUserLike(App.User.Id, viewModel.Id, MusicRequestType.Song))
+                        {
+                            (popup.FindName("MenuILike") as JmMenuItem).IsEnabled = false;
+                        }
                     }
+                } 
                
-                }
-                var popup = sp.FindName("PopAddTo") as Popup;
-                if(App.User != null
-                    && popup.TemplatedParent is ContentPresenter content
-                    && content.Content is MusicViewModel viewModel)
-                {
-                    if (MusicList.ItemContainerGenerator.ContainerFromItem(viewModel) is JmListViewItem viewItem)
-                    {
-                        viewItem.IsSelected = true;
-                    }
-                    if (MusicPlayerMenu.MusicService.IsUserLike(App.User.Id, viewModel.Id, MusicRequestType.Song))
-                    {
-                        (popup.FindName("MenuILike") as JmMenuItem).IsEnabled = false;
-                    }
-                }
-                
                 popup.IsOpen = !popup.IsOpen;
+            }
+        }
+
+        private void UserMusicList_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is JmMenuItem menuItem)
+            {
+                var musicListId = menuItem.Tag.GetPropertyValue<int>("Id");
+                var userId = menuItem.Tag.GetPropertyValue<int>("UserId");
+                var musicId = menuItem.Tag.GetPropertyValue<int>("MusicId");
+
+                try
+                {
+                    UserMusicNavigtion.UserMusicListService.AddToUserMusicList(userId, musicId, musicListId, MusicRequestType.Song);
+                    JmBubbleMessageBox.Show($"添加到{menuItem.Header}成功", JmBubbleMessageBoxType.Success);
+                }
+                catch(Exception ex)
+                {
+                    JmBubbleMessageBox.Show(ex.Message, JmBubbleMessageBoxType.Error);
+                }
             }
         }
 

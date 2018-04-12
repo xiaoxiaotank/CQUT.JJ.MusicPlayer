@@ -9,6 +9,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         {
             MusicAttach = new HashSet<MusicAttach>();
             UserLike = new HashSet<UserLike>();
+            UserMusicListMusic = new HashSet<UserMusicListMusic>();
         }
 
         public int Id { get; set; }
@@ -36,5 +37,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public User Unpublisher { get; set; }
         public ICollection<MusicAttach> MusicAttach { get; set; }
         public ICollection<UserLike> UserLike { get; set; }
+        public ICollection<UserMusicListMusic> UserMusicListMusic { get; set; }
     }
 }

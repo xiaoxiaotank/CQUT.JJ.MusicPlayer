@@ -45,6 +45,18 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
             return new BitmapImage(new Uri(path, uriKind));
         }
 
+        /// <summary>
+        /// 获取特定对象的特定属性的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static T GetPropertyValue<T>(this object obj,string propertyName)
+        {
+            return  (T)obj.GetType().GetProperty(propertyName).GetValue(obj);
+        }
+
         /// <summary>  
         /// 获得指定元素的父元素  
         /// </summary>  

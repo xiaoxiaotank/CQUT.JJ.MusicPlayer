@@ -5,6 +5,11 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
 {
     public partial class UserMusicList
     {
+        public UserMusicList()
+        {
+            UserMusicListMusic = new HashSet<UserMusicListMusic>();
+        }
+
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
@@ -14,5 +19,6 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public DateTime? DeletionTime { get; set; }
 
         public User User { get; set; }
+        public ICollection<UserMusicListMusic> UserMusicListMusic { get; set; }
     }
 }

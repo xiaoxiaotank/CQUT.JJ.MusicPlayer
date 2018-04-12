@@ -58,5 +58,25 @@ namespace CQUT.JJ.MusicPlayer.WCFService
 
             return result;
         }
+
+        public IEnumerable<MusicContract> GetMusicsByMusicListId(int musicListId)
+        {
+            var result = from u in _ctx.UserMusicListMusic.Where(u => u.MusicListId == musicListId)
+                         join m in _ctx.Music.Include(m => m.Singer).Include(m => m.Album).Where(m => m.IsPublished && !m.IsDeleted)
+                         on u.MusicId equals m.Id into mu
+                         from music in mu.DefaultIfEmpty()
+                         select new MusicContract()
+                         {
+                             Id = music.Id,
+                             SingerId = music.Singer.Id,
+                             AlbumId = music.AlbumId,
+                             Name = music.Name,
+                             SingerName = music.Singer.Name,
+                             AlbumName = music.Album.Name,
+                             FileUrl = music.FileUrl,
+                             Duration = music.Duration
+                         };
+            return result;
+        }
     }
 }

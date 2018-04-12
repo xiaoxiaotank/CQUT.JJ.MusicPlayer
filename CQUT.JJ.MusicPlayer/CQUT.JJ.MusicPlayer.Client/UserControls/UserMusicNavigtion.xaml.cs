@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+﻿using CQUT.JJ.MusicPlayer.Client.Pages.UserMusicList;
+using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Common;
@@ -122,7 +123,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             if(sender is JmTabItem originalSource && !originalSource.Equals(_selectedTabItem))
             {
                 SetSelectedTabItem(originalSource);
-                MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
+
+                ChangeUserMusicListPage(Convert.ToInt32(originalSource.Tag));
             }
             
         }
@@ -172,7 +174,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     tabItem.MouseUp += UserMusicListSelectionChanged;
                     tabItem.ContextMenu = GetContextMenu();
                     SetSelectedTabItem(tabItem);
-                    MusicPageChangedUtil.Invoke($"UserMusicList/UserMusicList.xaml");
+                    ChangeUserMusicListPage(Convert.ToInt32(userMusicListInfo.Id));
                 }                   
                 else
                 {
@@ -258,6 +260,13 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 var id = Convert.ToInt32(parent.Tag);
                 parent.Editable = true;
             }
+        }
+
+        private void ChangeUserMusicListPage(int userMusicListId)
+        {
+            var frame = App.Current.MainWindow.FindVisualChild<Frame>();
+            var userMusicListPage = new UserMusicList(userMusicListId);
+            frame.Navigate(userMusicListPage);
         }
     }
 }

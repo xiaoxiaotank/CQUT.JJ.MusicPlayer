@@ -21,6 +21,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLike> UserLike { get; set; }
         public virtual DbSet<UserMusicList> UserMusicList { get; set; }
+        public virtual DbSet<UserMusicListMusic> UserMusicListMusic { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
         public JMDbContext(DbContextOptions options) : base(options) { }
@@ -313,6 +314,23 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Models
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USERMUSI_REFERENCE_USER");
+            });
+
+            modelBuilder.Entity<UserMusicListMusic>(entity =>
+            {
+                entity.HasKey(e => new { e.MusicListId, e.MusicId });
+
+                entity.HasOne(d => d.Music)
+                    .WithMany(p => p.UserMusicListMusic)
+                    .HasForeignKey(d => d.MusicId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERMUSI_REFERENCE_MUSIC");
+
+                entity.HasOne(d => d.MusicList)
+                    .WithMany(p => p.UserMusicListMusic)
+                    .HasForeignKey(d => d.MusicListId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USERMUSI_REFERENCE_USERMUSI");
             });
 
             modelBuilder.Entity<UserRole>(entity =>

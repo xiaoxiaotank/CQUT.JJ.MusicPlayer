@@ -39,5 +39,13 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         [OperationContract]
         IEnumerable<MusicContract> GetLoveMusicsByUserId(int userId);
 
+        /// <summary>
+        /// 通过用户列表id获取音乐
+        /// </summary>
+        /// <param name="musicListId"></param>
+        /// <returns></returns>
+        [OperationContract]
+        IEnumerable<MusicContract> GetMusicsByMusicListId(int musicListId);
+
     }
 }
