@@ -141,7 +141,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     = Waiting.Visibility
                     = Visibility.Collapsed;
                 SpPageNumber.IsEnabled = true;
-                if (_musicListViewModel.Any())
+                if (_musicListViewModel != null && _musicListViewModel.Any())
                     MusicList.ScrollIntoView(_musicListViewModel[0]);
                 if (JMApp.CurrentPlayingMusicsInfo != null)
                     JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;

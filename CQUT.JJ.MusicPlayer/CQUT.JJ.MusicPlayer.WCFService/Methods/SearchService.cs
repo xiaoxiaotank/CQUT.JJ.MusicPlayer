@@ -11,6 +11,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
+using CQUT.JJ.MusicPlayer.EntityFramework.Persistences;
 
 /// <summary>
 /// 调用方需要引用EFCore及其SqlServer包 并且需要将Remotion.Linq更新到最新版
@@ -47,6 +48,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         public PageResult Search(MusicRequestType type, string key, int page, int size = 20)
         {
             PageResult result = null;
+            var keys = GlobalHelper.ToSeparateByLucene(key);
             switch (type)
             {
                 case MusicRequestType.Song:
