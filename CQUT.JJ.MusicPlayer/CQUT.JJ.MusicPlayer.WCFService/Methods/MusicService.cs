@@ -117,5 +117,24 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             };
                 
         }
+
+        public IEnumerable<MusicContract> GetMusicsBySingerId(int singerId)
+        {
+            var musics = _ctx.Music.Include(m => m.Singer).Include(m => m.Album)
+                .Where(m => m.SingerId == singerId && m.IsPublished && !m.IsDeleted)
+                .Select(m => new MusicContract()
+                {
+                    Id = m.Id,
+                    SingerId = m.Singer.Id,
+                    AlbumId = m.AlbumId,
+                    Name = m.Name,
+                    SingerName = m.Singer.Name,
+                    AlbumName = m.Album.Name,
+                    FileUrl = m.FileUrl,
+                    Duration = m.Duration
+                });
+
+            return musics;
+        }
     }
 }

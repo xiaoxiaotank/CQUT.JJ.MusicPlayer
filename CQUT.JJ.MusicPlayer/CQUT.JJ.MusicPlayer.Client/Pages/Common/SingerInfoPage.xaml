@@ -57,11 +57,11 @@
                 </WrapPanel>
             </StackPanel>
         </Grid>
-        <!--<TextBlock x:Name="Tb" Grid.Row="1" Margin="30 0 0 0" Foreground="Silver" FontSize="14">
+        <TextBlock x:Name="Tb" Grid.Row="1" Margin="30 0 0 0" Foreground="Silver" FontSize="14">
            共<TextBlock x:Name="TbSongCount" 
                        Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=Foreground}" 
                        FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=FontSize}"/>首
         </TextBlock>
-        <Frame Padding="30 0 0 0" Grid.Row="2" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" Background="#30000000" />-->
+        <Frame Padding="30 0 0 0" Grid.Row="2" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" Background="#30000000" />
     </Grid>
 </Page>

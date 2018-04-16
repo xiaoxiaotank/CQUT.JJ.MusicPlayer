@@ -1,6 +1,9 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Client.ViewModels.Common;
+using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Common;
+using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
 using CQUT.JJ.MusicPlayer.WCFService;
 using System;
 using System.Collections.Generic;
@@ -25,6 +28,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
     public partial class SingerInfoPage : Page
     {
         private readonly ISingerService _singerService;
+        private readonly IMusicService _musicService;
 
         private readonly int _singerId;
 
@@ -33,9 +37,32 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
         public SingerInfoPage(int singerId)
         {
             _singerService = new SingerService();
+            _musicService = new MusicService();
 
             _singerId = singerId;
+
+            PageLoadedUtil.MusicListPageLoadedEvent += MusicListPageLoaded;
+
             InitializeComponent();
+        }
+
+        private async void MusicListPageLoaded(object sender, EventArgs e)
+        {
+            if (IsVisible)
+            {
+                var pagedResult = await Task.Factory.StartNew(() =>
+                {
+                    var musics = _musicService.GetMusicsBySingerId(_singerId);
+                    return new MusicSearchPageResult()
+                    {
+                        PageCount = 1,
+                        PageNumber = 1,
+                        ResultType = MusicRequestType.Song,
+                        Results = musics
+                    };
+                });
+                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(pagedResult, 1);
+            }
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
