@@ -17,8 +17,9 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences
         public static string[] ToSeparateByLucene(this string key)
         {
             var segmenter = new JiebaSegmenter();
-            var segments = segmenter.Cut(key, cutAll: true);
-            return new string[] { };
+            segmenter.LoadUserDict(GlobalConstants.MusicDictionaryPath);
+            var segments = segmenter.CutForSearch(key);
+            return segments.ToArray();
         }
     }
 }

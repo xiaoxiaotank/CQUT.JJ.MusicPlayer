@@ -399,6 +399,7 @@
     <Resource Include="Asserts\Fonts\ExampleDemo\iconfont.ttf" />
     <Resource Include="Asserts\Fonts\iconfont.ttf" />
     <Resource Include="Asserts\Fonts\Login\iconfont.ttf" />
+    <None Include="Configs\Files\MusicDictionary.bat" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -428,7 +429,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Asserts\Skins\CustomSkins\" />
-    <Folder Include="Configs\" />
     <Folder Include="Pages\OnlineMusic\MusicHall\" />
   </ItemGroup>
   <ItemGroup>

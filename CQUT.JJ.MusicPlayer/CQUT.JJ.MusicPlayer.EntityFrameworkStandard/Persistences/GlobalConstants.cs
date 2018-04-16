@@ -14,6 +14,11 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences
 
         public const string LogRootDirectoryName = "Log";
 
+        /// <summary>
+        /// 音乐词典路径
+        /// </summary>
+        public const string MusicDictionaryPath = @"Configs/Files/MusicDictionary.bat";
+
         public static readonly string[] Music_File_Suffix = { ".mp3" };
 
         

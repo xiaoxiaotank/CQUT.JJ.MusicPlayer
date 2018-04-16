@@ -52,7 +52,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             switch (type)
             {
                 case MusicRequestType.Song:
-                    result = SearchSong(key, page, size);
+                    result = SearchSong(keys, page, size);
                     break;
                 case MusicRequestType.Album:
                     break;
@@ -79,10 +79,11 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private PageResult SearchSong(string key, int page, int size)
+        private PageResult SearchSong(string[] keys, int page, int size)
         {
-            var pagedList = _ctx.Music
-                .Where(m => m.Name.Contains(key) && !m.IsDeleted && m.IsPublished)
+            var pagedList = _ctx.Music.Include(m => m.Singer)
+                .Where(m => keys.Any(k => m.Name.Contains(k) || m.Singer.Name.Contains(k)) && !m.IsDeleted && m.IsPublished)
+                .OrderByDescending(m => m.PublishmentTime)
                 .Select(m => new MusicContract()
                 {
                     Id = m.Id,
