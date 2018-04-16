@@ -39,6 +39,11 @@
             <Setter Property="Height" Value="26" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="Margin" Value="5,0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="SkyBlue" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="Button" BasedOn="{StaticResource SimpleButton}">
@@ -262,7 +267,7 @@
                     </GridView>
                 </jm:JmListView.View>
             </jm:JmListView>
-            <StackPanel Name="SpPageNumber" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
+            <StackPanel Name="SpPageNumber" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="-30,10,30,10">
             </StackPanel>
         </Grid>
     </Grid>

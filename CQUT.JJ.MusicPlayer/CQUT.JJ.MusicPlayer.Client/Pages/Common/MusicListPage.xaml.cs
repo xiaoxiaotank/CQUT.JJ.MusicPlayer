@@ -88,6 +88,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 if (e.IsSuccessed)
                 {
                     _musicListViewModel = new List<MusicViewModel>();
+                    //无音乐
                     if(e.PageResult?.ResultType == null)
                     {
                         TipNonMusicInfo();
@@ -97,6 +98,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                     {
                         case MusicRequestType.Song:
                             var songs = (MusicSearchPageResult)e.PageResult;
+                            //无音乐
                             if (songs.Results?.Any() != true)
                             {
                                 TipNonMusicInfo();
@@ -345,7 +347,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             SpPageNumber.IsEnabled = false;
 
             _currentPageNumber = targetPageNumber;
-            MusicSearchInfoChangedUtil.InvokeFromQMRequest(_currentPageNumber);
+            MusicSearchInfoChangedUtil.InvokeFromJMRequest(MusicRequestType.Song,_currentPageNumber);
         }
 
 

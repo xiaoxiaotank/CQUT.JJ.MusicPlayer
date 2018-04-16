@@ -12,6 +12,7 @@ using System.ServiceModel;
 using System.Text;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
 using CQUT.JJ.MusicPlayer.EntityFramework.Persistences;
+using CQUT.JJ.MusicPlayer.Models.DataContracts.Common;
 
 /// <summary>
 /// 调用方需要引用EFCore及其SqlServer包 并且需要将Remotion.Linq更新到最新版
@@ -48,7 +49,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         public PageResult Search(MusicRequestType type, string key, int page, int size = 20)
         {
             PageResult result = null;
-            var keys = GlobalHelper.ToSeparateByLucene(key);
+            var keys = GlobalHelper.ToSeparateByJieba(key);
             switch (type)
             {
                 case MusicRequestType.Song:
@@ -63,12 +64,15 @@ namespace CQUT.JJ.MusicPlayer.WCFService
                 case MusicRequestType.Lyric:
                     break;
                 case MusicRequestType.Singer:
+                    result = SearchSinger(keys, page, size);
                     break;
                 case MusicRequestType.User:
                     break;
             }
             return result;
         }
+
+
 
         #region 私有方法
 
@@ -108,6 +112,35 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             return result;
         }
 
+        /// <summary>
+        /// 搜索歌唱家
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private PageResult SearchSinger(string[] keys, int page, int size)
+        {
+            var pagedList = _ctx.Singer
+                .Where(m => keys.Any(k => m.Name.Contains(k) 
+                        ||(m.ForeignName != null && m.ForeignName.ToLower().Contains(k.ToLower()))) 
+                    && !m.IsDeleted 
+                    && m.IsPublished)
+                .OrderByDescending(m => m.PublishmentTime)
+                .Select(m => new SingerContract()
+                {
+                    Id = m.Id,                    
+                    Name = m.Name,                    
+                }).ToPagedList(page, size);
+            var result = new SingerSearchPageResult()
+            {
+                PageNumber = pagedList.PageNumber,
+                PageCount = pagedList.PageCount,
+                Results = pagedList,
+                ResultType = MusicRequestType.Singer
+            };
+            return result;
+        }
 
         #endregion
     }

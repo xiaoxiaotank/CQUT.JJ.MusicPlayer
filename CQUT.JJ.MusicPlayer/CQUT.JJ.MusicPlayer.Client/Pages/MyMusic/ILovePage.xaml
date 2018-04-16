@@ -71,7 +71,7 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label x:Name="TbILove" Grid.Row="0" Padding="30 0 0 0" VerticalAlignment="Center" FontSize="24" Foreground="White">我喜欢</Label>
+        <Label x:Name="TbILove" Grid.Row="0" Margin="30 0 0 0" Padding="0" VerticalAlignment="Center" FontSize="24" Foreground="White">我喜欢</Label>
         <jm:JmTabControl x:Name="Tc" Grid.Row="1" Padding="30 0 0 0" Background="#30000000">
             <jm:JmWidgetTabItem Name="TbSong" IsSelected="True">
                 <jm:JmWidgetTabItem.Header>
@@ -81,9 +81,15 @@
                     </StackPanel>
                 </jm:JmWidgetTabItem.Header>
                 <Frame x:Name="FSong" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" 
-                       Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl, AncestorLevel=1},Path=ActualHeight}" 
-                       Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl, AncestorLevel=1},Path=ActualWidth}"
-                       Loaded="FSong_Loaded" />
+                       Width="{Binding ElementName=TbILove,Path=ActualWidth}"
+                       Loaded="FSong_Loaded">
+                    <Frame.Height>
+                        <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                            <Binding ElementName="Gd" Path="ActualHeight" />
+                            <Binding ElementName="TbILove" Path="Height" />
+                        </MultiBinding>
+                    </Frame.Height>
+                </Frame>
             </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Name="TbMusicList">
                 <jm:JmWidgetTabItem.Header>

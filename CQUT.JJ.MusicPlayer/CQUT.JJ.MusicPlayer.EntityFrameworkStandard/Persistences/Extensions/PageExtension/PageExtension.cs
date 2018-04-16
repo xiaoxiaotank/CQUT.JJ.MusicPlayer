@@ -9,7 +9,7 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences.Extensions.PageExtens
         {
             if (page < 1)
                 page = 1;
-            var pageOfItems = items.Skip((page - 1) * size).Take(size).ToList();
+            var pageOfItems = items.Skip((page - 1) * size).Take(size)?.ToList();
             var totalItemCount = items.Count();
             var pageCount = (int)Math.Ceiling((double)totalItemCount / size);
             return new PagedList<T>(pageOfItems, page, size, pageCount, totalItemCount);

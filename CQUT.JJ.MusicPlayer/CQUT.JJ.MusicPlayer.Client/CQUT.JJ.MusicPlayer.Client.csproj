@@ -152,6 +152,9 @@
     <Compile Include="Pages\Common\SingerInfoPage.xaml.cs">
       <DependentUpon>SingerInfoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Common\SingerListPage.xaml.cs">
+      <DependentUpon>SingerListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyMusic\ILovePage.xaml.cs">
       <DependentUpon>ILovePage.xaml</DependentUpon>
     </Compile>
@@ -270,6 +273,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\Common\SingerInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Common\SingerListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

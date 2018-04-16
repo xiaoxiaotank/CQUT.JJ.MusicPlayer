@@ -5,16 +5,89 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search"
       xmlns:converter="clr-namespace:CQUT.JJ.MusicPlayer.Client.Converters"
+      xmlns:jm="clr-namespace:CQUT.JJ.MusicPlayer.Controls.Controls;assembly=CQUT.JJ.MusicPlayer.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MusicSearchPage" Loaded="Page_Loaded">
     <Page.Resources>
         <converter:RemoveIdenticalColorSuperpositionEffectOpacityConverter x:Key="ColorOpacityConverter" />
 
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
+        <Style TargetType="jm:JmTabControl">
+            <Setter Property="HeaderPanelHorizontalAlignment" Value="Left" />
+            <Setter Property="HeaderPanelVerticalAlignment" Value="Bottom" />
+            <Setter Property="HeaderPanelHeight" Value="30" />
+            <Setter Property="IsShowContentPage" Value="True" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HeaderPanelBackground" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style TargetType="jm:JmWidgetTabItem">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Padding" Value="0 0 20 0" />
+            <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=jm:JmTabControl},Path=HeaderPanelHeight}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#8FABC1" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
     <Grid>
         <Rectangle Fill="{Binding TopFloorBackground}" 
                    Opacity="{Binding TopBarBackgroundOpacity, Converter={StaticResource ColorOpacityConverter}}" />
-        <Frame Source="/Pages/Common/MusicListPage.xaml" Padding="30 0 0 0" x:Name="FMusicListPage" NavigationUIVisibility="Hidden"/>
+        <Grid x:Name="Gd">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label x:Name="Tb" Grid.Row="0" Margin="30 0 0 0" VerticalAlignment="Center" FontSize="24" Foreground="White" Padding="0">搜索</Label>
+            <jm:JmTabControl x:Name="Tc" Grid.Row="1" Padding="30 0 0 0" Background="#30000000">
+                <jm:JmWidgetTabItem Name="TbSong" IsSelected="True" Header="歌曲">
+                    <Frame x:Name="FSong" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" 
+                           Width="{Binding ElementName=Tb,Path=ActualWidth}">
+                        <Frame.Height>
+                            <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                                <Binding ElementName="Gd" Path="ActualHeight" />
+                                <Binding ElementName="Tb" Path="Height" />
+                            </MultiBinding>
+                        </Frame.Height>
+                    </Frame>
+                </jm:JmWidgetTabItem>
+                <jm:JmWidgetTabItem Name="TbMusicList" Header="歌单">
+                    
+                </jm:JmWidgetTabItem>
+                <jm:JmWidgetTabItem Name="TbAlbum" Header="专辑">
+                    
+                </jm:JmWidgetTabItem>
+                <jm:JmWidgetTabItem Name="TbRadio" Header="主播电台">
+                    
+                </jm:JmWidgetTabItem>
+                <jm:JmWidgetTabItem Name="TbMv" Header="MV">
+
+                </jm:JmWidgetTabItem>
+                <jm:JmWidgetTabItem Name="TbSinger" Header="歌手" MouseLeftButtonUp="TbSinger_MouseLeftButtonUp">
+                    <Frame x:Name="FSinger" NavigationUIVisibility="Hidden" 
+                           Width="{Binding ElementName=Tb,Path=ActualWidth}">
+                        <Frame.Height>
+                            <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                                <Binding ElementName="Gd" Path="ActualHeight" />
+                                <Binding ElementName="Tb" Path="Height" />
+                            </MultiBinding>
+                        </Frame.Height>
+                    </Frame>
+                </jm:JmWidgetTabItem>
+            </jm:JmTabControl>
+        </Grid>
     </Grid>
 </Page>

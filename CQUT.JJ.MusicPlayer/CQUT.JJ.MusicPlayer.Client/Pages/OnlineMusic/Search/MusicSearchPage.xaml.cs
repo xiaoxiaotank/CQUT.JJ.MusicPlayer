@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+﻿using CQUT.JJ.MusicPlayer.Client.Pages.Common;
+using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search
     /// </summary>
     public partial class MusicSearchPage : Page
     {
-        public MusicSearchPage()
+        private readonly string _searchKey = string.Empty;
+
+        public MusicSearchPage(string searchKey)
         {
+            _searchKey = searchKey;
+
             PageLoadedUtil.MusicListPageLoadedEvent += PageLoadedUtil_MusicListPageLoadedEvent;
             InitializeComponent();
         }
@@ -39,5 +44,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search
                     
         }
 
+        private void TbSinger_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var singerListPage = new SingerListPage(_searchKey);
+            FSinger.Navigate(singerListPage);
+        }
     }
 }

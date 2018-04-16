@@ -80,4 +80,14 @@
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180405211817-毛不易 - 说散就散.mp3</MusicFileUri>
     <Duration>01:25</Duration>
   </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>11</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>全球变冷</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
+    <Duration>04:12</Duration>
+  </HistoryPlayItem>
 </HistoryPlayList>

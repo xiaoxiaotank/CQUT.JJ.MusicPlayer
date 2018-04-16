@@ -94,7 +94,8 @@
                                                             ColumnHeaderTemplate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.ColumnHeaderTemplate}" 
                                                             Columns="{Binding RelativeSource={RelativeSource TemplatedParent},Path=View.Columns}" 
                                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            <jm:JmScrollViewer UpArrowVisibility="Collapsed" DownArrowVisibility="Collapsed" ThumbBackground="#40FFFFFF" ScrollBarBackground="Transparent" ThumbWidth="12" ThumbCornerRadius="6"  ThumbMouseOverBackground="#60FFFFFF"  Focusable="false" Padding="{TemplateBinding Padding}">
+                            <jm:JmScrollViewer UpArrowVisibility="Collapsed" DownArrowVisibility="Collapsed" ThumbBackground="#40FFFFFF" ScrollBarBackground="Transparent" ThumbWidth="12" ThumbCornerRadius="6"  
+                                               ThumbMouseOverBackground="#60FFFFFF"  Focusable="false" Padding="{TemplateBinding Padding}">
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </jm:JmScrollViewer>
                         </DockPanel>

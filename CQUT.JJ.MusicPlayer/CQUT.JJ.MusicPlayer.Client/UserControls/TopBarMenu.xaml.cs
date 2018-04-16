@@ -24,6 +24,7 @@ using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.Models.DataContracts.Search;
 using CQUT.JJ.MusicPlayer.Models.DataContracts;
 using System.Web;
+using CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search;
 
 namespace CQUT.JJ.MusicPlayer.Client.UserControls
 {
@@ -87,7 +88,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     }
                     else 
                     {
-                        MusicPageChangedUtil.Invoke(_jmSearchPageName, true);                        
+                        (App.Current.MainWindow.FindName("FMusicPage") as Frame).Navigate(new MusicSearchPage(_lastSearchKey));                        
                     }
                     NonNavPageDisplayedUtil.Invoke();
                 }
@@ -145,7 +146,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             {
                 try
                 {
-                    var musicInfoOfPageModel = GetJMusicInfoOfPageModel(type, _lastSearchKey, page,size);
+                    var musicInfoOfPageModel = GetJMusicInfoOfPageModel(type, _lastSearchKey, page, size);
                     if (musicInfoOfPageModel == null) return;
                     MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, page);
                 }

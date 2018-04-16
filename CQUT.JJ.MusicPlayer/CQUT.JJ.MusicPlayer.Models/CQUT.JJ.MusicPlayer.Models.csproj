@@ -46,6 +46,7 @@
     <Compile Include="DataContracts\Common\SingerContract.cs" />
     <Compile Include="DataContracts\Common\UserContract.cs" />
     <Compile Include="DataContracts\Common\UserMusicListContract.cs" />
+    <Compile Include="DataContracts\Search\SingerSearchPageResult.cs" />
     <Compile Include="JM\Common\UserModel.cs" />
     <Compile Include="QM\BaseModel\BaseQMusicInfoModel.cs" />
     <Compile Include="DataContracts\Common\MusicContract.cs" />

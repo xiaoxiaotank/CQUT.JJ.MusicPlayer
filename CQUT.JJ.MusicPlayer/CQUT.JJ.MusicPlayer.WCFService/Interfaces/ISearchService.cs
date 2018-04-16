@@ -23,6 +23,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         [OperationContract]
         PageResult Search(MusicRequestType type, string key, int page, int size = 20);
 
+        [OperationContract]
         MusicContract GetMusicInfoById(int id);
     }
 }
