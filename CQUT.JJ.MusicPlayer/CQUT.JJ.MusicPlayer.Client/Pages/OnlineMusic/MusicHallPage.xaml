@@ -35,9 +35,20 @@
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#8FABC1" />
-                    <Setter Property="Cursor" Value="Hand" />
                 </Trigger>
             </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Frame">
+            <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page, AncestorLevel=1},Path=ActualWidth}" />
+            <Setter Property="Height">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Page,AncestorLevel=1}" Path="ActualHeight" />
+                        <Binding ElementName="Tc" Path="HeaderPanelHeight" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Page.Resources>
     <Grid>
@@ -47,7 +58,7 @@
         </Grid.RowDefinitions>
         <jm:JmTabControl x:Name="Tc">
             <jm:JmWidgetTabItem Header="精选" IsSelected="True">
-                <Button Width="100" Height="200">你好</Button>
+                <Frame Source="/Pages/OnlineMusic/MusicHall/HandpickedPage.xaml" NavigationUIVisibility="Hidden" />
             </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="歌手">
                 <Button Width="100" Height="200">你坏</Button>

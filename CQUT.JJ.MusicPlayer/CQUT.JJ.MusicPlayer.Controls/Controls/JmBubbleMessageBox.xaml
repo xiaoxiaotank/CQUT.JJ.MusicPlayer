@@ -7,8 +7,11 @@
         mc:Ignorable="d"
         Title="JmBubbleMessageBox" Height="100" Width="200" WindowStyle="None"
         AllowsTransparency="True" WindowStartupLocation="CenterOwner">
-    <Grid x:Name="Gd">
+    <Grid x:Name="Grid" Margin="10" SnapsToDevicePixels="True">
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="20" />
+        </Grid.Effect>
         <TextBlock x:Name="TbMsg" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left"
-                   Margin="5" FontSize="14" TextWrapping="Wrap"/>
+                   Margin="5" FontSize="14" TextWrapping="Wrap" />
     </Grid>
 </Window>

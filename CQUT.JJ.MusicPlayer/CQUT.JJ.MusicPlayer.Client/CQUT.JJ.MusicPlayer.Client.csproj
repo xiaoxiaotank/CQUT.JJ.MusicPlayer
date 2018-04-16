@@ -176,6 +176,9 @@
     <Compile Include="Pages\OnlineMusic\MusicHallPage.xaml.cs">
       <DependentUpon>MusicHallPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OnlineMusic\MusicHall\HandpickedPage.xaml.cs">
+      <DependentUpon>HandpickedPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\OnlineMusic\MvPage.xaml.cs">
       <DependentUpon>MvPage.xaml</DependentUpon>
     </Compile>
@@ -308,6 +311,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\OnlineMusic\MusicHall\HandpickedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\OnlineMusic\MvPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -436,7 +443,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Asserts\Skins\CustomSkins\" />
-    <Folder Include="Pages\OnlineMusic\MusicHall\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Asserts\Fonts\ExampleDemo\demo.css" />

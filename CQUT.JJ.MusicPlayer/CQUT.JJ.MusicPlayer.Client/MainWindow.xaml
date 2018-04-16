@@ -101,6 +101,11 @@
                         </Style>
                     </Menu.Resources>
                     <jm:JmMenuItem Name="MenuSetting" Header="设置"  Click="MenuSetting_Click" />
+                    <jm:JmMenuItem Name="MenuHelp" Header="帮助">
+                        <jm:JmMenuItem Name="MenuLog" Header="日志选项" />
+                        <jm:JmMenuItem Name="MenuAbout" Header="关于" />
+                    </jm:JmMenuItem>
+                    <jm:JmMenuItem Name="MenuUpdate" Header="升级" />
                 </Menu>
             </Border>
         </Popup>

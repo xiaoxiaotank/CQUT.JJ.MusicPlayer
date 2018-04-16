@@ -78,5 +78,44 @@ namespace CQUT.JJ.MusicPlayer.WCFService
                          };
             return result;
         }
+
+        public IEnumerable<MusicContract> GetLastestMusics(int count)
+        {
+            var result = _ctx.Music.Include(m => m.Singer)
+                .Where(m => m.IsPublished && !m.IsDeleted)
+                .OrderByDescending(m => m.PublishmentTime)
+                .Take(count)
+                .Select(m => new MusicContract()
+                {
+                    Id = m.Id,
+                    SingerId = m.Singer.Id,
+                    Name = m.Name,
+                    SingerName = m.Singer.Name,
+                    Duration = m.Duration,
+                    FileUrl = m.FileUrl
+                });
+            return result;
+        }
+
+        public MusicContract GetMusicById(int id)
+        {
+            var music = _ctx.Music.Include(m => m.Singer).Include(m => m.Album)
+                .SingleOrDefault(m => m.Id == id && m.IsPublished && !m.IsDeleted);
+            if (music == null)
+                return null;
+
+            return new MusicContract()
+            {
+                Id = music.Id,
+                SingerId = music.Singer.Id,
+                AlbumId = music.AlbumId,
+                Name = music.Name,
+                SingerName = music.Singer.Name,
+                AlbumName = music.Album.Name,
+                FileUrl = music.FileUrl,
+                Duration = music.Duration
+            };
+                
+        }
     }
 }
