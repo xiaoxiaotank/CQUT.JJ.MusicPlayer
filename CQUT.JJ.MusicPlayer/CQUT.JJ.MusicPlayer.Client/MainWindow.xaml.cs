@@ -315,6 +315,19 @@ namespace CQUT.JJ.MusicPlayer.Client
 
         #endregion
 
+        private void MenuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            var aboutWin = new AboutWindow
+            {
+                Owner = this
+            };
+            aboutWin.ShowDialog();
+        }
+
+        private void MenuClose_Click(object sender, RoutedEventArgs e)
+        {
+            JmWindow_Close(null, null);
+        }
     }
 
 }

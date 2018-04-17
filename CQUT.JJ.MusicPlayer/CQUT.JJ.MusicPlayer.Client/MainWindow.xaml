@@ -90,7 +90,7 @@
                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom"
                MinHeight="100" Width="260" HorizontalOffset="-160" VerticalOffset="-10">
             <Border x:Name="Border" BorderThickness="0" BorderBrush="Red" Background="White">
-                <Menu Name="MainMenu" Background="White" BorderBrush="#30CDC5BF" BorderThickness="0 0 1 0">
+                <Menu Name="MainMenu" Background="White" BorderBrush="#30CDC5BF" BorderThickness="0 0 1 0" >
                     <Menu.Resources>
                         <Style TargetType="jm:JmMenuItem">
                             <Setter Property="Width" Value="260" />
@@ -98,14 +98,16 @@
                             <Setter Property="Icon" Value="" />
                             <Setter Property="VerticalContentAlignment" Value="Center" />
                             <Setter Property="Foreground" Value="#444444" />
+                            <Setter Property="Background" Value="White" />
                         </Style>
                     </Menu.Resources>
                     <jm:JmMenuItem Name="MenuSetting" Header="设置"  Click="MenuSetting_Click" />
                     <jm:JmMenuItem Name="MenuHelp" Header="帮助">
                         <jm:JmMenuItem Name="MenuLog" Header="日志选项" />
-                        <jm:JmMenuItem Name="MenuAbout" Header="关于" />
+                        <jm:JmMenuItem Name="MenuAbout" Header="关于" Click="MenuAbout_Click" />
                     </jm:JmMenuItem>
                     <jm:JmMenuItem Name="MenuUpdate" Header="升级" />
+                    <jm:JmMenuItem Name="MenuClose" Header="退出JJ音乐" Click="MenuClose_Click" />
                 </Menu>
             </Border>
         </Popup>

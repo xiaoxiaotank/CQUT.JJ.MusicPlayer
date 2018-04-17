@@ -4,6 +4,7 @@
 
     <DropShadowEffect x:Key="DefaultDropShadow" Color="Black" BlurRadius="5" ShadowDepth="2" Direction="315" Opacity="0.6" />
     
+    
     <!--默认右键菜单ContextMenu样式-->
     <Style x:Key="DefaultContextMenu" TargetType="{x:Type local:JmContextMenu}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
