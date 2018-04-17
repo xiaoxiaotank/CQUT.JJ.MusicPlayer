@@ -13,7 +13,7 @@
         <Style TargetType="Label">
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontSize" Value="16" />
         </Style>
 
         <Style TargetType="jm:JmScrollViewer" BasedOn="{StaticResource JMScrollViewerStyle}">
@@ -21,6 +21,31 @@
             <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="ThumbMouseOverBackground" Value="#60FFFFFF" />
         </Style>
+
+        <Style x:Key="PlayBtn" TargetType="jm:JmTransparentButton">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="Visibility" Value="Hidden" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="SkyBlue" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="SkyBlue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Page.Resources>
 
     <jm:JmScrollViewer>

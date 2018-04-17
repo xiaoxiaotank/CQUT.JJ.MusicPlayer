@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Controls.Controls;
+﻿using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
+using CQUT.JJ.MusicPlayer.Controls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,17 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
             }
 
             return pageFrame;
+        }
+
+        public static void FMusicPageNavigateTo(Page page,bool hasNavigateBar = true)
+        {
+            var frame = App.Current.MainWindow.FindName("FMusicPage") as Frame;
+            frame.Navigate(page);
+
+            MusicPageSwitchedUtil.InvokeOfCanPrevious(true);
+            MusicPageSwitchedUtil.InvokeOfCanNext(false);
+            if(!hasNavigateBar)
+                NonNavPageDisplayedUtil.Invoke();
         }
     }
 }

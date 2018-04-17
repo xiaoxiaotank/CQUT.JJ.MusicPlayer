@@ -1,4 +1,5 @@
-﻿using CQUT.JJ.MusicPlayer.Client.Utils;
+﻿using CQUT.JJ.MusicPlayer.Client.Pages.Common;
+using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
 using CQUT.JJ.MusicPlayer.Controls.Controls;
 using CQUT.JJ.MusicPlayer.Models.JM.Common;
@@ -52,11 +53,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.MusicHall
             {
                 var image = new Image()
                 {
-                    Width = 150,
-                    Height = 150,
+                    Width = 145,
+                    Height = 145,
                     Stretch = Stretch.UniformToFill,
                     Source = ConstantsUtil.DefaultMusicHeaderPath.ToImageSource(),
-                    Margin = new Thickness(0,10,10,10),
                 };
 
                 var ceiling = new Rectangle()
@@ -68,20 +68,33 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.MusicHall
                     Visibility = Visibility.Hidden
                 };
 
+                var playBtn = new JmTransparentButton()
+                {
+                    Content = new TextBlock()
+                    {
+                        Text = "\ue60f",
+                        FontFamily = (FontFamily)FindResource("JM"),
+                    },
+                    Tag = song.Id,
+                    Style = (Style)FindResource("PlayBtn")
+                };
+
                 var imageGrid = new Grid() { Tag = song.Id };
                 imageGrid.Children.Add(image);
                 imageGrid.Children.Add(ceiling);
-
+                imageGrid.Children.Add(playBtn);
 
                 imageGrid.MouseEnter += ImageGrid_MouseEnter;
                 imageGrid.MouseLeave += ImageGrid_MouseLeave;
                 imageGrid.MouseUp += Song_Click;
+                playBtn.Click += Song_Click;
 
                 var tbSong = new TextBlock()
                 {
                     Text = song.Name,
                     Foreground = new SolidColorBrush(Colors.White),
-                    FontSize = 14
+                    FontSize = 14,
+                    Margin = new Thickness(0, 10, 0, 10)
                 };
 
                 var btn = new JmTransparentButton()
@@ -96,12 +109,16 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.MusicHall
                 {
                     Text = song.SingerName,
                     Foreground = new SolidColorBrush(Colors.Silver),
-                    Margin = new Thickness(0, 10, 0, 0)
+                    Tag = song.SingerId
                 };
+
+                tbSinger.MouseUp += Singer_Click;
+
                 var sp = new StackPanel()
                 {
-                    Width = 150,
-                    Margin = new Thickness(0, 0, 15, 0)
+                    Width = image.Width,
+                    Height = 250,
+                    Margin = new Thickness(0, 20, 15, 0)
                 };
                 sp.Children.Add(imageGrid);
                 sp.Children.Add(btn);
@@ -111,20 +128,32 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.MusicHall
             }
         }
 
-
+        private void Singer_Click(object sender, MouseButtonEventArgs e)
+        {
+            if(sender is FrameworkElement fe)
+            {
+                var singerId = Convert.ToInt32(fe.Tag);
+                var singerPage = new SingerInfoPage(singerId);
+                ControlUtil.FMusicPageNavigateTo(singerPage,false);
+            }
+        }
 
         private void ImageGrid_MouseEnter(object sender, MouseEventArgs e)
         {
             var grid = sender as Grid;
             var ceiling = grid.Children[1] as Rectangle;
+            var playBtn = grid.Children[2] as Button;
             ceiling.Visibility = Visibility.Visible;
+            playBtn.Visibility = Visibility.Visible;
         }
 
         private void ImageGrid_MouseLeave(object sender, MouseEventArgs e)
         {
             var grid = sender as Grid;
             var ceiling = grid.Children[1] as Rectangle;
+            var playBtn = grid.Children[2] as Button;
             ceiling.Visibility = Visibility.Hidden;
+            playBtn.Visibility = Visibility.Hidden;
         }
 
         private async void Song_Click(object sender, RoutedEventArgs e)
