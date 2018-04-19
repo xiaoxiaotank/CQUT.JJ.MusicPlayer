@@ -18,7 +18,27 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Client;component/Styles/LoginStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CloseBtn" TargetType="Button">
+                <!--<Setter Property="BorderThickness" Value="0" />-->
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Red" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -32,8 +52,10 @@
                 </Border>
                 <!--<Image Source="Images/logo-banner.png" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,15,0,0"></Image>-->
                 <Border Background="#00FFFFFF"></Border>
-                <TextBlock Margin="0,9,10,0"  FontFamily="{StaticResource IconFont}" 
-                Text="&#xe604;" VerticalAlignment="Top" HorizontalAlignment="Right"  FontSize="12"/>
+                <Button x:Name="BtnClose" Style="{StaticResource CloseBtn}" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center" FontSize="30" Padding="0 -5 0 0" Click="BtnClose_Click">
+                    <TextBlock x:Name="TbClose" Text="×" />
+                </Button>
             </Grid>
         </Border>
         <Border Grid.Row="1"  Background="#FFEBF2F9" CornerRadius="0,0,3,3">

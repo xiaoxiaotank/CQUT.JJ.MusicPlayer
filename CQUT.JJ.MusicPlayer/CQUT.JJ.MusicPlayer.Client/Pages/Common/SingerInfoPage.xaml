@@ -12,7 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="200" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#1E1C26">
@@ -58,9 +58,7 @@
             </StackPanel>
         </Grid>
         <TextBlock x:Name="Tb" Grid.Row="1" Margin="30 0 0 0" Foreground="Silver" FontSize="14">
-           共<TextBlock x:Name="TbSongCount" 
-                       Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=Foreground}" 
-                       FontSize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TextBlock, AncestorLevel=1},Path=FontSize}"/>首
+           共<TextBlock x:Name="TbSongCount" />首
         </TextBlock>
         <Frame Padding="30 0 0 0" Grid.Row="2" Source="/Pages/Common/MusicListPage.xaml" NavigationUIVisibility="Hidden" Background="#30000000" />
     </Grid>

@@ -179,6 +179,9 @@
     <Compile Include="Pages\OnlineMusic\MusicHall\HandpickedPage.xaml.cs">
       <DependentUpon>HandpickedPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OnlineMusic\MusicHall\SingerPage.xaml.cs">
+      <DependentUpon>SingerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\OnlineMusic\MvPage.xaml.cs">
       <DependentUpon>MvPage.xaml</DependentUpon>
     </Compile>
@@ -315,6 +318,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\OnlineMusic\MusicHall\HandpickedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\MusicHall\SingerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -462,6 +469,7 @@
     <Resource Include="Asserts\Images\Login\CornerRightNormalBreath.png" />
     <Resource Include="Asserts\Images\Login\CornerRightNormalDown.png" />
     <Resource Include="Asserts\Images\Logo.png" />
+    <Resource Include="Asserts\Images\DefaultSingerHeader.jpg" />
     <Content Include="Asserts\Musics\好想再爱你.mp3" />
     <Resource Include="JM.ico" />
     <Resource Include="Asserts\Icons\JM.ico" />

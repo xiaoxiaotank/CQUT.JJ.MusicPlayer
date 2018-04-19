@@ -30,10 +30,45 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
             InitializeComponent();
         }
 
-        private void PageLoadedUtil_MusicListPageLoadedEvent(object sender, EventArgs e)
+        private async void PageLoadedUtil_MusicListPageLoadedEvent(object sender, EventArgs e)
         {
             if(IsVisible)
-                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(null, 1);
+            {
+                var musics = await GetListeningTestMusics();
+                TbSongCount.Text = (musics.Results?.Count() ?? 0).ToString();
+                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musics, 1);
+            }
+                
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async Task<MusicSearchPageResult> GetListeningTestMusics()
+        {
+            var result = await Task.Factory.StartNew(() =>
+            {
+                return new MusicSearchPageResult()
+                {
+                    PageCount = 1,
+                    PageNumber = 1,
+                    ResultType = MusicRequestType.Song,
+                    Results = JMApp.ListeningTestList?.Select(e => new MusicContract()
+                    {
+                        Id = e.Id,
+                        SingerId = e.SingerId,
+                        AlbumId = e.AlbumId,
+                        Name = e.Name,
+                        SingerName = e.SingerName,
+                        AlbumName = e.AlbumName,
+                        FileUrl = e.FileUrl,
+                        Duration = e.Duration
+                    }),
+                };
+            });
+            return result;
         }
     }
 }

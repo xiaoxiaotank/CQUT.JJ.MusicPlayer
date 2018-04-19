@@ -23,6 +23,8 @@ namespace CQUT.JJ.MusicPlayer.Client
     public static class JMApp
     {
         public static CurrentPlayingMusicsInfo CurrentPlayingMusicsInfo = null;
+
+        public static List<MusicModel> ListeningTestList = new List<MusicModel>();
     }
 
     public class CurrentPlayingMusicsInfo

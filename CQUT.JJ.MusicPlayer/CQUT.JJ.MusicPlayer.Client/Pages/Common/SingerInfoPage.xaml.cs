@@ -62,6 +62,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
                     };
                 });
                 MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(pagedResult, 1);
+                TbSongCount.Text = pagedResult.Results.Count().ToString();
             }
         }
 
@@ -80,7 +81,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
                     Name = singer.Name,
                     Nationality = singer.Nationality,
                     ForeignerName = singer.ForeignName,
-                    ProfilePhotoPath = ConstantsUtil.DefaultProfilePhotoPath
+                    ProfilePhotoPath = ConstantsUtil.DefaultSingerHeaderPath
                 };
                 DataContext = _singerViewModel;
                 InitSingerInfoLabels();

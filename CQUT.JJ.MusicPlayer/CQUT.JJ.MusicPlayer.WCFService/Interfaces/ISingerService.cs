@@ -14,5 +14,8 @@ namespace CQUT.JJ.MusicPlayer.WCFService
     {
         [OperationContract]
         SingerContract GetSingerById(int id);
+
+        [OperationContract]
+        IEnumerable<SingerContract> GetHotSingersOfCount(int singerCount);
     }
 }

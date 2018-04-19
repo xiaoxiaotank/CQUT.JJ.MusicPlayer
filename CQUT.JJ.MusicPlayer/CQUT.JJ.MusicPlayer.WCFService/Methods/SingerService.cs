@@ -29,6 +29,18 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             _singerManager = new SingerManager(_ctx, _userManager, _albumManager, _musicManager);
         }
 
+        public IEnumerable<SingerContract> GetHotSingersOfCount(int singerCount)
+        {
+            var singers = _ctx.Singer.Where(s => s.IsPublished && !s.IsDeleted)?
+                .Take(singerCount)?
+                .Select(s => new SingerContract()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                });
+            return singers;
+        }
+
         public SingerContract GetSingerById(int id)
         {
             var singer = _ctx.Singer.SingleOrDefault(s => s.Id == id && s.IsPublished && !s.IsDeleted);

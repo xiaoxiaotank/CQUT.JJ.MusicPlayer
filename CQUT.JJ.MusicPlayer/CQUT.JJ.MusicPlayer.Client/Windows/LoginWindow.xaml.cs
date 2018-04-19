@@ -63,5 +63,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Windows
                 JmBubbleMessageBox.Show(ex.Message,JmBubbleMessageBoxType.Error);
             }     
         }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
     }
 }

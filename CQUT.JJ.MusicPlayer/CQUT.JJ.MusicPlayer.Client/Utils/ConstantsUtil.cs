@@ -15,5 +15,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         public const string DefaultProfilePhotoPath = "/Asserts/Images/DefaultUserHeader.png";
 
         public const string DefaultMusicHeaderPath = "/Asserts/Images/DefaultMusicHeader.png";
+
+        public const string DefaultSingerHeaderPath = "/Asserts/Images/DefaultSingerHeader.jpg";
     }
 }

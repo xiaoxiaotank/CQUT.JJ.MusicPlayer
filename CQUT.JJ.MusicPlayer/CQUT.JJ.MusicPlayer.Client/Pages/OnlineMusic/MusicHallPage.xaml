@@ -61,7 +61,7 @@
                 <Frame Source="/Pages/OnlineMusic/MusicHall/HandpickedPage.xaml" NavigationUIVisibility="Hidden" />
             </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="歌手">
-                <Button Width="100" Height="200">你坏</Button>
+                <Frame Source="/Pages/OnlineMusic/MusicHall/SingerPage.xaml" NavigationUIVisibility="Hidden" />
             </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="排行"></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="电台" ></jm:JmWidgetTabItem>

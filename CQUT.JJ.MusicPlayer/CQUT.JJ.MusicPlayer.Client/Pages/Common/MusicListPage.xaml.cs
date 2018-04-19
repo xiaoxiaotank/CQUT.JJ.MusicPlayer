@@ -772,14 +772,27 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             var viewModel = GetMusicViewModeByMenuObject(sender);
             if (viewModel != null)
             {
-                
                 MusicPlayerMenu.MusicPlayerMenuUserControl.ToggleUserLike(viewModel.Id, MusicRequestType.Song,true);
             }
         }
 
         private void MenuTestListeningList_Click(object sender, RoutedEventArgs e)
         {
-
+            var viewModel = GetMusicViewModeByMenuObject(sender);
+            if(viewModel != null && !JMApp.ListeningTestList.Any(m => m.Id == viewModel.Id))
+            {
+                JMApp.ListeningTestList.Add(new MusicModel()
+                {
+                    Id = viewModel.Id,
+                    SingerId = viewModel.SingerId,
+                    AlbumId = viewModel.AlbumId,
+                    Name = viewModel.AlbumName,
+                    SingerName = viewModel.SingerName,
+                    AlbumName = viewModel.AlbumName,
+                    Duration = viewModel.Duration,
+                    FileUrl = viewModel.FileUrl
+                });
+            }
         }
 
         private void BtnAddTo_Click(object sender, RoutedEventArgs e)
@@ -822,6 +835,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         if (MusicPlayerMenu.MusicService.IsUserLike(App.User.Id, viewModel.Id, MusicRequestType.Song))
                         {
                             (popup.FindName("MenuILike") as JmMenuItem).IsEnabled = false;
+                        }
+                        if(JMApp.ListeningTestList.Any(m => m.Id == viewModel.Id))
+                        {
+                            (popup.FindName("MenuTestListeningList") as JmMenuItem).IsEnabled = false;
                         }
                     }
                 } 
