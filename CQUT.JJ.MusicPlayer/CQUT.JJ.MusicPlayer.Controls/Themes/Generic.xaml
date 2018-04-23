@@ -20,6 +20,7 @@
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmMenuItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CQUT.JJ.MusicPlayer.Controls;component/Controls/JmCheckBox.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 

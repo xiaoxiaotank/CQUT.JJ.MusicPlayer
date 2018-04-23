@@ -457,7 +457,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         Name = musicViewModel.Name,
                         SingerName = musicViewModel.SingerName,
                         TimeDuration = musicViewModel.TimeDuration,
-                        Uri = new Uri($"http://ws.stream.qqmusic.qq.com/C100{musicViewModel.Id}.m4a?fromtag=38", UriKind.Absolute),
+                        Uri = new Uri($"http://thirdparty.gtimg.com/C100{musicViewModel.Id}.m4a?fromtag=38", UriKind.Absolute),
                         PhotoUri = photoUrl == null ? null : new Uri(photoUrl)
                     };
 

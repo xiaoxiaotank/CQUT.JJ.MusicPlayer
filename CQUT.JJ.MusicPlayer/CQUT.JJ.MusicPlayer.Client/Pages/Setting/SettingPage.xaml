@@ -11,6 +11,8 @@
       Title="SettingPage" Background="#10000000" Loaded="Page_Loaded">
     <Page.Resources>
         <GridLength x:Key="H2LabelWidth">100</GridLength>
+        <GridLength x:Key="ColumnWidth">220</GridLength>
+        <Thickness x:Key="CheckBoxMargin">0 0 0 15</Thickness>
 
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="White" />
@@ -58,9 +60,8 @@
         </Style>
 
         <Style x:Key="H2Label" TargetType="Label">
-            <Setter Property="FontSize" Value="12" />
             <Setter Property="Foreground" Value="Silver" />
-            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontSize" Value="13" />
             <Setter Property="Margin" Value="0 5" />
         </Style>
 
@@ -86,6 +87,17 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
 
+        <Style TargetType="GridSplitter">
+            <Setter Property="Height" Value="0.5" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Silver" />
+            <Setter Property="Opacity" Value="0.2" />
+        </Style>
+
+        <Style TargetType="jm:JmCheckBox">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="5 0 0 0" />
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -108,9 +120,78 @@
         <jm:JmScrollViewer Grid.Row="2">
             <StackPanel>
                 <Label Name="LbNormal" Style="{StaticResource H1Label}" Content="{Binding ElementName=TbNormal, Path=Header}" />
-                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Silver" Opacity="0.5" />
+                <GridSplitter />
+                <Grid Style="{StaticResource LabelGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource H2LabelWidth}" />
+                        <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                        <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                        <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="启动" Style="{StaticResource H2Label}" />
+                    <jm:JmCheckBox Grid.Column="1">
+                        <TextBlock>开机自动启动JJ音乐</TextBlock> 
+                    </jm:JmCheckBox>
+                    <jm:JmCheckBox Grid.Column="2">
+                        <TextBlock>自动播放歌曲</TextBlock>
+                    </jm:JmCheckBox>
+                    <jm:JmCheckBox Grid.Column="3">
+                        <TextBlock>自动打开歌词</TextBlock>
+                    </jm:JmCheckBox>
+                </Grid>
+                <GridSplitter  />
+                <Grid Style="{StaticResource LabelGridStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource H2LabelWidth}" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Content="播放" Style="{StaticResource H2Label}" />
+                    <StackPanel Grid.Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions >
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                                <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                                <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                            </Grid.ColumnDefinitions>
+                            <jm:JmCheckBox Margin="{StaticResource CheckBoxMargin}">
+                                <TextBlock>列表间自动切换</TextBlock>
+                            </jm:JmCheckBox>
+                            <jm:JmCheckBox Grid.Column="1" Margin="{StaticResource CheckBoxMargin}">
+                                <TextBlock>开启手机遥控电脑播歌</TextBlock>
+                            </jm:JmCheckBox>
+                            <jm:JmCheckBox Grid.Column="2" Margin="{StaticResource CheckBoxMargin}">
+                                <TextBlock>自动调节到最佳音量</TextBlock>
+                            </jm:JmCheckBox>
+                            <jm:JmCheckBox Grid.Row="1" Grid.Column="0" Margin="{StaticResource CheckBoxMargin}">
+                                <TextBlock>开启音乐渐进渐出</TextBlock>
+                            </jm:JmCheckBox>
+                            <jm:JmCheckBox Grid.Row="1" Grid.Column="1" Margin="{StaticResource CheckBoxMargin}">
+                                <TextBlock>响应多媒体键盘</TextBlock>
+                            </jm:JmCheckBox>
+                        </Grid>
+                        <StackPanel>
+                            <Label Content="优先播放品质" Style="{StaticResource H2Label}" />
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                                    <ColumnDefinition Width="{StaticResource ColumnWidth}" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </Grid>
+                <GridSplitter  />
                 <Label Name="LbDownload" Style="{StaticResource H1Label}" Content="{Binding ElementName=TbDownload, Path=Header}"></Label>
-                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Silver" Opacity="0.5" />
+                <GridSplitter  />
                 <Grid Style="{StaticResource LabelGridStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{StaticResource H2LabelWidth}" />
@@ -131,7 +212,7 @@
                         <Button x:Name="BtnOpenDownloadDir" Click="BtnOpenDownloadDir_Click">打开文件夹</Button>
                     </StackPanel>
                 </Grid>
-                <GridSplitter Height="1" HorizontalAlignment="Stretch" Background="Silver" Opacity="0.5" />
+                <GridSplitter />
             </StackPanel>
         </jm:JmScrollViewer>
     </Grid>

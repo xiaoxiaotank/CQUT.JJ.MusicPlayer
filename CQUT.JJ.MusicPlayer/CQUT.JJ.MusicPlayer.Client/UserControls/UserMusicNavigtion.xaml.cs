@@ -69,12 +69,15 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                 TabILike.Visibility = Visibility.Visible;
                 SpICreate.Visibility = Visibility.Visible;
                 TbLoading.Visibility = Visibility.Visible;
+                BtnSlideUp.Visibility = Visibility.Visible;
+                BtnSlideDown.Visibility = Visibility.Hidden;
                 var userMusicList = await Task.Factory.StartNew(() =>
                 {
                     return UserMusicListService.GetUserMusicListByUserId(App.User.Id)
                         .OrderByDescending(u => u.CreationTime);
                 });
 
+                SpUserMusicList.Children.Clear();
                 Dispatcher.Invoke(() => 
                 {
                     foreach (var list in userMusicList)
@@ -267,6 +270,20 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
             var frame = App.Current.MainWindow.FindVisualChild<Frame>();
             var userMusicListPage = new UserMusicList(userMusicListId);
             frame.Navigate(userMusicListPage);
+        }
+
+        private void BtnSlideUp_Click(object sender, RoutedEventArgs e)
+        {
+            SpUserMusicList.Visibility = Visibility.Collapsed;
+            BtnSlideUp.Visibility = Visibility.Hidden;
+            BtnSlideDown.Visibility = Visibility.Visible;
+        }
+
+        private void BtnSlideDown_Click(object sender, RoutedEventArgs e)
+        {
+            SpUserMusicList.Visibility = Visibility.Visible;
+            BtnSlideUp.Visibility = Visibility.Visible;
+            BtnSlideDown.Visibility = Visibility.Hidden;
         }
     }
 }

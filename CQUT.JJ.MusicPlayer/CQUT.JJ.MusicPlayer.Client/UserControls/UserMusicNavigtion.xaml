@@ -78,7 +78,7 @@
         
         <Style TargetType="jm:JmScrollViewer" BasedOn="{StaticResource JMScrollViewerStyle}">
             <Setter Property="ThumbBackground" Value="#40FFFFFF" />
-            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
             <Setter Property="ThumbVisibility" Value="Hidden" />
             <Setter Property="ThumbMouseOverBackground" Value="#60FFFFFF" />
             <Style.Triggers>
@@ -161,12 +161,21 @@
                     </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="22" />
                     </Grid.ColumnDefinitions>
                     <Label x:Name="LbICreate" Grid.Column="0">我创建的歌单</Label>
                     <jm:JmTransparentButton x:Name="BtnCreate" Grid.Column="1" Margin="{Binding ElementName=LbICreate, Path=Margin}"
                                             Click="BtnCreate_Click">
                         <TextBlock Text="&#xe6df;" Margin="0 -2 0 0" FontSize="16" Foreground="Silver" FontFamily="{StaticResource JM}" ToolTip="新建歌单" />
+                    </jm:JmTransparentButton>
+                    <jm:JmTransparentButton x:Name="BtnSlideUp" Grid.Column="2" Margin="{Binding ElementName=LbICreate, Path=Margin}"
+                                            Click="BtnSlideUp_Click">
+                        <TextBlock Text="&#xe63c;" Margin="0 -2 0 0" FontSize="16" Foreground="Silver" FontFamily="{StaticResource JM}" ToolTip="收起" />
+                    </jm:JmTransparentButton>
+                    <jm:JmTransparentButton x:Name="BtnSlideDown" Grid.Column="2" Margin="{Binding ElementName=LbICreate, Path=Margin}"
+                                            Click="BtnSlideDown_Click" Visibility="Hidden">
+                        <TextBlock Text="&#xe63d;" Margin="0 -2 0 0" FontSize="16" Foreground="Silver" FontFamily="{StaticResource JM}" ToolTip="展开" />
                     </jm:JmTransparentButton>
                 </Grid>
                 <TextBlock x:Name="TbLoading" Margin="10 0 0 0" Text="加载中..." FontSize="12" Visibility="Collapsed" />
