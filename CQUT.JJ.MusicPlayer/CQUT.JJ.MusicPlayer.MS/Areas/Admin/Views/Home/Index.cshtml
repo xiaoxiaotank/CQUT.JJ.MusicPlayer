@@ -4,20 +4,52 @@
     ViewData["Title"] = "Index";
     var user = Context.Session.GetCurrentUser();
 }
+@section Styles{
+    <link href="~/css/admin/home/index.css" rel="stylesheet" />
+}
 
-<h2>Index</h2>
+<section class="content-header">
+    <h3>您好！@user.NickName</h3>
+</section>
+<section class="content">
+    <div id="mapBox" class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">在线位置信息</h3>
 
-@section Scripts{ 
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body no-padding" style="">
+            <div class="row">
+                <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="mapDiv" />
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/lib/echarts/echarts.min.js"></script>
+    <script src="~/lib/echarts/china.js"></script>
     <script>
-        $(function () {
-            var userName = "@user?.UserName";
-            if (userName != null
-                && document.referrer.endsWith("/Admin/Account/Login")
-                && sessionStorage.getItem('history.length') != history.length) {
+            $(function () {
+                var userName = "@user?.UserName";
+                if (userName != null
+                    && document.referrer.endsWith("/Admin/Account/Login")
+                    && sessionStorage.getItem('history.length') != history.length) {
 
-                success_prompt(userName + "登录成功");
-                sessionStorage.setItem('history.length', history.length);
-            }
-        })
+                    success_prompt(userName + "登录成功");
+                    sessionStorage.setItem('history.length', history.length);
+                }
+            })
     </script>
+    <script src="~/js/admin/home/index.js"></script>
+
 }

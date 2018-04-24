@@ -34,7 +34,9 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences
         /// <returns></returns>
         private static IEnumerable<string> LoadStopDict(string path)
         {
-            return File.ReadAllLines(path,Encoding.Default);
+            if(File.Exists(path))
+                return File.ReadAllLines(path,Encoding.Default);
+            return null;
         }
     }
 }

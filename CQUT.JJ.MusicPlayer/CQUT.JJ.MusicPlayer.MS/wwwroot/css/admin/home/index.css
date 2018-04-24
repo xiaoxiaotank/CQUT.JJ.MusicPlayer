@@ -1,0 +1,16 @@
+﻿body {
+    
+}
+
+#mapBox {
+    width: 50%;
+}
+
+.box-body {
+    background-color: #00C0D0;
+}
+
+#mapDiv {
+    width: 100%;
+    height: 500px;
+}
