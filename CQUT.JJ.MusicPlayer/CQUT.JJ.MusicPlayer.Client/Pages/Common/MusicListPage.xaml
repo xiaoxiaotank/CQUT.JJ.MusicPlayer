@@ -27,7 +27,7 @@
             </jm:JmContextMenu.Resources>
             <jm:JmMenuItem Name="CtxPlay" Header="播放" Click="CtxPlay_Click" />
             <jm:JmMenuItem Name="CtxPlayNext" Header="下一首播放" Click="CtxPlayNext_Click" />
-            <jm:JmMenuItem Name="CtxDelete" Header="删除" />
+            <jm:JmMenuItem Name="CtxDelete" Header="删除" Visibility="Collapsed" Click="CtxDelete_Click" />
         </jm:JmContextMenu>
        
         <Style TargetType="jm:JmTransparentButton">
@@ -98,7 +98,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="60" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal">
@@ -267,7 +267,7 @@
                     </GridView>
                 </jm:JmListView.View>
             </jm:JmListView>
-            <StackPanel Name="SpPageNumber" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="-30,10,30,10">
+            <StackPanel Name="SpPageNumber" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Height="60" Margin="-30,10,30,10">
             </StackPanel>
         </Grid>
     </Grid>

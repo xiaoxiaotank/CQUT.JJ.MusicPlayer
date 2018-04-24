@@ -149,6 +149,12 @@
     <Compile Include="Converters\SecondToMinuteConverter.cs" />
     <Compile Include="Converters\VolumePercentToToolTip.cs" />
     <Compile Include="Converters\VolumeToPercentConverter.cs" />
+    <Compile Include="Pages\Common\AlbumInfoPage.xaml.cs">
+      <DependentUpon>AlbumInfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Common\AlbumListPage.xaml.cs">
+      <DependentUpon>AlbumListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Common\SingerInfoPage.xaml.cs">
       <DependentUpon>SingerInfoPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +184,9 @@
     </Compile>
     <Compile Include="Pages\OnlineMusic\MusicHall\HandpickedPage.xaml.cs">
       <DependentUpon>HandpickedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\OnlineMusic\MusicHall\RankPage.xaml.cs">
+      <DependentUpon>RankPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\OnlineMusic\MusicHall\SingerPage.xaml.cs">
       <DependentUpon>SingerPage.xaml</DependentUpon>
@@ -253,6 +262,7 @@
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="Utils\StringFormatUtil.cs" />
     <Compile Include="Utils\TimeUtil.cs" />
+    <Compile Include="ViewModels\Common\AlbumViewModel.cs" />
     <Compile Include="ViewModels\Common\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Common\MusicViewModel.cs" />
     <Compile Include="ViewModels\Common\MusicPlayerMenuViewModel.cs" />
@@ -281,6 +291,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\Common\AlbumInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Common\AlbumListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Common\SingerInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -318,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\OnlineMusic\MusicHall\HandpickedPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OnlineMusic\MusicHall\RankPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -428,6 +450,7 @@
     <Resource Include="Asserts\Fonts\iconfont.ttf" />
     <Resource Include="Asserts\Fonts\Login\iconfont.ttf" />
     <None Include="Configs\Files\MusicDictionary.bat" />
+    <None Include="Configs\Files\MusicStopDictionary.bat" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -470,6 +493,8 @@
     <Resource Include="Asserts\Images\Login\CornerRightNormalDown.png" />
     <Resource Include="Asserts\Images\Logo.png" />
     <Resource Include="Asserts\Images\DefaultSingerHeader.jpg" />
+    <Resource Include="Asserts\Images\MusicRank.jpg" />
+    <Resource Include="Asserts\Images\DefaultAlbumHeader.jpg" />
     <Content Include="Asserts\Musics\好想再爱你.mp3" />
     <Resource Include="JM.ico" />
     <Resource Include="Asserts\Icons\JM.ico" />

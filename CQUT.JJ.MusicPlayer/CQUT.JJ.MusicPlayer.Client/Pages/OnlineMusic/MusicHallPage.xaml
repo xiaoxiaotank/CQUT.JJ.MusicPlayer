@@ -63,7 +63,9 @@
             <jm:JmWidgetTabItem Header="歌手">
                 <Frame Source="/Pages/OnlineMusic/MusicHall/SingerPage.xaml" NavigationUIVisibility="Hidden" />
             </jm:JmWidgetTabItem>
-            <jm:JmWidgetTabItem Header="排行"></jm:JmWidgetTabItem>
+            <jm:JmWidgetTabItem Header="排行">
+                <Frame Source="/Pages/OnlineMusic/MusicHall/RankPage.xaml" NavigationUIVisibility="Hidden" />
+            </jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="电台" ></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="分类歌单" ></jm:JmWidgetTabItem>
             <jm:JmWidgetTabItem Header="有声" ></jm:JmWidgetTabItem>

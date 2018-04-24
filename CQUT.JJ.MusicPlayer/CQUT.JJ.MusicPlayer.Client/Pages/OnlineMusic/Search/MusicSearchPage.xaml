@@ -67,8 +67,16 @@
                 <jm:JmWidgetTabItem Name="TbMusicList" Header="歌单">
                     
                 </jm:JmWidgetTabItem>
-                <jm:JmWidgetTabItem Name="TbAlbum" Header="专辑">
-                    
+                <jm:JmWidgetTabItem Name="TbAlbum" Header="专辑" MouseLeftButtonUp="TbAlbum_MouseLeftButtonUp">
+                    <Frame x:Name="FAlbum" NavigationUIVisibility="Hidden" 
+                           Width="{Binding ElementName=Tb,Path=ActualWidth}">
+                        <Frame.Height>
+                            <MultiBinding Converter="{StaticResource DoubleParametersSubtractionConverter}">
+                                <Binding ElementName="Gd" Path="ActualHeight" />
+                                <Binding ElementName="Tb" Path="Height" />
+                            </MultiBinding>
+                        </Frame.Height>
+                    </Frame>
                 </jm:JmWidgetTabItem>
                 <jm:JmWidgetTabItem Name="TbRadio" Header="主播电台">
                     

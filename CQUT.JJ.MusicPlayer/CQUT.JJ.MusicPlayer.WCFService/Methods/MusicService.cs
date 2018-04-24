@@ -8,6 +8,7 @@ using CQUT.JJ.MusicPlayer.Core.Managers;
 using CQUT.JJ.MusicPlayer.EntityFramework.Enums;
 using CQUT.JJ.MusicPlayer.EntityFramework.Models;
 using CQUT.JJ.MusicPlayer.Models.DataContracts;
+using CQUT.JJ.MusicPlayer.Models.DataContracts.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace CQUT.JJ.MusicPlayer.WCFService
@@ -122,6 +123,25 @@ namespace CQUT.JJ.MusicPlayer.WCFService
         {
             var musics = _ctx.Music.Include(m => m.Singer).Include(m => m.Album)
                 .Where(m => m.SingerId == singerId && m.IsPublished && !m.IsDeleted)
+                .Select(m => new MusicContract()
+                {
+                    Id = m.Id,
+                    SingerId = m.Singer.Id,
+                    AlbumId = m.AlbumId,
+                    Name = m.Name,
+                    SingerName = m.Singer.Name,
+                    AlbumName = m.Album.Name,
+                    FileUrl = m.FileUrl,
+                    Duration = m.Duration
+                });
+
+            return musics;
+        }
+
+        public IEnumerable<MusicContract> GetMusicsByAlbumId(int albumId)
+        {
+            var musics = _ctx.Music.Include(m => m.Singer).Include(m => m.Album)
+                .Where(m => m.AlbumId == albumId && m.IsPublished && !m.IsDeleted)
                 .Select(m => new MusicContract()
                 {
                     Id = m.Id,

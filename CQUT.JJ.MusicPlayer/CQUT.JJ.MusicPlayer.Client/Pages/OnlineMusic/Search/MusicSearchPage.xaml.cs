@@ -49,5 +49,12 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search
             var singerListPage = new SingerListPage(_searchKey);
             FSinger.Navigate(singerListPage);
         }
+
+        private void TbAlbum_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var albumListPage = new AlbumListPage(_searchKey);
+            FAlbum.Navigate(albumListPage);
+
+        }
     }
 }

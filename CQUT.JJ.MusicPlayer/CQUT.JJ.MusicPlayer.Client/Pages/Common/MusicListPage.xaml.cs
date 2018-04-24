@@ -219,8 +219,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// <param name="currentPageNumber"></param>
         private void InitPageNumber(int totalPageNumber, int currentPageNumber)
         {
-            if (totalPageNumber < currentPageNumber || currentPageNumber <= 0) return;
+            SpPageNumber.Visibility = Visibility.Collapsed;
             SpPageNumber.Children.Clear();
+            if (totalPageNumber < currentPageNumber || currentPageNumber <= 0 || totalPageNumber == 1) return;
+
+            SpPageNumber.Visibility = Visibility.Visible;
             const int MaxPageNumber = 6;
 
 
@@ -939,6 +942,11 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 var popup = sp.FindName("PopAddTo") as Popup;
                 popup.IsOpen = false;
             }
+        }
+
+        private void CtxDelete_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

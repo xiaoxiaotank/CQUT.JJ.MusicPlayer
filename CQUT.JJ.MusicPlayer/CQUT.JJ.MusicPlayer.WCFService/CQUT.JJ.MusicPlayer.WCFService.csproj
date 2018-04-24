@@ -120,6 +120,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Methods\AlbumService.cs" />
+    <Compile Include="Interfaces\IAlbumService.cs" />
     <Compile Include="Interfaces\IUserMusicListService.cs" />
     <Compile Include="Interfaces\IMusicService.cs" />
     <Compile Include="Interfaces\ISearchService.cs" />

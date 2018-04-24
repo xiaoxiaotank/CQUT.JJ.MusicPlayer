@@ -71,16 +71,6 @@
     <Duration>04:12</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>1</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>那时雨</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180403171439-徐良 - 那时雨.mp3</MusicFileUri>
-    <Duration>03:34</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>16</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -99,6 +89,16 @@
     <AlbumName>美丽的误会</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114711-终极一班 - 我想我需要时间.mp3</MusicFileUri>
     <Duration>04:23</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>5</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>斯琴高丽的伤心</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114706-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
+    <Duration>04:06</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
     <MusicId>10</MusicId>
@@ -121,13 +121,23 @@
     <Duration>04:12</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>5</MusicId>
+    <MusicId>31</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
-    <MusicName>斯琴高丽的伤心</MusicName>
+    <MusicName>全球变冷</MusicName>
     <SingerName>罗志祥</SingerName>
     <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114706-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
-    <Duration>04:06</Duration>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
+    <Duration>04:12</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>1</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>那时雨</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180403171439-徐良 - 那时雨.mp3</MusicFileUri>
+    <Duration>03:34</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>

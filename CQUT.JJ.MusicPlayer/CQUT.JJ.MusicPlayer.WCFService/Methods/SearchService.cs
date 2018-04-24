@@ -56,6 +56,7 @@ namespace CQUT.JJ.MusicPlayer.WCFService
                     result = SearchSong(keys, page, size);
                     break;
                 case MusicRequestType.Album:
+                    result = SearchAlbum(keys, page, size);
                     break;
                 case MusicRequestType.PlayList:
                     break;
@@ -141,6 +142,41 @@ namespace CQUT.JJ.MusicPlayer.WCFService
             };
             return result;
         }
+
+        /// <summary>
+        /// 搜索专辑
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private PageResult SearchAlbum(string[] keys, int page, int size)
+        {
+            var pagedList = _ctx.Album.Include(a => a.Singer)
+                .Where(a => keys.Any(k => a.Name.Contains(k))
+                    && !a.IsDeleted
+                    && a.IsPublished)
+                .OrderByDescending(a => a.PublishmentTime)
+                .Select(a => new AlbumContract()
+                {
+                    Id = a.Id,
+                    SingerId = a.SingerId,
+                    Name = a.Name,
+                    SingerName = a.Singer.Name,
+                    MusicCount = _ctx.Music.Count(m => m.AlbumId == a.Id && !m.IsDeleted && m.IsPublished),
+                    PublishedTime = a.CreationTime
+                }).ToPagedList(page, size);
+            var result = new AlbumSearchPageResult()
+            {
+                PageNumber = pagedList.PageNumber,
+                PageCount = pagedList.PageCount,
+                Results = pagedList,
+                ResultType = MusicRequestType.Album
+            };
+            return result;
+        }
+
+
 
         #endregion
     }

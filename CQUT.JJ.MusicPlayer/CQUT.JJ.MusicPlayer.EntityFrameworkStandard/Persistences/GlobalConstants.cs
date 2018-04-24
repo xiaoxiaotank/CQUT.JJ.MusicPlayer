@@ -18,6 +18,10 @@ namespace CQUT.JJ.MusicPlayer.EntityFramework.Persistences
         /// 音乐词典路径
         /// </summary>
         public const string MusicDictionaryPath = @"Configs/Files/MusicDictionary.bat";
+        /// <summary>
+        /// 音乐停用词典路径
+        /// </summary>
+        public const string MusicStopDictionaryPath = @"Configs/Files/MusicStopDictionary.bat";
 
         public static readonly string[] Music_File_Suffix = { ".mp3" };
 
