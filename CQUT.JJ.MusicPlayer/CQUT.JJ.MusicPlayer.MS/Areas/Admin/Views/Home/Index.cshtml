@@ -5,6 +5,7 @@
     var user = Context.Session.GetCurrentUser();
 }
 @section Styles{
+    <link href="~/css/admin/home/clock.css" rel="stylesheet" />
     <link href="~/css/admin/home/index.css" rel="stylesheet" />
 }
 
@@ -23,21 +24,71 @@
                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
             </div>
         </div>
-        <div class="box-body no-padding" style="">
+        <div class="box-body no-padding">
             <div class="row">
                 <div class="pad">
                     <!-- Map will be created here -->
-                    <div id="mapDiv" />
+                    <div id="mapDiv"></div>
                 </div>
             </div>
             <!-- /.row -->
         </div>
     </div>
+    <div id="topRightDiv">
+        @Html.Partial("_Clock.cshtml")
+    </div>
+    <div id="newPublishBox" class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">最新发布信息</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <div class="row">
+                <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="newPublishDiv">
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+    <div id="newUnpublishBox" class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">最新下架信息</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body no-padding">
+            <div class="row">
+                <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="newUnpublishDiv">
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+
 </section>
 
 @section Scripts{
     <script src="~/lib/echarts/echarts.min.js"></script>
     <script src="~/lib/echarts/china.js"></script>
+    <script src="~/js/admin/home/snap.svg-min.js"></script>
+    <script src="~/js/admin/home/clock.js"></script>
     <script>
             $(function () {
                 var userName = "@user?.UserName";

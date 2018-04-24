@@ -2,15 +2,31 @@
     
 }
 
-#mapBox {
-    width: 50%;
+#mapBox, #newPublishBox, #newUnpublishBox {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
 }
 
-.box-body {
+#mapBox .box-body {
     background-color: #00C0D0;
 }
 
-#mapDiv {
+#newPublishBox .box-body {
+    background-color: dimgrey;
+}
+
+#newUnpublishBox .box-body {
+    background-color:cadetblue;
+}
+
+#mapDiv, #newPublishDiv, #newUnpublishDiv {
     width: 100%;
     height: 500px;
 }
+
+#topRightDiv {
+    display: inline-block;
+    width: 50%;
+}
+
