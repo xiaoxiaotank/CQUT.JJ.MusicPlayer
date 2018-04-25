@@ -46,3 +46,8 @@
     font-size: 30px;
     margin-top:-10px;
 }
+
+.info-box-content label{
+    color:white;
+    cursor:pointer;
+}
