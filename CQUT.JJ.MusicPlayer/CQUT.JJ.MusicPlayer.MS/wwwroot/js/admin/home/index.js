@@ -13,6 +13,7 @@ $(function () {
                 selected: true,
                 itemStyle: itemSelectedStyle
             }];
+            onlinePosition = remote_ip_info.province + remote_ip_info.city + remote_ip_info.district;
         }
         else {
             onlineData = [{
@@ -20,6 +21,7 @@ $(function () {
                 selected: true,
                 itemStyle: itemSelectedStyle
             }];
+            onlinePosition = "重庆";
         }
 
         var mapOption = {
@@ -27,7 +29,7 @@ $(function () {
                 show: true,
                 formatter: function (params) {
                     if (params.data != null && params.data.selected == true) {
-                        return '在线位置:' + params.data.name;//提示标签格式
+                        return '在线位置:' + onlinePosition;//提示标签格式
                     }
                 },
                 backgroundColor: labelStyle.emphasis.backgroundColor,
@@ -208,7 +210,6 @@ $(function () {
         url: '/Admin/Home/GetPublishedInfoPerDay',
         data: { "dayNumber": 7 },
         success: function (result) {
-            console.log(result);
             var dataInfo = [];
             for (var r in result[0].value) {
                 if (r === null) {
@@ -272,3 +273,4 @@ var itemSelectedStyle = {
 };
 
 var onlineData;
+var onlinePosition;
