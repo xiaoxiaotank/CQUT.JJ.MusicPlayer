@@ -16,12 +16,15 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
         private readonly ISingerAppService _singerAppService;
         private readonly IAlbumAppService _albumAppService;
         private readonly IMusicAppService _musicAppService;
+        private readonly IUserAppService _userAppService;
 
-        public HomeController(ISingerAppService singerAppService, IAlbumAppService albumAppService, IMusicAppService musicAppService)
+        public HomeController(ISingerAppService singerAppService, IAlbumAppService albumAppService, 
+            IMusicAppService musicAppService, IUserAppService userAppService)
         {
             _singerAppService = singerAppService;
             _albumAppService = albumAppService;
             _musicAppService = musicAppService;
+            _userAppService = userAppService;
         }
 
         [HttpGet]
@@ -57,6 +60,19 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
                 new DayCountViewModel(){ Name = "音乐",Value = musicDic}
             };
             return Json(models);
+        }
+
+        [HttpGet]
+        public IActionResult GetUserCount()
+        {
+            var model = new UserCountViewModel()
+            {
+                MemberCount = _userAppService.GetMemberCount(),
+                TodayRegisterMemberCount = _userAppService.GetTodayRegisterMemberCount(),
+                EmployeeCount = _userAppService.GetEmployeeCount(),
+                TodayCreateEmployeeCount = _userAppService.GetTodyCreateEmployeeCount()
+            };
+            return Json(model);
         }
     }
 }

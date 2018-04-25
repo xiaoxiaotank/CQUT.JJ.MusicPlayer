@@ -237,7 +237,18 @@ $(function () {
             recentPublishChart.setOption(recentPublishOption);
         }
     })
-    
+
+    //请求用户数量信息
+    $.ajax({
+        type: 'get',
+        url: "/Admin/Home/GetUserCount",
+        success: function (data) {
+            $("#memberCount").text(data.memberCount);
+            $("#memberRegisterCount").text(data.todayRegisterMemberCount);
+            $("#employeeCount").text(data.employeeCount);
+            $("#employeeRegisterCount").text(data.todayCreateEmployeeCount);
+        }
+    })
 })
 
 //hover时样式

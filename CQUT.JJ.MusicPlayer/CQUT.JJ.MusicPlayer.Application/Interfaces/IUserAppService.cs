@@ -130,5 +130,29 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="id"></param>
         /// <param name="roleIds"></param>
         void SetRolesByUserId(int id, int[] roleIds);
+
+        /// <summary>
+        /// 获取会员数
+        /// </summary>
+        /// <returns></returns>
+        int GetMemberCount();
+
+        /// <summary>
+        /// 获取今日会员注册数
+        /// </summary>
+        /// <returns></returns>
+        int GetTodayRegisterMemberCount();
+
+        /// <summary>
+        /// 获取员工数
+        /// </summary>
+        /// <returns></returns>
+        int GetEmployeeCount();
+
+        /// <summary>
+        /// 获取今日员工创建数
+        /// </summary>
+        /// <returns></returns>
+        int GetTodyCreateEmployeeCount();
     }
 }

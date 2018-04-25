@@ -260,5 +260,27 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
 
             return isSuperManager;
         }
+
+        public int GetMemberCount()
+        {
+            return _ctx.User.Count(m => !m.IsAdmin && !m.IsDeleted);
+        }
+
+        public int GetTodayRegisterMemberCount()
+        {
+            var today = DateTime.Now.Date;
+            return _ctx.User.Count(m => !m.IsAdmin && !m.IsDeleted && m.CreationTime.Date == today);
+        }
+
+        public int GetEmployeeCount()
+        {
+            return _ctx.User.Count(m => m.IsAdmin && !m.IsDeleted);
+        }
+
+        public int GetTodyCreateEmployeeCount()
+        {
+            var today = DateTime.Now.Date;
+            return _ctx.User.Count(m => m.IsAdmin && !m.IsDeleted && m.CreationTime.Date == today);
+        }
     }
 }

@@ -32,11 +32,17 @@
 
 #topRightDiv {
     display: inline-block;
-    width: 50%;
-    height:500px;   
+    width: 50%; 
 }
 
 
-#clock{
-    height:100%;
+.peopleCountBox {
+    display:inline-block;
+    width:43%;
+    margin: 20px 0 0 5%;
+}
+
+.peopleCount{
+    font-size: 30px;
+    margin-top:-10px;
 }
