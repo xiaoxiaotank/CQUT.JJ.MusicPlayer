@@ -158,5 +158,24 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
             };
         }
 
+        public Dictionary<DateTime, int> GetPublishedSingerCountPerDay(int dayNumber)
+        {
+            var today = DateTime.Now.Date;
+            var dates = new List<DateTime>();
+            for (int i = 0; i < dayNumber; i++)
+            {
+                dates.Add(today.AddDays(-i));
+            }
+
+            var data = _ctx.Singer.Where(a => a.IsPublished
+                    && !a.IsDeleted
+                    && a.PublishmentTime != null
+                    && dates.Contains(((DateTime)a.PublishmentTime).Date))
+                .GroupBy(a => ((DateTime)a.PublishmentTime).Date)
+                .Select(a => new KeyValuePair<DateTime, int>(a.Key, a.Count()));
+
+            var result = data.ToDictionary(a => a.Key, b => b.Value);
+            return result;
+        }
     }
 }

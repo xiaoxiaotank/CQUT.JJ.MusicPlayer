@@ -20,13 +20,23 @@
     background-color:cadetblue;
 }
 
-#mapDiv, #newPublishDiv, #newUnpublishDiv {
+#mapDiv, #newPublishDiv, #newUnpublishDiv{
     width: 100%;
     height: 500px;
+}
+
+#recentPublishDiv{
+    width:100%;
+    height:700px;
 }
 
 #topRightDiv {
     display: inline-block;
     width: 50%;
+    height:500px;   
 }
 
+
+#clock{
+    height:100%;
+}

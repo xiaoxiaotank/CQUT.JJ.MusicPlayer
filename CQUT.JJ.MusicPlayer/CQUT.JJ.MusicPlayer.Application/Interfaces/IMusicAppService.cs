@@ -75,5 +75,12 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         MusicModel Unpublish(int id,int userId);
+
+        /// <summary>
+        /// 根据天数获取前每一天发布的音乐数
+        /// </summary>
+        /// <param name="dayNumber"></param>
+        /// <returns></returns>
+        Dictionary<DateTime, int> GetPublishedMusicCountPerDay(int dayNumber);
     }
 }

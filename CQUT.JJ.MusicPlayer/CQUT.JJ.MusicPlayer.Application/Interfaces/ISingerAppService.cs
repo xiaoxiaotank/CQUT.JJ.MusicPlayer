@@ -67,5 +67,13 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         SingerModel GetSingerById(int id);
+
+        /// <summary>
+        /// 根据天数获取前每一天发布的歌唱家数
+        /// key:日期，value:数量
+        /// </summary>
+        /// <param name="dayNumber"></param>
+        /// <returns></returns>
+        Dictionary<DateTime,int> GetPublishedSingerCountPerDay(int dayNumber);
     }
 }

@@ -61,5 +61,12 @@ namespace CQUT.JJ.MusicPlayer.Application.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         AlbumModel GetAlbumById(int id);
+
+        /// <summary>
+        /// 根据天数获取前每一天发布的专辑数
+        /// </summary>
+        /// <param name="dayNumber"></param>
+        /// <returns></returns>
+        Dictionary<DateTime, int> GetPublishedAlbumCountPerDay(int dayNumber);
     }
 }
