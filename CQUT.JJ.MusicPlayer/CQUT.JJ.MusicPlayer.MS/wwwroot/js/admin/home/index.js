@@ -212,19 +212,20 @@ $(function () {
         success: function (result) {
             var dataInfo = [];
             for (var r in result[0].value) {
+                dataInfo.push(["最近一周上架信息表", result[0].name, result[1].name, result[2].name]);
                 if (r === null) {
                     return;
                 } else {
                     dataInfo.push([ r.substr(0, 10), result[0].value[r], result[1].value[r], result[2].value[r] ]);
                 }
             }
-            dataInfo.push(["最近一周上架信息表", result[0].name, result[1].name, result[2].name]);
+            
 
             var recentPublishOption = {
                 legend: {},
                 tooltip: {},
                 dataset: {
-                    source: dataInfo.reverse()
+                    source: dataInfo
                 },
                 xAxis: { type: 'category' },
                 yAxis: {},
