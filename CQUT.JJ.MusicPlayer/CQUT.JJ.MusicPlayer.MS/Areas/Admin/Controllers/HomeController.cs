@@ -44,7 +44,8 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
             var today = DateTime.Now.Date;
             for (int i = 0; i < dayNumber; i++)
             {
-                var date = today.AddDays(-i).Date;
+                var date = DateTime.SpecifyKind(today.AddDays(-i), DateTimeKind.Unspecified);
+                
                 if (!singerDic.ContainsKey(date))
                     singerDic[date] = 0;
                 if (!albumDic.ContainsKey(date))

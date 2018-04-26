@@ -218,7 +218,6 @@ $(function () {
                     dataInfo.push([ r.substr(0, 10), result[0].value[r], result[1].value[r], result[2].value[r] ]);
                 }
             }
-            
 
             var recentPublishOption = {
                 legend: {},
