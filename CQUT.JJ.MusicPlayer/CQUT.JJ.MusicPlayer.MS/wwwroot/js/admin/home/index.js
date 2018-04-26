@@ -210,9 +210,8 @@ $(function () {
         url: '/Admin/Home/GetPublishedInfoPerDay',
         data: { "dayNumber": 7 },
         success: function (result) {
-            var dataInfo = [];
+            var dataInfo = [["最近一周上架信息表", result[0].name, result[1].name, result[2].name]];
             for (var r in result[0].value) {
-                dataInfo.push(["最近一周上架信息表", result[0].name, result[1].name, result[2].name]);
                 if (r === null) {
                     return;
                 } else {

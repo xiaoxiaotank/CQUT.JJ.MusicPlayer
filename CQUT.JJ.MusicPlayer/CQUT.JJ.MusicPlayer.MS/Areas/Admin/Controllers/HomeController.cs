@@ -55,7 +55,7 @@ namespace CQUT.JJ.MusicPlayer.MS.Areas.Admin.Controllers
 
             var models = new List<DayCountViewModel>()
             {
-                new DayCountViewModel(){ Name = "歌唱家",Value = singerDic.OrderByDescending(a => a.Key).ToDictionary(a => a.Key,b => b.Value)},
+                new DayCountViewModel(){ Name = "歌唱家",Value = singerDic.OrderBy(a => a.Key).ToDictionary(a => a.Key,b => b.Value)},
                 new DayCountViewModel(){ Name = "专辑",Value = albumDic},
                 new DayCountViewModel(){ Name = "音乐",Value = musicDic}
             };
