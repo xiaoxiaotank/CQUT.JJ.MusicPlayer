@@ -65,16 +65,16 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         /// <returns></returns>  
         public static T GetParentObject<T>(this DependencyObject obj) where T : FrameworkElement
         {
-            DependencyObject parent = VisualTreeHelper.GetParent(obj);
+            var parentObj = VisualTreeHelper.GetParent(obj);
 
-            while (parent != null)
+            while (parentObj != null)
             {
-                if (parent is T)
+                if (parentObj is T parent)
                 {
-                    return (T)parent;
+                    return parent;
                 }
 
-                parent = VisualTreeHelper.GetParent(parent);
+                parentObj = VisualTreeHelper.GetParent(parentObj);
             }
 
             return null;
@@ -88,18 +88,18 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         /// <returns></returns>  
         public static IEnumerable<T> GetAllChildObject<T>(this DependencyObject obj) where T : FrameworkElement
         {
-            DependencyObject child = null;
-            List<T> childList = new List<T>();
+            DependencyObject childObj = null;
+            var childList = new List<T>();
 
             for (int i = 0; i <= VisualTreeHelper.GetChildrenCount(obj) - 1; i++)
             {
-                child = VisualTreeHelper.GetChild(obj, i);
+                childObj = VisualTreeHelper.GetChild(obj, i);
 
-                if (child is T)
+                if (childObj is T child)
                 {
-                    childList.Add((T)child);
+                    childList.Add(child);
                 }
-                childList.AddRange(GetAllChildObject<T>(child));
+                childList.AddRange(GetAllChildObject<T>(childObj));
             }
             return childList;
         }
@@ -113,21 +113,21 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
         /// <returns></returns>  
         public static T GetChildObjectByName<T>(this DependencyObject obj, string name) where T : FrameworkElement
         {
-            DependencyObject child = null;
+            DependencyObject childObj = null;
             T grandChild = null;
 
             for (int i = 0; i <= VisualTreeHelper.GetChildrenCount(obj) - 1; i++)
             {
-                child = VisualTreeHelper.GetChild(obj, i);
+                childObj = VisualTreeHelper.GetChild(obj, i);
 
 
-                if (child is T && (((T)child).Name == name | string.IsNullOrEmpty(name)))
+                if (childObj is T child && (child.Name == name | string.IsNullOrEmpty(name)))
                 {
-                    return (T)child;
+                    return child;
                 }
                 else
                 {
-                    grandChild = GetChildObjectByName<T>(child, name);
+                    grandChild = GetChildObjectByName<T>(childObj, name);
                     if (grandChild != null)
                         return grandChild;
                 }
@@ -135,18 +135,24 @@ namespace CQUT.JJ.MusicPlayer.Client.Utils
             return null;
         }
 
+        /// <summary>
+        /// 获取第一个特定类型的子元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static T FindVisualChild<T>(this DependencyObject obj) where T : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T)
-                    return (T)child;
+                DependencyObject childObj = VisualTreeHelper.GetChild(obj, i);
+                if (childObj is T child)
+                    return child;
                 else
                 {
-                    T childOfChild = FindVisualChild<T>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
+                    T grandChild = FindVisualChild<T>(childObj);
+                    if (grandChild != null)
+                        return grandChild;
                 }
             }
             return null;

@@ -61,16 +61,6 @@
     <Duration>01:25</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>13</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>全球变冷</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
-    <Duration>04:12</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>16</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -111,16 +101,6 @@
     <Duration>04:16</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>11</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>全球变冷</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
-    <Duration>04:12</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>31</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -139,5 +119,45 @@
     <AlbumName>美丽的误会</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180403171439-徐良 - 那时雨.mp3</MusicFileUri>
     <Duration>03:34</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>11</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>全球变冷</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
+    <Duration>04:12</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>13</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>全球变冷</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
+    <Duration>04:12</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>7</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName> 那时雨</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114716-徐良 - 那时雨.mp3</MusicFileUri>
+    <Duration>03:34</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>39</MusicId>
+    <SingerId>3</SingerId>
+    <AlbumId>4</AlbumId>
+    <MusicName> 虐心</MusicName>
+    <SingerName>贾建军</SingerName>
+    <AlbumName>贾建军的专辑</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\3-贾建军\贾建军的专辑\20180426113523-徐良 - 虐心.mp3</MusicFileUri>
+    <Duration>04:16</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>

@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
 {
-    public partial class JmTabItemHelper
+    public partial class JmTabItemHelper : ResourceDictionary
     {
         public LostFocusCommand LostFocusCommand { get; private set; }
 
