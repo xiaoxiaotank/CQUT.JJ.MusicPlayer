@@ -151,6 +151,16 @@
     <Duration>03:34</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
+    <MusicId>40</MusicId>
+    <SingerId>3</SingerId>
+    <AlbumId>4</AlbumId>
+    <MusicName>肩上蝶</MusicName>
+    <SingerName>贾建军</SingerName>
+    <AlbumName>贾建军的专辑</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\3-贾建军\贾建军的专辑\20180509223439-金志文 - 肩上蝶.mp3</MusicFileUri>
+    <Duration>04:15</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
     <MusicId>39</MusicId>
     <SingerId>3</SingerId>
     <AlbumId>4</AlbumId>

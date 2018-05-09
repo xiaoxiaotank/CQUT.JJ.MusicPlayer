@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFrameworkStandard\CQUT.JJ.MusicPlayer.EntityFramework.csproj" />
+    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

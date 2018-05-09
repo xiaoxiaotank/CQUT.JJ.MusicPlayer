@@ -278,8 +278,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFrameworkStandard\CQUT.JJ.MusicPlayer.EntityFramework.csproj">
-      <Project>{9A238413-904E-40BE-927C-94D5A4449DB0}</Project>
+    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj">
+      <Project>{0c97bbe0-2766-4519-84eb-92698cac55c6}</Project>
       <Name>CQUT.JJ.MusicPlayer.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.Models\CQUT.JJ.MusicPlayer.Models.csproj">

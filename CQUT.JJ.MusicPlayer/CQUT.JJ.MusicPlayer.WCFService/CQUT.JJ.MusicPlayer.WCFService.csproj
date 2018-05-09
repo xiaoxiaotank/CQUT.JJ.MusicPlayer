@@ -143,8 +143,8 @@
       <Project>{309b5c42-9e54-4a62-82ad-94039f3175c2}</Project>
       <Name>CQUT.JJ.MusicPlayer.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFrameworkStandard\CQUT.JJ.MusicPlayer.EntityFramework.csproj">
-      <Project>{27fc590f-82d9-4022-aec4-6de5af844bd1}</Project>
+    <ProjectReference Include="..\CQUT.JJ.MusicPlayer.EntityFramework\CQUT.JJ.MusicPlayer.EntityFramework.csproj">
+      <Project>{0c97bbe0-2766-4519-84eb-92698cac55c6}</Project>
       <Name>CQUT.JJ.MusicPlayer.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQUT.JJ.MusicPlayer.Models\CQUT.JJ.MusicPlayer.Models.csproj">
