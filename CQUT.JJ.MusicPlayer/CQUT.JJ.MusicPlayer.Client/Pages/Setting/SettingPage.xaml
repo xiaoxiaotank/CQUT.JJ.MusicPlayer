@@ -98,6 +98,11 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="5 0 0 0" />
         </Style>
+
+        <Style TargetType="RadioButton" BasedOn="{StaticResource JMRadioButtonStyle}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Silver" />
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -157,7 +162,7 @@
                                 <ColumnDefinition Width="{StaticResource ColumnWidth}" />
                                 <ColumnDefinition Width="{StaticResource ColumnWidth}" />
                             </Grid.ColumnDefinitions>
-                            <jm:JmCheckBox Margin="{StaticResource CheckBoxMargin}">
+                            <jm:JmCheckBox Margin="{StaticResource CheckBoxMargin}" IsChecked="True">
                                 <TextBlock>列表间自动切换</TextBlock>
                             </jm:JmCheckBox>
                             <jm:JmCheckBox Grid.Column="1" Margin="{StaticResource CheckBoxMargin}">
@@ -184,6 +189,18 @@
                                     <ColumnDefinition Width="{StaticResource ColumnWidth}" />
                                     <ColumnDefinition Width="{StaticResource ColumnWidth}" />
                                 </Grid.ColumnDefinitions>
+                                <RadioButton>
+                                    <TextBlock>标准品质</TextBlock>
+                                </RadioButton>
+                                <RadioButton Grid.Column="1" IsChecked="True">
+                                    <TextBlock>HQ高品质</TextBlock>
+                                </RadioButton>
+                                <RadioButton Grid.Row="1">
+                                    <TextBlock>SQ无损品质</TextBlock>
+                                </RadioButton>
+                                <RadioButton Grid.Row="1" Grid.Column="1">
+                                    <TextBlock>5.1声道</TextBlock>
+                                </RadioButton>
                             </Grid>
                         </StackPanel>
                     </StackPanel>

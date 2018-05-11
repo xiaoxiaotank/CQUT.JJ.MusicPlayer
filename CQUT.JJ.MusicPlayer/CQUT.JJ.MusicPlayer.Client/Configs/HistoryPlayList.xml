@@ -21,16 +21,6 @@
     <Duration>04:06</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>2</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>心里下着雨</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114647-夏天Alex - 心里下着雨.mp3</MusicFileUri>
-    <Duration>03:22</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>15</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -39,16 +29,6 @@
     <AlbumName>美丽的误会</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
     <Duration>04:12</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>14</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>毛不易 - 说散就散</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180411235227-毛不易 - 说散就散.mp3</MusicFileUri>
-    <Duration>01:25</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
     <MusicId>12</MusicId>
@@ -71,36 +51,6 @@
     <Duration>04:12</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>6</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>我想我需要时间</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114711-终极一班 - 我想我需要时间.mp3</MusicFileUri>
-    <Duration>04:23</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>5</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>斯琴高丽的伤心</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114706-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
-    <Duration>04:06</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>10</MusicId>
-    <SingerId>2</SingerId>
-    <AlbumId>2</AlbumId>
-    <MusicName>虐心</MusicName>
-    <SingerName>陈奕迅</SingerName>
-    <AlbumName>陈奕迅的专辑</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\2-陈奕迅\陈奕迅的专辑\20180410203258-徐良 - 虐心.mp3</MusicFileUri>
-    <Duration>04:16</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>31</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -111,27 +61,7 @@
     <Duration>04:12</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>1</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>那时雨</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180403171439-徐良 - 那时雨.mp3</MusicFileUri>
-    <Duration>03:34</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>11</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>全球变冷</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
-    <Duration>04:12</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>13</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
     <MusicName>全球变冷</MusicName>
@@ -169,5 +99,75 @@
     <AlbumName>贾建军的专辑</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\3-贾建军\贾建军的专辑\20180426113523-徐良 - 虐心.mp3</MusicFileUri>
     <Duration>04:16</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>13</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>全球变冷</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114737-许嵩 - 全球变冷.mp3</MusicFileUri>
+    <Duration>04:12</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>1</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>那时雨</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180403171439-徐良 - 那时雨.mp3</MusicFileUri>
+    <Duration>03:34</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>10</MusicId>
+    <SingerId>2</SingerId>
+    <AlbumId>2</AlbumId>
+    <MusicName>虐心</MusicName>
+    <SingerName>陈奕迅</SingerName>
+    <AlbumName>陈奕迅的专辑</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\2-陈奕迅\陈奕迅的专辑\20180410203258-徐良 - 虐心.mp3</MusicFileUri>
+    <Duration>04:16</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>6</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>我想我需要时间</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114711-终极一班 - 我想我需要时间.mp3</MusicFileUri>
+    <Duration>04:23</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>5</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>斯琴高丽的伤心</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114706-斯琴高丽 - 斯琴高丽的伤心.mp3</MusicFileUri>
+    <Duration>04:06</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>2</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>心里下着雨</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180404114647-夏天Alex - 心里下着雨.mp3</MusicFileUri>
+    <Duration>03:22</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>14</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>毛不易 - 说散就散</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180411235227-毛不易 - 说散就散.mp3</MusicFileUri>
+    <Duration>01:25</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>
