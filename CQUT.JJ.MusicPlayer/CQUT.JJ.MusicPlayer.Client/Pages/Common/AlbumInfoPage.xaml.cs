@@ -58,8 +58,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
                         Results = musics
                     };
                 });
-                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(pagedResult, 1);
                 TbSongCount.Text = pagedResult.Results.Count().ToString();
+                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(pagedResult, 1);               
             }
         }
 

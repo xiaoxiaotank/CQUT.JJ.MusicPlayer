@@ -81,15 +81,16 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
 
         #region 事件Handler
 
-        private void JMSearchChangedEvent(object sender, MusicSearchInfoChangedArgs e)
+        private async void JMSearchChangedEvent(object sender, MusicSearchInfoChangedArgs e)
         {
-            Task.Factory.StartNew(() =>
+            if (!IsVisible) return;
+            if (e.IsSuccessed)
             {
-                if (e.IsSuccessed)
+                await Task.Factory.StartNew(() =>
                 {
                     _musicListViewModel = new List<MusicViewModel>();
                     //无音乐
-                    if(e.PageResult?.ResultType == null)
+                    if (e.PageResult?.ResultType == null)
                     {
                         TipNonMusicInfo();
                         return;
@@ -124,31 +125,40 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                         default:
                             return;
                     }
+                });
+
+                await Dispatcher.InvokeAsync(() =>
+                {
                     MusicList.ItemsSource = _musicListViewModel;
                     MusicList.ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
-                    
+
                     InitPageNumber(e.PageResult.PageCount, e.PageResult.PageNumber);
 
                     TbError.Visibility = Visibility.Collapsed;
-                    GdSong.Visibility = Visibility.Visible;                    
-                }
-                else
+                    GdSong.Visibility = Visibility.Visible;
+                });               
+            }
+            else
+            {
+                await Dispatcher.InvokeAsync(() =>
                 {
                     TbError.Text = e.ErrorInfo;
                     GdSong.Visibility = Visibility.Collapsed;
                     TbError.Visibility = Visibility.Visible;
-                }
-
-                TbInfo.Visibility 
-                    = Waiting.Visibility
-                    = Visibility.Collapsed;
+                });
+                
+            }
+            await Dispatcher.InvokeAsync(() =>
+            {
+                TbInfo.Visibility
+                = Waiting.Visibility
+                = Visibility.Collapsed;
                 SpPageNumber.IsEnabled = true;
                 if (_musicListViewModel != null && _musicListViewModel.Any())
                     MusicList.ScrollIntoView(_musicListViewModel[0]);
                 if (JMApp.CurrentPlayingMusicsInfo != null)
                     JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
-            }, CancellationToken.None, TaskCreationOptions.None, _syncTaskScheduler);
-           
+            });
         }
 
         private void ContextMenuStartPlayMusicEvent(object sender, EventArgs e)
@@ -554,7 +564,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (sender is TextBlock tb)
             {
                 var albumId = Convert.ToInt32(tb.Tag);
-                MessageBox.Show(albumId.ToString());
+                var ablumPage = new AlbumInfoPage(albumId);
+
+                var parentFrame = this.ParentFrame();
+                NavigationService.GetNavigationService(parentFrame).Navigate(ablumPage);
             }
         }
 

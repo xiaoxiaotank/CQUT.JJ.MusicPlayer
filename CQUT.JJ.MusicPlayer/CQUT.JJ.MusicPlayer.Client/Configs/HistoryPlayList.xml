@@ -1,26 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <HistoryPlayList>
   <HistoryPlayItem>
-    <MusicId>47</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>没那么简单 (Live)</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601122639-金志文 - 没那么简单 (Live).mp3</MusicFileUri>
-    <Duration>02:19</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>49</MusicId>
-    <SingerId>1</SingerId>
-    <AlbumId>1</AlbumId>
-    <MusicName>最浪漫的事 (Live)</MusicName>
-    <SingerName>罗志祥</SingerName>
-    <AlbumName>美丽的误会</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601123212-金志文 - 最浪漫的事 (Live).mp3</MusicFileUri>
-    <Duration>02:26</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>57</MusicId>
     <SingerId>6</SingerId>
     <AlbumId>9</AlbumId>
@@ -51,16 +31,6 @@
     <Duration>01:04</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>62</MusicId>
-    <SingerId>5</SingerId>
-    <AlbumId>10</AlbumId>
-    <MusicName>那时雨</MusicName>
-    <SingerName>徐良</SingerName>
-    <AlbumName>东西世界</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\5-徐良\东西世界\20180601124400-徐良 - 那时雨.mp3</MusicFileUri>
-    <Duration>03:34</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>54</MusicId>
     <SingerId>6</SingerId>
     <AlbumId>9</AlbumId>
@@ -81,14 +51,24 @@
     <Duration>01:43</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>46</MusicId>
-    <SingerId>3</SingerId>
-    <AlbumId>5</AlbumId>
-    <MusicName>空城 (Live)</MusicName>
-    <SingerName>贾建军</SingerName>
-    <AlbumName>2018年毕设</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\3-贾建军\2018年毕设\20180601122629-金志文 - 空城 (Live).mp3</MusicFileUri>
-    <Duration>02:40</Duration>
+    <MusicId>67</MusicId>
+    <SingerId>8</SingerId>
+    <AlbumId>7</AlbumId>
+    <MusicName>许嵩 - 全球变冷</MusicName>
+    <SingerName>许嵩</SingerName>
+    <AlbumName>大千世界</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\8-许嵩\大千世界\20180601124516-许嵩 - 全球变冷.mp3</MusicFileUri>
+    <Duration>04:12</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>69</MusicId>
+    <SingerId>7</SingerId>
+    <AlbumId>8</AlbumId>
+    <MusicName>肩上蝶</MusicName>
+    <SingerName>金志文</SingerName>
+    <AlbumName>狂欢一夏</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\7-金志文\狂欢一夏\20180602233455-金志文 - 肩上蝶.mp3</MusicFileUri>
+    <Duration>04:15</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
     <MusicId>43</MusicId>
@@ -111,6 +91,76 @@
     <Duration>04:15</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
+    <MusicId>48</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>为爱痴狂 (Live)</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601123159-金志文 - 为爱痴狂 (Live).mp3</MusicFileUri>
+    <Duration>02:23</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>49</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>最浪漫的事 (Live)</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601123212-金志文 - 最浪漫的事 (Live).mp3</MusicFileUri>
+    <Duration>02:26</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>51</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>御龙铭千古</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601123243-林志炫 - 御龙铭千古.mp3</MusicFileUri>
+    <Duration>04:59</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>65</MusicId>
+    <SingerId>5</SingerId>
+    <AlbumId>10</AlbumId>
+    <MusicName>七秒钟的记忆</MusicName>
+    <SingerName>徐良</SingerName>
+    <AlbumName>东西世界</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601124439-徐良 - 七秒钟的记忆.mp3</MusicFileUri>
+    <Duration>03:21</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>64</MusicId>
+    <SingerId>5</SingerId>
+    <AlbumId>10</AlbumId>
+    <MusicName>无颜女</MusicName>
+    <SingerName>徐良</SingerName>
+    <AlbumName>东西世界</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\5-徐良\东西世界\20180601124426-徐良 - 无颜女.mp3</MusicFileUri>
+    <Duration>03:32</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>62</MusicId>
+    <SingerId>5</SingerId>
+    <AlbumId>10</AlbumId>
+    <MusicName>那时雨</MusicName>
+    <SingerName>徐良</SingerName>
+    <AlbumName>东西世界</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\5-徐良\东西世界\20180601124400-徐良 - 那时雨.mp3</MusicFileUri>
+    <Duration>03:34</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>47</MusicId>
+    <SingerId>1</SingerId>
+    <AlbumId>1</AlbumId>
+    <MusicName>没那么简单 (Live)</MusicName>
+    <SingerName>罗志祥</SingerName>
+    <AlbumName>美丽的误会</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601122639-金志文 - 没那么简单 (Live).mp3</MusicFileUri>
+    <Duration>02:19</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
     <MusicId>44</MusicId>
     <SingerId>3</SingerId>
     <AlbumId>5</AlbumId>
@@ -131,24 +181,34 @@
     <Duration>04:04</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>67</MusicId>
-    <SingerId>8</SingerId>
-    <AlbumId>7</AlbumId>
-    <MusicName>许嵩 - 全球变冷</MusicName>
-    <SingerName>许嵩</SingerName>
-    <AlbumName>大千世界</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\8-许嵩\大千世界\20180601124516-许嵩 - 全球变冷.mp3</MusicFileUri>
-    <Duration>04:12</Duration>
+    <MusicId>70</MusicId>
+    <SingerId>7</SingerId>
+    <AlbumId>8</AlbumId>
+    <MusicName>为爱痴狂 (Live)</MusicName>
+    <SingerName>金志文</SingerName>
+    <AlbumName>狂欢一夏</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\7-金志文\狂欢一夏\20180602233506-金志文 - 为爱痴狂 (Live).mp3</MusicFileUri>
+    <Duration>02:23</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>65</MusicId>
+    <MusicId>63</MusicId>
     <SingerId>5</SingerId>
     <AlbumId>10</AlbumId>
-    <MusicName>七秒钟的记忆</MusicName>
+    <MusicName>虐心</MusicName>
     <SingerName>徐良</SingerName>
     <AlbumName>东西世界</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601124439-徐良 - 七秒钟的记忆.mp3</MusicFileUri>
-    <Duration>03:21</Duration>
+    <MusicFileUri>..\..\MusicLibrary\5-徐良\东西世界\20180601124411-徐良 - 虐心.mp3</MusicFileUri>
+    <Duration>04:16</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>46</MusicId>
+    <SingerId>3</SingerId>
+    <AlbumId>5</AlbumId>
+    <MusicName>空城 (Live)</MusicName>
+    <SingerName>贾建军</SingerName>
+    <AlbumName>2018年毕设</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\3-贾建军\2018年毕设\20180601122629-金志文 - 空城 (Live).mp3</MusicFileUri>
+    <Duration>02:40</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
     <MusicId>68</MusicId>
@@ -159,15 +219,5 @@
     <AlbumName>贾建军的专辑</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\3-贾建军\贾建军的专辑\20180601124532-终极一班 - 我想我需要时间.mp3</MusicFileUri>
     <Duration>04:23</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>69</MusicId>
-    <SingerId>7</SingerId>
-    <AlbumId>8</AlbumId>
-    <MusicName>肩上蝶</MusicName>
-    <SingerName>金志文</SingerName>
-    <AlbumName>狂欢一夏</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\7-金志文\狂欢一夏\20180602233455-金志文 - 肩上蝶.mp3</MusicFileUri>
-    <Duration>04:15</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>

@@ -52,17 +52,16 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
             {
                 var pagedResult = await Task.Factory.StartNew(() =>
                 {
-                    var musics = _musicService.GetMusicsBySingerId(_singerId);
                     return new MusicSearchPageResult()
                     {
                         PageCount = 1,
                         PageNumber = 1,
                         ResultType = MusicRequestType.Song,
-                        Results = musics
+                        Results = _musicService.GetMusicsBySingerId(_singerId)
                     };
                 });
-                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(pagedResult, 1);
                 TbSongCount.Text = pagedResult.Results.Count().ToString();
+                MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(pagedResult, 1);
             }
         }
 

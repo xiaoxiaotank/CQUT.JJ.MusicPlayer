@@ -57,7 +57,7 @@ namespace CQUT.JJ.MusicPlayer.Client
                     MusicName = _currentPlayingMusic.Name,
                     SingerName = _currentPlayingMusic.SingerName,
                     AlbumName = _currentPlayingMusic.AlbumName,
-                    MusicFileUri = _currentPlayingMusic.FileUri,
+                    MusicFileUri = _currentPlayingMusic.FileUri ?? new Uri(_currentPlayingMusic.FileUrl,UriKind.Relative),
                     Duration = _currentPlayingMusic.Duration
                 };
 

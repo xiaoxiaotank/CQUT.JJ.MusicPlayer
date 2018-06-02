@@ -28,7 +28,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.Search
         public MusicSearchPage(string searchKey)
         {
             _searchKey = searchKey;
-
+            
             PageLoadedUtil.MusicListPageLoadedEvent += PageLoadedUtil_MusicListPageLoadedEvent;
             InitializeComponent();
         }

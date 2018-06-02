@@ -88,7 +88,8 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     }
                     else 
                     {
-                        (App.Current.MainWindow.FindName("FMusicPage") as Frame).Navigate(new MusicSearchPage(_lastSearchKey));                        
+                        var musicSearchPage = new MusicSearchPage(_lastSearchKey);
+                        (App.Current.MainWindow.FindName("FMusicPage") as Frame).Navigate(musicSearchPage);                        
                     }
                     NonNavPageDisplayedUtil.Invoke();
                 }
