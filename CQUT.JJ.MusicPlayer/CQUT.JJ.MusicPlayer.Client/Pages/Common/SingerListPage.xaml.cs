@@ -51,7 +51,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.Common
                 {
                     Width = 100,
                     Height = 100,
-                    Fill = new ImageBrush((ConstantsUtil.APP_Directory + ConstantsUtil.DefaultProfilePhotoPath).ToImageSource(UriKind.Absolute))
+                    Fill = new ImageBrush((ConstantsUtil.APP_Directory + ConstantsUtil.DefaultSingerHeaderPath).ToImageSource(UriKind.Absolute))
                 };
 
                 var tb = new TextBlock()

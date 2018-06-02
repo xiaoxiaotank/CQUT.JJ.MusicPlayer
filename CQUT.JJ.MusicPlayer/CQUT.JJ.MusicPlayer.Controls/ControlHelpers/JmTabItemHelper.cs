@@ -31,6 +31,8 @@ namespace CQUT.JJ.MusicPlayer.Controls.ControlHelpers
             var txtBox = sender as TextBox;
             //设置此处以使得Command有效
             txtBox.DataContext = this;
+            txtBox.Focus();
+            txtBox.SelectAll();
         }
 
         public void EditBox_LostFocus(object sender, RoutedEventArgs e)

@@ -144,7 +144,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
                     FontSize = 15
                 },
                 Editable = true
-            };            
+            };
             tabItem.EditBoxLostFocus += TabItem_EditBoxLostFocus;
             var children = new List<UIElement>() { tabItem };
             foreach (UIElement item in temp)

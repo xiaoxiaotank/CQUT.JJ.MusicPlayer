@@ -48,8 +48,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.MyMusic
                         ResultType = MusicRequestType.Song,
                         Results = _musicService.GetLoveMusicsByUserId(App.User.Id).Reverse()
                     };
-                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, 1);
                     SongCount.Text = (musicInfoOfPageModel?.Results.Count() ?? 0).ToString();
+                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, 1);
                 }
                 else
                 {

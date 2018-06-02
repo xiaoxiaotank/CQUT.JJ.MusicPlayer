@@ -51,8 +51,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.UserMusicList
                         ResultType = MusicRequestType.Song,
                         Results = _musicService.GetMusicsByMusicListId(_userMusicListId).Reverse()
                     };
-                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, 1);
                     SongCount.Text = (musicInfoOfPageModel?.Results.Count() ?? 0).ToString();
+                    MusicSearchInfoChangedUtil.InvokeFromJMSearchChanged(musicInfoOfPageModel, 1);
                 }
             }
         }

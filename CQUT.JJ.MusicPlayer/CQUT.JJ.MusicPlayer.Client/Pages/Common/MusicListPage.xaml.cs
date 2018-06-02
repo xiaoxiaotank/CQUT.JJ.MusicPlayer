@@ -86,9 +86,10 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (!IsVisible) return;
             if (e.IsSuccessed)
             {
+                _musicListViewModel = new List<MusicViewModel>();
                 await Task.Factory.StartNew(() =>
                 {
-                    _musicListViewModel = new List<MusicViewModel>();
+                    
                     //无音乐
                     if (e.PageResult?.ResultType == null)
                     {
@@ -172,14 +173,17 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
         /// </summary>
         private void TipNonMusicInfo()
         {
-            if (IsVisible)
+            Dispatcher.InvokeAsync(() =>
             {
-                TbError.Visibility
-                    = GdSong.Visibility
-                    = Waiting.Visibility
-                    = Visibility.Collapsed;
-                TbInfo.Visibility = Visibility.Visible;
-            }           
+                if (IsVisible)
+                {
+                    TbError.Visibility
+                        = GdSong.Visibility
+                        = Waiting.Visibility
+                        = Visibility.Collapsed;
+                    TbInfo.Visibility = Visibility.Visible;
+                }
+            });
         }
 
         private void ItemContainerGenerator_StatusChanged(object sender, EventArgs e)

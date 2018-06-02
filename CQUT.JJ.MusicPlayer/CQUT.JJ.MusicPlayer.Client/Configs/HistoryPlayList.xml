@@ -81,16 +81,6 @@
     <Duration>04:14</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
-    <MusicId>41</MusicId>
-    <SingerId>3</SingerId>
-    <AlbumId>5</AlbumId>
-    <MusicName>勇敢爱</MusicName>
-    <SingerName>贾建军</SingerName>
-    <AlbumName>2018年毕设</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\3-贾建军\2018年毕设\20180601110719-Mi2 - 勇敢爱.mp3</MusicFileUri>
-    <Duration>04:15</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
     <MusicId>48</MusicId>
     <SingerId>1</SingerId>
     <AlbumId>1</AlbumId>
@@ -119,16 +109,6 @@
     <AlbumName>美丽的误会</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601123243-林志炫 - 御龙铭千古.mp3</MusicFileUri>
     <Duration>04:59</Duration>
-  </HistoryPlayItem>
-  <HistoryPlayItem>
-    <MusicId>65</MusicId>
-    <SingerId>5</SingerId>
-    <AlbumId>10</AlbumId>
-    <MusicName>七秒钟的记忆</MusicName>
-    <SingerName>徐良</SingerName>
-    <AlbumName>东西世界</AlbumName>
-    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601124439-徐良 - 七秒钟的记忆.mp3</MusicFileUri>
-    <Duration>03:21</Duration>
   </HistoryPlayItem>
   <HistoryPlayItem>
     <MusicId>64</MusicId>
@@ -219,5 +199,25 @@
     <AlbumName>贾建军的专辑</AlbumName>
     <MusicFileUri>..\..\MusicLibrary\3-贾建军\贾建军的专辑\20180601124532-终极一班 - 我想我需要时间.mp3</MusicFileUri>
     <Duration>04:23</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>41</MusicId>
+    <SingerId>3</SingerId>
+    <AlbumId>5</AlbumId>
+    <MusicName>勇敢爱</MusicName>
+    <SingerName>贾建军</SingerName>
+    <AlbumName>2018年毕设</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\3-贾建军\2018年毕设\20180601110719-Mi2 - 勇敢爱.mp3</MusicFileUri>
+    <Duration>04:15</Duration>
+  </HistoryPlayItem>
+  <HistoryPlayItem>
+    <MusicId>65</MusicId>
+    <SingerId>5</SingerId>
+    <AlbumId>10</AlbumId>
+    <MusicName>七秒钟的记忆</MusicName>
+    <SingerName>徐良</SingerName>
+    <AlbumName>东西世界</AlbumName>
+    <MusicFileUri>..\..\MusicLibrary\1-罗志祥\美丽的误会\20180601124439-徐良 - 七秒钟的记忆.mp3</MusicFileUri>
+    <Duration>03:21</Duration>
   </HistoryPlayItem>
 </HistoryPlayList>
