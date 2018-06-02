@@ -157,6 +157,7 @@ namespace CQUT.JJ.MusicPlayer.Application.Methods
                 UserName = user.UserName,
                 NickName = user.NickName,
                 IsAdmin = user.IsAdmin,
+                CreationTime = user.CreationTime
             };
         }
 

@@ -99,7 +99,7 @@
                     <TextBlock Text="&#xe700;" />
                 </jm:JmTabItem.Icon>
             </jm:JmTabItem>
-            <jm:JmTabItem Header="MV" MouseUp="TabItem_SelectionChanged"
+            <!--<jm:JmTabItem Header="MV" MouseUp="TabItem_SelectionChanged"
                       PageName="MvPage.xaml" PageOfColumnName="OnlineMusic">
                 <jm:JmTabItem.Icon>
                     <TextBlock Text="&#xe605;" />
@@ -122,7 +122,7 @@
                 <jm:JmTabItem.Icon>
                     <TextBlock Text="&#xe6d6;" />
                 </jm:JmTabItem.Icon>
-            </jm:JmTabItem>
+            </jm:JmTabItem>-->
             
 
             <Label>我的音乐</Label>

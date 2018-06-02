@@ -5,48 +5,53 @@ $(function () {
     var newUnpublishChart = echarts.init(document.getElementById('newUnpublishDiv'));
     var recentPublishChart = echarts.init(document.getElementById('recentPublishDiv'));
 
-    $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', function () {
-        if (remote_ip_info.ret == '1') {
-            //alert('国家：' + remote_ip_info.country + '<BR>省：' + remote_ip_info.province + '<BR>市：' + remote_ip_info.city + '<BR>区：' + remote_ip_info.district + '<BR>ISP：' + remote_ip_info.isp + '<BR>类型：' + remote_ip_info.type + '<BR>其他：' + remote_ip_info.desc);
-            onlineData = [{
-                name: remote_ip_info.province,
-                selected: true,
-                itemStyle: itemSelectedStyle
-            }];
-            onlinePosition = remote_ip_info.province + remote_ip_info.city + remote_ip_info.district;
-        }
-        else {
+    $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js')
+        .done(function () {
+            if (remote_ip_info.ret == '1') {
+                //alert('国家：' + remote_ip_info.country + '<BR>省：' + remote_ip_info.province + '<BR>市：' + remote_ip_info.city + '<BR>区：' + remote_ip_info.district + '<BR>ISP：' + remote_ip_info.isp + '<BR>类型：' + remote_ip_info.type + '<BR>其他：' + remote_ip_info.desc);
+                onlineData = [{
+                    name: remote_ip_info.province,
+                    selected: true,
+                    itemStyle: itemSelectedStyle
+                }];
+                onlinePosition = remote_ip_info.province + remote_ip_info.city + remote_ip_info.district;
+            }
+        })
+        .fail(function () {
             onlineData = [{
                 name: "重庆",
                 selected: true,
                 itemStyle: itemSelectedStyle
             }];
             onlinePosition = "重庆";
-        }
-
-        var mapOption = {
-            tooltip: {
-                show: true,
-                formatter: function (params) {
-                    if (params.data != null && params.data.selected == true) {
-                        return '在线位置:' + onlinePosition;//提示标签格式
-                    }
+        })
+        .complete(function () {
+            var mapOption = {
+                tooltip: {
+                    show: true,
+                    formatter: function (params) {
+                        if (params.data != null && params.data.selected == true) {
+                            return '在线位置:' + onlinePosition;//提示标签格式
+                        }
+                    },
+                    backgroundColor: labelStyle.emphasis.backgroundColor,
+                    textStyle: labelStyle.emphasis.textStyle,
+                    padding: labelStyle.emphasis.padding
                 },
-                backgroundColor: labelStyle.emphasis.backgroundColor,
-                textStyle: labelStyle.emphasis.textStyle,
-                padding: labelStyle.emphasis.padding
-            },
-            series: [{
-                type: 'map',
-                mapType: 'china',
-                roam: true,
-                label: labelStyle,
-                itemStyle: itemStyle,
-                data: onlineData
-            }],
-        };
-        mapChart.setOption(mapOption);
-    });    
+                series: [{
+                    type: 'map',
+                    mapType: 'china',
+                    roam: true,
+                    label: labelStyle,
+                    itemStyle: itemStyle,
+                    data: onlineData
+                }],
+            };
+            mapChart.setOption(mapOption); 
+        })   
+        
+
+          
         
     //请求今日上下架信息
     $.ajax({

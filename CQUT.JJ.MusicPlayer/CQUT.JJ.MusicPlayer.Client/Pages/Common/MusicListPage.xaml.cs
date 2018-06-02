@@ -492,7 +492,7 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                             SingerName = nextPlayingObj.SingerName,
                             Duration = nextPlayingObj.Duration,
                             DurationDescription = nextPlayingObj.Duration.GetMinuteAndSecondPart(),
-                            FileUrl = nextPlayingObj.FileUrl
+                            FileUrl = nextPlayingObj.FileUrl ?? nextPlayingObj.FileUri.OriginalString
                         }, null);
                         JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = nextPlayingObj;
                     }

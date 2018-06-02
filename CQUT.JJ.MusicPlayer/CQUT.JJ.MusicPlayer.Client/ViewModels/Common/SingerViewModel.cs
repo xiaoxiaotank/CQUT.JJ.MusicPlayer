@@ -53,5 +53,10 @@ namespace CQUT.JJ.MusicPlayer.Client.ViewModels.Common
         public string FansCountCn { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public SingerViewModel()
+        {
+            FansCount = 0;
+        }
     }
 }

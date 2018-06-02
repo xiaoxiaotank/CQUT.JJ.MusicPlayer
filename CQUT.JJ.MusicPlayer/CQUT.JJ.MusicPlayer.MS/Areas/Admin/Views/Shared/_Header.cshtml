@@ -24,19 +24,12 @@
             <ul class="nav navbar-nav">
                 @if (user != null)
                 {
-                    @Html.Partial("./Header/_Message")
-                    @Html.Partial("./Header/_Notification")
-                    @Html.Partial("./Header/_Task")
                     @Html.Partial("./Header/_User")
                 }
                 else
                 {
                     <li><a asp-action="Login" asp-controller="Account" asp-area="Admin">登录</a></li>
                 }
-                <!-- 控制右侧边栏切换的按钮 -->
-                <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                </li>
             </ul>
         </div>
     </nav>
