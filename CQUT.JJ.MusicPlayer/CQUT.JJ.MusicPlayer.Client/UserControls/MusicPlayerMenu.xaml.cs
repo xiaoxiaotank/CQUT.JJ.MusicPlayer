@@ -1,4 +1,5 @@
 ﻿using CQUT.JJ.MusicPlayer.Client.Converters;
+using CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic;
 using CQUT.JJ.MusicPlayer.Client.Utils;
 using CQUT.JJ.MusicPlayer.Client.Utils.Enums;
 using CQUT.JJ.MusicPlayer.Client.Utils.EventUtils;
@@ -662,6 +663,7 @@ namespace CQUT.JJ.MusicPlayer.Client.UserControls
         /// </summary>
         private void ChangePlayState()
         {
+            //转为暂停
             if (_isOpenFailedOfCurrentPlayingMusic || _isPlaying)
             {
                 _timer.Stop();

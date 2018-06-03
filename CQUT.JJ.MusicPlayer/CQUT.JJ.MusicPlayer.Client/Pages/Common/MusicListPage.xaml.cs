@@ -131,6 +131,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 await Dispatcher.InvokeAsync(() =>
                 {
                     MusicList.ItemsSource = _musicListViewModel;
+                    //确保只绑定一次
+                    MusicList.ItemContainerGenerator.StatusChanged -= ItemContainerGenerator_StatusChanged;
                     MusicList.ItemContainerGenerator.StatusChanged += ItemContainerGenerator_StatusChanged;
 
                     InitPageNumber(e.PageResult.PageCount, e.PageResult.PageNumber);
@@ -157,8 +159,6 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 SpPageNumber.IsEnabled = true;
                 if (_musicListViewModel != null && _musicListViewModel.Any())
                     MusicList.ScrollIntoView(_musicListViewModel[0]);
-                if (JMApp.CurrentPlayingMusicsInfo != null)
-                    JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
             });
         }
 
@@ -193,10 +193,17 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
                 var currentPlayingMusic = _musicListViewModel.SingleOrDefault(m => m.Id == JMApp.CurrentPlayingMusicsInfo?.CurrentPlayingMusic?.Id);
                 if (MusicList.ItemContainerGenerator.ContainerFromItem(currentPlayingMusic) is JmListViewItem lvi
                     && lvi.GetChildObjectByName<Button>("BtnPlay")?.Content is TextBlock tb)
-                {                   
+                {
                     ChangeMusicPlayBtnState(tb, _isToPlay);
                     ChangeMusicActivatedState(currentPlayingMusic);
+                    _currentPlayingTbObject = new KeyValuePair<int, TextBlock>(currentPlayingMusic.Id, tb);
                     JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = true;
+
+                }
+                else
+                {
+                    if(JMApp.CurrentPlayingMusicsInfo != null)
+                        JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage = false;
                 }
             }
         }
@@ -416,9 +423,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic
             if (JMApp.CurrentPlayingMusicsInfo != null)
             {
                 //当前页
-                if (JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && _musicListViewModel != null)
+                if (JMApp.CurrentPlayingMusicsInfo.IsCurrentPlayingPage && _musicListViewModel != null && IsVisible)
                 {
-                    var currentPlayingObjIndex = _musicListViewModel.FindIndex(ml => ml == _musicListViewModel.SingleOrDefault(m => m.Id.Equals(_currentPlayingTbObject.Key)));
+                    var currentPlayingObjIndex = _musicListViewModel.FindIndex(m => m.Id.Equals(_currentPlayingTbObject.Key));
                     if (currentPlayingObjIndex >= 0)
                     {
                         int nextPlayingObjIndex = currentPlayingObjIndex;

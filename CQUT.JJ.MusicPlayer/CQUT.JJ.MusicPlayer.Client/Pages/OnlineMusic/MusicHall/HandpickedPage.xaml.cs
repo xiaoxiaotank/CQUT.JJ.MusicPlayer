@@ -27,6 +27,8 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.MusicHall
     /// </summary>
     public partial class HandpickedPage : Page
     {
+        private static int _currentPlayingMusicId = 0;
+
         private readonly IMusicService _musicService;
 
         public HandpickedPage()
@@ -190,7 +192,9 @@ namespace CQUT.JJ.MusicPlayer.Client.Pages.OnlineMusic.MusicHall
                 JMApp.CurrentPlayingMusicsInfo.CurrentPlayingMusic = model;
             }
 
-            await Task.Factory.StartNew(() => MusicPlayStateChangedUtil.InvokeFromJM(model, true));
+            var isToPlay = _currentPlayingMusicId != model.Id;
+            await Task.Factory.StartNew(() => MusicPlayStateChangedUtil.InvokeFromJM(model, isToPlay));
+            _currentPlayingMusicId = isToPlay ? model.Id : 0;
         }
     }
 }
