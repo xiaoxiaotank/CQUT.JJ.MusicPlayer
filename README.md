@@ -2,7 +2,7 @@
 2018毕业设计
 1. 登录界面
 
-![输入图片说明](https://images.gitee.com/uploads/images/2019/0810/152308_005dae4b_801349.png "login.png")
+<img src="https://images.gitee.com/uploads/images/2019/0810/152308_005dae4b_801349.png" title="login.png" />
 
 2. 主界面1
 
