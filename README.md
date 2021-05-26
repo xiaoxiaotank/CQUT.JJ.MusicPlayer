@@ -3,7 +3,6 @@
 1. 登录界面
 <img src="https://images.gitee.com/uploads/images/2019/0810/152308_005dae4b_801349.png" title="login.png" />
 
-
 2. 主界面1
 
 ![主界面](https://images.gitee.com/uploads/images/2019/0810/151903_16240f4e_801349.png "主界面")
