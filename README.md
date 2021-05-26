@@ -5,7 +5,7 @@
 
 <div align="center">
 <img src="https://images.gitee.com/uploads/images/2019/0810/152308_005dae4b_801349.png" title="登录界面" referrerpolicy="no-referrer"/>
-<div>
+</div>
 
 2 主界面1
 
