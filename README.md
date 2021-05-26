@@ -1,9 +1,11 @@
 # CQUT.JJ.MusicPlayer
-2018毕业设计
+2018毕业设计<br>
 
 1 登录界面
 
-<img src="https://images.gitee.com/uploads/images/2019/0810/152308_005dae4b_801349.png" title="登录界面" referrerpolicy="no-referrer" />
+<div align="center">
+<img src="https://images.gitee.com/uploads/images/2019/0810/152308_005dae4b_801349.png" title="登录界面" referrerpolicy="no-referrer"/>
+<div>
 
 2 主界面1
 
